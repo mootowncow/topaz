@@ -76,12 +76,6 @@ local leaveWoeEvent = 1004
 local timeLimit = 2700
 local defeatEvent = 7260 -- (params: 10, 12352, 73400, 3) 3 is minutes when it's exiting, 73400 is seconds
 local completionEvent = 1003 -- sends back to "lobby" -420, 14, -32 facing conflux #07 
-local failState =
-{
-    Time = 1,
-    Defeat = 2
-}
-
 local walkData =
 {
     [1] =
@@ -148,6 +142,11 @@ local walkData =
         Scrolls =    { }, -- t5 scrolls, nocturne, cura III, Jubaku: Ni
         Misc =      { }, --ores, cloth, etc
     }
+}
+local failState =
+{
+    Time = 1,
+    Defeat = 2
 }
 
 -- Treasure Coffer functions
@@ -249,16 +248,27 @@ local function despawnWalkMobs(walk)
 end
 
 -- Walk functions
+activeWalks = {}
+local function getActiveWalks(zone)
+    for walk = 1, 15 do
+        if zone:getLocalVar("WalkTimer_" .. walk) > 0 then
+            activeWalks[walk] = true
+        else
+            activeWalks[walk] = nil
+        end
+    end
+
+    return activeWalks
+end
+
 local function createWalk(player, walk)
     local zone = player:getZone()
-
 
     -- Check if Walk is already active
     if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
 
     spawnWalkMobs(walk)
-
-    -- Set zone timer
+    activeWalks[walk] = true
     zone:setLocalVar("WalkTimer_" .. walk,os.time() + 2700)
 end
 
@@ -338,6 +348,7 @@ local function exitWalk(player)
     if walk == 0 then return end
 
     player:setCharVar("[WoE]CurrentWalk", 0)
+    player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
 end
 
@@ -354,11 +365,17 @@ local function failWalk(player, fail)
     --[13:20:59] [CSData] Type: Update, EventID: 0, Params: 12, 13500, 4294935296, 3072, 0, 0, 0, 0
 
     if fail == failState.Time then
-        player:messageSpecial(ID.text.TIMES_UP)
-        despawnWalkMobs(walk)
         printf("times up!")
+        despawnWalkMobs(walk)
+        activeWalks[walk] = nil
+        player:messageSpecial(ID.text.TIMES_UP)
     elseif fail == failState.Defeat then
-        player:messageSpecial(ID.text.ALL_MEMBERS_FALLEN)
+        player:messageSpecial(ID.text.FALLEN_NOW_EXITING)
+        printf("Defeat!")
+        -- TODO: set a 3 minute timer as a char var, then exit them and eventupdate for setting their pos (same as times up?)
+        -- TODO: failWalk (and probably on zone tick) needs logic for all party members in zone dead, then display this stuff
+    -- All party members have fallen in battle. Exiting in <param4> minutes, <param3> seconds.
+    -- player:messageSpecial(ID.text.EXITING_IN)
     end
     player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
     exitWalk(player)
@@ -371,23 +388,90 @@ local function completeWalk(player)
     generateTreasureCofferLoot(player, walk)
 end
 
--- Zone functions
 tpz.woe.onZoneTick = function(player, zone, region)
-    for walk = 1, 15 do
-        local timer = zone:getLocalVar("WalkTimer_" .. walk)
-        if timer > 0 then
-            printf("[" .. walk .. "] Time Remaining: " .. (timer - os.time()) / 60)
+    local players = zone:getPlayers()
+    local ID = zones[player:getZoneID()]
+
+    -- Group players by walk
+    local playersByWalk = {}
+
+    for _, char in pairs(players) do
+        local walk = char:getCharVar("[WoE]CurrentWalk")
+
+        if walk > 0 then
+            playersByWalk[walk] = playersByWalk[walk] or {}
+            table.insert(playersByWalk[walk], char)
         end
-        if os.time() > zone:getLocalVar("WalkTimer_" .. walk) then
-            zone:setLocalVar("WalkTimer_" .. walk, 0)
+    end
 
-            local players = zone:getPlayers()
+    -- Check each player inside a walk
+    for walk, walkPlayers in pairs(playersByWalk) do
+        local timer = zone:getLocalVar("WalkTimer_" .. walk)
 
-            for _, player in pairs(players) do
-                local playersCurrentWalk = player:getCharVar("[WoE]CurrentWalk")
-                if (walk == playersCurrentWalk) then
-                    failWalk(player, failState.Time)
+        if timer > 0 then
+            -- Debug testing
+            -- zone:setLocalVar("WalkTimer_" .. walk, os.time() + 15)
+            -- player:countdown(15)
+
+            local remaining = timer - os.time()
+            local minutes = math.floor(remaining / 60)
+            local seconds = remaining % 60
+
+            printf("[%d] Time Remaining: %02d:%02d", walk, minutes, seconds)
+
+        -- Display time remaining message every minute start at 5 minutes left
+        local remainingMsgDelay = zone:getLocalVar("WalkMinute_" .. walk)
+        if minutes > 0 and minutes <= 5 and remaining % 60 == 0 and os.time() > remainingMsgDelay then  -- Every minute (exactly)
+            zone:setLocalVar("WalkMinute_" .. walk, os.time() +3)
+            player:messageSpecial(ID.text.MINUTES_REMAINING, minutes, minutes, minutes, minutes)
+        end
+
+            local allDead = true
+
+            for _, char in pairs(walkPlayers) do
+                if not char:isDead() then
+                    allDead = false
+                    char:setLocalVar("raiseTimer", 0)
+                else -- Raise players
+                    local raiseTimer = char:getLocalVar("raiseTimer")
+
+                    -- Add a 5s delay before sending the Reraise
+                    if raiseTimer == 0 then
+                        char:setLocalVar("raiseTimer", os.time() + 5)
+                    elseif os.time() >= raiseTimer then
+                        if not char:hasRaise() then
+                            char:sendRaise(3)
+                        end
+                        char:setLocalVar("raiseTimer", 0)
+                    end
                 end
+            end
+
+            -- Party wipe logic
+            if allDead then
+                for _, char in pairs(walkPlayers) do
+                    local defeatTimer = char:getLocalVar("defeatTimer")
+
+                    if defeatTimer == 0 then
+                        char:setLocalVar("defeatTimer", os.time() + 180)
+                        player:messageSpecial(ID.text.ALL_MEMBERS_FALEN, 0, 0, 7200, 3)
+                    elseif os.time() > defeatTimer then
+                        failWalk(char, failState.Defeat)
+                    end
+                end
+            else
+                for _, char in pairs(walkPlayers) do
+                    char:setLocalVar("defeatTimer", 0)
+                end
+            end
+
+            -- Return player to lobby after 3 minutes
+            if os.time() > timer then
+                for _, char in pairs(walkPlayers) do
+                    failWalk(char, failState.Time)
+                end
+
+                zone:setLocalVar("WalkTimer_" .. walk, 0)
             end
         end
     end
@@ -438,6 +522,7 @@ local onEventUpdateConfluxByName =
 
     ['Echo_Disseminator'] = function(player, csid, option, isExit) 
         local ID = zones[player:getZoneID()]
+        
         if (csid == 1600)  then
             if (option == 8) then -- Give Kupofried's Medallion Key Item
                 if not player:hasKeyItem(entryKI) then
