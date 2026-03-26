@@ -15,7 +15,9 @@ require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
--- TODO: A raise is automatically applied to anyone K.O'd after 30 seconds of being defeated. 
+
+-- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
+-- TODO: "Pending XP", add XP to a player after they revive if they should have gotten exp. instead of add xp add it as a var to the player then check if they're dead on zone tick, if not dead add xp, set the xp var to 0
 -- TODO: No XP loss
 -- TODO: Askar, Denali, Goliard. 1 piece per walk? Drops directly from final boss?
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
@@ -27,12 +29,12 @@ require("scripts/globals/titles")
 -- TODO: There is no longer a timer UI element?
 -- TODO: 45m time limit(All Walks I think)
 -- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit);, need a lua binding for charutils::SendClearTimerPacket(PChar); I think
--- TODO: Bosses can be terror procced (random element randomly selected for every boss on spawn)
+-- TODO: Bosses can be terror procced by SC's (random SC element randomly selected for every boss on spawn)
 -- TODO: Magiant rials for emp weapons
 -- TODO: Code emp weapon skill unlock events
 -- TODO: All true sound / sight
 -- TODO: Treasure pool cleared on zoning out to Xarcabard and back in. Check if logging clears it, too.
--- TODO: No XP, alliance wide enmity, all mobs link (Make "SetUpWoEMob")
+-- TODO: No XP, no drops, alliance wide enmity, all mobs link (Make "SetUpWoEMob")
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
 -- Catholicion, catholicion +1
 -- TODO: Use addon to capture models
@@ -74,16 +76,16 @@ local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
 local lobbyPos = { -420, 14, -32, 192 }
 local leaveWoeEvent = 1004
 local timeLimit = 2700
-local defeatEvent = 7260 -- (params: 10, 12352, 73400, 3) 3 is minutes when it's exiting, 73400 is seconds
-local completionEvent = 1003 -- sends back to "lobby" -420, 14, -32 facing conflux #07 
+local failEvent = 1002
 local walkData =
 {
     [1] =
     {
-        -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, TP Moves: { Crab}
-        -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, TP Moves: { Crab}
-        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?) } 
-            -- Mechanics { Always uses Mega Scissors x3 in a row, Plague Aura after using Venom Shower for (50/tick) ~20 seconds }
+        -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  HP {9175}, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, TP Moves: { Crab}
+        -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  HP {9175} Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, TP Moves: { Crab}
+        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) } 
+            -- Cast Timer { :47 -> :14 - > :53 - > :34 - > 16 }
+            -- Mechanics { Uses Mega Scissors x3 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } Proc { Flash Red Terror, ~5-10s }
         -- Crabs from deeper in the battlefield will come to the defeated crab's corpse. Make sure you are at least 16' from the corpse and you will not be aggrod.
         -- Upon killing crabs, occasionally the boss Caldera Crab will come to its aid, running to where the crab was killed.
         -- 15 yard aggro range
@@ -91,10 +93,11 @@ local walkData =
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
+        Progress    = 3,
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
-        Exp         = { 15000 }
+        Experience  = 1500
     },
     [2] =
     {
@@ -106,10 +109,11 @@ local walkData =
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
+        Progress    = 4,
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
-        Exp         = { 15000 }
+        Experience  = 1500
     },
     [3] =
     {
@@ -118,13 +122,14 @@ local walkData =
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- 15 yard aggro range
-        Events  = { Conflux = 1000, Entry = 7033, Exit = 1001 },
+        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
-        Drops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SetDrop = { item.GOLIARD_CLOGS },
-        Title   = { title.TORCHBEARER_OF_THE_2ND_WALK },
-        Exp     = { 15000 }
+        Progress    = 3, -- TODO
+        Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SetDrop     = { item.GOLIARD_CLOGS },
+        Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
+        Experience  = 1500
     },
 
 
@@ -347,6 +352,7 @@ local function exitWalk(player)
 
     if walk == 0 then return end
 
+    player:setLocalVar("raiseTimer", 0)
     player:setCharVar("[WoE]CurrentWalk", 0)
     player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
@@ -365,32 +371,76 @@ local function failWalk(player, fail)
     --[13:20:59] [CSData] Type: Update, EventID: 0, Params: 12, 13500, 4294935296, 3072, 0, 0, 0, 0
 
     if fail == failState.Time then
-        printf("times up!")
-        despawnWalkMobs(walk)
         activeWalks[walk] = nil
         player:messageSpecial(ID.text.TIMES_UP)
     elseif fail == failState.Defeat then
         player:messageSpecial(ID.text.FALLEN_NOW_EXITING)
-        printf("Defeat!")
-        -- TODO: set a 3 minute timer as a char var, then exit them and eventupdate for setting their pos (same as times up?)
-        -- TODO: failWalk (and probably on zone tick) needs logic for all party members in zone dead, then display this stuff
-    -- All party members have fallen in battle. Exiting in <param4> minutes, <param3> seconds.
-    -- player:messageSpecial(ID.text.EXITING_IN)
     end
     player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
     exitWalk(player)
 end
 
+-- TODO: Make sure all the messagespecials only send to 1 person. can  get my function for sendmsg from royal painter escort (make it a util?)
+-- TODO: Test all logic in a party
+
+local function getProgress(zone, walk)
+    return zone:getLocalVar("StageProgress_" .. walk)
+end
+
 local function completeWalk(player)
+    local ID = zones[player:getZoneID()]
     local walk = player:getCharVar("[WoE]CurrentWalk")
-    player:setCharVar("[WoE]CurrentWalk", 0)
+
+    player:messageSpecial(ID.text.VANQUISHED_ALL_FOES)
+    player:messageSpecial(ID.text.OBTAIN_COFFER_REWARDS)
     player:countdown(0)
+    player:startEvent(1003, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
     generateTreasureCofferLoot(player, walk)
+end
+
+tpz.woe.incrementProgress = function(zone, walk)
+    -- printf("Incrementing progress by 1. Old: %d New: %d", zone:getLocalVar("StageProgress_" .. walk) -1, zone:getLocalVar("StageProgress_" .. walk))
+    zone:setLocalVar("StageProgress_" .. walk, zone:getLocalVar("StageProgress_" .. walk) +1)
+end
+
+tpz.woe.saveExperience = function(player)
+    local walk = player:getCharVar("[WoE]CurrentWalk")
+
+    player:setLocalVar("PendingExperience", walkData[walk].Experience)
+    player:setCharVar("[WoE]CurrentWalk", 0)
+end
+
+tpz.woe.sendReraise = function (player)
+    player:allowSendRaisePrompt()
+    player:sendRaise(3)
 end
 
 tpz.woe.onZoneTick = function(player, zone, region)
     local players = zone:getPlayers()
     local ID = zones[player:getZoneID()]
+
+    -- Raise any dead players in the zone, regardless of if they're in a walk or not
+    for _, char in pairs(players) do
+        local raiseTimer = char:getLocalVar("raiseTimer")
+
+        -- Add a 5s delay before sending the Reraise
+        if char:isDead() then
+            if raiseTimer == 0 then
+                char:setLocalVar("raiseTimer", os.time() + 5)
+            elseif os.time() >= raiseTimer then
+                tpz.woe.sendReraise(char)
+                char:setLocalVar("raiseTimer", 0)
+            end
+        else
+            -- Check if player has any pending experience to gain
+            local pendingExperience = char:getLocalVar("PendingExperience")
+            if pendingExperience > 0 then
+                char:addExp(char:getLocalVar("PendingExperience"))
+                char:setLocalVar("PendingExperience", 0)
+            end
+            char:setLocalVar("raiseTimer", 0)
+        end
+    end
 
     -- Group players by walk
     local playersByWalk = {}
@@ -410,40 +460,42 @@ tpz.woe.onZoneTick = function(player, zone, region)
 
         if timer > 0 then
             -- Debug testing
-            -- zone:setLocalVar("WalkTimer_" .. walk, os.time() + 15)
-            -- player:countdown(15)
+            -- zone:setLocalVar("WalkTimer_" .. walk, os.time() + 5)
+            -- for _, char in pairs(walkPlayers) do
+            --     char:countdown(5)
+            -- end
 
-            local remaining = timer - os.time()
+            local remaining = math.max(0, timer - os.time())
             local minutes = math.floor(remaining / 60)
             local seconds = remaining % 60
 
-            printf("[%d] Time Remaining: %02d:%02d", walk, minutes, seconds)
+            -- Display time remaining message every minute start at 5 minutes left
+            local remainingMsgDelay = zone:getLocalVar("WalkMinute_" .. walk)
+            if minutes > 0 and minutes <= 5 and remaining % 60 == 0 and os.time() > remainingMsgDelay then  -- Every minute (exactly)
+                zone:setLocalVar("WalkMinute_" .. walk, os.time() +3)
+                for _, char in pairs(walkPlayers) do
+                    char:messageSpecial(ID.text.MINUTES_REMAINING, minutes, minutes, minutes, minutes)
+                end
+            end
 
-        -- Display time remaining message every minute start at 5 minutes left
-        local remainingMsgDelay = zone:getLocalVar("WalkMinute_" .. walk)
-        if minutes > 0 and minutes <= 5 and remaining % 60 == 0 and os.time() > remainingMsgDelay then  -- Every minute (exactly)
-            zone:setLocalVar("WalkMinute_" .. walk, os.time() +3)
-            player:messageSpecial(ID.text.MINUTES_REMAINING, minutes, minutes, minutes, minutes)
-        end
+            -- Check if Walk should be completed
+            local objective = walkData[walk].Progress
+            local progress = getProgress(zone, walk)
+
+            if (progress >= objective) then
+                for _, char in pairs(walkPlayers) do
+                    completeWalk(char)
+                end
+                despawnWalkMobs(walk)
+                zone:setLocalVar("WalkTimer_" .. walk, 0)
+                zone:setLocalVar("StageProgress_" .. walk, 0)
+            end
 
             local allDead = true
 
             for _, char in pairs(walkPlayers) do
                 if not char:isDead() then
                     allDead = false
-                    char:setLocalVar("raiseTimer", 0)
-                else -- Raise players
-                    local raiseTimer = char:getLocalVar("raiseTimer")
-
-                    -- Add a 5s delay before sending the Reraise
-                    if raiseTimer == 0 then
-                        char:setLocalVar("raiseTimer", os.time() + 5)
-                    elseif os.time() >= raiseTimer then
-                        if not char:hasRaise() then
-                            char:sendRaise(3)
-                        end
-                        char:setLocalVar("raiseTimer", 0)
-                    end
                 end
             end
 
@@ -454,8 +506,8 @@ tpz.woe.onZoneTick = function(player, zone, region)
 
                     if defeatTimer == 0 then
                         char:setLocalVar("defeatTimer", os.time() + 180)
-                        player:messageSpecial(ID.text.ALL_MEMBERS_FALEN, 0, 0, 7200, 3)
-                    elseif os.time() > defeatTimer then
+                        char:messageSpecial(ID.text.ALL_MEMBERS_FALEN, 0, 0, 7200, 3)
+                    elseif os.time() > defeatTimer then -- Return player to lobby after 3 minutes
                         failWalk(char, failState.Defeat)
                     end
                 end
@@ -464,13 +516,35 @@ tpz.woe.onZoneTick = function(player, zone, region)
                     char:setLocalVar("defeatTimer", 0)
                 end
             end
+        end
+    end
 
-            -- Return player to lobby after 3 minutes
+     -- Walk timer ran out, cancel walk
+    for walk = 1, 15 do
+        -- Debug Testing
+        -- local currentWalk = 1 -- Which walk to adjust time for
+        -- zone:setLocalVar("WalkTimer_" .. currentWalk, os.time() + 5)
+
+        local timer = zone:getLocalVar("WalkTimer_" .. walk)
+
+        if timer > 0 then
+
+            -- Debug testing
+            -- local remaining = math.max(0, timer - os.time())
+            -- local minutes = math.floor(remaining / 60)
+            -- local seconds = remaining % 60
+            -- printf("[%d] Time Remaining: %02d:%02d", walk, minutes, seconds)
+
             if os.time() > timer then
-                for _, char in pairs(walkPlayers) do
-                    failWalk(char, failState.Time)
+                for _, char in pairs(players) do
+                    local playersCurrentWalk = char:getCharVar("[WoE]CurrentWalk")
+
+                    if (walk == playersCurrentWalk) then
+                        failWalk(char, failState.Time)
+                    end
                 end
 
+                despawnWalkMobs(walk)
                 zone:setLocalVar("WalkTimer_" .. walk, 0)
             end
         end
@@ -522,7 +596,7 @@ local onEventUpdateConfluxByName =
 
     ['Echo_Disseminator'] = function(player, csid, option, isExit) 
         local ID = zones[player:getZoneID()]
-        
+
         if (csid == 1600)  then
             if (option == 8) then -- Give Kupofried's Medallion Key Item
                 if not player:hasKeyItem(entryKI) then
@@ -610,7 +684,10 @@ tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
     end
 
     if (csid == 1000) then -- Entering Walk
-        startWalk(player, walkIndex)
+        startWalk(player, walkIndex) -- TODO: Add option, hitting any option starts the walk
+        -- TODO: Add logic for "Assess the situation"
+
+
         -- [13:28:35] [CSData] Type: Update, EventID: 0, Params: 4294393296, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0
         -- [13:28:40] [CSData] Type: MsgID, EventID: 7255, Params: 73, 17500, 734000, 1024
         -- [13:28:40] [CSData] Type: MsgID, EventID: 7256, Params: 1599, 17500, 734000, 1024
@@ -658,7 +735,7 @@ tpz.woe.TreasureCoffer.onTrigger = function(player, npc)
         -- Obtaining individual item = option 1-10
         -- Destroy all = option 11
         -- All items = option 12
-    else -- Remove, for testing!
+    else
         return player:messageSpecial(ID.text.CANT_OPEN_CHEST)
     end
 end

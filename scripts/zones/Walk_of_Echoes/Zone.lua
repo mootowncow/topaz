@@ -46,6 +46,7 @@ function onRegionEnter(player, region)
 end
 
 function onEventUpdate(player, csid, option)
+    
      if csid == 18 then
         numitem = 32 -- for lilisette to.. is flag 32, so start with removing that
 
@@ -54,7 +55,12 @@ function onEventUpdate(player, csid, option)
         if (player:hasItem(28567)) then numitem = numitem + 2; end  -- nesanica_ring
         if (player:hasItem(28382)) then numitem = numitem + 4; end  -- nesanica_torque
         player:updateEvent(28454, 28567, 28382, 388, 182, 2, 0, numitem)
-     end
+    elseif csid == 1002 then -- Failed WoE Walk, return to lobby
+        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
+    elseif csid == 1003 then -- Successfully completed the walk
+        player:updateEvent(72, 13500, 4294935296, 3072, 0, 0, 0, 0)
+        tpz.woe.saveExperience(player)
+    end
 end
 
 function onEventFinish(player, csid, option)
@@ -91,7 +97,5 @@ function onEventFinish(player, csid, option)
         end
     elseif csid == 123 then
         player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION)
-    elseif csid == 1002 then -- Failed WoE Walk, return to lobby
-        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
     end
 end
