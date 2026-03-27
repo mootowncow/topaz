@@ -10,13 +10,13 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    tpz.woe.verdicalConflux.onTrigger(player, npc)
+    tpz.woe.veridicalConflux.onTrigger(player, npc)
 end
 
 function onEventUpdate(player, csid, option)
-    tpz.woe.verdicalConflux.onEventUpdate(player, csid, option)
+    tpz.woe.veridicalConflux.onEventUpdate(player, csid, option)
 end
 
 function onEventFinish(player, csid, option)
-    tpz.woe.verdicalConflux.onEventFinish(player, csid, option)
+    tpz.woe.veridicalConflux.onEventFinish(player, csid, option)
 end

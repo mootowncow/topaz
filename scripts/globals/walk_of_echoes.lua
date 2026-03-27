@@ -17,6 +17,11 @@ require("scripts/globals/titles")
 --------------------------------------
 
 -- TODO: Add logic for "Assess the situation"
+-- TODO: Walk 2, Berry_Syrup. How do they spawn? They're immune to all WS and physical damage (even magic ws)
+-- TODO: tpz.woe.veridicalConflux.onEventFinish needs option for entering walk
+-- TODO: Proc msg should be silent (add to BreakMob as an arg)
+-- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
+-- TODO: Ally hate (check limbus?)
 -- TODO: Finish random temps list
 -- TODO: Wizard / Giants drink dura and %
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
@@ -48,6 +53,7 @@ tpz.woe = tpz.woe or {}
 local item = tpz.items
 local title = tpz.title
 
+local exitWalkEvent = 1001
 local entryEvent = 44
 local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
 local lobbyPos = { X = -420, Y = 14, Z =-32, Rot = 192 }
@@ -58,9 +64,12 @@ local walkData =
 {
     [1] =
     {
-        -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  HP {9175}, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, TP Moves: { Crab}
-        -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  HP {9175} Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, TP Moves: { Crab}
-        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, TP Moves: { Mega Scissors, Venom Shower (Goes off without target?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) } 
+        -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  HP {9175}, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, 
+            -- TP Moves: { Crab}, Traits: {}
+        -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  HP {9175} Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, 
+            -- TP Moves: { Crab} Traits: {}
+        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, 
+            -- TP Moves: { Mega Scissors, Venom Shower (Goes off without target?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
             -- Cast Timer { :47 -> :14 - > :53 - > :34 - > 16 }
             -- Mechanics { Uses Mega Scissors x3 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } Proc { Flash Red Terror, ~5-10s }
         -- Crabs from deeper in the battlefield will come to the defeated crab's corpse. Make sure you are at least 16' from the corpse and you will not be aggrod.
@@ -72,6 +81,7 @@ local walkData =
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
         Boss        = 'Caldera_Crab',
         Progress    = 3,
+        TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
@@ -79,16 +89,20 @@ local walkData =
     },
     [2] =
     {
-        -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blind, Bio III }, TP Moves: { Mucus Spread}
-        -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blindga, Dispelga, Sleepga II }, TP Moves: { Dissolve , Cytokinesis, Mucus Spread (All before next go off even if no targets in range), Fluid Spread } 
+        -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blind, Bio III }, 
+            -- TP Moves: { Mucus Spread}, Traits: { DA }
+        -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blindga, Dispelga, Sleepga II }, 
+            -- TP Moves: { Dissolve , Cytokinesis, Mucus Spread (All before next go off even if no targets in range), Fluid Spread }, raits: { DA }
+            -- Mechanics { Kills Grenade Syrups with it on death, they also drop temp items (KILL them dont despawn them, then) }
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- 15 yard aggro range
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
-        Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
+        Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 77 }, -- TODO
         Boss        = 'Morbid_Molasses',
         Progress    = 4,
+        TempRate    = { 75 },
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
@@ -106,6 +120,7 @@ local walkData =
         Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
         Boss        = 'Caldera_Crab', -- TODO
         Progress    = 3, -- TODO
+        TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
@@ -135,6 +150,56 @@ local walkData =
         Misc        =   { }, --ores, cloth, etc
     }
 }
+
+local confluxData =
+{
+    ['Veridical_Conflux_#01'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3156583169, 9216, 0, 0, 443030912, 440934272, 709375488, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3160777217, 9216, 0, 0, 0, 0, 1986, 0 },
+            },
+            Update  = { 4294393296, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 445648640, 436212096, 436212736, 0 },
+            End     = {},
+        }
+
+    },
+    ['Veridical_Conflux_#02'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3076891394, 9216, 0, 0, 441976832, 2415920000, 2422214016, 436212608 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3072696834, 9216, 0, 0, 441976832, 2415920000, 2422214016, 0 },
+            },
+            Update  = { 4294845296, 17500, 566000, 3072, 441975424, 2415926784, 2422212608, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 441976832, 2415920000, 2422214016, 0 },
+            End     = {},
+        }
+    }
+}
+
 local failState =
 {
     Time = 1,
@@ -327,12 +392,14 @@ local modByMobName =
 
 local mixinByMobName =
 {
-    mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
-        if (spell:getID() == tpz.magic.spell.FLASH) then
-            local duration = 10
-            BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
-        end
-    end)
+    ['Caldera_Crab'] = function(mob, target)
+        mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
+            if (spell:getID() == tpz.magic.spell.FLASH) then
+                local duration = 10
+                BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
+            end
+        end)
+    end
 }
 
 local mobEngagedByMobName =
@@ -808,23 +875,11 @@ tpz.woe.zone.onZoneTick = function(player, zone, region)
     end
 end
 
--- Verdical Conflux functions
+-- veridical Conflux functions
 local onTriggerConfluxByName =
 {
     ['Veridical_Conflux'] = function(player, npc, isExit)
         return player:startEvent(1004)
-    end,
-
-    ['Veridical_Conflux_#01'] = function(player, npc, isExit)
-        if isExit then
-            return player:startEvent(1001)
-        else
-            if player:hasKeyItem(entryKI) then
-                return player:startEvent(1000, 3156583169, 9216, 0, 0, 443030912, 440934272, 709375488, 1) -- Has KI
-            else
-                return player:startEvent(1000, 3160777217, 9216, 0, 0, 0, 0, 1986, 0) -- TODO: Does not have KI
-            end
-        end
     end,
 
     ['Echo_Disseminator'] = function(player, npc, isExit)
@@ -836,19 +891,6 @@ local onTriggerConfluxByName =
 local onEventUpdateConfluxByName =
 {
     ['Veridical_Conflux'] = function(player, csid, option, isExit)
-    end,
-
-    ['Veridical_Conflux_#01'] = function(player, csid, option, isExit)
-        if isExit then
-            if (csid == 1001 and option == 1) then
-                player:updateEvent(4294547296, 13500, 4294935296, 3072, 445648640, 436212096, 436212736, 0)
-                exitWalk(player)
-            end
-        else
-            if (csid == 1000) then -- Entering Walk
-                player:updateEvent(4294393296, 17500, 734000, 1024, 436211968, 2415924096, 2415924864, 0)
-            end
-        end
     end,
 
     ['Echo_Disseminator'] = function(player, csid, option, isExit) 
@@ -886,52 +928,93 @@ local onEventFinishConfluxByName =
     end,
 }
 
-tpz.woe.verdicalConflux = tpz.woe.verdicalConflux or {}
+tpz.woe.veridicalConflux = tpz.woe.veridicalConflux or {}
 
-tpz.woe.verdicalConflux.onTrigger = function(player, npc)
+tpz.woe.veridicalConflux.onTrigger = function(player, npc)
     local npcId = npc:getID()
     local npcName = npc:getName()
-    local verdicalConfluxBF = 17523253
+    local veridicalConfluxBF = 17523253
     local isExit = false
     local trigger = onTriggerConfluxByName[npcName]
 
-    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+    if npcId >= veridicalConfluxBF then -- The numbered veridical Conflux INSIDE the Battlefield - used for exiting
         isExit = true
     end
 
     if trigger then
-        trigger(player, npc, isExit)
+        return trigger(player, npc, isExit)
+    end
+
+    local data = confluxData[npcName]
+
+    if not data then return end
+
+    if isExit then
+        return player:startEvent(exitWalkEvent)
+    else
+        if player:hasKeyItem(entryKI) then
+            local tData = data.Enter.Keyitem.Trigger
+            -- printf("starting event %u %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8], tData[9])
+            return player:startEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8], tData[9])
+        else
+            local tData = data.Enter.NoKeyItem.Trigger
+            -- printf("starting event %u %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8], tData[9])
+            return player:startEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8], tData[9])
+        end
     end
 end
 
-tpz.woe.verdicalConflux.onEventUpdate = function(player, csid, option)
+tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
     local npc = player:getEventTarget()
     local npcId = npc:getID()
     local npcName = npc:getName()
-    local verdicalConfluxBF = 17523253
+    local veridicalConfluxBF = 17523253
     local isExit = false
     local eventUpdate = onEventUpdateConfluxByName[npcName]
 
-    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+    if npcId >= veridicalConfluxBF then -- The numbered veridical Conflux INSIDE the Battlefield - used for exiting
         isExit = true
     end
 
     printf("[onEventUpdate] csid %d, option %d", csid, option)
     if eventUpdate then
-        eventUpdate(player, csid, option, isExit)
+        printf("returning eventUpdate")
+        return eventUpdate(player, csid, option, isExit)
+    end
+
+    local data = confluxData[npcName]
+
+    if not data then 
+        printf("not data")
+        return
+    end
+
+    if isExit then
+        if (csid == 1001 and option == 1) then
+            local tData = data.Exit.Update
+            -- printf("(exit) updating event %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+            player:updateEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+            return exitWalk(player)
+        end
+    else
+        if (csid == 1000) then
+            local tData = data.Enter.Update
+            -- printf("updating event %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+            return player:updateEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+        end
     end
 end
 
-tpz.woe.verdicalConflux.onEventFinish = function(player, csid, option)
+tpz.woe.veridicalConflux.onEventFinish = function(player, csid, option)
     local npc = player:getEventTarget()
     local npcId = npc:getID()
     local npcName = npc:getName()
     local walkIndex = npcId - 17523237
-    local verdicalConfluxBF = 17523253
+    local veridicalConfluxBF = 17523253
     local isExit = false
     local eventFinish = onEventFinishConfluxByName[npcName]
 
-    if npcId >= verdicalConfluxBF then -- The numbered Verdical Conflux INSIDE the Battlefield - used for exiting
+    if npcId >= veridicalConfluxBF then -- The numbered veridical Conflux INSIDE the Battlefield - used for exiting
         isExit = true
     end
 
