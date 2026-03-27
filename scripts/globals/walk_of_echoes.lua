@@ -23,24 +23,14 @@ require("scripts/globals/titles")
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
 -- TODO: Temps from kills, too?
 -- TODO: Magic cool on everything
--- TODO: Entering gives Battlefield Status
--- TODO: There is no longer a timer UI element?
--- TODO: 45m time limit(All Walks I think)
--- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit), need a lua binding for charutils::SendClearTimerPacket(PChar) I think
--- TODO: Bosses can be terror procced by SC's (random SC element randomly selected for every boss on spawn)
 -- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
--- TODO: All true sound / sight
--- TODO: Treasure pool cleared on zoning out to Xarcabard and back in. Check if logging clears it, too.
--- TODO: No XP, no drops, alliance wide enmity, all mobs link, -30% magic dmg taken on all mobs (do it in mdb or mdt?) (Make "SetUpWoEMob")
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
 -- Catholicion, catholicion +1
 -- TODO: Use addon to capture models
 -- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
 -- TODO: Give Wizards / Giants drink to trusts (and pets?) also when a player uses
--- TODO: "Endowed, event 7297" weaker mobs, bonus evaluation, and give a temp item. Seems to lower MDEF too, so probably defense, dmg, attack mdef? Endowed lowers the MDT reduction to -17% (normally -30%)
--- TODO: Exiting after 3m of defeats sends back to "lobby" -420, 14, -32 facing conflux #07 
 -- TODO: Fill Misc item list
 -- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
@@ -60,7 +50,7 @@ local title = tpz.title
 
 local entryEvent = 44
 local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
-local lobbyPos = { -420, 14, -32, 192 }
+local lobbyPos = { X = -420, Y = 14, Z =-32, Rot = 192 }
 local leaveWoeEvent = 1004
 local timeLimit = 2700
 local failEvent = 1002
@@ -80,8 +70,8 @@ local walkData =
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
-        Progress    = 3,
         Boss        = 'Caldera_Crab',
+        Progress    = 3,
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
@@ -97,6 +87,7 @@ local walkData =
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
+        Boss        = 'Morbid_Molasses',
         Progress    = 4,
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
@@ -113,6 +104,7 @@ local walkData =
         Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
         Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
+        Boss        = 'Caldera_Crab', -- TODO
         Progress    = 3, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.GOLIARD_CLOGS },
@@ -131,7 +123,7 @@ local walkData =
         },
         Random =
         {
-            item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I
+            item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ
         }
     },
     ExtraDrops =
@@ -335,11 +327,47 @@ local modByMobName =
 
 local mixinByMobName =
 {
+    mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
+        if (spell:getID() == tpz.magic.spell.FLASH) then
+            local duration = 10
+            BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
+        end
+    end)
+}
+
+local mobEngagedByMobName =
+{
+    ['Caldera_Crab'] = function(mob, target)
+    end,
 }
 
 local mobFightByMobName =
 {
-    ['Promathia'] = function(mob, target)
+    ['Caldera_Crab'] = function(mob, target)
+    end,
+}
+
+local mobAdditionalEffectByMobName =
+{
+    ['Caldera_Crab'] = function(mob, target, damage)
+    end,
+}
+
+local mobDisengageByMobName =
+{
+    ['Caldera_Crab'] = function(mob)
+    end,
+}
+
+local mobDespawnByMobName =
+{
+    ['Caldera_Crab'] = function(mob)
+    end,
+}
+
+local mobDeathByMobName =
+{
+    ['Caldera_Crab'] = function(mob, player, isKiller, noKiller)
     end,
 }
 
@@ -387,6 +415,12 @@ tpz.woe.mob.onMobSpawn = function(mob)
 end
 
 tpz.woe.mob.onMobEngaged = function(mob, target)
+    local mobName  = mob:getName()
+    local mobEngaged = mobEngagedByMobName[mobName]
+
+    if mobEngaged then
+        mobEngaged(mob, target)
+    end
 end
 
 tpz.woe.mob.onMobFight = function(mob, target)
@@ -403,14 +437,33 @@ tpz.woe.mob.onMobFight = function(mob, target)
     end
 end
 
+tpz.woe.mob.onAdditionalEffect = function(mob, target, damage)
+    local mobName  = mob:getName()
+    local additionalEffect = mobAdditionalEffectByMobName[mobName]
+
+    if additionalEffect then
+        additionalEffect(mob, target, damage)
+    end
+end
+
 tpz.woe.mob.onMobDisengage = function(mob)
+    local mobName  = mob:getName()
+    local mobDisengage = mobDisengageByMobName[mobName]
+
+    if mobDisengage then
+        mobDisengage(mob)
+    end
 end
 
 tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
+    local mobName  = mob:getName()
+    local mobDeath = mobDeathByMobName[mobName]
+
     if isKiller or noKiller then
         local zone = mob:getZone()
         local walk = mob:getLocalVar("CurrentWalk")
         local boss = mob:getName() == walkData[walk].Boss
+
         if boss then
             tpz.woe.incrementProgress(zone, walk)
         else
@@ -418,9 +471,20 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
             tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
         end
     end
+
+    -- TODO: Maybe needs to be inside isKiller or noKiller?
+    if mobDeath then
+        mobDeath(mob, player, isKiller, noKiller)
+    end
 end
 
 tpz.woe.onMobDespawn = function(mob)
+    local mobName  = mob:getName()
+    local mobDespawn = mobDespawnByMobName[mobName]
+
+    if mobDespawn then
+        mobDespawn(mob)
+    end
 end
 
 tpz.woe.mob.spawnWalkMobs = function(walk)
