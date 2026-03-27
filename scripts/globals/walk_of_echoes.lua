@@ -16,9 +16,8 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: addTempItems(player, temps) don't pick a temp player already has
--- Caldera crab bigger link radius (is a mob mod)
 -- TODO: Add logic for "Assess the situation"
+-- TODO: Finish random temps list
 -- TODO: Wizard / Giants drink dura and %
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
@@ -124,17 +123,24 @@ local walkData =
 
     Temps =
     {
-        item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
-        item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
-        item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_CHAMPIONS_TONIC, item.BOTTLE_OF_BRAVERS_DRINK, item.BOTTLE_OF_MONARCHS_DRINK, item.BOTTLE_OF_BERSERKERS_TONIC, item.BOTTLE_OF_SWIFTSHOT_TONIC
+        Starter = 
+        {
+            item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
+            item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
+            item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_CHAMPIONS_TONIC, item.BOTTLE_OF_BRAVERS_DRINK, item.BOTTLE_OF_MONARCHS_DRINK, item.BOTTLE_OF_BERSERKERS_TONIC, item.BOTTLE_OF_SWIFTSHOT_TONIC
+        },
+        Random =
+        {
+            item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I
+        }
     },
     ExtraDrops =
     {
         -- Coins and pouches share a group, one or other per slot]
-        Coins =     { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
-        Pouches =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
-        Scrolls =    { }, -- t5 scrolls, nocturne, cura III, Jubaku: Ni
-        Misc =      { }, --ores, cloth, etc
+        Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
+        Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
+        Scrolls     =   { }, -- t5 scrolls, nocturne, cura III, Jubaku: Ni
+        Misc        =   { }, --ores, cloth, etc
     }
 }
 local failState =
@@ -246,7 +252,7 @@ end
 
 local function addTempItems(player, temps, silent)
     local ID = zones[player:getZoneID()]
-
+    
     -- Create table of temps
     local givenTemps = {}
     if type(temps) == "number" then
@@ -257,15 +263,15 @@ local function addTempItems(player, temps, silent)
         print(string.format("ERROR: invalid temps parameter given to walk_of_echoes.lua addTempItems in zone %s.", player:getZoneName()))
         return false
     end
-
-    -- delete key items to player, with message
+    -- Add temp items
     for _, tempId in pairs(givenTemps) do
         if not player:hasItem(tempId) then
             player:addTempItem(tempId)
         end
     end
 
-    if silent ~= nil then
+    -- Display message if silent isn't true 
+    if not silent then
         if #givenTemps > 1 then
             player:messageSpecial(ID.text.OBTAINS_MULTIPLE_TEMPS, #givenTemps)
         else
@@ -276,10 +282,25 @@ local function addTempItems(player, temps, silent)
 end
 
 local function addRandomTempItem(player, silent)
-    local party = player:getParty()
+    local party = player:getParty() or { player }
 
     for _, partyMember in pairs(party) do
-        addTempItems(partyMember, walkData.Temps[math.random(#walkData.Temps)], silent)
+        local possibleTemp = {}
+
+        -- Combine both Starter and Random temps, then create a table of temps the player does not have
+        for _, list in ipairs({ walkData.Temps.Starter, walkData.Temps.Random }) do
+            for _, item in ipairs(list) do
+                if not partyMember:hasItem(item) then
+                    table.insert(possibleTemp, item)
+                end
+            end
+        end
+
+        -- Pick a random temp the player doesn't have from random and starter temp tables
+        if #possibleTemp > 0 then
+            local temp = possibleTemp[math.random(#possibleTemp)]
+            addTempItems(partyMember, temp, silent)
+        end
     end
 end
 
@@ -307,8 +328,8 @@ tpz.woe.mob = tpz.woe.mob or {}
 
 local modByMobName =
 {
-    ['Promathia'] = function(mob)
-        mob:setMod(tpz.mod.MDEF, 60)
+    ['Caldera_Crab'] = function(mob)
+        mob:setMobMod(tpz.mobMod.LINK_RADIUS, 50)
     end,
 }
 
@@ -335,12 +356,19 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.MUG_GIL, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
-    mob:setMod(tpz.mobMod.AGGRO_SIGHT, 0)
-    mob:setMod(tpz.mobMod.AGGRO_SOUND, 1)
-    mob:setMod(tpz.mobMod.TRUE_SOUND, 1)
-    mob:setMod(tpz.mobMod.SOUND_RANGE, 15)
-    mob:setMod(tpz.mobMod.CHECK_AS_NM, 1)
+    mob:setMobMod(tpz.mobMod.AGGRO_SIGHT, 0)
+    mob:setMobMod(tpz.mobMod.AGGRO_SOUND, 1)
+    mob:setMobMod(tpz.mobMod.TRUE_SOUND, 1)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
+    mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
+    mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.CUSTOMLINK, 3278)
+
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.GRAVITY)
+    mob:addImmunity(tpz.immunity.BIND)
+    mob:addImmunity(tpz.immunity.SILENCE)
+    mob:addImmunity(tpz.immunity.PETRIFY)
 
     mob:addMod(tpz.mod.ATTP, 50)
     mob:addMod(tpz.mod.DEFP, 50)
@@ -384,10 +412,8 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
         local walk = mob:getLocalVar("CurrentWalk")
         local boss = mob:getName() == walkData[walk].Boss
         if boss then
-            pritnf("Boss")
             tpz.woe.incrementProgress(zone, walk)
         else
-            printf("Not Boss")
             tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
             tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
         end
@@ -430,7 +456,7 @@ end
 -- TODO: Test roll for temps and endowed with 2 players (incase of msg spam). Test resetWalkVars (on completion and timing out), testing completing, / failing walk (dying or time running out). make sure bf status is removed
 tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
     if math.random(100) <= 10 then
-        addRandomTempItem(player)
+        addRandomTempItem(player, false)
     end
 end
 
@@ -480,8 +506,9 @@ local function startWalk(player, walk)
 
     local timer = zone:getLocalVar("WalkTimer_" .. walk)
 
-    delTempItems(player, walkData.Temps)
-    addTempItems(player, walkData.Temps)
+    delTempItems(player, walkData.Temps.Starter)
+    delTempItems(player, walkData.Temps.Random)
+    addTempItems(player, walkData.Temps.Starter, false)
     player:setCharVar("[WoE]CurrentWalk", walk)
     player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
     player:countdown(timer - os.time())
@@ -493,6 +520,8 @@ local function exitWalk(player)
 
     if walk == 0 then return end
 
+    delTempItems(player, walkData.Temps.Starter)
+    delTempItems(player, walkData.Temps.Random)
     player:setLocalVar("raiseTimer", 0)
     player:setCharVar("[WoE]CurrentWalk", 0)
     player:setLocalVar("defeatTimer", 0)
@@ -532,11 +561,9 @@ local function completeWalk(player)
 
     player:messageSpecial(ID.text.VANQUISHED_ALL_FOES)
     player:messageSpecial(ID.text.OBTAIN_COFFER_REWARDS)
-    player:setLocalVar("defeatTimer", 0)
-    player:countdown(0)
-    player:delStatusEffectSilent(tpz.effect.BATTLEFIELD)
     player:startEvent(1003, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
     generateTreasureCofferLoot(player, walk)
+    exitWalk(player)
 end
 
 tpz.woe.incrementProgress = function(zone, walk)
@@ -570,13 +597,21 @@ end
 
 tpz.woe.zone.onEventFinish = function(player, csid, option)
     if csid == 1003 then -- Successfully completed the walk
-        player:setCharVar("[WoE]CurrentWalk", 0)
     end
 end
 
 tpz.woe.zone.onZoneTick = function(player, zone, region)
     local players = zone:getPlayers()
     local ID = zones[player:getZoneID()]
+
+    -- Debug temp randomizing
+    -- local wait = player:getLocalVar("[Temps]wait")
+    -- if wait == 0 then
+    --     player:setLocalVar("[Temps]wait", os.time() +3)
+    -- elseif os.time() > wait then
+    --     addRandomTempItem(player, false)
+    --     player:setLocalVar("[Temps]wait", os.time() +3)
+    -- end
 
     -- Raise any dead players in the zone, regardless of if they're in a walk or not
     for _, char in pairs(players) do
