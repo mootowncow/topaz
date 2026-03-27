@@ -16,16 +16,18 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: Logic for DCing, Need to add custom status effect to player like dynamis and wotg dungeons?
+-- TODO: addTempItems(player, temps) don't pick a temp player already has
+-- Caldera crab bigger link radius (is a mob mod)
+-- TODO: Add logic for "Assess the situation"
+-- TODO: Wizard / Giants drink dura and %
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
--- TODO: Askar, Denali, Goliard. 1 piece per walk? Drops directly from final boss?
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
 -- TODO: Temps from kills, too?
 -- TODO: Magic cool on everything
 -- TODO: Entering gives Battlefield Status
 -- TODO: There is no longer a timer UI element?
 -- TODO: 45m time limit(All Walks I think)
--- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit);, need a lua binding for charutils::SendClearTimerPacket(PChar); I think
+-- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit), need a lua binding for charutils::SendClearTimerPacket(PChar) I think
 -- TODO: Bosses can be terror procced by SC's (random SC element randomly selected for every boss on spawn)
 -- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
@@ -37,7 +39,7 @@ require("scripts/globals/titles")
 -- TODO: Use addon to capture models
 -- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
--- TODO: Give Wizards / Giants drink to trusts also when a player uses
+-- TODO: Give Wizards / Giants drink to trusts (and pets?) also when a player uses
 -- TODO: "Endowed, event 7297" weaker mobs, bonus evaluation, and give a temp item. Seems to lower MDEF too, so probably defense, dmg, attack mdef? Endowed lowers the MDT reduction to -17% (normally -30%)
 -- TODO: Exiting after 3m of defeats sends back to "lobby" -420, 14, -32 facing conflux #07 
 -- TODO: Fill Misc item list
@@ -211,126 +213,6 @@ local function generateTreasureCofferLoot(player, walk)
     return loot
 end
 
--- Mob functions
-local function spawnWalkMobs(walk)
-    local data = walkData[walk]
-
-    if not data then return end
-
-    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
-        local mob = GetMobByID(mobId)
-
-        if mob and not mob:isSpawned() then
-            mob:spawn()
-            mob:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
-            mob:setLocalVar("CurrentWalk", walk)
-        end
-    end
-end
-
-local function despawnWalkMobs(walk)
-    local data = walkData[walk]
-
-    if not data then return end
-    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
-        local mob = GetMobByID(mobId)
-
-        if mob and mob:isSpawned() then
-            DespawnMob(mobId)
-        end
-    end
-end
-
-local modByMobName =
-{
-    ['Promathia'] = function(mob)
-        mob:setMod(tpz.mod.MDEF, 60)
-    end,
-}
-
-local mixinByMobName =
-{
-}
-
-local mobFightByMobName =
-{
-    ['Promathia'] = function(mob, target)
-    end,
-}
-
-tpz.woe.mob = tpz.woe.mob or {}
-
-tpz.woe.onMobSpawn = function(mob)
-    if mob:getMainJob() ~= tpz.job.MNK then
-        mob:setDamage(150)
-    else
-        mob:setDamage(75)
-    end
-
-    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
-    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
-    mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1);
-    mob:setMobMod(tpz.mobMod.GIL_MAX, -1);
-    mob:setMobMod(tpz.mobMod.MUG_GIL, -1);
-    mob:setMobMod(tpz.mobMod.EXP_BONUS, -100);
-    mob:setMod(tpz.mobMod.AGGRO_SIGHT, 0)
-    mob:setMod(tpz.mobMod.AGGRO_SOUND, 1)
-    mob:setMod(tpz.mobMod.TRUE_SOUND, 1)
-    mob:setMod(tpz.mobMod.SOUND_RANGE, 15)
-    mob:setMod(tpz.mobMod.CHECK_AS_NM, 1)
-    mob:setMobMod(tpz.mobMod.SUPERLINK, mob:getZone():getID());
-
-    mob:addMod(tpz.mod.ATTP, 50);
-    mob:addMod(tpz.mod.DEFP, 50);
-    mob:addMod(tpz.mod.ACC, 25);
-    mob:addMod(tpz.mod.EVA, 25);
-    mob:addMod(tpz.mod.MATT, 50);
-    mob:addMod(tpz.mod.DMGMAGIC, -30);
-    mob:addMod(tpz.mod.REFRESH, 400);
-
-    local mobName = mob:getName()
-    local mods = modByMobName[mobName]
-
-    if mods then
-        mods(mob)
-    end
-end
-
-tpz.woe.onMobEngaged = function(mob, target)
-end
-
-tpz.woe.onMobFight = function(mob, target)
-    local mobName  = mob:getName()
-    local mixin    = mixinByMobName[mobName]
-    local mobFight = mobFightByMobName[mobName]
-
-    if mixin then
-        mixin(mob, target)
-    end
-
-    if mobFight then
-        mobFight(mob, target)
-    end
-end
-
-tpz.woe.onMobDisengage = function(mob)
-end
-
-tpz.woe.onMobDeath = function(mob, player, isKiller, noKiller)
-    if isKiller or noKiller then
-        local zone = mob:getZone()
-        local walk = mob:getLocalVar("CurrentWalk")
-        local boss = walkData[walk].Boss
-
-        if boss then
-            tpz.woe.incrementProgress(zone, walk)
-        end
-    end
-end
-
-tpz.woe.onMobDespawn = function(mob)
-end
-
 -- Walk functions
 activeWalks = {}
 local function getActiveWalks(zone)
@@ -345,18 +227,24 @@ local function getActiveWalks(zone)
     return activeWalks
 end
 
+local function resetWalkVars(zone, walk)
+    zone:setLocalVar("WalkTimer_" .. walk, 0)
+    zone:setLocalVar("WalkProgress_" .. walk, 0)
+    zone:setLocalVar("Endowed_" .. walk, 0)
+end
+
 local function createWalk(player, walk)
     local zone = player:getZone()
 
     -- Check if Walk is already active
     if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
 
-    spawnWalkMobs(walk)
+    tpz.woe.mob.spawnWalkMobs(walk)
     activeWalks[walk] = true
     zone:setLocalVar("WalkTimer_" .. walk,os.time() + 2700)
 end
 
-local function addTempItems(player, temps)
+local function addTempItems(player, temps, silent)
     local ID = zones[player:getZoneID()]
 
     -- Create table of temps
@@ -377,12 +265,22 @@ local function addTempItems(player, temps)
         end
     end
 
-    if #givenTemps > 1 then
-        player:messageSpecial(ID.text.OBTAINS_MULTIPLE_TEMPS, #givenTemps)
-    else
-        player:messageSpecial(ID.text.OBTAINS_TEMP_ITEM, givenTemps[1])
+    if silent ~= nil then
+        if #givenTemps > 1 then
+            player:messageSpecial(ID.text.OBTAINS_MULTIPLE_TEMPS, #givenTemps)
+        else
+            player:messageSpecial(ID.text.OBTAINS_TEMP_ITEM, givenTemps[1])
+        end
     end
     return true
+end
+
+local function addRandomTempItem(player, silent)
+    local party = player:getParty()
+
+    for _, partyMember in pairs(party) do
+        addTempItems(partyMember, walkData.Temps[math.random(#walkData.Temps)], silent)
+    end
 end
 
 local function delTempItems(player, temps)
@@ -402,6 +300,168 @@ local function delTempItems(player, temps)
         player:delItem(tempId, 1, tpz.inv.TEMPITEMS)
     end
     return true
+end
+
+-- Mob functions
+tpz.woe.mob = tpz.woe.mob or {}
+
+local modByMobName =
+{
+    ['Promathia'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 60)
+    end,
+}
+
+local mixinByMobName =
+{
+}
+
+local mobFightByMobName =
+{
+    ['Promathia'] = function(mob, target)
+    end,
+}
+
+tpz.woe.mob.onMobSpawn = function(mob)
+    if mob:getMainJob() ~= tpz.job.MNK then
+        mob:setDamage(150)
+    else
+        mob:setDamage(75)
+    end
+
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
+    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+    mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1)
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.MUG_GIL, -1)
+    mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
+    mob:setMod(tpz.mobMod.AGGRO_SIGHT, 0)
+    mob:setMod(tpz.mobMod.AGGRO_SOUND, 1)
+    mob:setMod(tpz.mobMod.TRUE_SOUND, 1)
+    mob:setMod(tpz.mobMod.SOUND_RANGE, 15)
+    mob:setMod(tpz.mobMod.CHECK_AS_NM, 1)
+    mob:setMobMod(tpz.mobMod.CUSTOMLINK, 3278)
+
+    mob:addMod(tpz.mod.ATTP, 50)
+    mob:addMod(tpz.mod.DEFP, 50)
+    mob:addMod(tpz.mod.ACC, 25)
+    mob:addMod(tpz.mod.EVA, 25)
+    mob:addMod(tpz.mod.MATT, 50)
+    mob:addMod(tpz.mod.UDMGMAGIC, -30)
+    mob:addMod(tpz.mod.REFRESH, 400)
+
+    local mobName = mob:getName()
+    local mods = modByMobName[mobName]
+
+    if mods then
+        mods(mob)
+    end
+end
+
+tpz.woe.mob.onMobEngaged = function(mob, target)
+end
+
+tpz.woe.mob.onMobFight = function(mob, target)
+    local mobName  = mob:getName()
+    local mixin    = mixinByMobName[mobName]
+    local mobFight = mobFightByMobName[mobName]
+
+    if mixin then
+        mixin(mob, target)
+    end
+
+    if mobFight then
+        mobFight(mob, target)
+    end
+end
+
+tpz.woe.mob.onMobDisengage = function(mob)
+end
+
+tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
+    if isKiller or noKiller then
+        local zone = mob:getZone()
+        local walk = mob:getLocalVar("CurrentWalk")
+        local boss = mob:getName() == walkData[walk].Boss
+        if boss then
+            pritnf("Boss")
+            tpz.woe.incrementProgress(zone, walk)
+        else
+            printf("Not Boss")
+            tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
+            tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
+        end
+    end
+end
+
+tpz.woe.onMobDespawn = function(mob)
+end
+
+tpz.woe.mob.spawnWalkMobs = function(walk)
+    local data = walkData[walk]
+
+    if not data then return end
+
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+
+        if mob and not mob:isSpawned() then
+            mob:spawn()
+            mob:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
+            mob:setLocalVar("CurrentWalk", walk)
+        end
+    end
+end
+
+tpz.woe.mob.despawnWalkMobs = function(walk)
+    local data = walkData[walk]
+
+    if not data then return end
+
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+
+        if mob and mob:isSpawned() then
+            DespawnMob(mobId)
+        end
+    end
+end
+
+-- TODO: Test roll for temps and endowed with 2 players (incase of msg spam). Test resetWalkVars (on completion and timing out), testing completing, / failing walk (dying or time running out). make sure bf status is removed
+tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
+    if math.random(100) <= 10 then
+        addRandomTempItem(player)
+    end
+end
+
+tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
+    local walk = mob:getLocalVar("CurrentWalk")
+    local zone = mob:getZone()
+
+    if zone:getLocalVar("Endowed_" .. walk) > 0 then return end
+
+    if math.random(100) <= 5 then
+        local ID = zones[player:getZoneID()]
+        local data = walkData[walk]
+
+
+        if not data then return end
+
+        for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+            local currentMob = GetMobByID(mobId)
+
+            currentMob:addMod(tpz.mod.ATTP, -25)
+            currentMob:addMod(tpz.mod.DEFP, -25)
+            currentMob:addMod(tpz.mod.ACC, -12)
+            currentMob:addMod(tpz.mod.EVA, -12)
+            currentMob:addMod(tpz.mod.MATT, -25)
+            currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
+        end
+
+        addRandomTempItem(player, true)
+        utils.MessageSpecialParty(player, ID.text.WALK_NOW_ENDOWED)
+        zone:setLocalVar("Endowed_" .. walk, 1)
+    end
 end
 
 local function startWalk(player, walk)
@@ -437,7 +497,7 @@ local function exitWalk(player)
     player:setCharVar("[WoE]CurrentWalk", 0)
     player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
-    player:delStatusEffect(tpz.effect.BATTLEFIELD)
+    player:delStatusEffectSilent(tpz.effect.BATTLEFIELD)
 end
 
 local function failWalk(player, fail)
@@ -463,7 +523,7 @@ local function failWalk(player, fail)
 end
 
 local function getProgress(zone, walk)
-    return zone:getLocalVar("StageProgress_" .. walk)
+    return zone:getLocalVar("WalkProgress_" .. walk)
 end
 
 local function completeWalk(player)
@@ -472,14 +532,16 @@ local function completeWalk(player)
 
     player:messageSpecial(ID.text.VANQUISHED_ALL_FOES)
     player:messageSpecial(ID.text.OBTAIN_COFFER_REWARDS)
+    player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
+    player:delStatusEffectSilent(tpz.effect.BATTLEFIELD)
     player:startEvent(1003, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
     generateTreasureCofferLoot(player, walk)
 end
 
 tpz.woe.incrementProgress = function(zone, walk)
-    -- printf("Incrementing progress by 1. Old: %d New: %d", zone:getLocalVar("StageProgress_" .. walk) -1, zone:getLocalVar("StageProgress_" .. walk))
-    zone:setLocalVar("StageProgress_" .. walk, zone:getLocalVar("StageProgress_" .. walk) +1)
+    -- printf("Incrementing progress by 1. Old: %d New: %d", zone:getLocalVar("WalkProgress_" .. walk) -1, zone:getLocalVar("WalkProgress_" .. walk))
+    zone:setLocalVar("WalkProgress_" .. walk, zone:getLocalVar("WalkProgress_" .. walk) +1)
 end
 
 tpz.woe.saveExperience = function(player)
@@ -494,7 +556,25 @@ tpz.woe.sendReraise = function (player)
     player:sendRaise(3)
 end
 
-tpz.woe.onZoneTick = function(player, zone, region)
+-- Zone functions
+tpz.woe.zone = tpz.woe.zone or {}
+
+tpz.woe.zone.onEventUpdate = function(player, csid, option)
+    if csid == 1002 then -- Failed WoE Walk, return to lobby
+        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
+    elseif csid == 1003 then -- Successfully completed the walk
+        player:updateEvent(72, 13500, 4294935296, 3072, 0, 0, 0, 0)
+        tpz.woe.saveExperience(player)
+    end
+end
+
+tpz.woe.zone.onEventFinish = function(player, csid, option)
+    if csid == 1003 then -- Successfully completed the walk
+        player:setCharVar("[WoE]CurrentWalk", 0)
+    end
+end
+
+tpz.woe.zone.onZoneTick = function(player, zone, region)
     local players = zone:getPlayers()
     local ID = zones[player:getZoneID()]
 
@@ -565,9 +645,8 @@ tpz.woe.onZoneTick = function(player, zone, region)
                 for _, char in pairs(walkPlayers) do
                     completeWalk(char)
                 end
-                despawnWalkMobs(walk)
-                zone:setLocalVar("WalkTimer_" .. walk, 0)
-                zone:setLocalVar("StageProgress_" .. walk, 0)
+                tpz.woe.mob.despawnWalkMobs(walk)
+                resetWalkVars(zone, walk)
             end
 
             local allDead = true
@@ -623,8 +702,8 @@ tpz.woe.onZoneTick = function(player, zone, region)
                     end
                 end
 
-                despawnWalkMobs(walk)
-                zone:setLocalVar("WalkTimer_" .. walk, 0)
+                tpz.woe.mob.despawnWalkMobs(walk)
+                resetWalkVars(zone, walk)
             end
         end
     end
@@ -795,7 +874,7 @@ tpz.woe.TreasureCoffer.onTrigger = function(player, npc)
                     value = value + item1;
                 end
                 if item2 then
-                    value = value + bit.lshift(item2, 16);
+                    value = value + bit.lshift(item2, 16)
                 end
                 itemParams[i+1] = value;
             end

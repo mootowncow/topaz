@@ -6,23 +6,23 @@ local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/walk_of_echoes")
 -----------------------------------
 function onMobSpawn(mob)
-    tpz.woe.onMobSpawn(mob)
+    tpz.woe.mob.onMobSpawn(mob)
 end
 
 function onMobEngaged(mob, target)
-    tpz.woe.onMobEngaged(mob, target)
+    tpz.woe.mob.onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
-    tpz.woe.onMobFight(mob, target)
+    tpz.woe.mob.onMobFight(mob, target)
 end
 
 function onMobDisengage(mob)
-    tpz.woe.onMobDisengage(mob)
+    tpz.woe.mob.onMobDisengage(mob)
 end
 
 function onMobDeath(mob, player, isKiller, noKiller)
-    tpz.woe.onMobDeath(mob, player, isKiller, noKiller)
+    tpz.woe.mob.onMobDeath(mob, player, isKiller, noKiller)
 end
 
 function onMobDespawn(mob)

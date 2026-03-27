@@ -953,6 +953,28 @@ function utils.MessageParty(player, msg, textcolor, sender)
     end
 end
 
+function utils.MessageSpecialParty(player, msg)
+    if player == nil then
+        return
+    end
+
+    local party = player:getParty()
+    local ID = zones[player:getZoneID()]
+
+    if player:isTrust() or player:isPet() then
+        party = player:getMaster():getParty()
+    end
+
+    --Text color: default(name shown) - 0, gold - 0x1F, green - 0x1C, blue - 0xF, white(no sender name) - 0xD
+    if party then
+        for _, member in ipairs(party) do
+            if member:isPC() then
+                member:messageSpecial(msg)
+            end
+        end
+    end
+end
+
 function utils.ShowTextParty(player, textId)
     if (player == nil) then
         return
