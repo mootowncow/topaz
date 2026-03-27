@@ -1,0 +1,2 @@
+-- on additional effect too?
+-- how to make it so they all have job special require? voidwalker did it

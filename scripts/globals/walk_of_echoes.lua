@@ -16,13 +16,10 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
+-- TODO: Logic for DCing, Need to add custom status effect to player like dynamis and wotg dungeons?
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
--- TODO: "Pending XP", add XP to a player after they revive if they should have gotten exp. instead of add xp add it as a var to the player then check if they're dead on zone tick, if not dead add xp, set the xp var to 0
--- TODO: No XP loss
 -- TODO: Askar, Denali, Goliard. 1 piece per walk? Drops directly from final boss?
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
--- TODO: Test stun immunity on everything
--- TODO: Test nuke dmg on everything
 -- TODO: Temps from kills, too?
 -- TODO: Magic cool on everything
 -- TODO: Entering gives Battlefield Status
@@ -30,41 +27,30 @@ require("scripts/globals/titles")
 -- TODO: 45m time limit(All Walks I think)
 -- TODO: Timer is charutils::SendTimerPacket(PChar, m_TimeLimit);, need a lua binding for charutils::SendClearTimerPacket(PChar); I think
 -- TODO: Bosses can be terror procced by SC's (random SC element randomly selected for every boss on spawn)
--- TODO: Magiant rials for emp weapons
+-- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
 -- TODO: All true sound / sight
 -- TODO: Treasure pool cleared on zoning out to Xarcabard and back in. Check if logging clears it, too.
--- TODO: No XP, no drops, alliance wide enmity, all mobs link (Make "SetUpWoEMob")
+-- TODO: No XP, no drops, alliance wide enmity, all mobs link, -30% magic dmg taken on all mobs (do it in mdb or mdt?) (Make "SetUpWoEMob")
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
 -- Catholicion, catholicion +1
 -- TODO: Use addon to capture models
 -- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
 -- TODO: Give Wizards / Giants drink to trusts also when a player uses
--- TODO: "Endowed, event 7297" weaker mobs, bonus evaluation, and give a temp item. Seems to lower MDEF too, so probably defense, dmg, attack mdef?
+-- TODO: "Endowed, event 7297" weaker mobs, bonus evaluation, and give a temp item. Seems to lower MDEF too, so probably defense, dmg, attack mdef? Endowed lowers the MDT reduction to -17% (normally -30%)
 -- TODO: Exiting after 3m of defeats sends back to "lobby" -420, 14, -32 facing conflux #07 
 -- TODO: Fill Misc item list
 -- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
 -- TODO: delTempItems(player, temps) doesn't work and should only delete when in lobby but not remove from saved sql database for that player and zone. Maybe delItem() doesn't work with tpz.inv.TEMPITEMS?
-
-
--- Current:
-    -- TODO: failWalk (and probably on zone tick) needs logic for all party members in zone dead, then display this stuff
-    -- All party members have fallen in battle. Exiting in <param4> minutes, <param3> seconds.
-    -- player:messageSpecial(ID.text.EXITING_IN)
-
-
--- Testing:
--- 865 stone's on cyanic/damask crabs
--- 865 (1022 after weakened msg) Stone on Caldera crab
--- TODO: Test dmg outside on 0 mdt/mdef mob
-
+-- TODO: Tune Weaponskills, they should all be replacements to level 55-60 multihits (can swap around stuff like Entropy/Stardiver here and Quietus/Calamns from WOTG relics instead...MAYBE.)
 
 -- Drops https://www.bg-wiki.com/ffxi/Walk_of_Echoes_Battlefield_Rewards
 -- Drop rate changes: https://www.ffxiah.com/forum/topic/27894/dev1096-walk-of-echoes-adjustments/
 -- Info: https://www.bluegartr.com/threads/95043-Walk-of-Echoes
 -- https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields
+
 tpz = tpz or {}
 tpz.woe = tpz.woe or {}
 
@@ -94,6 +80,7 @@ local walkData =
         StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
         Progress    = 3,
+        Boss        = 'Caldera_Crab',
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
@@ -235,6 +222,8 @@ local function spawnWalkMobs(walk)
 
         if mob and not mob:isSpawned() then
             mob:spawn()
+            mob:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
+            mob:setLocalVar("CurrentWalk", walk)
         end
     end
 end
@@ -250,6 +239,96 @@ local function despawnWalkMobs(walk)
             DespawnMob(mobId)
         end
     end
+end
+
+local modByMobName =
+{
+    ['Promathia'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 60)
+    end,
+}
+
+local mixinByMobName =
+{
+}
+
+local mobFightByMobName =
+{
+    ['Promathia'] = function(mob, target)
+    end,
+}
+
+tpz.woe.mob = tpz.woe.mob or {}
+
+tpz.woe.onMobSpawn = function(mob)
+    if mob:getMainJob() ~= tpz.job.MNK then
+        mob:setDamage(150)
+    else
+        mob:setDamage(75)
+    end
+
+    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
+    mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
+    mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1);
+    mob:setMobMod(tpz.mobMod.GIL_MAX, -1);
+    mob:setMobMod(tpz.mobMod.MUG_GIL, -1);
+    mob:setMobMod(tpz.mobMod.EXP_BONUS, -100);
+    mob:setMod(tpz.mobMod.AGGRO_SIGHT, 0)
+    mob:setMod(tpz.mobMod.AGGRO_SOUND, 1)
+    mob:setMod(tpz.mobMod.TRUE_SOUND, 1)
+    mob:setMod(tpz.mobMod.SOUND_RANGE, 15)
+    mob:setMod(tpz.mobMod.CHECK_AS_NM, 1)
+    mob:setMobMod(tpz.mobMod.SUPERLINK, mob:getZone():getID());
+
+    mob:addMod(tpz.mod.ATTP, 50);
+    mob:addMod(tpz.mod.DEFP, 50);
+    mob:addMod(tpz.mod.ACC, 25);
+    mob:addMod(tpz.mod.EVA, 25);
+    mob:addMod(tpz.mod.MATT, 50);
+    mob:addMod(tpz.mod.DMGMAGIC, -30);
+    mob:addMod(tpz.mod.REFRESH, 400);
+
+    local mobName = mob:getName()
+    local mods = modByMobName[mobName]
+
+    if mods then
+        mods(mob)
+    end
+end
+
+tpz.woe.onMobEngaged = function(mob, target)
+end
+
+tpz.woe.onMobFight = function(mob, target)
+    local mobName  = mob:getName()
+    local mixin    = mixinByMobName[mobName]
+    local mobFight = mobFightByMobName[mobName]
+
+    if mixin then
+        mixin(mob, target)
+    end
+
+    if mobFight then
+        mobFight(mob, target)
+    end
+end
+
+tpz.woe.onMobDisengage = function(mob)
+end
+
+tpz.woe.onMobDeath = function(mob, player, isKiller, noKiller)
+    if isKiller or noKiller then
+        local zone = mob:getZone()
+        local walk = mob:getLocalVar("CurrentWalk")
+        local boss = walkData[walk].Boss
+
+        if boss then
+            tpz.woe.incrementProgress(zone, walk)
+        end
+    end
+end
+
+tpz.woe.onMobDespawn = function(mob)
 end
 
 -- Walk functions
@@ -344,7 +423,9 @@ local function startWalk(player, walk)
     delTempItems(player, walkData.Temps)
     addTempItems(player, walkData.Temps)
     player:setCharVar("[WoE]CurrentWalk", walk)
+    player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
     player:countdown(timer - os.time())
+    player:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
 end
 
 local function exitWalk(player)
@@ -356,6 +437,7 @@ local function exitWalk(player)
     player:setCharVar("[WoE]CurrentWalk", 0)
     player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
+    player:delStatusEffect(tpz.effect.BATTLEFIELD)
 end
 
 local function failWalk(player, fail)
@@ -380,9 +462,6 @@ local function failWalk(player, fail)
     exitWalk(player)
 end
 
--- TODO: Make sure all the messagespecials only send to 1 person. can  get my function for sendmsg from royal painter escort (make it a util?)
--- TODO: Test all logic in a party
-
 local function getProgress(zone, walk)
     return zone:getLocalVar("StageProgress_" .. walk)
 end
@@ -406,7 +485,7 @@ end
 tpz.woe.saveExperience = function(player)
     local walk = player:getCharVar("[WoE]CurrentWalk")
 
-    player:setLocalVar("PendingExperience", walkData[walk].Experience)
+    player:setCharVar("[WoE]PendingExperience", walkData[walk].Experience)
     player:setCharVar("[WoE]CurrentWalk", 0)
 end
 
@@ -433,10 +512,10 @@ tpz.woe.onZoneTick = function(player, zone, region)
             end
         else
             -- Check if player has any pending experience to gain
-            local pendingExperience = char:getLocalVar("PendingExperience")
+            local pendingExperience = char:getCharVar("[WoE]PendingExperience")
             if pendingExperience > 0 then
-                char:addExp(char:getLocalVar("PendingExperience"))
-                char:setLocalVar("PendingExperience", 0)
+                char:addExp(char:getCharVar("[WoE]PendingExperience"))
+                char:setCharVar("[WoE]PendingExperience", 0)
             end
             char:setLocalVar("raiseTimer", 0)
         end
