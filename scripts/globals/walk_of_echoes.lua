@@ -17,8 +17,12 @@ require("scripts/globals/titles")
 --------------------------------------
 
 -- TODO: Add logic for "Assess the situation"
--- TODO: Walk 2, Berry_Syrup. How do they spawn? They're immune to all WS and physical damage (even magic ws)
--- TODO: tpz.woe.veridicalConflux.onEventFinish needs option for entering walk
+-- TODO: slimes slow overwrites haste
+-- TODO: big slime aoe long cast time
+-- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
+-- TODO: Random chance to endow walk on creation (only one check, not once per player)
+-- TODO: "Howling blast" and then buff the battlefield to be harder (and offer better rewards?)
+-- TODO: I think in TODO.txt I have WOE weather fix?
 -- TODO: Proc msg should be silent (add to BreakMob as an arg)
 -- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
 -- TODO: Ally hate (check limbus?)
@@ -197,7 +201,293 @@ local confluxData =
             Update  = { 4294547296, 13500, 4294935296, 3072, 441976832, 2415920000, 2422214016, 0 },
             End     = {},
         }
-    }
+    },
+    ['Veridical_Conflux_#03'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2894439171, 9216, 0, 0, 441980672, 2415923840, 2422217856, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2896536067, 9216, 0, 0, 441975424, 2415926784, 2422212608, 0 },
+            },
+            Update  = { 354000, 4294966796, 514000, 3072, 441980672, 2415923840, 2422217856, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 441980672, 2415923840, 2422217856, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#04'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2812650244, 9216, 0, 0, 2421691392, 2415923072, 2422217088, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2814747140, 9216, 0, 0, 441980672, 2415923840, 2422217856, 0 },
+            },
+            Update  = { 570000, 17500, 670000, 512, 2421691392, 2415923072, 2422217088, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421691392, 2415923072, 2422217088, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#05'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2833621765, 9216, 0, 0, 2421687808, 2415919488, 2422213504, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2835718661, 9216, 0, 0, 2421691392, 2415923072, 2422217088, 0 },
+            },
+            Update  = { 4294417296, 4294966796, 330000, 2048, 2421687808, 2415919488, 2422213504, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421687808, 2415919488, 2422213504, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#06'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2848301831, 9216, 0, 0, 2421689472, 3489662976, 2422215168, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2848301575, 9216, 0, 0, 2421691008, 3489664512, 2422216704, 0 },
+            },
+            Update  = { 276000, 29500, 240000, 2048, 2421689472, 3489662976, 2422215168, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421689472, 3489662976, 2422215168, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#07'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2716181256, 9216, 0, 0, 2421689216, 3489662720, 2422214912, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2718278152, 9216, 0, 0, 2421689472, 3489662976, 2422215168, 0 },
+            },
+            Update  = { 640000, 77500, 240000, 2560, 2421689216, 3489662720, 2422214912, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421689216, 3489662720, 2422214912, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#08'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2938479366, 9216, 0, 0, 2421693568, 3489667072, 2422211072, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2938479110, 9216, 0, 0, 2421689216, 3489662720, 2422214912, 0 },
+            },
+            Update  = { 4294707296, 4294966796, 340000, 1024, 2421693568, 3489667072, 2422211072, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421693568, 3489667072, 2422211072, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#09'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3152388873, 9216, 0, 0, 2421693312, 3489666816, 2422210816, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3150291465, 9216, 0, 0, 2421693312, 3489666816, 2422210816, 0 },
+            },
+            Update  = { 4294903296, 23500, 4294675296, 3072, 2421693312, 3489666816, 2422210816, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421693312, 3489666816, 2422210816, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#10'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2961548042, 9216, 0, 0, 2421693056, 3489666560, 2422210560, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2963644938, 9216, 0, 0, 2421693312, 3489666816, 2422210816, 0 },
+            },
+            Update  = { 320000, 107500, 4294847296, 2048, 2421693056, 3489666560, 2422210560, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421693056, 3489666560, 2422210560, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#11'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3102057227, 9216, 0, 0, 2421692928, 3489666432, 2422218624, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3106251275, 9216, 0, 0, 2421693312, 3489666816, 2422210816, 0 },
+            },
+            Update  = { 760000, 71500, 0, 1536, 2421692928, 3489666432, 2422218624, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421692928, 3489666432, 2422218624, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#12'] = -- TODO: Continue from here (No Key Item Triggers done for all)
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2795873036, 9216, 0, 0, 2421686528, 436214912, 2422212224, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3175457292, 9216, 0, 0, 2421692928, 3489666432, 2422218624, 0 },
+            },
+            Update  = { 4294267296, 11500, 4294229296, 3584, 2421686528, 436214912, 2422212224, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421686528, 436214912, 2422212224, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#13'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3177554701, 9216, 0, 0, 2421692928, 2415924608, 2422218624, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3016073741, 9216, 0, 0, 2421692928, 3489666432, 2422218624, 0 },
+            },
+            Update  = { 4294671296, 4294966796, 4294391296, 3584, 2421692928, 2415924608, 2422218624, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421692928, 2415924608, 2422218624, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#14'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 2812650254, 9216, 0, 0, 2421692800, 2415924480, 2422218368, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 3192234510, 9216, 0, 0, 2421692928, 3489666432, 2422218624, 0 },
+            },
+            Update  = { 680000, 35500, 4294155296, 3072, 2421692800, 2415924480, 2422218368, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421692800, 2415924480, 2422218368, 0 },
+            End     = {},
+        }
+    },
+    ['Veridical_Conflux_#15'] =
+    {
+        Enter =
+        {
+            Keyitem =
+            {
+                Trigger = { 1000, 3104154383, 9216, 0, 0, 2421692544, 2415924224, 2422218240, 1 },
+            },
+            NoKeyItem =
+            {
+                Trigger = { 1000, 2948964879, 9216, 0, 0, 2421692928, 3489666432, 2422218624, 0 },
+            },
+            Update  = { 146000, 17500, 4294393296, 3584, 2421692544, 2415924224, 2422218240, 0 },
+            End     = {},
+        },
+
+        Exit =
+        {
+            Update  = { 4294547296, 13500, 4294935296, 3072, 2421692544, 2415924224, 2422218240, 0 },
+            End     = {},
+        }
+    },
 }
 
 local failState =
@@ -457,6 +747,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
     mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
+    mob:setMobMod(tpz.mobMod.ALLI_HATE, 200)
     mob:setMobMod(tpz.mobMod.CUSTOMLINK, 3278)
 
     mob:addImmunity(tpz.immunity.SLEEP)
@@ -984,10 +1275,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
 
     local data = confluxData[npcName]
 
-    if not data then 
-        printf("not data")
-        return
-    end
+    if not data then return end
 
     if isExit then
         if (csid == 1001 and option == 1) then
@@ -1023,8 +1311,8 @@ tpz.woe.veridicalConflux.onEventFinish = function(player, csid, option)
         eventFinish(player, csid, option, isExit)
     end
 
-    if (csid == 1000) then -- Entering Walk
-        startWalk(player, walkIndex) -- TODO: Add option, hitting any option starts the walk
+    if (csid == 1000 and option == 3) then -- Entering Walk
+        startWalk(player, walkIndex)
         -- TODO: Add logic for "Assess the situation"
 
 
