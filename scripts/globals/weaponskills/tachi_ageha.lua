@@ -35,18 +35,12 @@ function onUseWeaponSkill(player, target, wsID, tp, primary, action, taChar)
     end
 
     local damage, criticalHit, tpHits, extraHits = doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-		if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_KATANA, tpHits+extraHits) end
-		if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
-    local LuxRunes = player:getLocalVar("LuxRunes")
-    local RuneDuration = 7200
-    if damage > 0 and LuxRunes <=2 then
-        for v = 523,528,1 do
-            player:delStatusEffectSilent(v)
-        end
-        player:addStatusEffect(tpz.effect.LUX, 1, 0, RuneDuration)
-    end
+    if IsWSDamageMessage(target, action) then player:trySkillUp(target, tpz.skill.GREAT_KATANA, tpHits+extraHits) end
+    if IsWSDamageMessage(target, action) then target:tryInterruptSpell(player, tpHits+extraHits) end
+    jobUtil.AddIgnisRune(player, damage)
 
-	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, 100, tpz.effect.DEFENSE_DOWN)
+    local bonus = 25
+	local resist = applyResistanceAddEffect(player, target, tpz.magic.ele.WIND, bonus, tpz.effect.DEFENSE_DOWN)
     if IsWSDamageMessage(target, action) and not target:hasStatusEffect(tpz.effect.DEFENSE_DOWN) and resist >= 0.5 then
         local duration = (tp/1000 * 60)
         target:delStatusEffect(tpz.effect.DEFENSE_BOOST)
