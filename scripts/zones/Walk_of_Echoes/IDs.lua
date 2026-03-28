@@ -41,6 +41,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         OBTAINS_TEMP_ITEM       = 7250,
         OBTAINS_MULTIPLE_TEMPS  = 7251, -- <player> obtains <amount> temporary items!
         WALK_NOW_ENDOWED        = 7277,
+        RAGING_HOWL_BLASTS      = 7278,
         VANQUISHED_ALL_FOES     = 7281,
         OBTAIN_COFFER_REWARDS   = 7282,
         NOT_CLEARED_EXITING_BF  = 7307,

@@ -16,16 +16,19 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: Add logic for "Assess the situation"
+-- TODO: Player gm command to check which walk is surged
+-- TODO: Surged walk timer should be lower?
+-- TODO: Surged walks give more temps?
 -- TODO: slimes slow overwrites haste
 -- TODO: big slime aoe long cast time
 -- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
 -- TODO: Random chance to endow walk on creation (only one check, not once per player)
--- TODO: "Howling blast" and then buff the battlefield to be harder (and offer better rewards?)
+-- TODO: Move the endowwalk mods to on zone tick? or something
+-- TODO: Rename rollforendowed to apply endowed then make roll a seprate function with arg. 5% for mobs then 10 or 20% for when zoning in (call it on createWalk)
+-- TODO: Add surging walks? Just randomly on a timer or by repeat clearing?
 -- TODO: I think in TODO.txt I have WOE weather fix?
 -- TODO: Proc msg should be silent (add to BreakMob as an arg)
 -- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
--- TODO: Ally hate (check limbus?)
 -- TODO: Finish random temps list
 -- TODO: Wizard / Giants drink dura and %
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
@@ -87,6 +90,7 @@ local walkData =
         Progress    = 3,
         TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgeDrops  = {},
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
         Experience  = 1500
@@ -108,6 +112,7 @@ local walkData =
         Progress    = 4,
         TempRate    = { 75 },
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgeDrops  = {},
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
@@ -126,6 +131,7 @@ local walkData =
         Progress    = 3, -- TODO
         TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgeDrops  = {},
         SetDrop     = { item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
@@ -400,7 +406,7 @@ local confluxData =
             End     = {},
         }
     },
-    ['Veridical_Conflux_#12'] = -- TODO: Continue from here (No Key Item Triggers done for all)
+    ['Veridical_Conflux_#12'] =
     {
         Enter =
         {
@@ -521,6 +527,8 @@ local function ClearPlayerCofferLoot(player)
 end
 
 local function generateTreasureCofferLoot(player, walk)
+    -- TODO: Recode this, prob needs to be 6-10 (< 6 doesnt work on chest) or fix chjest
+    -- TODO: Only drop pouches from surged walks, add logic for surged walk loot
     local loot = {}
     local drops = walkData.ExtraDrops
 
@@ -584,6 +592,7 @@ local function resetWalkVars(zone, walk)
     zone:setLocalVar("WalkTimer_" .. walk, 0)
     zone:setLocalVar("WalkProgress_" .. walk, 0)
     zone:setLocalVar("Endowed_" .. walk, 0)
+    zone:setLocalVar("SurgedWalk_" .. walk, 0)
 end
 
 local function createWalk(player, walk)
@@ -593,13 +602,14 @@ local function createWalk(player, walk)
     if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
 
     tpz.woe.mob.spawnWalkMobs(walk)
+    tpz.woe.mob.rollForEndowed(nil, player)
     activeWalks[walk] = true
     zone:setLocalVar("WalkTimer_" .. walk,os.time() + 2700)
 end
 
 local function addTempItems(player, temps, silent)
     local ID = zones[player:getZoneID()]
-    
+
     -- Create table of temps
     local givenTemps = {}
     if type(temps) == "number" then
@@ -670,6 +680,46 @@ local function delTempItems(player, temps)
     return true
 end
 
+local function getSurgedWalk(zone)
+    local surgedWalk = 0
+
+    for walk = 1, 15 do
+        if zone:getLocalVar("SurgedWalk_" .. walk) > 0 then
+            surgedWalk = walk
+            break
+        end
+    end
+
+    return surgedWalk
+end
+
+local function surgeWalkTimer(zone)
+    -- TODO: Might just be a timer for each individual walk that slowly fills up?
+    local surgeTimer = zone:getLocalVar("SurgeTimer") or 0
+
+    if os.time() >= surgeTimer then
+        local players = zone:getPlayers()
+        local lastSurgedWalk = getSurgedWalk(zone)
+        local randomWalk = math.random(15)
+
+        -- Never surge same Walk twice in a row
+        while randomWalk == lastSurgedWalk do
+            randomWalk = math.random(15)
+        end
+
+        if lastSurgedWalk > 0 then
+            zone:setLocalVar("SurgedWalk_" .. lastSurgedWalk, 0)
+        end
+        zone:setLocalVar("SurgedWalk_" .. randomWalk, 1)
+        zone:setLocalVar("SurgeTimer", os.time() + 2700) -- 45 minutes
+
+        for _, char in pairs(players) do
+            local ID = zones[char:getZoneID()]
+            char:messageSpecial(ID.text.RAGING_HOWL_BLASTS, randomWalk)
+        end
+    end
+end
+
 -- Mob functions
 tpz.woe.mob = tpz.woe.mob or {}
 
@@ -683,6 +733,7 @@ local modByMobName =
 local mixinByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+        -- TODO: Mega scissors x3
         mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
             if (spell:getID() == tpz.magic.spell.FLASH) then
                 local duration = 10
@@ -766,9 +817,15 @@ tpz.woe.mob.onMobSpawn = function(mob)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
+    local walk = mob:getLocalVar("CurrentWalk")
+    local zone = mob:getZone()
 
     if mods then
         mods(mob)
+    end
+
+    if getSurgedWalk(zone) == walk then
+        tpz.woe.mob.applySurgeMods(mob)
     end
 end
 
@@ -882,34 +939,56 @@ tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
     end
 end
 
-tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
-    local walk = mob:getLocalVar("CurrentWalk")
-    local zone = mob:getZone()
+tpz.woe.mob.applyEndowed = function(player, zone, walk)
+    local data = walkData[walk]
+    if not data then return end
 
-    if zone:getLocalVar("Endowed_" .. walk) > 0 then return end
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+    local currentMob = GetMobByID(mobId)
 
-    if math.random(100) <= 5 then
-        local ID = zones[player:getZoneID()]
-        local data = walkData[walk]
-
-
-        if not data then return end
-
-        for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
-            local currentMob = GetMobByID(mobId)
-
-            currentMob:addMod(tpz.mod.ATTP, -25)
-            currentMob:addMod(tpz.mod.DEFP, -25)
-            currentMob:addMod(tpz.mod.ACC, -12)
-            currentMob:addMod(tpz.mod.EVA, -12)
-            currentMob:addMod(tpz.mod.MATT, -25)
-            currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
-        end
-
-        addRandomTempItem(player, true)
-        utils.MessageSpecialParty(player, ID.text.WALK_NOW_ENDOWED)
-        zone:setLocalVar("Endowed_" .. walk, 1)
+    currentMob:addMod(tpz.mod.ATTP, -25)
+    currentMob:addMod(tpz.mod.DEFP, -25)
+    currentMob:addMod(tpz.mod.ACC, -12)
+    currentMob:addMod(tpz.mod.EVA, -12)
+    currentMob:addMod(tpz.mod.MATT, -25)
+    currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
     end
+end
+
+tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
+    local ID = zones[player:getZoneID()]
+
+    if mob then -- On mob death roll
+        local walk = mob:getLocalVar("CurrentWalk")
+        local zone = mob:getZone()
+
+        if zone:getLocalVar("Endowed_" .. walk) > 0 then return end
+
+        if math.random(100) <= 1 then
+            tpz.woe.mob.applyEndowed(player, zone, walk)
+            addRandomTempItem(player, true)
+            utils.MessageSpecialParty(player, ID.text.WALK_NOW_ENDOWED)
+            zone:setLocalVar("Endowed_" .. walk, 1)
+        end
+    else -- Walk creation roll
+        local walk = player:getCharVar("[WoE]CurrentWalk")
+        local zone = player:getZone()
+
+        if zone:getLocalVar("Endowed_" .. walk) > 0 then return end
+
+        if math.random(100) <= 10 then
+            tpz.woe.mob.applyEndowed(player, zone, walk)
+            zone:setLocalVar("Endowed_" .. walk, 1)
+        end
+    end
+end
+
+tpz.woe.mob.applySurgeMods = function(mob)
+    mob:setMobLevel(mob:getMainLvl() +3)
+    mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 10)
+    mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
+    mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
+    AddAllAttributes(mob, 20)
 end
 
 local function startWalk(player, walk)
@@ -920,18 +999,25 @@ local function startWalk(player, walk)
     if not data then return end
     if not player:hasKeyItem(entryKI) then return end
 
+    player:setCharVar("[WoE]CurrentWalk", walk)
     player:delKeyItem(entryKI)
     player:messageSpecial(ID.text.ENTERING_BF)
     player:messageSpecial(ID.text.KEY_ITEM_FADES, entryKI)
 
     createWalk(player, walk)
 
-    local timer = zone:getLocalVar("WalkTimer_" .. walk)
-
     delTempItems(player, walkData.Temps.Starter)
     delTempItems(player, walkData.Temps.Random)
     addTempItems(player, walkData.Temps.Starter, false)
-    player:setCharVar("[WoE]CurrentWalk", walk)
+
+    -- Display endowed message and give a temp item if walk is endowed
+    if zone:getLocalVar("Endowed_" .. walk) > 0 then
+        player:messageSpecial(ID.text.WALK_NOW_ENDOWED)
+        addRandomTempItem(player, true)
+    end
+
+    local timer = zone:getLocalVar("WalkTimer_" .. walk)
+
     player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
     player:countdown(timer - os.time())
     player:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
@@ -945,7 +1031,6 @@ local function exitWalk(player)
     delTempItems(player, walkData.Temps.Starter)
     delTempItems(player, walkData.Temps.Random)
     player:setLocalVar("raiseTimer", 0)
-    player:setCharVar("[WoE]CurrentWalk", 0)
     player:setLocalVar("defeatTimer", 0)
     player:countdown(0)
     player:delStatusEffectSilent(tpz.effect.BATTLEFIELD)
@@ -996,8 +1081,12 @@ end
 tpz.woe.saveExperience = function(player)
     local walk = player:getCharVar("[WoE]CurrentWalk")
 
-    player:setCharVar("[WoE]PendingExperience", walkData[walk].Experience)
-    player:setCharVar("[WoE]CurrentWalk", 0)
+    if not walk then return end
+    local experience = walkData[walk].Experience
+
+    if experience then
+        player:setCharVar("[WoE]PendingExperience", experience)
+    end
 end
 
 tpz.woe.sendReraise = function (player)
@@ -1008,17 +1097,20 @@ end
 -- Zone functions
 tpz.woe.zone = tpz.woe.zone or {}
 
-tpz.woe.zone.onEventUpdate = function(player, csid, option)
-    if csid == 1002 then -- Failed WoE Walk, return to lobby
-        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
-    elseif csid == 1003 then -- Successfully completed the walk
-        player:updateEvent(72, 13500, 4294935296, 3072, 0, 0, 0, 0)
-        tpz.woe.saveExperience(player)
-    end
+tpz.woe.zone.onInitialize = function(zone)
+    surgeWalkTimer(zone)
 end
 
-tpz.woe.zone.onEventFinish = function(player, csid, option)
-    if csid == 1003 then -- Successfully completed the walk
+tpz.woe.zone.onZoneIn = function(player, prevZone)
+    if (prevZone == tpz.zone.XARCABARD_S) then
+        local zone = player:getZone()
+        local surgedWalk = getSurgedWalk(zone)
+
+        if (surgedWalk > 0) then
+            local ID = zones[player:getZoneID()]
+
+            player:messageSpecial(ID.text.RAGING_HOWL_BLASTS, surgedWalk)
+        end
     end
 end
 
@@ -1034,6 +1126,9 @@ tpz.woe.zone.onZoneTick = function(player, zone, region)
     --     addRandomTempItem(player, false)
     --     player:setLocalVar("[Temps]wait", os.time() +3)
     -- end
+
+    -- Run surge walk timer
+    surgeWalkTimer(zone)
 
     -- Raise any dead players in the zone, regardless of if they're in a walk or not
     for _, char in pairs(players) do
@@ -1166,6 +1261,22 @@ tpz.woe.zone.onZoneTick = function(player, zone, region)
     end
 end
 
+tpz.woe.zone.onEventUpdate = function(player, csid, option)
+    if csid == 1002 then -- Failed WoE Walk, return to lobby
+        player:updateEvent(12, 13500, 4294935296, 3072, 0, 0, 0, 0)
+        player:setCharVar("[WoE]CurrentWalk", 0)
+    elseif csid == 1003 then -- Successfully completed the walk
+        player:updateEvent(72, 13500, 4294935296, 3072, 0, 0, 0, 0)
+        tpz.woe.saveExperience(player)
+        player:setCharVar("[WoE]CurrentWalk", 0)
+    end
+end
+
+tpz.woe.zone.onEventFinish = function(player, csid, option)
+    if csid == 1003 then -- Successfully completed the walk
+    end
+end
+
 -- veridical Conflux functions
 local onTriggerConfluxByName =
 {
@@ -1282,7 +1393,9 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
             local tData = data.Exit.Update
             -- printf("(exit) updating event %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
             player:updateEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
-            return exitWalk(player)
+            exitWalk(player)
+            player:setCharVar("[WoE]CurrentWalk", 0)
+            return
         end
     else
         if (csid == 1000) then

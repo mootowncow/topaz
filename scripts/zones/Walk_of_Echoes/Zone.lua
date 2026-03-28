@@ -10,6 +10,7 @@ require("scripts/globals/walk_of_echoes")
 -----------------------------------
 
 function onInitialize(zone)
+    tpz.woe.zone.onInitialize(zone)
 end
 
 function onZoneIn(player, prevZone)
@@ -30,6 +31,8 @@ function onZoneIn(player, prevZone)
     elseif player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_FORBIDDEN_REUNION) == QUEST_AVAILABLE then
         cs = 123
     end
+
+    tpz.woe.zone.onZoneIn(player, prevZone)
 
     return cs
 end
