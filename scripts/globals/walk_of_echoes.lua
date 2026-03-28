@@ -1522,3 +1522,28 @@ end
 
 tpz.woe.TreasureCoffer.onEventFinish = function(player, csid, option)
 end
+
+-- Utility functions
+tpz.woe.onHealing = function(player)
+    if not player:isPC() then return end
+
+    local zone   = player:getZone()
+    local zoneId = zone:getID()
+
+    if zoneId ~= tpz.zone.WALK_OF_ECHOES then return end
+
+    local surgedWalk = getSurgedWalk(zone)
+
+    if not surgedWalk then return end
+
+    local surgeTimer = zone:getLocalVar("SurgeTimer")
+
+    if not surgeTimer then return end
+
+    local remaining = math.max(0, surgeTimer - os.time())
+    local minutes = math.floor(remaining / 60)
+    local seconds = remaining % 60
+
+    player:PrintToPlayer("Current Surged Walk: " .. surgedWalk, tpz.msg.textColor.HIDDEN, nil)
+    player:PrintToPlayer("Next Surged Walk in: " .. minutes .. " minutes, " .. seconds .. " seconds.", tpz.msg.textColor.HIDDEN, nil)
+end

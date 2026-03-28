@@ -40,6 +40,7 @@ function onEffectGain(target, effect)
     if target:isPC() then
         tpz.voidwalker.onHealing(target)
         tpz.wotg.onHealing(target)
+        tpz.woe.onHealing(target)
     end
 end
 

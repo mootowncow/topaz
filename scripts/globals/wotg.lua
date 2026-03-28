@@ -3278,7 +3278,7 @@ tpz.wotg.onHealing = function(target)
     local isInWotgDungeon = false
 
     if not target:isPC() then return end
-    
+
     for _, currentZone in pairs(wotgDungeonZones) do
         if (zoneId == currentZone) then
             isInWotgDungeon = true
