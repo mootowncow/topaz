@@ -11,6 +11,7 @@ require("scripts/globals/status")
 require("scripts/globals/zone")
 require("scripts/globals/roe")
 require("scripts/globals/voidwalker")
+require("scripts/globals/walk_of_echoes")
 -----------------------------------
 
 function onEffectGain(target, effect)
