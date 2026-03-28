@@ -1536,6 +1536,10 @@ tpz.woe.onHealing = function(player)
 
     if not surgedWalk then return end
 
+    if surgedWalk == 0 then
+        surgedWalk = 'None'
+    end
+
     local surgeTimer = zone:getLocalVar("SurgeTimer")
 
     if not surgeTimer then return end
