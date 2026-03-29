@@ -507,6 +507,46 @@ local confluxData =
     },
 }
 
+-- Conflux - Walk
+local confluxWalk =
+{
+    [17523238] = 1,
+    [17523239] = 2,
+    [17523240] = 3,
+    [17523241] = 4,
+    [17523242] = 5,
+    [17523244] = 6,
+    [17523245] = 7,
+    [17523243] = 8,
+    [17523246] = 9,
+    [17523247] = 10,
+    [17523248] = 11,
+    [17523249] = 12,
+    [17523250] = 13,
+    [17523251] = 14,
+    [17523252] = 15,
+}
+
+-- Conflux (Exit) - Walk
+local confluxWalkExit =
+{
+    [17523253] = 1,
+    [17523254] = 2,
+    [17523255] = 3,
+    [17523256] = 4,
+    [17523257] = 5,
+    [17523259] = 6,
+    [17523260] = 7,
+    [17523258] = 8,
+    [17523261] = 9,
+    [17523262] = 10,
+    [17523263] = 11,
+    [17523264] = 12,
+    [17523265] = 13,
+    [17523266] = 14,
+    [17523267] = 15,
+}
+
 local failState =
 {
     Time = 1,
@@ -1429,7 +1469,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
     local npcName = npc:getName()
     local zone = player:getZone()
     local ID = zones[player:getZoneID()]
-    local walk = npcId - 17523237
+    local walk = confluxWalk[npcId]
     local veridicalConfluxBF = 17523253
     local isExit = false
     local eventUpdate = onEventUpdateConfluxByName[npcName]
@@ -1631,6 +1671,6 @@ function getSurgedWalk(zone)
             break
         end
     end
-    
+
     return surgedWalk
 end
