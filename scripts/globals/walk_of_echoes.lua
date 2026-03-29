@@ -16,20 +16,21 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: Player gm command to check which walk is surged
 -- TODO: Surged walk timer should be lower?
+-- TODO: Msg when a player selects a conflux that is a surged walk (a warning, red text, maybe can even use ilvl thing from retail)
+-- TODO: onZoneIn cant get players zone and doesnt work, need a way to display msg for surged walk when player loads in from logging in or zoning from xarca
+-- TODO: Surged msg when logging in or zoning from xarca s
 -- TODO: Surged walks give more temps?
+-- TODO: Surge drops over normal drops in generatetreasure
+-- TODO: Better generate treasure logic (scrolls 1-5%)
 -- TODO: slimes slow overwrites haste
 -- TODO: big slime aoe long cast time
 -- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
--- TODO: Random chance to endow walk on creation (only one check, not once per player)
--- TODO: Move the endowwalk mods to on zone tick? or something
--- TODO: Rename rollforendowed to apply endowed then make roll a seprate function with arg. 5% for mobs then 10 or 20% for when zoning in (call it on createWalk)
--- TODO: Add surging walks? Just randomly on a timer or by repeat clearing?
 -- TODO: I think in TODO.txt I have WOE weather fix?
 -- TODO: Proc msg should be silent (add to BreakMob as an arg)
 -- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
--- TODO: Finish random temps list
+-- TODO: Finish random temps list (test on retail, walk 2 has like 75% drop chance on temps)
+-- TODO: Make sure all temps have a script and their scripts work
 -- TODO: Wizard / Giants drink dura and %
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
@@ -38,7 +39,7 @@ require("scripts/globals/titles")
 -- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
--- Catholicion, catholicion +1
+-- TODO: Code new spells into DATS/SQL (level 75)
 -- TODO: Use addon to capture models
 -- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
@@ -90,7 +91,7 @@ local walkData =
         Progress    = 3,
         TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SurgeDrops  = {},
+        SurgedDrops = { item.THRIFT_GLOVES_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
         Experience  = 1500
@@ -112,7 +113,7 @@ local walkData =
         Progress    = 4,
         TempRate    = { 75 },
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SurgeDrops  = {},
+        SurgedDrops = {},
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
@@ -131,7 +132,7 @@ local walkData =
         Progress    = 3, -- TODO
         TempRate    = { 100 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SurgeDrops  = {},
+        SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
@@ -148,16 +149,24 @@ local walkData =
         },
         Random =
         {
-            item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ
+            item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
+            item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
+            item.FLASK_OF_MANA_MIST
         }
     },
+
     ExtraDrops =
     {
         -- Coins and pouches share a group, one or other per slot]
         Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
         Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
-        Scrolls     =   { }, -- t5 scrolls, nocturne, cura III, Jubaku: Ni
-        Misc        =   { }, --ores, cloth, etc
+        Scrolls     =   { item.SCROLL_OF_STONE_V, item.SCROLL_OF_WATER_V, item.SCROLL_OF_AERO_V, item.SCROLL_OF_PINING_NOCTURNE }, -- Stone / Water / Aero V, nocturne, Jubaku/Kudoku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
+        Misc        =   { 
+                            item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
+                            item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
+                            item.ELM_LOG, item.WALNUT_LOG, -- Log (Beech?)
+                            item.SQUARE_OF_LINEN_CLOTH, item.SQUARE_OF_WOOL_CLOTH, -- Cloth
+                            item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
 }
 
@@ -526,48 +535,84 @@ local function ClearPlayerCofferLoot(player)
     SavePlayerCofferLoot(player, {})
 end
 
+-- Guarantees no duplicate item
+local function getUniqueItem(pool, used)
+    if not pool or #pool == 0 then
+        return nil
+    end
+
+    local available = {}
+
+    for _, item in ipairs(pool) do
+        if not used[item] then
+            table.insert(available, item)
+        end
+    end
+
+    if #available == 0 then
+        return nil
+    end
+
+    local item = available[math.random(#available)]
+    used[item] = true
+    return item
+end
+
 local function generateTreasureCofferLoot(player, walk)
-    -- TODO: Recode this, prob needs to be 6-10 (< 6 doesnt work on chest) or fix chjest
-    -- TODO: Only drop pouches from surged walks, add logic for surged walk loot
     local loot = {}
+    local used = {}
+    local gotSet = false
+    local gotAccessory = false
+
+    local data = walkData[walk]
+    if not data then return end
+
+    local zone = player:getZone()
     local drops = walkData.ExtraDrops
-
-    local total = math.random(2, 10)
-
-    -- pick random slots for rare checks
-    local accSlot = math.random(total)
-    local setSlot = math.random(total)
-
-    for i = 1, total do
+    local lootAmount = math.random(6, 10)
+    local surged = getSurgedWalk(zone) == walk
+    
+    for i = 1, lootAmount do
         local item
+        local roll = math.random(1000)
 
-        -- Accessory roll (5%)
-        if i == accSlot and math.random(100) <= 5 then
-            local pool = walkData[1].Drops
-            item = pool[math.random(#pool)]
+        -- Nyzul Set (1%) only once
+        if roll <= 1 and not gotSet then
+            item = getUniqueItem(data.SetDrop, used)
+            gotSet = item ~= nil
 
-        -- Armor roll (1%)
-        elseif i == setSlot and math.random(100) <= 1 then
-            local pool = walkData[1].SetDrop
-            item = pool[math.random(#pool)]
+        -- Accessory (5%) only once
+        elseif roll <= 7 and not gotAccessory then
+            local pool = surged and data.SurgedDrops or data.Drops
+            item = getUniqueItem(pool, used)
+            gotAccessory = item ~= nil
 
-        else
-            local roll = math.random(1,3)
+        -- Scroll (5%)
+        elseif roll <= 13 then
+            item = getUniqueItem(drops.Scrolls, used)
 
-            if roll == 1 then
-                local pool = math.random(1,2) == 1 and drops.Coins or drops.Pouches
-                item = pool[math.random(#pool)]
+        -- Coin (20%)
+        elseif roll <= 40 then
+            local pool = drops.Coins
 
-            elseif roll == 2 and #drops.Misc > 0 then
-                item = drops.Misc[math.random(#drops.Misc)]
-
-            else
-                local pool = math.random(1,2) == 1 and drops.Coins or drops.Pouches
-                item = pool[math.random(#pool)]
+            if surged and math.random(100) <= 20 then
+                pool = drops.Pouches
             end
+
+            item = getUniqueItem(pool, used)
+
+        -- Misc
+        else
+            item = getUniqueItem(drops.Misc, used)
         end
 
-        table.insert(loot, item)
+        if not item then
+            item = getUniqueItem(drops.Misc, used)
+        end
+
+        if item then
+            table.insert(loot, item)
+        end
     end
 
     SavePlayerCofferLoot(player, loot)
@@ -678,19 +723,6 @@ local function delTempItems(player, temps)
         player:delItem(tempId, 1, tpz.inv.TEMPITEMS)
     end
     return true
-end
-
-local function getSurgedWalk(zone)
-    local surgedWalk = 0
-
-    for walk = 1, 15 do
-        if zone:getLocalVar("SurgedWalk_" .. walk) > 0 then
-            surgedWalk = walk
-            break
-        end
-    end
-
-    return surgedWalk
 end
 
 local function surgeWalkTimer(zone)
@@ -984,8 +1016,8 @@ tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
 end
 
 tpz.woe.mob.applySurgeMods = function(mob)
-    mob:setMobLevel(mob:getMainLvl() +3)
-    mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 10)
+    mob:setMobLevel(mob:getMainLvl() +5)
+    mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
     mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
     mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
     AddAllAttributes(mob, 20)
@@ -1102,11 +1134,12 @@ tpz.woe.zone.onInitialize = function(zone)
 end
 
 tpz.woe.zone.onZoneIn = function(player, prevZone)
+    printf("onZoneIn")
     if (prevZone == tpz.zone.XARCABARD_S) then
         local zone = player:getZone()
         local surgedWalk = getSurgedWalk(zone)
 
-        if (surgedWalk > 0) then
+        if surgedWalk then
             local ID = zones[player:getZoneID()]
 
             player:messageSpecial(ID.text.RAGING_HOWL_BLASTS, surgedWalk)
@@ -1550,4 +1583,20 @@ tpz.woe.onHealing = function(player)
 
     player:PrintToPlayer("Current Surged Walk: " .. surgedWalk, tpz.msg.textColor.HIDDEN, nil)
     player:PrintToPlayer("Next Surged Walk in: " .. minutes .. " minutes, " .. seconds .. " seconds.", tpz.msg.textColor.HIDDEN, nil)
+end
+
+-- Globals
+function getSurgedWalk(zone)
+    if not zone then return end
+
+    local surgedWalk = 0
+
+    for walk = 1, 15 do
+        if zone:getLocalVar("SurgedWalk_" .. walk) > 0 then
+            surgedWalk = walk
+            break
+        end
+    end
+
+    return surgedWalk
 end
