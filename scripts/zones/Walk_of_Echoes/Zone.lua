@@ -37,6 +37,10 @@ function onZoneIn(player, prevZone)
     return cs
 end
 
+function afterZoneIn(player)
+    tpz.woe.afterZoneIn(player)
+end
+
 function OnZoneTick(player, zone, region)
     tpz.woe.zone.onZoneTick(player, zone, region)
 end

@@ -1134,9 +1134,14 @@ tpz.woe.zone.onInitialize = function(zone)
 end
 
 tpz.woe.zone.onZoneIn = function(player, prevZone)
-    printf("onZoneIn")
-    if (prevZone == tpz.zone.XARCABARD_S) then
-        local zone = player:getZone()
+    -- Unused, afterZoneIn generally better to use
+end
+
+tpz.woe.afterZoneIn = function(player)
+    local zone = player:getZone()
+    local zoneId = zone:getID()
+
+    if (zoneId == tpz.zone.WALK_OF_ECHOES) then
         local surgedWalk = getSurgedWalk(zone)
 
         if surgedWalk then
