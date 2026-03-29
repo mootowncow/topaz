@@ -47,6 +47,7 @@ require("scripts/globals/titles")
 -- TODO: Fill Misc item list
 -- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
+-- TODO: Save temp items incase of DC and reload them. If unable to do above logic, do this one. Unsure how to save, maybe each temp as their own char var then clear all of them on delTempItems?
 -- TODO: delTempItems(player, temps) doesn't work and should only delete when in lobby but not remove from saved sql database for that player and zone. Maybe delItem() doesn't work with tpz.inv.TEMPITEMS?
 -- TODO: Tune Weaponskills, they should all be replacements to level 55-60 multihits (can swap around stuff like Entropy/Stardiver here and Quietus/Calamns from WOTG relics instead...MAYBE.)
 
@@ -964,7 +965,6 @@ tpz.woe.mob.despawnWalkMobs = function(walk)
     end
 end
 
--- TODO: Test roll for temps and endowed with 2 players (incase of msg spam). Test resetWalkVars (on completion and timing out), testing completing, / failing walk (dying or time running out). make sure bf status is removed
 tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
     if math.random(100) <= 10 then
         addRandomTempItem(player, false)
@@ -1148,6 +1148,12 @@ tpz.woe.afterZoneIn = function(player)
             local ID = zones[player:getZoneID()]
 
             player:messageSpecial(ID.text.RAGING_HOWL_BLASTS, surgedWalk)
+        end
+
+        -- Disconnect safety logic while inside a Walk
+        if player:hasStatusEffect(tpz.effect.BATTLEFIELD) then
+            addTempItems(player, walkData.Temps.Starter, false)
+            player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
         end
     end
 end
