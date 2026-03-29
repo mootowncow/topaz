@@ -17,9 +17,9 @@ require("scripts/globals/titles")
 --------------------------------------
 
 -- TODO: Surged walk timer should be lower?
+-- TODO: Need to hardcore walk by conflux name in a table and replace     local walk = npcId - 17523237 AND local veridicalConfluxBF = 17523253 (mutiple spots?)
 -- TODO: Msg when a player selects a conflux that is a surged walk (a warning, red text, maybe can even use ilvl thing from retail)
--- TODO: onZoneIn cant get players zone and doesnt work, need a way to display msg for surged walk when player loads in from logging in or zoning from xarca
--- TODO: Surged msg when logging in or zoning from xarca s
+-- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?)
 -- TODO: Surged walks give more temps?
 -- TODO: Surge drops over normal drops in generatetreasure
 -- TODO: Better generate treasure logic (scrolls 1-5%)
@@ -47,7 +47,7 @@ require("scripts/globals/titles")
 -- TODO: Fill Misc item list
 -- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
--- TODO: Save temp items incase of DC and reload them. If unable to do above logic, do this one. Unsure how to save, maybe each temp as their own char var then clear all of them on delTempItems?
+-- TODO: Save temp items incase of DC and reload them. If unable to do above logic, do this one. Unsure how to save, maybe each temps itemId as their own char var and load them then clear all of them on delTempItems?
 -- TODO: delTempItems(player, temps) doesn't work and should only delete when in lobby but not remove from saved sql database for that player and zone. Maybe delItem() doesn't work with tpz.inv.TEMPITEMS?
 -- TODO: Tune Weaponskills, they should all be replacements to level 55-60 multihits (can swap around stuff like Entropy/Stardiver here and Quietus/Calamns from WOTG relics instead...MAYBE.)
 
@@ -160,6 +160,7 @@ local walkData =
     {
         -- Coins and pouches share a group, one or other per slot]
         Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
+        Residue     =   { item.POUCH_OF_LIMINAL_RESIDUE, item.FRAYED_SACK_OF_LIMINALITY },
         Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
         Scrolls     =   { item.SCROLL_OF_STONE_V, item.SCROLL_OF_WATER_V, item.SCROLL_OF_AERO_V, item.SCROLL_OF_PINING_NOCTURNE }, -- Stone / Water / Aero V, nocturne, Jubaku/Kudoku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
         Misc        =   { 
@@ -649,6 +650,12 @@ local function createWalk(player, walk)
 
     tpz.woe.mob.spawnWalkMobs(walk)
     tpz.woe.mob.rollForEndowed(nil, player)
+
+    if getSurgedWalk(zone) == walk then
+        printf("Apply surged mods")
+        tpz.woe.mob.applySurgeMods(walk)
+    end
+
     activeWalks[walk] = true
     zone:setLocalVar("WalkTimer_" .. walk,os.time() + 2700)
 end
@@ -743,6 +750,11 @@ local function surgeWalkTimer(zone)
         if lastSurgedWalk > 0 then
             zone:setLocalVar("SurgedWalk_" .. lastSurgedWalk, 0)
         end
+
+        -- Remove surge from previous Walk
+        zone:setLocalVar("SurgedWalk_" .. lastSurgedWalk, 0)
+
+        -- Add new surgd Walk
         zone:setLocalVar("SurgedWalk_" .. randomWalk, 1)
         zone:setLocalVar("SurgeTimer", os.time() + 2700) -- 45 minutes
 
@@ -850,15 +862,9 @@ tpz.woe.mob.onMobSpawn = function(mob)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
-    local walk = mob:getLocalVar("CurrentWalk")
-    local zone = mob:getZone()
 
     if mods then
         mods(mob)
-    end
-
-    if getSurgedWalk(zone) == walk then
-        tpz.woe.mob.applySurgeMods(mob)
     end
 end
 
@@ -1015,12 +1021,19 @@ tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
     end
 end
 
-tpz.woe.mob.applySurgeMods = function(mob)
-    mob:setMobLevel(mob:getMainLvl() +5)
-    mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
-    mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
-    mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
-    AddAllAttributes(mob, 20)
+tpz.woe.mob.applySurgeMods = function(walk)
+    local data = walkData[walk]
+    if not data then return end
+
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+
+        mob:setMobLevel(mob:getMainLvl() +5)
+        mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
+        mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
+        mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
+        AddAllAttributes(mob, 20)
+    end
 end
 
 local function startWalk(player, walk)
@@ -1414,6 +1427,9 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
     local npc = player:getEventTarget()
     local npcId = npc:getID()
     local npcName = npc:getName()
+    local zone = player:getZone()
+    local ID = zones[player:getZoneID()]
+    local walk = npcId - 17523237
     local veridicalConfluxBF = 17523253
     local isExit = false
     local eventUpdate = onEventUpdateConfluxByName[npcName]
@@ -1445,7 +1461,14 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
         if (csid == 1000) then
             local tData = data.Enter.Update
             -- printf("updating event %u %u %u %u %u %u %u %u", tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
-            return player:updateEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+            player:updateEvent(tData[1], tData[2], tData[3], tData[4], tData[5], tData[6], tData[7], tData[8])
+
+            -- Surged Walk warning message
+            if (option == 5) then
+                if getSurgedWalk(zone) == walk then
+                    player:messageSpecial(ID.text.CONTENT_LEVEL, 85)
+                end
+            end
         end
     end
 end
@@ -1608,6 +1631,6 @@ function getSurgedWalk(zone)
             break
         end
     end
-
+    
     return surgedWalk
 end

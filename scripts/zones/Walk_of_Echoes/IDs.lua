@@ -19,6 +19,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         CARRIED_OVER_POINTS     = 6999, -- You have carried over <number> login point[/s].
         LOGIN_CAMPAIGN_UNDERWAY = 7000, -- The [/January/February/March/April/May/June/July/August/September/October/November/December] <number> Login Campaign is currently underway!<space>
         LOGIN_NUMBER            = 7001, -- In celebration of your most recent login (login no. <number>), we have provided you with <number> points! You currently have a total of <number> points.
+        CONTENT_LEVEL           = 7015, -- The level of difficulty for this content is <lvl>.
         CONQUEST_BASE           = 7049, -- Tallying conquest results...
         DOOR_SHUT               = 7311, -- The door is sealed shut with an evil curse.
         CAIT_ENGAGE             = 7766, -- Don't hold back
@@ -27,7 +28,6 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         CAIT_TAUNT2             = 7769, -- Maybe I'm not playing fair, but a little stickiness can go a long way! Let's see how long you stay standing!
         CAIT_LOWHP              = 7770, -- Playtime's over! Time for the grand finale! Bring down the curtain! Show me what you're made of, Champion
         CAIT_DEAD               = 7771, -- Well...done
-        CAITSITH_UNLOCKED       = 8124, -- You have gained the ability to summon Cait Sith!
         MIN_COMPLETE_OBJECTIVE  = 7230,
         CANT_ENTER_BF_NO_KI     = 7234,
         ENTERING_BF             = 7235,
@@ -47,6 +47,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         NOT_CLEARED_EXITING_BF  = 7307,
         TIMES_UP                = 7294,
         LOSE_GIL                = 7997,
+        CAITSITH_UNLOCKED       = 8124, -- You have gained the ability to summon Cait Sith!
 
     },
     mob =
