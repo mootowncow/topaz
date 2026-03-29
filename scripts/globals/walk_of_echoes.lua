@@ -611,7 +611,7 @@ local function generateTreasureCofferLoot(player, walk)
     local zone = player:getZone()
     local drops = walkData.ExtraDrops
     local lootAmount = math.random(6, 10)
-    local surged = getSurgedWalk(zone) == walk
+    local surged = GetSurgedWalk(zone) == walk
     
     for i = 1, lootAmount do
         local item
@@ -664,7 +664,7 @@ end
 activeWalks = {}
 local function getActiveWalks(zone)
     for walk = 1, 15 do
-        if zone:getLocalVar("WalkTimer_" .. walk) > 0 then
+        if IsWalkActive(walk, zone) then
             activeWalks[walk] = true
         else
             activeWalks[walk] = nil
@@ -690,7 +690,7 @@ local function createWalk(player, walk)
     tpz.woe.mob.spawnWalkMobs(walk)
     tpz.woe.mob.rollForEndowed(nil, player)
 
-    if getSurgedWalk(zone) == walk then
+    if GetSurgedWalk(zone) == walk then
         printf("Apply surged mods")
         tpz.woe.mob.applySurgeMods(walk)
     end
@@ -773,29 +773,34 @@ local function delTempItems(player, temps)
 end
 
 local function surgeWalkTimer(zone)
-    -- TODO: Might just be a timer for each individual walk that slowly fills up?
     local surgeTimer = zone:getLocalVar("SurgeTimer") or 0
 
     if os.time() >= surgeTimer then
         local players = zone:getPlayers()
-        local lastSurgedWalk = getSurgedWalk(zone)
-        local randomWalk = math.random(15)
+        local lastSurgedWalk = GetSurgedWalk(zone)
 
-        -- Never surge same Walk twice in a row
-        while randomWalk == lastSurgedWalk do
-            randomWalk = math.random(15)
+        local validWalks = {}
+
+        for walk = 1, 15 do
+            if walk ~= lastSurgedWalk and not IsWalkActive(walk, zone) then
+                table.insert(validWalks, walk)
+            end
         end
 
+        if #validWalks == 0 then
+            return -- Shouldn't happen. no walks can be surged as all are active
+        end
+
+        local randomWalk = validWalks[math.random(#validWalks)]
+
+        -- Remove old surge
         if lastSurgedWalk > 0 then
             zone:setLocalVar("SurgedWalk_" .. lastSurgedWalk, 0)
         end
 
-        -- Remove surge from previous Walk
-        zone:setLocalVar("SurgedWalk_" .. lastSurgedWalk, 0)
-
-        -- Add new surgd Walk
+        -- Apply new surge
         zone:setLocalVar("SurgedWalk_" .. randomWalk, 1)
-        zone:setLocalVar("SurgeTimer", os.time() + 2700) -- 45 minutes
+        zone:setLocalVar("SurgeTimer", os.time() + 2700) -- 45 min
 
         for _, char in pairs(players) do
             local ID = zones[char:getZoneID()]
@@ -1194,7 +1199,7 @@ tpz.woe.afterZoneIn = function(player)
     local zoneId = zone:getID()
 
     if (zoneId == tpz.zone.WALK_OF_ECHOES) then
-        local surgedWalk = getSurgedWalk(zone)
+        local surgedWalk = GetSurgedWalk(zone)
 
         if surgedWalk then
             local ID = zones[player:getZoneID()]
@@ -1504,7 +1509,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
 
             -- Surged Walk warning message
             if (option == 5) then
-                if getSurgedWalk(zone) == walk then
+                if GetSurgedWalk(zone) == walk then
                     player:messageSpecial(ID.text.CONTENT_LEVEL, 85)
                 end
             end
@@ -1638,7 +1643,7 @@ tpz.woe.onHealing = function(player)
 
     if zoneId ~= tpz.zone.WALK_OF_ECHOES then return end
 
-    local surgedWalk = getSurgedWalk(zone)
+    local surgedWalk = GetSurgedWalk(zone)
 
     if not surgedWalk then return end
 
@@ -1659,7 +1664,11 @@ tpz.woe.onHealing = function(player)
 end
 
 -- Globals
-function getSurgedWalk(zone)
+function IsWalkActive(walk, zone)
+    return zone:getLocalVar("WalkTimer_" .. walk) > 0
+end
+
+function GetSurgedWalk(zone)
     if not zone then return end
 
     local surgedWalk = 0
