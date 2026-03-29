@@ -17,8 +17,7 @@ require("scripts/globals/titles")
 --------------------------------------
 
 -- TODO: Surged walk timer should be lower?
--- TODO: Need to hardcore walk by conflux name in a table and replace     local walk = npcId - 17523237 AND local veridicalConfluxBF = 17523253 (mutiple spots?)
--- TODO: Msg when a player selects a conflux that is a surged walk (a warning, red text, maybe can even use ilvl thing from retail)
+-- TODO: Skip active walks when rolling new surge
 -- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?)
 -- TODO: Surged walks give more temps?
 -- TODO: Surge drops over normal drops in generatetreasure
