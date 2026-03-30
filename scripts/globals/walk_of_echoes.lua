@@ -16,16 +16,29 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: Surged walk timer should be lower?
--- TODO: Skip active walks when rolling new surge
--- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?)
+-- TODO: Change CONTENT_LEVEL, 85 to CONTENT_LEVEL, boss level + 85 (Does it need to be set into walkData?)
+-- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
+-- TODO: Elemental WS go through magic shield (Blocked by physical I guess?)
+-- TODO: If target has magic shield that grants immunity spells should say "resists" not 0
+-- TODO: Check for auras from bosses from walk 2 and 4
+-- TODO: Add MobDrops to generateTreasureCofferLoot
+-- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/15 only?)
+-- TODO: Might need to split up coins / dice / residue into 3 different tiers of drops based on Walk
+-- TODO: Are drops this? Fix if so https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields Normally tiers i-iii are coins, tiers iv and v are devious, tiers vi and vii liminal.
+-- TODO: Surged Walks can drop coins, dice, and residue 
+-- TODO: If above is true, increase coin / dice / residue drop rates (~50%?)
+-- TODO: Code pouches, scrolls, drops
 -- TODO: Surged walks give more temps?
--- TODO: Surge drops over normal drops in generatetreasure
+-- TODO: Surged walk timer should be lower?
 -- TODO: Better generate treasure logic (scrolls 1-5%)
+-- TODO: Can you pet pull on retail? (No linking)
+-- TODO: No party hate on normal mobs? Just bosses?
+-- TODO: Lower wep dmg on trash mobs, high on bosses
 -- TODO: slimes slow overwrites haste
 -- TODO: big slime aoe long cast time
 -- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
 -- TODO: I think in TODO.txt I have WOE weather fix?
+-- TODO: On completion/timer running out all mobs should "fall to the ground" (die) then instantly despawn, and not give temps (add arg for forceKill or soemthing)
 -- TODO: Proc msg should be silent (add to BreakMob as an arg)
 -- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
 -- TODO: Finish random temps list (test on retail, walk 2 has like 75% drop chance on temps)
@@ -70,78 +83,203 @@ local timeLimit = 2700
 local failEvent = 1002
 local walkData =
 {
+    -- Self means goes off without targets in range
+    -- Standard immunity means all immunities adde don mob spawn function
     [1] =
     {
-        -- Cyanic Crab, lvl { 77 }, Model { Blue }, Size { Small }  HP {9175}, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Enwater, Water II, Waterga II }, 
+        -- Cyanic Crab, lvl { 77 }, Model { 0x0000640100000000000000000000000000000000 }, Size { Small }  HP {9175}, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, Immune { Normal }, 
+            -- Spells { Enwater, Water II, Waterga II }, 
             -- TP Moves: { Crab}, Traits: {}
-        -- Damask Crab, lvl { 77 }, Model { Red }, Size { Small }  HP {9175} Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Poisonga II, Waterga II, Water IV }, 
+        -- Damask Crab, lvl { 77 }, Model { 0x0000650100000000000000000000000000000000 }, Size { Small }  HP {9175} Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Normal }, 
+            -- Spells { Poisonga II, Waterga II, Water IV }, 
             -- TP Moves: { Crab} Traits: {}
-        -- Caldera Crab, lvl { 80 }, Model { Barnacle }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Water IV, Waterga III }, 
-            -- TP Moves: { Mega Scissors, Venom Shower (Goes off without target?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
+        -- Caldera Crab, lvl { 80 }, Model { 0x0000660100000000000000000000000000000000 }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
+            -- Spells { Water IV, Waterga III }, 
+            -- TP Moves: { Mega Scissors, Venom Shower (Self?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
             -- Cast Timer { :47 -> :14 - > :53 - > :34 - > 16 }
-            -- Mechanics { Uses Mega Scissors x3 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } Proc { Flash Red Terror, ~5-10s }
-        -- Crabs from deeper in the battlefield will come to the defeated crab's corpse. Make sure you are at least 16' from the corpse and you will not be aggrod.
-        -- Upon killing crabs, occasionally the boss Caldera Crab will come to its aid, running to where the crab was killed.
-        -- 15 yard aggro range
-        -- Completion: Caldera crabs dead
-        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        StartPos    = { X =-574, Y = 18, Z =734, Rot = 62 },
+            -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
+            -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
+        -- Completion: All Caldera crabs dead
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
         Boss        = 'Caldera_Crab',
         Progress    = 3,
-        TempRate    = { 100 }, -- TODO
+        TempRate    = { 20 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SurgedDrops = { item.THRIFT_GLOVES_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
+        MobDrops    = {},  -- TODO
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
         Experience  = 1500
     },
     [2] =
     {
-        -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blind, Bio III }, 
+        -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Normal }, 
+            -- Spells { Blind, Bio III }, 
             -- TP Moves: { Mucus Spread}, Traits: { DA }
-        -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blindga, Dispelga, Sleepga II }, 
-            -- TP Moves: { Dissolve , Cytokinesis, Mucus Spread (All before next go off even if no targets in range), Fluid Spread }, raits: { DA }
+        -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
+            -- Spells { Blindga, Dispelga, Sleepga II }, 
+            -- TP Moves: { Dissolve , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, Traits: { Store TP (300+), DA }
             -- Mechanics { Kills Grenade Syrups with it on death, they also drop temp items (KILL them dont despawn them, then) }
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
-        -- 15 yard aggro range
-        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
-        Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 77 }, -- TODO
+        -- Completion: All Morbid Molasses dead
+        Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 77 },
         Boss        = 'Morbid_Molasses',
         Progress    = 4,
         TempRate    = { 75 },
-        Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SurgedDrops = {},
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
+        MobDrops    = {},  -- TODO
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
     },
     [3] =
     {
-        -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blind, Bio III }, TP Moves: { Mucus Spread}
-        -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Sleep, Break, Bind, Gravity, Silence }, Spells { Blindga, Dispelga, Sleepga II }, TP Moves: { Dissolve , Cytokinesis, Mucus Spread (All before next go off even if no targets in range), Fluid Spread } 
-        -- 3-4 Grenade Syrups with a Morbid Molasses
-        -- Killing Morbid Molasses kills the Grenade Syrups partied with them
-        -- 15 yard aggro range
-        Events      = { Conflux = 1000, Entry = 7033, Exit = 1001 },
-        StartPos    = { X =-574, Y = 18, Z =734, Rot = 157 }, -- TODO
-        Mobs        = { IdStart = 12522699, IdEnd = 12522709, Lvl = 77 }, -- TODO
-        Boss        = 'Caldera_Crab', -- TODO
-        Progress    = 3, -- TODO
-        TempRate    = { 100 }, -- TODO
-        Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        -- Albino Antlion, lvl { 77 }, Model { 0x0000430500000000000000000000000000000000 }, Size { Small }  HP { 9500 }, Amount { 9 }, Ids {}  Partied { 4, need ids }, Boss { False }, 
+            -- Patrols { False }, 
+            -- Boss { False }, 
+            -- Immune { Normal + Paralyze | Slow | Blind | Stun }, 
+            -- Spells { Bind, Stone III, Break (<= 25% HP) }, 
+            -- Cast Timer { ??? (Prob 25) }
+            -- TP Moves: { Antlion }, Traits: { DA }
+            -- Mechnaics: 17522745, 17522749, 17522750, 17522752 Patrols, run
+        -- Anthracite Antlion, lvl { 77 }, Model { 0x0000440500000000000000000000000000000000 }, Size { Small }  HP { 9500 } Amount { 9 }, Ids {} Partied { 4, need ids }, 
+            -- Patrols { true, waits, run }, Boss { False }, 
+            -- Immune { Normal + Paralyze | Slow | Blind | Stun }, 
+            -- Spells { Stonega II, Slow }, 
+            -- Cast Timer { 25 }
+            -- TP Moves: { Antlion } Traits: { DA }
+        -- Myrmeleontide, lvl { 80 }, Model { 0x0000A60800000000000000000000000000000000 }, Size { Large } HP { 29000 }, Ids {},  Amount { 3 }, Partied { 0 }, 
+            -- Patrols { true, waits, run } 
+            -- Boss { True }, 
+            -- Immune { Normal + Paralyze | Slow | Blind | Stun }, 
+            -- Spells { Bindga (Resets hate, even if spell is interrupted or resisted), Slowga (Overwrote Haste II and Haste II won't overwrite it), Stonega III, Breakga (<= 25% HP) }, 
+            -- Cast Timer { 25 }
+            -- TP Moves: { Quake Blast (Self, 3s cast), Gravitic Horn (Self, 2s cast, Hate Reset), Mandibular Bite (Conal) }, Traits: { DA, High Store TP }
+            -- Mechanics { Gravity aura after Gravitic Horn (~50%?) -50% earth damage taken }
+        -- Zone Mechanics: Killed 3 Albino antlions (patrols ), then I see "The Fiend thrists for blood! msg" x2, then 2 Anthracite Antlions come
+        -- Completion: All Myrmeleontide dead
+        -- TEST: Sandpit resets hate if it lands ???
+        Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 77 },
+        Boss        = 'Myrmeleontide',
+        Progress    = 3,
+        TempRate    = { 20 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },
-        Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_3RD_WALK },
+        Experience  = 1500
+    },
+    [4] =
+    {
+        -- Harpimaira, lvl { 80 }, Model { 0x00000D0700000000000000000000000000000000 }, Size { Large } HP { 30200 }, Ids {},  Amount { 5 }, Partied { 0 }, 
+            --  Patrols { } Boss 
+            -- { True }, 
+            -- Immune { Normal + Paralyze  }, 
+            -- Spells { }, 
+            -- Cast Timer {  }
+            -- TP Moves: { Tourbillion (2s cast), Dreadstorm (2.5s), Fulmination (3s cast), Tenebrous Mist (2s cast), Thunderstrike (1-1.5s cast), Fossilizing Breath (Resets hate 1.5-2s cast) }
+            -- Traits: { ??? } -- TODO: TA?
+            -- Mechanics { Thunderstrike 4x in a row below 25%. 
+            -- Proc { Flash procced (Terror) ! for 15s, then 10s. Then 5s. Then no proc Do crab work same way? Flash procced Red ! 15s Terror and endowed walk }
+            -- -50% earth / wind / fire / thunder damage taken
+            -- insane store TP, like 300+ 
+        -- Zone Mechanics: When the one upstairs (From entrance) gets to 25-10% HP, another one comes (from above?). When the one downstairs (from entrance) gets to 25-10% HP, one comes from deeper inside (upstairs)
+        -- Doesn't seem to always work? Unsure what causes it?
+        -- When 17522755
+        -- Completion: All Harpimaira dead
+        Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 77 },
+        Boss        = 'Harpimaira',
+        Progress    = 5,
+        TempRate    = { 50 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
+        Experience  = 1500
+    },
+    [5] =
+    {
+        -- Saltopus, lvl { 79 }, Model { 0x0000C50800000000000000000000000000000000 }, Size { Small }  HP { 17200 }, Amount { 9 }, Ids {}  Partied { 4, need ids }, 
+            -- -- Patrols { true, waits, run }, 
+            -- Boss { False }, 
+            -- Immune { Normal }, 
+            -- Spells { Aero III, Aeroga II, Silence, Haste }, 
+            -- Cast Timer { 35 }
+            -- TP Moves: { Dread Shriek, Dispelling Wind, Hurricane Breath (Conal, Knockback 3, Encumbers 1 item) }, 
+            -- Traits: { DA }
+            -- DT: { -50% fire  }
+            -- Mechnaics: 
+        -- Natrix, lvl { 83 }, Model { 0x0000040700000000000000000000000000000000 }, Size { Large } HP { 70000 }, Ids {},  Amount { 1 }, Partied { 0 },
+            -- Patrols { } 
+            -- Boss { True }, 
+            -- Immune { Normal + Paralyze  }, 
+            -- Spells { Aeroga III, Silencega }, 
+            -- Cast Timer { 45 }
+            -- TP Moves: { Trembling (Weight?, 1-5.2s cast), Nerve Gas ( 20/tick poison 3s cast), Barofield, Polar Bulwark (lasted 50s), Pyric Bulwark }
+            -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
+            -- DT { -100% breath, -50% wind / fire / ice }
+            -- No Turn { True}
+            -- Mechanics { Barofield 2-4 times in a row below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
+            -- Proc { }
+        -- Zone Mechanics: 
+        -- Completion: Natrix dead
+        Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 77 },
+        Boss        = 'Natrix',
+        Progress    = 1,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
+        Experience  = 1500
+    },
+    [6] =
+    {
+        --  Pardus, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  Partied { 4, need ids }, 
+            -- -- Patrols { true, waits, run, }, 
+            -- Boss { False }, 
+            -- Immune { Normal }, 
+            -- Spells { Blaze Spikes, Gravity, Firaga II }, 
+            -- Cast Timer { 25 }
+            -- TP Moves: { Tiger + Smilodon TP moves }, 
+            -- Traits: { DA, Flee Speed (PoS hacking around) }
+            -- DT: { -50% fire  }
+            -- Mechnaics: 1829 HP 1k TP spirits within did 250 damage
+        -- Canis Dirus, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+            -- Patrols { } 
+            -- Boss { True }, 
+            -- Immune { Normal + Paralyze  }, 
+            -- Spells { Paralyga, Graviga, Firaga III }, 
+            -- Cast Timer { 30s }
+            -- TP Moves: { Gates of Hades (3s cast), Sulfurous Breath (3s cast), Ululation (1s cast), Lava Spit (1.5s cast)  }
+            -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
+            -- DT { -100% breath, -50% MDT (ADDITIONAL on top of global -30%) }
+            -- No Turn { True }
+            -- Mechanics { At 65%/25% zone meessage "The fiend thrists for blood!". Nothing happened? mobskill 1892 animation 1229 "Howl" - > 30s amnesia aura}
+            -- Proc { }
+            -- 2053 HP 1020 TP 256 spirits within | 2287 HP 1020 TP 284 spirits within
+        -- Zone Mechanics: 
+        -- Completion: All Canis Dirus dead
+        Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 77 },
+        Boss        = 'Canis_Dirus',
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
         Experience  = 1500
     },
 
-
     Temps =
     {
-        Starter = 
+        Starter =
         {
             item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
             item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
@@ -152,6 +290,7 @@ local walkData =
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
+            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic
         }
     },
 
@@ -167,6 +306,8 @@ local walkData =
                             item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
                             item.ELM_LOG, item.WALNUT_LOG, -- Log (Beech?)
                             item.SQUARE_OF_LINEN_CLOTH, item.SQUARE_OF_WOOL_CLOTH, -- Cloth
+                            -- TODO: Leather?
+                            -- TODO: Gems (spinel, clear topaz, light opal)
                             item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
 }
@@ -610,9 +751,9 @@ local function generateTreasureCofferLoot(player, walk)
 
     local zone = player:getZone()
     local drops = walkData.ExtraDrops
-    local lootAmount = math.random(6, 10)
+    local lootAmount = math.random(6, 10) -- TODO: Once flags onEventUpdate for coffers is fixed, change this to math.random(2,10) and buff drop rates on other stuff
     local surged = GetSurgedWalk(zone) == walk
-    
+
     for i = 1, lootAmount do
         local item
         local roll = math.random(1000)
@@ -624,7 +765,7 @@ local function generateTreasureCofferLoot(player, walk)
 
         -- Accessory (5%) only once
         elseif roll <= 7 and not gotAccessory then
-            local pool = surged and data.SurgedDrops or data.Drops
+            local pool = surged and data.SurgedDrops or data.GearDrops
             item = getUniqueItem(pool, used)
             gotAccessory = item ~= nil
 
@@ -826,7 +967,7 @@ local mixinByMobName =
         mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
             if (spell:getID() == tpz.magic.spell.FLASH) then
                 local duration = 10
-                BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR)
+                BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
             end
         end)
     end
