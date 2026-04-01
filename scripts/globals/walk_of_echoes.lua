@@ -16,6 +16,9 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
+-- TODO: Mob Break is 2m duration (breakga too probably?)
+-- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
+-- TODO: Set CurrentWalk to mobs BEFORE applying mods then move applying surge mods back to onMobSpawn
 -- TODO: Change CONTENT_LEVEL, 85 to CONTENT_LEVEL, boss level + 85 (Does it need to be set into walkData?)
 -- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
 -- TODO: Elemental WS go through magic shield (Blocked by physical I guess?)
@@ -25,6 +28,11 @@ require("scripts/globals/titles")
 -- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/15 only?)
 -- TODO: Might need to split up coins / dice / residue into 3 different tiers of drops based on Walk
 -- TODO: Are drops this? Fix if so https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields Normally tiers i-iii are coins, tiers iv and v are devious, tiers vi and vii liminal.
+-- TODO: https://www.bg-wiki.com/ffxi/Category:Walk_of_Echoes_Battlefields
+-- TODO: Go to Basics section, for nonsurged walks:
+-- TODO: Tier 1-3: has a chance to drop coin pouches with chance of single die/residue
+-- TODO: Tier 4-5: has a chance to drop die pouches with chance of single coin/residue
+-- TODO: Tier 6-7: has a chance to drop residue pouches with chance of single die/coin 
 -- TODO: Surged Walks can drop coins, dice, and residue 
 -- TODO: If above is true, increase coin / dice / residue drop rates (~50%?)
 -- TODO: Code pouches, scrolls, drops
@@ -43,7 +51,7 @@ require("scripts/globals/titles")
 -- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
 -- TODO: Finish random temps list (test on retail, walk 2 has like 75% drop chance on temps)
 -- TODO: Make sure all temps have a script and their scripts work
--- TODO: Wizard / Giants drink dura and %
+-- TODO: Wizard / Giants drink dura and %. Might be +100% and 15m
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
 -- TODO: Temps from kills, too?
@@ -258,7 +266,7 @@ local walkData =
             -- Cast Timer { 30s }
             -- TP Moves: { Gates of Hades (3s cast), Sulfurous Breath (3s cast), Ululation (1s cast), Lava Spit (1.5s cast)  }
             -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
-            -- DT { -100% breath, -50% MDT (ADDITIONAL on top of global -30%) }
+            -- DT { -50% MDT (ADDITIONAL on top of global -30%) }
             -- No Turn { True }
             -- Mechanics { At 65%/25% zone meessage "The fiend thrists for blood!". Nothing happened? mobskill 1892 animation 1229 "Howl" - > 30s amnesia aura}
             -- Proc { }
@@ -276,6 +284,192 @@ local walkData =
         Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
         Experience  = 1500
     },
+    [7] = -- "T1" final boss?
+    {
+        -- Anguis, lvl { 85 }, Model { 0x00007E0800000000000000000000000000000000 }, Size { Large } HP { 80000 }, Ids {},  Amount { 1 }, Partied { 0 },
+            -- Patrols { } 
+            -- Boss { True }, 
+            -- Immune { Normal + Paralyze  }, 
+            -- Spells { Blindga, Sleepga II, Dispelga (all before 16+ yard range), Comet (With aura active: 5x in a row), Drain (10-15 yard, AOE <=60% ) Meteor (below 30%) }, 
+            -- Cast Timer { 30s }
+            -- TP Moves: { 
+                -- TODO: Check for self moves
+                -- 100-80% HP:
+                    -- Any: Dark Star (did 352 damage to joachim with shell V 451 damage to kupi without shell V, 600 damage to valaineral without shell at 51% HP so like 2-4 ftp?, 20 yard) (SELF Magic defense down? 3s cast),
+                    -- Front: Soul Douse (self, RESETS HATE, Doom 10 countdown, Conal, 3s cast, 10 yard yard range)
+                    -- Left:
+                    -- Right:
+                    -- Back: Dancing Tail
+                -- < 90%: 
+                    -- Left Add Sinister Wing (Self 7 knockback , 2s cast, < 10 yard range, conal ON TARGET to the left of mob)
+                    -- Right Add Dexter Wing (Self Defense down? 7 knockback , 2s cast, < 10 yard range, conal ON TARGET to the right of mob)
+                -- <= 65%
+                    -- Any: Chaos Blast (Self) (TP (1k max), HP (-50%), MP (-50%) down and MDEF down 60-90s duration, AOE 3s cast, 11+ yard range, additional effects CANNOT BE RESISTED, ~253 dmg to valaineral without shell
+                        -- overwrites and removes max hp/mp boost) 
+                    -- Right (Any?) Abyssic Buster (Damage, 3s cast, 10 yard range)
+                -- <= 50%
+                    -- Left (Any?) Chilling Roar (Hate reset, 15s terror, 1s cast, <16 yard range, aoe, CANNOT BE RESISTED, summons a Varanus), 
+                 -- any new tp moves at 80%/79%? whens comet x5? stronger bio aura
+                 -- <= ~15%? Abyssic Buster, (60s silence, 2s cast, 20 yard)
+            -- Traits { Store TP (300+), DA }
+            -- DT { -50% Stone / Water / Ice, -90%ish Dark }
+            -- No Turn { True }
+            -- Mechanics { 
+                -- Randomly gains/loses an aura that makes him cast Comet 2-5 times in a row as well as a Bio Aura (Gains power as HP decreases.). (animationsub) 
+                    -- Bio Aura 51-100% (10/tick -15% attack down)  
+                    -- <= 50% 15/tick -20% attack down 
+                    -- <= 10%(maybe 25%) 25/tick, -30% attack down
+                    -- (self testing) 822 base attk
+                -- Below ~90%? HP uses Dark Star, gains an aura then casts Comet 5 times in a row if Aura is active (is this on a timer? had aura used dark dark and didn't do it)
+                -- Randomly teleports around the room? % HP based?. 
+                -- Two fetters put down below 50%, at 45%ish
+                -- Two fetters put down below 50%, at 45%ish "Varanus" which is a fetter then used drain on me? Fetters have auras such as silence, poison (50/tick)
+                -- Put one down at 25% and 23%, 21%, silence, amnesia AND poison (50/tick)
+                -- Put same triple aura one down at 5%
+                -- Keeps placing them every 30-60s? below ~10%?
+                -- Always placed directly on top of person with highest enmity
+                -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
+                -- Varanus despawn after ~2m
+                -- Unsure what grants / removes aura
+                -- Different attack animation (Tail) if not in front 
+                -- Using a spell can also give him aura?
+                -- Chilling roar remove aura?
+                -- }
+            -- Proc { }
+            --  2163 HP 1100 TP 197 spirits within
+            -- Varanus, lvl {82} Model {0x00007F0800000000000000000000000000000000} Size { Large } HP { 1900 HP }, Ids {},  Amount { 1 }, Partied { 0 },
+            -- Patrols { } 
+            -- Boss { False }, 
+            -- Immune { None?  }, 
+            -- Spells {  }, 
+            -- Cast Timer { 30s }
+            -- TP Moves: { }
+            -- Traits { Store TP (300+), DA, }
+            -- DT { -50% Earth / Water / Ice, -90%ish Dark }
+            -- No Turn { True }
+            -- Mechanics {
+                -- No move, no attack, no cast
+                --  Have auras such as silence, amnesia poison (50/tick)
+                -- Ones below 25% seem to have 3 auras at once? ilence, amnesia AND poison (50/tick)
+                -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
+                -- Varanus despawn after ~2m and don't come back
+                -- }
+        -- Zone Mechanics: Have to wait for Varanus to despawn fully after Anguis dies for the Walk to complete and show the msg / start cutscene to por tout
+        -- Completion: Anguis dead
+        Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 77 },
+        Boss        = 'Anguis',
+        Progress    = 1,
+        TempRate    = { 0 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
+        Experience  = 1500
+    },
+    -- T2 start?
+    [8] = 
+    {       --  Bedraggled Bale, lvl { 85 }, Model { 0x0000900100000000000000000000000000000000 }, Size { Small }  HP { 16500 }, Amount { 9 }, Ids {}  
+            -- Partied {  }, 
+            -- -- Patrols { }, 
+            -- Boss {  }, 
+            -- Immune { Normal + Slow + Stun + Poison }, 
+            -- Spells { Stone V, Stonega III, Break }, 
+            -- Cast Timer { 20 }
+            -- TP Moves: { Head Butt, Harden Shell, Tortoise Song dispels ALL buffs (3 max effects, skill Id 1047) }, 
+            -- Traits: {  }
+            -- DT: { Earth / Water / Thunder -95%, -50% Wind / Fire / Dark, Light ????}
+            -- Mechnaics: 
+            -- 366 Seraph Blade, 1364 Sanguine Blade with Firetongue
+        --  Begrimed Bale, lvl { 85 }, Model { 0x0000970100000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+            -- Partied {  }, 
+            -- Patrols {  }, 
+            -- Boss {  }, 
+            -- Immune { Normal + Slow + Stun + Poison }, 
+            -- Spells { Stonega III, Slowga }, 
+            -- Cast Timer {  }
+            -- TP Moves: {  }, 
+            -- Traits: {}
+            -- DT: {  }
+            -- Mechnaics: 
+        -- Jebutoise, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+            -- Patrols { } 
+            -- Boss {  }, 
+            -- Immune {   }, 
+            -- Spells { }, 
+            -- Cast Timer {  }
+            -- TP Moves: {  }
+            -- Traits { }
+            -- DT {  }
+            -- No Turn {  }
+            -- Mechanics { }
+            -- Proc { }
+        -- Zone Mechanics: 
+        -- Completion: 
+        Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
+        Boss        = 'Jebutoise',
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
+        Experience  = 1500
+    },
+
+
+    -- Template
+
+    -- [8] = 
+    -- {
+    --      Begrimed_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         -- Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {  }
+    --         DT: { }
+    --         Mechnaics: 
+    --      Bedraggled_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         -- Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Mechnaics: 
+    --     Canis Dirus, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss {  }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         No Turn {  }
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: 
+    --     Completion: 
+    --     Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
+    --     Boss        = 'Canis_Dirus',
+    --     Progress    = 2,
+    --     TempRate    = { 25 }, -- TODO
+    --     GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+    --     SurgedDrops = {},
+    --     SetDrop     = { item.GOLIARD_CLOGS },
+    --     MobDrops    = { item.ANTLION_JAW }, -- TODO
+    --     Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
+    --     Experience  = 1500
+    -- },
 
     Temps =
     {
@@ -300,13 +494,14 @@ local walkData =
         Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
         Residue     =   { item.POUCH_OF_LIMINAL_RESIDUE, item.FRAYED_SACK_OF_LIMINALITY },
         Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
-        Scrolls     =   { item.SCROLL_OF_STONE_V, item.SCROLL_OF_WATER_V, item.SCROLL_OF_AERO_V, item.SCROLL_OF_PINING_NOCTURNE }, -- Stone / Water / Aero V, nocturne, Jubaku/Kudoku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
+        Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_PINING_NOCTURNE }, -- Stone V, nocturne, Jubaku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
         Misc        =   { 
                             item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
                             item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
                             item.ELM_LOG, item.WALNUT_LOG, -- Log (Beech?)
                             item.SQUARE_OF_LINEN_CLOTH, item.SQUARE_OF_WOOL_CLOTH, -- Cloth
-                            -- TODO: Leather?
+                            -- TODO: Leather
+                            -- TODO: Hides (Manticore was one)
                             -- TODO: Gems (spinel, clear topaz, light opal)
                             item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
@@ -1379,7 +1574,7 @@ tpz.woe.zone.onZoneTick = function(player, zone, region)
         -- Add a 5s delay before sending the Reraise
         if char:isDead() then
             if raiseTimer == 0 then
-                char:setLocalVar("raiseTimer", os.time() + 5)
+                char:setLocalVar("raiseTimer", os.time() + 30)
             elseif os.time() >= raiseTimer then
                 tpz.woe.sendReraise(char)
                 char:setLocalVar("raiseTimer", 0)
