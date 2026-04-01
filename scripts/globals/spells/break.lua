@@ -17,6 +17,10 @@ function onSpellCast(caster, target, spell)
 
     local duration = 30
 
+    if caster:isMob() then
+        duration = 120
+    end
+
     local params = {}
     params.diff = dINT
     params.skillType = tpz.skill.ENFEEBLING_MAGIC
