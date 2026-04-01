@@ -16,7 +16,9 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: Mob Break is 2m duration (breakga too probably?)
+-- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk will run at the killer (doesn't link any other mobs when doing this, apparently)
+-- TODO: Think need a MAGIC_DELAY of 30 on every trash mob (maybe boss too)
+-- TODO: Anguis !!! procced by Thunder III?! Infinite procs? Do random spells proc bosses, then? Like how flash was? Cast all nukes on bosses? or just randomly make my own?
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
 -- TODO: Set CurrentWalk to mobs BEFORE applying mods then move applying surge mods back to onMobSpawn
 -- TODO: Change CONTENT_LEVEL, 85 to CONTENT_LEVEL, boss level + 85 (Does it need to be set into walkData?)
@@ -29,6 +31,7 @@ require("scripts/globals/titles")
 -- TODO: Might need to split up coins / dice / residue into 3 different tiers of drops based on Walk
 -- TODO: Are drops this? Fix if so https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields Normally tiers i-iii are coins, tiers iv and v are devious, tiers vi and vii liminal.
 -- TODO: https://www.bg-wiki.com/ffxi/Category:Walk_of_Echoes_Battlefields
+-- TODO: https://wiki.ffo.jp/html/13678.html 
 -- TODO: Go to Basics section, for nonsurged walks:
 -- TODO: Tier 1-3: has a chance to drop coin pouches with chance of single die/residue
 -- TODO: Tier 4-5: has a chance to drop die pouches with chance of single coin/residue
@@ -36,6 +39,7 @@ require("scripts/globals/titles")
 -- TODO: Surged Walks can drop coins, dice, and residue 
 -- TODO: If above is true, increase coin / dice / residue drop rates (~50%?)
 -- TODO: Code pouches, scrolls, drops
+-- TODO: Put all Set items as direct treasure pool drops on the "tier" boss like Anguis?
 -- TODO: Surged walks give more temps?
 -- TODO: Surged walk timer should be lower?
 -- TODO: Better generate treasure logic (scrolls 1-5%)
@@ -126,7 +130,8 @@ local walkData =
             -- TP Moves: { Mucus Spread}, Traits: { DA }
         -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Blindga, Dispelga, Sleepga II }, 
-            -- TP Moves: { Dissolve , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, Traits: { Store TP (300+), DA }
+            -- TP Moves: { Dissolve (did 681 dmg to no shell/prot targets) , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, Traits: { Store TP (300+), DA }
+            -- Proc { Blizzard OR flash on Ice Day }
             -- Mechanics { Kills Grenade Syrups with it on death, they also drop temp items (KILL them dont despawn them, then) }
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
@@ -306,9 +311,9 @@ local walkData =
                 -- <= 65%
                     -- Any: Chaos Blast (Self) (TP (1k max), HP (-50%), MP (-50%) down and MDEF down 60-90s duration, AOE 3s cast, 11+ yard range, additional effects CANNOT BE RESISTED, ~253 dmg to valaineral without shell
                         -- overwrites and removes max hp/mp boost) 
-                    -- Right (Any?) Abyssic Buster (Damage, 3s cast, 10 yard range)
+                    -- Right (Any?) Abyssic Buster (Dark Damage + Weakness, 3s cast, 10 yard range)
                 -- <= 50%
-                    -- Left (Any?) Chilling Roar (Hate reset, 15s terror, 1s cast, <16 yard range, aoe, CANNOT BE RESISTED, summons a Varanus), 
+                    -- Left (Any?) Chilling Roar (Hate reset, 15s terror, 1s cast, <16 yard range, aoe, CANNOT BE RESISTED, summons a Varanus (Max: 3)), 
                  -- any new tp moves at 80%/79%? whens comet x5? stronger bio aura
                  -- <= ~15%? Abyssic Buster, (60s silence, 2s cast, 20 yard)
             -- Traits { Store TP (300+), DA }
@@ -368,7 +373,7 @@ local walkData =
         Experience  = 1500
     },
     -- T2 start?
-    [8] = 
+    [8] =
     {       --  Bedraggled Bale, lvl { 85 }, Model { 0x0000900100000000000000000000000000000000 }, Size { Small }  HP { 16500 }, Amount { 9 }, Ids {}  
             -- Partied {  }, 
             -- -- Patrols { }, 
@@ -377,8 +382,9 @@ local walkData =
             -- Spells { Stone V, Stonega III, Break }, 
             -- Cast Timer { 20 }
             -- TP Moves: { Head Butt, Harden Shell, Tortoise Song dispels ALL buffs (3 max effects, skill Id 1047) }, 
-            -- Traits: {  }
+            -- Traits: { DA } -- TODO: High store TP too?
             -- DT: { Earth / Water / Thunder -95%, -50% Wind / Fire / Dark, Light ????}
+            -- Aggro: { 11 yards }
             -- Mechnaics: 
             -- 366 Seraph Blade, 1364 Sanguine Blade with Firetongue
         --  Begrimed Bale, lvl { 85 }, Model { 0x0000970100000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
@@ -386,13 +392,14 @@ local walkData =
             -- Patrols {  }, 
             -- Boss {  }, 
             -- Immune { Normal + Slow + Stun + Poison }, 
-            -- Spells { Stonega III, Slowga }, 
-            -- Cast Timer {  }
-            -- TP Moves: {  }, 
-            -- Traits: {}
-            -- DT: {  }
+            -- Spells { Stonega III, Stone V, Slowga }, 
+            -- Cast Timer { 30 }
+            -- TP Moves: { Head Butt, Harden Shell, Tortoise Stomp }, 
+            -- Traits: { DA, Store TP (300+) }
+            -- DT: {  Earth / Water / Thunder -95%, -50% Wind / Fire / Dark, Light ???? }
+            -- Aggro: { 11 yards }
             -- Mechnaics: 
-        -- Jebutoise, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+        -- Jebutoise, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 16000 }, Ids {},  Amount { 1 }, Partied { 0 },
             -- Patrols { } 
             -- Boss {  }, 
             -- Immune {   }, 
@@ -433,6 +440,7 @@ local walkData =
     --         TP Moves: {  }, 
     --         Traits: {  }
     --         DT: { }
+    --         Aggro: {}
     --         Mechnaics: 
     --      Bedraggled_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
@@ -444,6 +452,7 @@ local walkData =
     --         TP Moves: {  }, 
     --         Traits: {}
     --         DT: {  }
+    --         Aggro: {}
     --         Mechnaics: 
     --     Canis Dirus, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
@@ -454,6 +463,7 @@ local walkData =
     --         TP Moves: {  }
     --         Traits { }
     --         DT {  }
+    --         Aggro: {}
     --         No Turn {  }
     --         Mechanics { }
     --         Proc { }
@@ -503,6 +513,7 @@ local walkData =
                             -- TODO: Leather
                             -- TODO: Hides (Manticore was one)
                             -- TODO: Gems (spinel, clear topaz, light opal)
+                            -- TODO: Potions / ethers
                             item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
 }
@@ -888,7 +899,6 @@ local failState =
     Defeat = 2
 }
 
--- Treasure Coffer functions
 local function GetPlayerCofferLoot(player)
     local items = {}
     for i = 1,10 do
@@ -946,7 +956,7 @@ local function generateTreasureCofferLoot(player, walk)
 
     local zone = player:getZone()
     local drops = walkData.ExtraDrops
-    local lootAmount = math.random(6, 10) -- TODO: Once flags onEventUpdate for coffers is fixed, change this to math.random(2,10) and buff drop rates on other stuff
+    local lootAmount = math.random(2, 10)
     local surged = GetSurgedWalk(zone) == walk
 
     for i = 1, lootAmount do
@@ -954,22 +964,22 @@ local function generateTreasureCofferLoot(player, walk)
         local roll = math.random(1000)
 
         -- Nyzul Set (1%) only once
-        if roll <= 1 and not gotSet then
+        if roll <= 10 and not gotSet then
             item = getUniqueItem(data.SetDrop, used)
             gotSet = item ~= nil
 
         -- Accessory (5%) only once
-        elseif roll <= 7 and not gotAccessory then
+        elseif roll <= 60 and not gotAccessory then
             local pool = surged and data.SurgedDrops or data.GearDrops
             item = getUniqueItem(pool, used)
             gotAccessory = item ~= nil
 
         -- Scroll (5%)
-        elseif roll <= 13 then
+        elseif roll <= 110 then
             item = getUniqueItem(drops.Scrolls, used)
 
         -- Coin (20%)
-        elseif roll <= 40 then
+        elseif roll <= 310 then
             local pool = drops.Coins
 
             if surged and math.random(100) <= 20 then
@@ -994,6 +1004,33 @@ local function generateTreasureCofferLoot(player, walk)
 
     SavePlayerCofferLoot(player, loot)
     return loot
+end
+
+local function GetTreasureParameters(items)
+    local itemParams = {};
+    for i = 0,4 do
+        local item1 = items[(i*2)+1]
+        local item2 = items[(i*2)+2]
+        local value = 0;
+        if item1 then
+            value = value + item1;
+        end
+        if item2 then
+            value = value + bit.lshift(item2, 16)
+        end
+        itemParams[i+1] = value;
+    end
+
+    local flagValue = 0x7FE
+    itemParams.ItemCount = 0;
+    for i = 1,10 do
+        if items[i] then
+            itemParams.ItemCount = itemParams.ItemCount + 1;
+            flagValue = flagValue - bit.lshift(1,i)
+        end
+    end
+    itemParams.Flag = flagValue;
+    return itemParams;
 end
 
 -- Walk functions
@@ -1885,44 +1922,21 @@ tpz.woe.veridicalConflux.onEventFinish = function(player, csid, option)
     end
 end
 
--- Treasure Coffer functions
 tpz.woe.TreasureCoffer = tpz.woe.TreasureCoffer or {}
 
 tpz.woe.TreasureCoffer.onTrigger = function(player, npc)
+    -- None = option 0
+    -- Obtaining individual item = option 1-10
+    -- Destroy all = option 11
+    -- All items = option 12
     local ID = zones[player:getZoneID()]
     local items = GetPlayerCofferLoot(player)
     local hasLoot = false;
     for i = 1,10 do if items[i] then hasLoot = true; break; end end
 
     if hasLoot then
-            local itemParams = {};
-            for i = 0,4 do
-                local item1 = items[(i*2)+1]
-                local item2 = items[(i*2)+2]
-                local value = 0;
-                if item1 then
-                    value = value + item1;
-                end
-                if item2 then
-                    value = value + bit.lshift(item2, 16)
-                end
-                itemParams[i+1] = value;
-            end
-
-            local flagValue = 0x7FE
-            for i = 1,10 do
-                if items[i] then
-                    flagValue = flagValue - bit.lshift(1,i)
-                end
-            end
-
-            SavePlayerCofferLoot(player, items)
-            return player:startEvent(1601, 182, itemParams[1], itemParams[2], itemParams[3], itemParams[4], itemParams[5], flagValue, 0)
-
-        -- None = option 0
-        -- Obtaining individual item = option 1-10
-        -- Destroy all = option 11
-        -- All items = option 12
+        local itemParams = GetTreasureParameters(items)
+        return player:startEvent(1601, 182, itemParams[1], itemParams[2], itemParams[3], itemParams[4], itemParams[5], itemParams.Flag, (itemParams.ItemCount == 1) and 1 or 0)
     else
         return player:messageSpecial(ID.text.CANT_OPEN_CHEST)
     end
@@ -1942,6 +1956,9 @@ tpz.woe.TreasureCoffer.onEventUpdate = function(player, csid, option)
                     SavePlayerCofferLoot(player, items)
                 end
             end
+            
+            local itemParams = GetTreasureParameters(items)
+            return player:updateEvent(itemParams[1], itemParams[2], itemParams[3], itemParams[4], itemParams[5], 0, itemParams.Flag, (itemParams.ItemCount == 0) and 1 or 0)
         end
 
         -- Destroy all
@@ -1961,7 +1978,10 @@ tpz.woe.TreasureCoffer.onEventUpdate = function(player, csid, option)
                 end
             end
             if gaveItem then
+                local itemParams = GetTreasureParameters(items)
+
                 SavePlayerCofferLoot(player, items)
+                return player:updateEvent(itemParams[1], itemParams[2], itemParams[3], itemParams[4], itemParams[5], 0, itemParams.Flag, (itemParams.ItemCount == 0) and 1 or 0)
             end
         end
     end
