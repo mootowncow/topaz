@@ -16,6 +16,10 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
+-- TODO: walkData logic for Boss being a table intead of a single entry
+-- TODO: Add a function generateProc() for a random spell, a random WS< and a random WS and run it on every walk creation then apply it to that walks bosses (so its randomized everytime you do that walk)
+-- TODO: These procs are x3 per boss (15s - > 10s -> 5s - > immune) ! Terror
+-- TODO: All mobs instantly patrol back to their spawn in a single tick and not slowly over time like normal. They also run back
 -- TODO: Test fanatics(physical damage tonic) on Anguinus
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Or maybe on random TP moves?
@@ -570,38 +574,47 @@ local walkData =
     },
     [11] =
     {
-    --      Tapanas_Minion, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Tapanas_Minion, lvl { 85 }, Model { 0x0000370800000000000000000000000000000000 }, Size { Small }  HP { 10500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols { }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {  }
+    --         Spells { Absorb-STR/DEX/TP }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Black Cloud, Blood Saber, Horror Cloud, Crepuscule Blade (Curse -50%, Bio 48/tick 2s cast), Malediction (<= 50% HP) }, 
+    --         Traits: { DA (Zanshin?) }
     --         DT: { }
     --         Aggro: {}
     --         Move Speed { }    
     --         Mechnaics: {}
-    --     Tapana, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Tapana, lvl { 90 }, Model { 0x00003F0800000000000000000000000000000000 }, Size { Large } HP { 105000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
+    --         Spells { Blizzaga IV, Paralyga (15), Blindga (15), Dispelga (15), Sleepga II (15) Kaustra (below 25% HP) }, 
+    --         Cast Timer { 45 }
+    --         TP Moves: { 
+    --          All Self
+    --          Raksha: Vengeance (Self Muddle 1m, 15s weakness, aoe, <= 15 yard), Raksha: Judgement (self, Bind, Amnesia ~30s?, Silence, Knock 3, aoe <= 10 yards), Yaksha: Bliss (self, Knockback 3), 
+    --          Yaksha Damnation (Self), 
+    --          Yaksa Oblivion (Self, 5 Knockback, aoe, 10 yard)
+    --          Raksha Stance (self), Yaksha Stance (Self), Raksha Illusion (Self, pare? 10s weakness?, conal?)
+    --          Something dispelled 3-4 buffs, Vengance or Judgment
+    --          https://ffxiclopedia.fandom.com/wiki/Tapana }
+    --         Traits { Regain 100, Undead }
+    --         DT { -15%~ MDT. -50% Ice }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { }     
-    --         Mechanics { }
+    --         Mechanics { Occasionally -> Fiend thrists for blood!. Random Tapanas minion within ~100 yards came. Did it twice in a row once
+    --          Raksha stance: 
+    --           Stance change seems to be based on HP }
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Tapana dead
         Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 77 },
         Boss        = 'Tapana',
-        Progress    = 2,
+        Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
@@ -610,7 +623,75 @@ local walkData =
         Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
-
+    [12] =
+    {
+    --      Iron_Cranium, lvl { 90 }, Model { 0x00005A0800000000000000000000000000000000 (Blue), }, Size { Small }  HP { 20000 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Augur Smash (2s cast), Area Bombardment (Dispels 2-5(Unsure if more) buffs, Self 3s cast), Cauterizing Field (Self, Unsure what it does no blaze spikes or enfire, 3s cast) }, 
+    --         Traits: { DA }
+    --         DT: { -50% Earth / Wind / Fire / Ice, -0% Light / Dark }
+    --         Aggro: {}
+    --         Move Speed { +25% }    
+    --         Mechnaics: {}
+    --      Iron_Cranium, lvl { 90 }, Model { 0x00005B0900000000000000000000000000000000 (Orange) }, Size { Small }  HP { 20000 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Augur Smash (2s cast), Area Bombardment (Dispels 2-5(Unsure if more) buffs, Self 3s cast), Cauterizing Field (Self, Unsure what it does no blaze spikes or enfire, 3s cast) }, 
+    --         Traits: { DA }
+    --         DT: { -75% Earth / Wind / Fire / Ice. -50% Water / Thunder, -0% Light / Dark }
+    --         Aggro: {}
+    --         Move Speed { +25% }    
+    --         Mechnaics: {}
+    --     Ironclad_Harbinger, lvl { 93 }, Model { 0x0000590900000000000000000000000000000000 }, Size { Large } HP { 45000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { True } 
+    --         Boss { True }, 
+    --         Immune { Normal  }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Baqllistic Kick (Conal), Turbine Cyclone,   }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Ironclad_Vaporizer, lvl { 93 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 45000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { True } 
+    --         Boss { True }, 
+    --         Immune {  Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Seismic Impact (2s cast) }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: {}
+    --     Completion: Ironclad Harbinger and Ironclad Vaporizer dead
+        Mobs        = { IdStart = 17522862, IdEnd = 17522879, Lvl = 77 },
+        Boss        = {'Ironclad_Harbinger', 'Ironclad_Vaporizer'},
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
 
 
     -- Template
@@ -643,7 +724,7 @@ local walkData =
     --         Aggro: {}
     --         Move Speed { }    
     --         Mechnaics: {}
-    --     Canis Dirus, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Ironclad_Harbinger, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss {  }, 
     --         Immune {   }, 
@@ -660,7 +741,7 @@ local walkData =
     --     Zone Mechanics: {}
     --     Completion: 
     --     Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
-    --     Boss        = 'Canis_Dirus',
+    --     Boss        = {'Ironclad_Harbinger' },
     --     Progress    = 2,
     --     TempRate    = { 25 }, -- TODO
     --     GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
@@ -685,7 +766,7 @@ local walkData =
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
-            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II
+            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
         }
     },
 
@@ -1448,7 +1529,9 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.AGGRO_SIGHT, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_SOUND, 1)
     mob:setMobMod(tpz.mobMod.TRUE_SOUND, 1)
-    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30) -- Adjusted per mob
+    mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
+    mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
     mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.ALLI_HATE, 200)
