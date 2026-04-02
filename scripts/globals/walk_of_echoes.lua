@@ -16,8 +16,10 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
--- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk will run at the killer (doesn't link any other mobs when doing this, apparently)
--- TODO: Think need a MAGIC_DELAY of 30 on every trash mob (maybe boss too)
+-- TODO: Test fanatics(physical damage tonic) on Anguinus
+-- TODO: Anhanguera model
+-- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Or maybe on random TP moves?
+-- TODO: Think need a MAGIC_DELAY of 30 on every mob, including bosses
 -- TODO: Anguis !!! procced by Thunder III?! Infinite procs? Do random spells proc bosses, then? Like how flash was? Cast all nukes on bosses? or just randomly make my own?
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
 -- TODO: Set CurrentWalk to mobs BEFORE applying mods then move applying surge mods back to onMobSpawn
@@ -27,7 +29,8 @@ require("scripts/globals/titles")
 -- TODO: If target has magic shield that grants immunity spells should say "resists" not 0
 -- TODO: Check for auras from bosses from walk 2 and 4
 -- TODO: Add MobDrops to generateTreasureCofferLoot
--- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/15 only?)
+-- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/14/15 only?) NOTE: Conflux 8 gave me a sack of liminality, Conflux 9 gave sack of Deviousness
+-- TODO: but I prefer requiring diff tiers of walks imo, more challenging and makes them relevant and worth doing
 -- TODO: Might need to split up coins / dice / residue into 3 different tiers of drops based on Walk
 -- TODO: Are drops this? Fix if so https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields Normally tiers i-iii are coins, tiers iv and v are devious, tiers vi and vii liminal.
 -- TODO: https://www.bg-wiki.com/ffxi/Category:Walk_of_Echoes_Battlefields
@@ -140,10 +143,10 @@ local walkData =
         Boss        = 'Morbid_Molasses',
         Progress    = 4,
         TempRate    = { 75 },
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
-        MobDrops    = {},  -- TODO
+        MobDrops    = {},  -- TODO: Clot Plasm, Slime Juice, 
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
     },
@@ -178,7 +181,7 @@ local walkData =
         Boss        = 'Myrmeleontide',
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },
         MobDrops    = { item.ANTLION_JAW }, -- TODO
@@ -207,9 +210,9 @@ local walkData =
         Boss        = 'Harpimaira',
         Progress    = 5,
         TempRate    = { 50 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
-        SetDrop     = { item.GOLIARD_CLOGS },
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.ANTLION_JAW }, -- TODO
         Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
         Experience  = 1500
@@ -244,9 +247,9 @@ local walkData =
         Boss        = 'Natrix',
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
-        SetDrop     = { item.GOLIARD_CLOGS },
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.ANTLION_JAW }, -- TODO
         Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
         Experience  = 1500
@@ -282,9 +285,9 @@ local walkData =
         Boss        = 'Canis_Dirus',
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
-        SetDrop     = { item.GOLIARD_CLOGS },
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.ANTLION_JAW }, -- TODO
         Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
         Experience  = 1500
@@ -353,7 +356,9 @@ local walkData =
             -- DT { -50% Earth / Water / Ice, -90%ish Dark }
             -- No Turn { True }
             -- Mechanics {
+                -- NEEDS BATTLEFIELD POWER SAME AS WALK (7) ON SPAWNING
                 -- No move, no attack, no cast
+                -- TODO: Get aura range, tihnk its like ~2 yards
                 --  Have auras such as silence, amnesia poison (50/tick)
                 -- Ones below 25% seem to have 3 auras at once? ilence, amnesia AND poison (50/tick)
                 -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
@@ -365,9 +370,9 @@ local walkData =
         Boss        = 'Anguis',
         Progress    = 1,
         TempRate    = { 0 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
-        SetDrop     = { item.GOLIARD_CLOGS },
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.ANTLION_JAW }, -- TODO
         Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
         Experience  = 1500
@@ -399,40 +404,175 @@ local walkData =
             -- DT: {  Earth / Water / Thunder -95%, -50% Wind / Fire / Dark, Light ???? }
             -- Aggro: { 11 yards }
             -- Mechnaics: 
-        -- Jebutoise, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 16000 }, Ids {},  Amount { 1 }, Partied { 0 },
+        -- Jebutoise, lvl { 88 }, Model { 0x0000480900000000000000000000000000000000 }, Size { Large } HP { 51000 }, Ids {},  Amount { 1 }, Partied { 0 },
             -- Patrols { } 
             -- Boss {  }, 
-            -- Immune {   }, 
-            -- Spells { }, 
-            -- Cast Timer {  }
-            -- TP Moves: {  }
-            -- Traits { }
-            -- DT {  }
-            -- No Turn {  }
-            -- Mechanics { }
+            -- Immune { Normal + Slow + Stun + Poison  }, 
+            -- Spells {Stoneja, Stone V, Stonega IV, Break, Breakga ( <= 25%) }, 
+            -- Cast Timer { 30  }
+            -- TP Moves: { Tortoise Stomp (Conal), Testudo Tremor, calls an Add within x distance (like 100?) (Gravity (25%-35%) + Stuns?, ~1s cast, conal), Tortoise Song (Dispels 3 effects + Silence aura) }
+            -- Traits { DA, 200/3s Regain }
+            -- DT { Earth / Water / Thunder -95%, -50% Wind / Fire / Dark, Light ???? }
+            -- No Turn { True }
+            -- Mechanics { Tetsudo Tremor makes "The fiend thrists for blood!" and causes a random turtle in the zone to aggro the current tank (if any other mobs currently in walk
+            --  Below 75%, sometimes uses two TP moves in a row )
+            -- invincible: 02:30  - > 05:08 - ? 07:38 - > 10:15 - > 12:49 - > 15:19 -> 17:51 
+            -- Different attack animation depending on where you stand, uses left foot if behind on left foot, left foot if on front left, front right foot if on front right, tail on back, head if in front, etc
+            -- }
             -- Proc { }
+            -- 1094 tp 2199 HP 4212 spirits within 
         -- Zone Mechanics: 
-        -- Completion: 
+        -- Completion: All Jebutoise dead
         Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
         Boss        = 'Jebutoise',
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
-        SetDrop     = { item.GOLIARD_CLOGS },
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.ANTLION_JAW }, -- TODO
         Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
         Experience  = 1500
     },
-
-
-    -- Template
-
-    -- [8] = 
-    -- {
-    --      Begrimed_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    [9] =
+    {
+    --      Pteranodon, lvl { 85 }, Model { 0x0000AE0800000000000000000000000000000000 }, Size { Small }  HP { 21000 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
-    --         -- Patrols { }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Thunder IV, Aero IV Aeroga III, Thundaga III }, 
+    --         Cast Timer { 50 }
+    --         TP Moves: { Storm Wing (Self Knockback 5, ~1.5s cast), Feral Peck(Self), Bloody Beak (self ~1.5s cast), Warped Wail (Self 2.5-3m Max HP + Max MP down (-50%) CANNOT BE RESISTED?, 0s cast), 
+            -- Calamitous Wind (Self Knock 6, full dispel, 2s cast)   }, 
+    --         Traits: { DA }
+    --         DT: { -10%~ MDT -???% Dark? (1447 Sanguine with Crocea Mors) }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: 
+    --     Anhanguera, lvl { 88 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 61000h }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {  Normal + Slow }, 
+    --         Spells { Thundaga III, Aeroga III, Graviga, Silencega, Stun }, 
+    --         Cast Timer {  }
+                -- TODO: TP move ranges
+                -- TODO: Anhanguera model
+                -- TODO: Reaving Wind cause knockback aura? What's the aura do?
+                -- TODO: Test fanatics(physical damage tonic) on Anguinus
+    --         TP Moves: { Storm Wing, Warped Wail, Reaving Wind (Self, Grants Aura but no knockback? 2s cast,  <= 10 yards), 
+    --              Vermillion Wind (Self -100% (86 str become -85, 94 dex become -93, 80 vit become -79, etc, player attributes cannot be lowered below 1) All Attributes down 3s cast, 15 yards, CANNOT BE RESISTED), 
+    --              Bloody Beak, Feral Peck (throat stab + hate reset, 2s cast 
+    --              Tail Lash (BEHIND 2s cast)}
+    --         Traits { DA, Store TP (300+) }
+    --         DT { -25% MDT, -50% Water / Fire / Thunder, Earth / Wind -80-90% }
+    --         Aggro: {}
+    --         No Turn { True }
+    --         Move Speed { Normal }    
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: 
+    --     Completion: All Anhanguera dead
+        Mobs        = { IdStart = 17522800, IdEnd = 17522805, Lvl = 77 },
+        Boss        = 'Anhanguera',
+        Progress    = 1,
+        TempRate    = { 50 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_9TH_WALK },
+        Experience  = 1500
+    },
+    [10] =
+    {
+    --      Killer_Korrigan, lvl { 85 }, Model { 0x00002D0100000000000000000000000000000000 }, Size { Small }  HP { 7200 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { Yes, waits, run}, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Blizzard IV, Blizzaga II, Bindga }, 
+    --         Cast Timer {  }  -- TODO
+    --         TP Moves: {  },  -- TODO
+    --         Traits: { Counter, KA, DA }
+    --         DT: { } 
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Low weapon damage }
+    --      Murderous_Mandragora, lvl { 85 }, Model { 0x00002C0100000000000000000000000000000000 }, Size { Small }  HP { 7500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { Yes, waits, run}, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Aero IV, Aeroga II, Graviga }, 
+    --         Cast Timer {  }  -- TODO
+    --         TP Moves: {  Dream Flower },  -- TODO
+    --         Traits: { Counter, KA, DA }
+    --         DT: { }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Low weapon damage }
+    --      Lunatic_Lycopodium, lvl { 85 }, Model { 0x0000C70800000000000000000000000000000000 }, Size { Small }  HP { 7000 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Aero IV, Aeroga III, Silencega }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Petalback spin (13/tick poison), Petal Pirouette }, 
+    --         Traits: { Counter, KA, DA }
+    --         DT: { Stone / Water -50% }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Low weapon damage }
+    --      Pernicious_Pachypodium, lvl { 85 }, Model { 0x0000490900000000000000000000000000000000 }, Size { Small }  HP { 7300 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { Yes, waits, run}, 
+    --         Boss {  }, 
+    --         Immune {  },  -- TODO
+    --         Spells {  Blizzard IV, Blizzaga III, Paralyga }, 
+    --         Cast Timer {  }  -- TODO
+    --         TP Moves: {  }, -- TODO
+    --         Traits: { Counter, KA, DA}
+    --         DT: { Stone / Water -50% }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Low weapon damage }
+    --     Annihilative_Adenium, lvl { 88 }, Model { 0x00004A0900000000000000000000000000000000 }, Size { Large } HP { 40000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { Yes, waits, run - All 3 patrol to the starting big area upstairs eventually, very long path }, 
+    --         Boss { True }, 
+    --         Immune { Normal  }, 
+    --         Spells { Blizzard V, Aero V, Aeroga III, Blizzaga III, Bindga, Paralyga (20 yards), Silencega (20 yards), Graviga (20 yards)}, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Fatal Scream (10s countdown Doom, 2s cast, <= 10 yard), Petalback Spin (Poison, 1.5s cast <= 5 yards), Bloom Fouette (Max MP Down, 2s cast <= 5 yard), Bloom Fouette (2s cast, <= 5 yard), 
+    --         Petal Pirouette (2s cast <=5 yard), Tepal Twist (<= 50% HP Max HP down, <= 5 yard 2s cast), Scream (MND Down + Terror, 10 yard 1.5s cast)
+    --         Phaeosynthesis (AOE, Regen + regain, 2s cast)
+    --         TODO: Some TP move plagues, }
+    --         Traits { Counter, KA, DA, 100 Regain }
+    --         DT { Stone / Water -50%  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { Low weapon damage, Always follows up any TP move with another random TP move }
+    --         Proc { }
+    --     Zone Mechanics: All non-boss mobs can be slept. There are somewhere around 20-30. They should each die in one WS. Their TP moves can cause terror, so take care if you drag them along too long. 
+    --     Completion: All Annihilative Adenium dead
+        Mobs        = { IdStart = 17522806, IdEnd = 17522832, Lvl = 77 },
+        Boss        = 'Annihilative_Adenium', 
+        Progress    = 3,
+        TempRate    = { 50 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_10TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
+    [11] =
+    {
+    --      Tapanas_Minion, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
     --         Spells { }, 
@@ -441,10 +581,58 @@ local walkData =
     --         Traits: {  }
     --         DT: { }
     --         Aggro: {}
-    --         Mechnaics: 
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --     Tapana, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: {}
+    --     Completion: Tapana dead
+        Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 77 },
+        Boss        = 'Tapana',
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
+
+
+
+    -- Template
+
+    -- [8] =
+    -- {
+    --      Begrimed_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {  }
+    --         DT: { }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
     --      Bedraggled_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
-    --         -- Patrols {  }, 
+    --         Patrols {  }, 
     --         Boss {  }, 
     --         Immune {  }, 
     --         Spells {  }, 
@@ -453,7 +641,8 @@ local walkData =
     --         Traits: {}
     --         DT: {  }
     --         Aggro: {}
-    --         Mechnaics: 
+    --         Move Speed { }    
+    --         Mechnaics: {}
     --     Canis Dirus, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss {  }, 
@@ -465,20 +654,21 @@ local walkData =
     --         DT {  }
     --         Aggro: {}
     --         No Turn {  }
+    --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Zone Mechanics: 
+    --     Zone Mechanics: {}
     --     Completion: 
     --     Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
     --     Boss        = 'Canis_Dirus',
     --     Progress    = 2,
     --     TempRate    = { 25 }, -- TODO
-    --     GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
+    --     GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
     --     SurgedDrops = {},
-    --     SetDrop     = { item.GOLIARD_CLOGS },
+    --     SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
     --     MobDrops    = { item.ANTLION_JAW }, -- TODO
-    --     Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
-    --     Experience  = 1500
+    --     Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },  -- TODO
+    --     Experience  = 1500  -- TODO
     -- },
 
     Temps =
@@ -488,13 +678,14 @@ local walkData =
             item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
             item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
             item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_CHAMPIONS_TONIC, item.BOTTLE_OF_BRAVERS_DRINK, item.BOTTLE_OF_MONARCHS_DRINK, item.BOTTLE_OF_BERSERKERS_TONIC, item.BOTTLE_OF_SWIFTSHOT_TONIC
+            -- strange milk 5/tick regen strange juice 2/tic refresh
         },
         Random =
         {
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
-            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic
+            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II
         }
     },
 
@@ -1274,7 +1465,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:addMod(tpz.mod.ACC, 25)
     mob:addMod(tpz.mod.EVA, 25)
     mob:addMod(tpz.mod.MATT, 50)
-    mob:addMod(tpz.mod.UDMGMAGIC, -30)
+    mob:addMod(tpz.mod.MDEF, 50)
     mob:addMod(tpz.mod.REFRESH, 400)
 
     local mobName = mob:getName()
