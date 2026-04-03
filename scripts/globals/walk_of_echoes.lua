@@ -634,7 +634,7 @@ local walkData =
     --         Cast Timer {  }
     --         TP Moves: { Augur Smash (2s cast), Area Bombardment (Dispels 2-5(Unsure if more) buffs, Self 3s cast), Cauterizing Field (Self, Unsure what it does no blaze spikes or enfire, 3s cast) }, 
     --         Traits: { DA }
-    --         DT: { -50% Earth / Wind / Fire / Ice, -0% Light / Dark }
+    --         DT: { -50% Earth / Wind / Fire / Ice, -0% Light / Dark, NO MDB? Or low INT? }
     --         Aggro: {}
     --         Move Speed { +25% }    
     --         Mechnaics: {}
@@ -652,28 +652,30 @@ local walkData =
     --         Move Speed { +25% }    
     --         Mechnaics: {}
     --     Ironclad_Harbinger, lvl { 93 }, Model { 0x0000590900000000000000000000000000000000 }, Size { Large } HP { 45000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { True } 
+    --         Patrols { True, waits, run }, 
     --         Boss { True }, 
     --         Immune { Normal  }, 
     --         Spells { }, 
     --         Cast Timer {  }
-    --         TP Moves: { Baqllistic Kick (Conal), Turbine Cyclone,   }
-    --         Traits { }
-    --         DT {  }
+    --         TP Moves: { Ballistic Kick (Conal), Turbine Cyclone, Eradicator (any HP%), Arm Cannon, Seismic Impact, Turbine Cyclone (<= 50%), Incinerator, Scapula Beam    }
+    --         Traits { 100/Tick Regain }
+    --         DT { -50% Earth / Wind / Fire / Ice / Dark? / Light }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
     --     Ironclad_Vaporizer, lvl { 93 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 45000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { True } 
+    --         Patrols { True, waits, run }, 
     --         Boss { True }, 
     --         Immune {  Normal }, 
     --         Spells { }, 
     --         Cast Timer {  }
-    --         TP Moves: { Seismic Impact (2s cast) }
-    --         Traits { }
-    --         DT {  }
+    --         TP Moves: { Seismic Impact (2s cast) Ballista Kick (Self, 2-3s cast)  Scapula Beam (All Attributes Down -100%, Self, 2s cast, CANNOT BE RESISTED), Arm Cannon(2s Cast), Incinerator (Self, 3s cast),
+    --          Eradicator (50% <= or <= 25%, 15-30s weakness, -50% HP Down (30-60s), -50% MP down (30-60s) 2s cast CANNOT BE RESISTED), 
+    --          Turbine Cyclone (<= 50% or <= 25%, 3s cast)}
+    --         Traits { 150/tick Regain }
+    --         DT { -50% Earth / Wind / Fire / Ice / Dark? / Light }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { }     
@@ -692,6 +694,310 @@ local walkData =
         Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
+    [13] =
+    {
+    --      Sanguine_Sapsucker, lvl { 90 }, Model { 0x0000BC0100000000000000000000000000000000 }, Size { Small }  HP { 11000 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Aero IV, Aeroga III, Graviga }, 
+    --         Cast Timer { 35 }
+    --         TP Moves: { Blind Side Barrage (2s cast) , Wind Cutter, Damnation Dive (1.5s cast)}, 
+    --         Traits: { DA, No +MDB (100 total) }
+    --         DT: { None }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Malicious_Magpie, lvl { 90 }, Model { 0x0000BD0100000000000000000000000000000000 }, Size { Small }  HP { 10750 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Broadside Barrage (2s cast), Helldive, Damnation Dive }, 
+    --         Traits: { DA, TA (THF?),  No +MDB (100 total) }
+    --         DT: { None }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Ligeia, lvl { 93 }, Model { 0x00003E0800000000000000000000000000000000 }, Size { ??? }  HP { 35000 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Ravenous Wail (Self, 3s cast), Rending Talons, Shriking Gale ()
+    --           Typhoean Rage (<= 50% or <= 25% HP, 1s cast, 20 yard) }, 
+    --         Traits: { Regain 100/tick }
+    --         DT: { Earth -50%, Wind -95%, Light / Dark -0% }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Always uses Ravenous Wail immediately after using Shrieking Gale}
+    --     Leucosia, lvl { 93 }, Model { 0x00003A0800000000000000000000000000000000 }, Size { ??? } HP { 35000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { Yes, walk } 
+    --         Boss {  }, 
+    --         Immune {  Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: { Wings of Woe (Self, 2s cast), Shrieking Gale (3+ dispel, Self, 7 Knockback, 2s cast), Rending Talons (Resets targets TP to 0, Self, Conal?, 2s cast), 
+    --          Kaleidoscopic Fury (ALL Attributes down <= 50% or <= 25% resets ALL cds, Self, 3s cast CANNOT BE RESISTED) }
+    --         Traits { Regain 100/tick }
+    --         DT { Earth -50%, Wind -95%, Light / Dark -0% }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Raidne, lvl { 93 }, Model { 0x0000130800000000000000000000000000000000 }, Size { ??? } HP { 35000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { True, walks } 
+    --         Boss {  }, 
+    --         Immune { Normal  }, 
+    --         Spells { Aero IV, Aeroga III, Aeroja, Graviga, Silencega}, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Rending Talons, Shrieking Gale, Keraunos Quill (Self, 3s cast), Wings of Agony (Self, 3s cast) }
+    --         Traits { Regain 100/tick  }
+    --         DT { Earth -50%, Wind -95%, Light / Dark -0% (Slightly more MDB? Like 12ish? Or a lot more INT)  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { Gains fast cast as HP is lowered, casting extremely fast at 25% (All spells instant)  }
+    --         Proc { }
+    --     Zone Mechanics: {}
+    --     Completion: Ligeia, Leucosia, Raidne all dead
+        Mobs        = { IdStart = 17522880, IdEnd = 17522898, Lvl = 77 },
+        Boss        = {'Ligeia', 'Leucosia', 'Raidne' },
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_13TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
+    [14] =
+    {
+    --      Coeurl_Mystic, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {  }
+    --         DT: { }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Coeurl_Prentice, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Coeurl_Tiro, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --     Barra_Edinazu, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss {  }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: {}
+    --     Completion: All Barra Edinazu dead
+        Mobs        = { IdStart = 17522899, IdEnd = 17522916, Lvl = 77 },
+        Boss        = {'Barra_Edinazu' },
+        Progress    = 2,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_14TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
+    [15] =
+    {
+    --      Scorched_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {  }
+    --         DT: { }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Glaciated_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Electrified_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --      Entombed_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  }, 
+    --         Spells {  }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }, 
+    --         Traits: {}
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: {}
+    --     Mingyi, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Sitke, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Sin, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Myin, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Yahhta, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Ne, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Zone Mechanics: {}
+    --     Completion: Mingyi, Sitke, Sin, Myin, Yahhta, Ne all dead
+        Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 77 },
+        Boss        = {'Mingyi', 'Sitke', 'Sin', 'Myin', 'Yahhta', 'Ne' },
+        Progress    = 6,
+        TempRate    = { 25 }, -- TODO
+        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
+        SurgedDrops = {},
+        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },  -- TODO
+        Experience  = 1500  -- TODO
+    },
+
 
 
     -- Template
@@ -767,6 +1073,7 @@ local walkData =
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
             -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
+            -- champion's gambir, mana powder
         }
     },
 
@@ -786,6 +1093,7 @@ local walkData =
                             -- TODO: Hides (Manticore was one)
                             -- TODO: Gems (spinel, clear topaz, light opal)
                             -- TODO: Potions / ethers
+                            -- Beastcoins (Gold / Silver)
                             item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
 }
