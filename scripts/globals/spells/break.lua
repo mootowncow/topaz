@@ -18,7 +18,7 @@ function onSpellCast(caster, target, spell)
     local duration = 30
 
     if caster:isMob() then
-        duration = 120
+        duration = math.random(30, 120)
     end
 
     local params = {}
@@ -28,7 +28,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.PETRIFICATION
     local resist = applyResistanceEffect(caster, target, spell, params)
 
-    TryApplyEffect(caster, target, spell, params.effect, 1, 0, duration, resist, 0.5)
+    TryApplyEffect(caster, target, spell, params.effect, 1, 0, duration, resist, 1.0)
 
     return params.effect
 end
