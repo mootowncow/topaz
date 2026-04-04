@@ -16,6 +16,8 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
+-- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
+-- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
 -- TODO: walkData logic for Boss being a table intead of a single entry
 -- TODO: Add a function generateProc() for a random spell, a random WS< and a random WS and run it on every walk creation then apply it to that walks bosses (so its randomized everytime you do that walk)
 -- TODO: These procs are x3 per boss (15s - > 10s -> 5s - > immune) ! Terror
@@ -743,7 +745,7 @@ local walkData =
     --         Spells { }, 
     --         Cast Timer {  }
     --         TP Moves: { Wings of Woe (Self, 2s cast), Shrieking Gale (3+ dispel, Self, 7 Knockback, 2s cast), Rending Talons (Resets targets TP to 0, Self, Conal?, 2s cast), 
-    --          Kaleidoscopic Fury (ALL Attributes down <= 50% or <= 25% resets ALL cds, Self, 3s cast CANNOT BE RESISTED) }
+    --          Kaleidoscopic Fury (ALL Attributes down <= 50% or <= 25% resets ALL JA's including 2hrs, Self, 3s cast CANNOT BE RESISTED) }
     --         Traits { Regain 100/tick }
     --         DT { Earth -50%, Wind -95%, Light / Dark -0% }
     --         Aggro: {}
@@ -780,58 +782,59 @@ local walkData =
     },
     [14] =
     {
-    --      Coeurl_Mystic, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Coeurl_Mystic, lvl { 90 }, Model { 0x00003C0800000000000000000000000000000000 }, Size { Large }  HP { 16000 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
-    --         Patrols { }, 
+    --         Patrols {  }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {  }
-    --         DT: { }
+    --         Spells { Fire IV, Firaga III, Firaja, Slowga, Silencega }, 
+    --         Cast Timer { 40 }
+    --         TP Moves: { Blink of Peril, Preternatural Gleam (3s cast), Charged Whisker, Mortal Blast (<= 25% 3s cast, CANNOT BE RESISTED) }, 
+    --         Traits: { DA, 0 +MDB (100 total)  }
+    --         DT: { -50% Lightning }
     --         Aggro: {}
-    --         Move Speed { }    
+    --         Move Speed { +25% }    
     --         Mechnaics: {}
-    --      Coeurl_Prentice, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Coeurl_Prentice, lvl { 90 }, Model { 0x0000C60800000000000000000000000000000000 }, Size { Small }  HP { ??? }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols { True, waits, run }, 
+    --         Boss {  }, 
+    --         Immune { Normal }, 
+    --         Spells { Aero IV, Aeroga III, Silencega }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Charged Whisker, BLink of Peril }, 
+    --         Traits: { DA, 0 +MDB (100 total) }
+    --         DT: {  }
+    --         Aggro: {}
+    --         Move Speed { +25% }    
+    --         Mechnaics: {}
+    --      Coeurl_Tiro, lvl { 90 }, Model { 0x00006F0100000000000000000000000000000000 }, Size { Small }  HP { 12000 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
     --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
+    --         Immune { Normal  }, 
+    --         Spells { Stone IV, Stonega III, Slowga (Overwrites Haste II, disables reapplication)  }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Blink of Peril (Throat stab -95% (Reduced by PDT or MDT), Hate Reset, 2s cast), Charged Whisker (2s cast), Amnesic Blast (Knockback 7, 2s cast) }, 
+    --         Traits: { DA, 0 +MDB (100 total) }
     --         DT: {  }
     --         Aggro: {}
-    --         Move Speed { }    
+    --         Move Speed { +25% }    
     --         Mechnaics: {}
-    --      Coeurl_Tiro, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
-    --         Partied {  }, 
-    --         Patrols {  }, 
-    --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
-    --         DT: {  }
-    --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
-    --     Barra_Edinazu, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Barra_Edinazu, lvl { 83 }, Model { 0x0000950100000000000000000000000000000000 }, Size { Small? } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
-    --         Boss {  }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
+    --         Boss { True }, 
+    --         Immune {  Normal, but ~5% stun SDT (Always resisted) }, 
+    --         Spells { Fire IV, Firaga III, Firaja, Bindga, Dispelga, Meteor (<= 50% HP, Rare) }, 
+    --         Cast Timer { 45? }
+    --         TP Moves: { Shockwave(Knockback 4, 1s cast), Howl(1s cast), Thunderbolt(1s cast), Flame Armor(Burn (- 63 INT, 30/tick) + Attack Down Aura (-33%) for ~30s, 1s cast),  
+    --          Amnesic Blast (20-30s Amnesia, 7 Knockback, 3s cast), Kick Out (Behind, 1.5s cast), Ecliptic Meteor (<= 25% HP, 3s cast) }
+    --         Traits { DA, Regain 100/tick }
     --         DT {  }
     --         Aggro: {}
-    --         No Turn {  }
+    --         No Turn { True }
     --         Move Speed { }     
-    --         Mechanics { }
+    --         Mechanics {  }
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: All Barra Edinazu dead
@@ -848,20 +851,20 @@ local walkData =
     },
     [15] =
     {
-    --      Scorched_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Scorched_Yanthu, lvl { 93 }, Model { 0x0000650800000000000000000000000000000000 }, Size { Small }  HP { 11500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols { }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {  }
-    --         DT: { }
+    --         Spells { Banish III, Banishga II, Firaga III, Firaja }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Searing Tempest (2s cast), Blinding Fulgor (2s cast) }, 
+    --         Traits: { No MDB (100 total) }
+    --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Fire/Light (5 SDT) }
     --         Aggro: {}
     --         Move Speed { }    
-    --         Mechnaics: {}
-    --      Glaciated_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Mechnaics: { Additional effect: Light or Fire. Fire / Light elemental }
+    --      Glaciated_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
     --         Boss {  }, 
@@ -874,7 +877,20 @@ local walkData =
     --         Aggro: {}
     --         Move Speed { }    
     --         Mechnaics: {}
-    --      Electrified_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Electrified_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Partied {  }, 
+    --         Patrols {  }, 
+    --         Boss {  }, 
+    --         Immune {  Normal + Stun }, 
+    --         Spells { Aero IV, Thunder IV, Aeroga III, Aeroja, Thundaja }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Anvil Lightning (3s cast), Silent Storm (3s cast) }, 
+    --         Traits: {}
+    --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Wind / Lightning (5 SDT) }
+    --         Aggro: {}
+    --         Move Speed { }    
+    --         Mechnaics: { Additional effect: Lightning. Lightning / Wind elemental}
+    --      Entombed_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
     --         Boss {  }, 
@@ -887,20 +903,7 @@ local walkData =
     --         Aggro: {}
     --         Move Speed { }    
     --         Mechnaics: {}
-    --      Entombed_Yanthu, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
-    --         Partied {  }, 
-    --         Patrols {  }, 
-    --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
-    --         DT: {  }
-    --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
-    --     Mingyi, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Mingyi, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
@@ -914,7 +917,7 @@ local walkData =
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Sitke, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Sitke, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
@@ -928,7 +931,7 @@ local walkData =
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Sin, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Sin, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
@@ -942,7 +945,7 @@ local walkData =
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Myin, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Myin, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
@@ -956,21 +959,21 @@ local walkData =
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Yahhta, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Yahhta, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
     --         Spells { }, 
     --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
+    --         TP Moves: { Hellish Crescendo (Self, 3s cast), Diabolic Claw (1s cast) }
+    --         Traits { 100+/tick Regain }
     --         DT {  }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Ne, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Ne, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
@@ -985,10 +988,10 @@ local walkData =
     --         Mechanics { }
     --         Proc { }
     --     Zone Mechanics: {}
-    --     Completion: Mingyi, Sitke, Sin, Myin, Yahhta, Ne all dead
+    --     Completion: Mingyi dead
         Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 77 },
-        Boss        = {'Mingyi', 'Sitke', 'Sin', 'Myin', 'Yahhta', 'Ne' },
-        Progress    = 6,
+        Boss        = {'Mingyi', },
+        Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
@@ -1072,8 +1075,8 @@ local walkData =
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
-            -- dusty elixir, clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
-            -- champion's gambir, mana powder
+            -- dusty elixir I, lucid elixir II clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
+            -- champion's gambir, mana powder, lucid wings I,
         }
     },
 
