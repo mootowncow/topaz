@@ -959,32 +959,36 @@ local walkData =
     --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
-    --     Yahhta, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Yahhta, lvl { 96 }, Model { 0x0000A30800000000000000000000000000000000 }, Size { Large } HP { 47000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: { Hellish Crescendo (Self, 3s cast), Diabolic Claw (1s cast) }
-    --         Traits { 100+/tick Regain }
-    --         DT {  }
+    --         Immune {  Normal }, 
+    --         Spells { Stone V, Stonega IV, Stoneja, Slowga }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Hellish Crescendo (AOE (700 damage to no shell Valaineral),Self, 3s cast), Diabolic Claw (1s cast), Afflicting Gaze (Gaze, Bind + ???, 3s cast), Interference, Diabolic Claw, 
+    --          Stygian Sphere (1936-1996 Heal + Absorb Shield -100% MDT/BDT until removed, all magic/breath damage removes Or only a certain element? Uriel Blade removed (light damage)?, Self, 2s cast),
+    --          Deathly Diminuendo (AOE, Self, 3s cast), Interference
+    --          <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2s cast)}
+    --         Traits {  DA, 150+/tick Regain }
+    --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
-    --         Mechanics { }
+    --         Move Speed { +25% }     
+    --         Mechanics { Bind + Plague (150+/tick Aura) from Afflicting Gaze? for 1m?}
     --         Proc { }
-    --     Ne, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Ne, lvl { 96 }, Model { 0x0000A40800000000000000000000000000000000 }, Size { Large } HP { 42000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
+    --         Immune { Normal?  }, 
+    --         Spells { Fire V, Firaga IV, Firaja }, 
+    --         Cast Timer { 30? }
+    --         TP Moves: { Stygian Cyclone (3s cast, seems to be RANGED around person maybe?), Malign invocation (10s Amnesia, 2s cast), Interference (Dispel, Knockback 7, Self, 3s cast), Hellish Crescendo (Para 1m ~50%, Self, 3s cast),
+    --         <= 25% Dark Arrivisme (5 Buff Dispel, 1m All Killer (including Humanoid) + 75%+, Knockback 5, Self, aoe, 2s cast)  }
+    --         Traits { DA, 150+/tick Regain }, 
+    --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
+    --         Move Speed { +25% }     
     --         Mechanics { }
     --         Proc { }
     --     Zone Mechanics: {}
