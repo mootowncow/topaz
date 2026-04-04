@@ -22,7 +22,7 @@ function onSpellCast(caster, target, spell)
 
     --Duration, including resistance
     local duration = 180
-    local tier = 1
+    local tier = 3
     local params = {}
     params.diff = dMND
     params.skillType = tpz.skill.ENFEEBLING_MAGIC
