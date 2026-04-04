@@ -2393,7 +2393,7 @@ INSERT INTO `mob_skills` VALUES (2426,1683,'shadow_burst',1,10.0,2000,1500,4,0,0
 INSERT INTO `mob_skills` VALUES (2427,1705,'tail_lash',1,50.0,2000,1000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2428,1706,'bloody_beak',4,10.0,2000,1000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2429,1707,'feral_peck',4,10.0,2000,1000,8193,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2430,1708,'warped_wail',1,20.0,2000,1500,8193,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2430,1708,'warped_wail',1,20.0,2000,0,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2431,1709,'reaving_wind',1,10.0,2000,1000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2432,1710,'storm_wing',4,20.0,2000,1000,8193,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2433,1711,'calamitous_wind',1,20.0,2000,2000,8193,0,0,7,0,0,0);
@@ -2731,7 +2731,7 @@ INSERT INTO `mob_skills` VALUES (2762,1937,'hell_slash',0,7.0,2000,1500,4,0,0,0,
 INSERT INTO `mob_skills` VALUES (2764,1939,'black_cloud',0,15.0,2000,1500,4,0,0,0,0,0,0); -- "Gasha" SAM skeleton (VW)
 INSERT INTO `mob_skills` VALUES (2765,1940,'blood_saber',0,15.0,2000,1500,4,0,0,0,0,0,0); -- "Gasha" SAM skeleton (VW)
 -- INSERT INTO `mob_skills` VALUES (2766,2510,'malediction',0,15.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2767,1936,'crepuscule_blade',4,10.0,2000,2000,4,0,0,0,0,0,0); -- "Gasha" SAM skeleton (VW)
+INSERT INTO `mob_skills` VALUES (2767,1936,'crepuscule_blade',0,7.0,2000,2000,4,0,0,0,0,0,0); -- "Gasha" SAM skeleton (VW)
 INSERT INTO `mob_skills` VALUES (2768,1942,'deathly_glare',4,10.0,2000,3000,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2769,2513,'blighted_bouquet',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2770,1944,'booming_bombination',1,15.0,2000,1500,4,0,0,0,0,0,0);
