@@ -309,7 +309,7 @@ local walkData =
             -- TP Moves: { 
                 -- TODO: Check for self moves
                 -- 100-80% HP:
-                    -- Any: Dark Star (did 352 damage to joachim with shell V 451 damage to kupi without shell V, 600 damage to valaineral without shell at 51% HP so like 2-4 ftp?, 20 yard) (SELF Magic defense down? 3s cast),
+                    -- Any: Dark Star (did 352 damage to joachim with shell V 451 damage to kupi without shell V, 600 damage to valaineral without shell at 51% HP so like 2-4 ftp?, 20 yard) (SELF Magic defense down 3s cast),
                     -- Front: Soul Douse (self, RESETS HATE, Doom 10 countdown, Conal, 3s cast, 10 yard yard range)
                     -- Left:
                     -- Right:
@@ -330,6 +330,8 @@ local walkData =
             -- No Turn { True }
             -- Mechanics { 
                 -- Randomly gains/loses an aura that makes him cast Comet 2-5 times in a row as well as a Bio Aura (Gains power as HP decreases.). (animationsub) 
+                    -- WSing him caused him to gain aura
+                    -- His 2nd use of Comet x5 made him lose Aura
                     -- Bio Aura 51-100% (10/tick -15% attack down)  
                     -- <= 50% 15/tick -20% attack down 
                     -- <= 10%(maybe 25%) 25/tick, -30% attack down
@@ -364,9 +366,8 @@ local walkData =
             -- Mechanics {
                 -- NEEDS BATTLEFIELD POWER SAME AS WALK (7) ON SPAWNING
                 -- No move, no attack, no cast
-                -- TODO: Get aura range, tihnk its like ~2 yards
-                --  Have auras such as silence, amnesia poison (50/tick)
-                -- Ones below 25% seem to have 3 auras at once? ilence, amnesia AND poison (50/tick)
+                -- Aura range is 3 yards, but you can melee it at 3.5 yards slightly out of aura range...
+                --  Have 3 auras: silence, amnesia, poison (50/tick).
                 -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
                 -- Varanus despawn after ~2m and don't come back
                 -- }
@@ -856,27 +857,27 @@ local walkData =
     --         Patrols { }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { Banish III, Banishga II, Firaga III, Firaja }, 
+    --         Spells { Holy, Banish III, Banishga II, Firaga III, Firaja }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Searing Tempest (2s cast), Blinding Fulgor (2s cast) }, 
+    --         TP Moves: { Searing Tempest (Self 2.5s cast), Blinding Fulgor (2.5s cast) }, 
     --         Traits: { No MDB (100 total) }
     --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Fire/Light (5 SDT) }
     --         Aggro: {}
-    --         Move Speed { }    
+    --         Move Speed { +25% }    
     --         Mechnaics: { Additional effect: Light or Fire. Fire / Light elemental }
-    --      Glaciated_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --      Glaciated_Yanthu, lvl { 93 }, Model { 0x0000670800000000000000000000000000000000 }, Size { Small }  HP { 11500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
     --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
-    --         DT: {  }
+    --         Immune { Normal + Paralze + Poison  }, 
+    --         Spells { Water IV, Blizzard IV?, Waterga III?, Blizzaga III, Waterja, Blizzaja }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Scouring Spate (Encumbers some gear?, Self, 2.5s cast), Spectral Floe (20s+ Terror, Self, AOE, 2.5s cast, CANNOT BE RESISTED) }, 
+    --         Traits: { 0 +MDB (100 total) }
+    --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Water / Ice (5 SDT) }
     --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
+    --         Move Speed { +25% }    
+    --         Mechnaics: { Additional effect: Water or Ice. Water / Ice elemental  }
     --      Electrified_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
@@ -884,80 +885,67 @@ local walkData =
     --         Immune {  Normal + Stun }, 
     --         Spells { Aero IV, Thunder IV, Aeroga III, Aeroja, Thundaja }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Anvil Lightning (3s cast), Silent Storm (3s cast) }, 
-    --         Traits: {}
+    --         TP Moves: { Anvil Lightning (2.5s cast), Silent Storm (2.5s cast) }, 
+    --         Traits: { 0 +MDB (100 total) }
     --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Wind / Lightning (5 SDT) }
     --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: { Additional effect: Lightning. Lightning / Wind elemental}
-    --      Entombed_Yanthu, lvl { 93 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
+    --         Move Speed { +25% }    
+    --         Mechnaics: { Additional effect: Lightning / Wind. Lightning / Wind elemental}
+    --      Entombed_Yanthu, lvl { 93 }, Model { 0x0000640800000000000000000000000000000000 }, Size { Small }  HP { 11500 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
     --         Patrols {  }, 
     --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
-    --         DT: {  }
+    --         Immune { Standard + Slow + Blind }, 
+    --         Spells { Stone IV, Stonega III, Stoneja, Dispel, Bio III, Drain }, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Tenebral Crush (Defense Down -25%, Self, 2.5s cast), Entomb (30s Petrification, Self, 2.5s cast) }, 
+    --         Traits: { 0 +MDB (100 total) }
+    --         DT: { -75% All weapons resistance. All Elements -0%. Only SDT against Earth / Dark (5 SDT) }
     --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
-    --     Mingyi, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Move Speed { +25% }    
+    --         Mechnaics: { Additional effect: Stone or Dark. Earth / Dark elemental  }
+    --     Sitke, lvl { 96 }, Model { 0x00005E0900000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
     --         Spells { }, 
-    --         Cast Timer {  }
+    --         Cast Timer { 30 }
     --         TP Moves: {  }
     --         Traits { }
     --         DT {  }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
+    --         Move Speed { +25% }     
     --         Mechanics { }
     --         Proc { }
-    --     Sitke, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Sin, lvl { 96 }, Model { 0x0000A50800000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
+    --         Spells { Blizzaga IV }, 
+    --         Cast Timer { 30   }
+    --         TP Moves: { Malign Invocation, Interference, Hellish Crescendo }
     --         Traits { }
     --         DT {  }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
+    --         Move Speed { +25% }     
     --         Mechanics { }
     --         Proc { }
-    --     Sin, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Myin, lvl { 96 }, Model { 0x0000A20800000000000000000000000000000000 }, Size { Large } HP { 38000? }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
+    --         Immune { Normal  }, 
+    --         Spells { Aero V, Aeroga IV, Aeroja, Graviga}, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Hellish Crescendo, Interference, Stygian Cyclone, Malign Invocation, Diabolic Claw,
+    --         <= 50% Banneret Charge (Hate Reset + -99% HP, Self, 2s cast) }
+    --         Traits { DA, 150+/tick Regain }
+    --         DT { -50% Earth / Water / Ice / Dark  }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
-    --         Mechanics { }
-    --         Proc { }
-    --     Myin, lvl { 96 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { } 
-    --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
-    --         Aggro: {}
-    --         No Turn {  }
-    --         Move Speed { }     
-    --         Mechanics { }
+    --         Move Speed { +25% }     
+    --         Mechanics { Additional effect: Slow (45s, Overwrote Haste II, stops Haste II application) }
     --         Proc { }
     --     Yahhta, lvl { 96 }, Model { 0x0000A30800000000000000000000000000000000 }, Size { Large } HP { 47000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
@@ -981,14 +969,28 @@ local walkData =
     --         Boss { True }, 
     --         Immune { Normal?  }, 
     --         Spells { Fire V, Firaga IV, Firaja }, 
-    --         Cast Timer { 30? }
+    --         Cast Timer { 30 }
     --         TP Moves: { Stygian Cyclone (3s cast, seems to be RANGED around person maybe?), Malign invocation (10s Amnesia, 2s cast), Interference (Dispel, Knockback 7, Self, 3s cast), Hellish Crescendo (Para 1m ~50%, Self, 3s cast),
-    --         <= 25% Dark Arrivisme (5 Buff Dispel, 1m All Killer (including Humanoid) + 75%+, Knockback 5, Self, aoe, 2s cast)  }
+    --         <= 25% Dark Arrivisme (5 Buff Dispel, 1m All Killer (including Humanoid) + 75%-95%, Knockback 5, Self, aoe, 2s cast)  }
     --         Traits { DA, 150+/tick Regain }, 
     --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { +25% }     
+    --         Mechanics { }
+    --         Proc { }
+    --     Mingyi, lvl { 96 }, Model { 0x00005F0900000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --         Patrols { } 
+    --         Boss { True }, 
+    --         Immune {   }, 
+    --         Spells { }, 
+    --         Cast Timer {  }
+    --         TP Moves: {  }
+    --         Traits { }
+    --         DT {  }
+    --         Aggro: {}
+    --         No Turn {  }
+    --         Move Speed { }     
     --         Mechanics { }
     --         Proc { }
     --     Zone Mechanics: {}
@@ -1080,7 +1082,7 @@ local walkData =
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
             -- dusty elixir I, lucid elixir II clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
-            -- champion's gambir, mana powder, lucid wings I,
+            -- champion's gambir, mana powder, lucid wings I, revitalizer, body boost
         }
     },
 
