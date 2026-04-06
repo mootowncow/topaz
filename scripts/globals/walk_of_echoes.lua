@@ -29,7 +29,6 @@ require("scripts/globals/titles")
 -- TODO: Think need a MAGIC_DELAY of 30 on every mob, including bosses
 -- TODO: Anguis !!! procced by Thunder III?! Infinite procs? Do random spells proc bosses, then? Like how flash was? Cast all nukes on bosses? or just randomly make my own?
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
--- TODO: Set CurrentWalk to mobs BEFORE applying mods then move applying surge mods back to onMobSpawn
 -- TODO: Change CONTENT_LEVEL, 85 to CONTENT_LEVEL, boss level + 85 (Does it need to be set into walkData?)
 -- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
 -- TODO: Elemental WS go through magic shield (Blocked by physical I guess?)
@@ -123,7 +122,7 @@ local walkData =
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
         -- Completion: All Caldera crabs dead
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
-        Boss        = 'Caldera_Crab',
+        Boss        = {'Caldera_Crab'},
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
@@ -147,7 +146,7 @@ local walkData =
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- Completion: All Morbid Molasses dead
         Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 77 },
-        Boss        = 'Morbid_Molasses',
+        Boss        = {'Morbid_Molasses'},
         Progress    = 4,
         TempRate    = { 75 },
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -185,7 +184,7 @@ local walkData =
         -- Completion: All Myrmeleontide dead
         -- TEST: Sandpit resets hate if it lands ???
         Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 77 },
-        Boss        = 'Myrmeleontide',
+        Boss        = {'Myrmeleontide'},
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -214,7 +213,7 @@ local walkData =
         -- When 17522755
         -- Completion: All Harpimaira dead
         Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 77 },
-        Boss        = 'Harpimaira',
+        Boss        = {'Harpimaira'},
         Progress    = 5,
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -251,7 +250,7 @@ local walkData =
         -- Zone Mechanics: 
         -- Completion: Natrix dead
         Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 77 },
-        Boss        = 'Natrix',
+        Boss        = {'Natrix'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -289,7 +288,7 @@ local walkData =
         -- Zone Mechanics: 
         -- Completion: All Canis Dirus dead
         Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 77 },
-        Boss        = 'Canis_Dirus',
+        Boss        = {'Canis_Dirus'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -375,7 +374,7 @@ local walkData =
         -- Zone Mechanics: Have to wait for Varanus to despawn fully after Anguis dies for the Walk to complete and show the msg / start cutscene to por tout
         -- Completion: Anguis dead
         Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 77 },
-        Boss        = 'Anguis',
+        Boss        = {'Anguis'},
         Progress    = 1,
         TempRate    = { 0 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -432,7 +431,7 @@ local walkData =
         -- Zone Mechanics: 
         -- Completion: All Jebutoise dead
         Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
-        Boss        = 'Jebutoise',
+        Boss        = {'Jebutoise'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -482,7 +481,7 @@ local walkData =
     --     Zone Mechanics: 
     --     Completion: All Anhanguera dead
         Mobs        = { IdStart = 17522800, IdEnd = 17522805, Lvl = 77 },
-        Boss        = 'Anhanguera',
+        Boss        = {'Anhanguera'},
         Progress    = 1,
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
@@ -566,7 +565,7 @@ local walkData =
     --     Zone Mechanics: All non-boss mobs can be slept. There are somewhere around 20-30. They should each die in one WS. Their TP moves can cause terror, so take care if you drag them along too long. 
     --     Completion: All Annihilative Adenium dead
         Mobs        = { IdStart = 17522806, IdEnd = 17522832, Lvl = 77 },
-        Boss        = 'Annihilative_Adenium', 
+        Boss        = {'Annihilative_Adenium'},
         Progress    = 3,
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
@@ -617,7 +616,7 @@ local walkData =
     --     Zone Mechanics: {}
     --     Completion: Tapana dead
         Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 77 },
-        Boss        = 'Tapana',
+        Boss        = {'Tapana'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
@@ -1003,7 +1002,7 @@ local walkData =
     --     Zone Mechanics: {}
     --     Completion: Mingyi dead
         Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 77 },
-        Boss        = {'Mingyi', },
+        Boss        = {'Mingyi' },
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
@@ -1779,6 +1778,23 @@ local function surgeWalkTimer(zone)
 end
 
 -- Mob functions
+local function IsBoss(mob, walk)
+    local data = walkData[walk]
+    if not data or not data.Boss then
+        return false
+    end
+
+    local mobName = mob:getName()
+
+    for _, bossName in pairs(data.Boss) do
+        if mobName == bossName then
+            return true
+        end
+    end
+
+    return false
+end
+
 tpz.woe.mob = tpz.woe.mob or {}
 
 local modByMobName =
@@ -1838,10 +1854,18 @@ local mobDeathByMobName =
 }
 
 tpz.woe.mob.onMobSpawn = function(mob)
-    if mob:getMainJob() ~= tpz.job.MNK then
-        mob:setDamage(150)
+    if mob:getMainLvl() >= 83 then
+        if mob:getMainJob() ~= tpz.job.MNK then
+            mob:setDamage(150)
+        else
+            mob:setDamage(75)
+        end
     else
-        mob:setDamage(75)
+        if mob:getMainJob() ~= tpz.job.MNK then
+            mob:setDamage(125)
+        else
+            mob:setDamage(60)
+        end
     end
 
     mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
@@ -1935,7 +1959,7 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
     if isKiller or noKiller then
         local zone = mob:getZone()
         local walk = mob:getLocalVar("CurrentWalk")
-        local boss = mob:getName() == walkData[walk].Boss
+        local boss = IsBoss(mob, walk)
 
         if boss then
             tpz.woe.incrementProgress(zone, walk)
