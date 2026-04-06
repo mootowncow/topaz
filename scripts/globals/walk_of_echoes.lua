@@ -22,18 +22,10 @@ require("scripts/globals/weaponskillids")
 -- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
 -- TODO: walkData logic for Boss being a table intead of a single entry
 -- TODO: Add a function generateProc() for a random spell, a random WS< and a random WS and run it on every walk creation then apply it to that walks bosses (so its randomized everytime you do that walk)
--- TODO: These procs are x3 per boss (15s - > 10s -> 5s - > immune) ! Terror
--- TODO: All mobs instantly patrol back to their spawn in a single tick and not slowly over time like normal. They also run back
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
--- TODO: Think need a MAGIC_DELAY of 30 on every mob, including bosses
--- TODO: Anguis !!! procced by Thunder III?! Infinite procs? Do random spells proc bosses, then? Like how flash was? Cast all nukes on bosses? or just randomly make my own?
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
--- TODO: Change CONTENT_LEVEL, 85 to CONTENT_LEVEL, boss level + 85 (Does it need to be set into walkData?)
 -- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
--- TODO: Elemental WS go through magic shield (Blocked by physical I guess?)
--- TODO: If target has magic shield that grants immunity spells should say "resists" not 0
--- TODO: Check for auras from bosses from walk 2 and 4
 -- TODO: Add MobDrops to generateTreasureCofferLoot
 -- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/14/15 only?) NOTE: Conflux 8 gave me a sack of liminality, Conflux 9 gave sack of Deviousness
 -- TODO: but I prefer requiring diff tiers of walks imo, more challenging and makes them relevant and worth doing
@@ -48,13 +40,8 @@ require("scripts/globals/weaponskillids")
 -- TODO: Surged Walks can drop coins, dice, and residue 
 -- TODO: If above is true, increase coin / dice / residue drop rates (~50%?)
 -- TODO: Code pouches, scrolls, drops
--- TODO: Put all Set items as direct treasure pool drops on the "tier" boss like Anguis?
--- TODO: Surged walks give more temps?
--- TODO: Surged walk timer should be lower?
--- TODO: Better generate treasure logic (scrolls 1-5%)
 -- TODO: Can you pet pull on retail? (No linking)
 -- TODO: No party hate on normal mobs? Just bosses?
--- TODO: Lower wep dmg on trash mobs, high on bosses
 -- TODO: slimes slow overwrites haste
 -- TODO: big slime aoe long cast time
 -- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
@@ -2247,7 +2234,9 @@ tpz.woe.zone.onInitialize = function(zone)
 end
 
 tpz.woe.zone.onZoneIn = function(player, prevZone)
-    -- Unused, afterZoneIn generally better to use
+    if prevZone == tpz.zone.XARCABARD_S then
+        player:setCharVar("[WoE]CurrentWalk", 0)
+    end
 end
 
 tpz.woe.afterZoneIn = function(player)

@@ -2641,6 +2641,8 @@ void CCharEntity::OnRaise()
 
 void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
 {
+    static const std::vector<uint16> lockOutTimerItems =
+    { 4254, 4174, 4175 };
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     auto PItem = static_cast<CItemUsable*>(state.GetItem());
 
@@ -2664,6 +2666,12 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
                     battleutils::HandleFoodEffects(PItem, PTarget);
                 }
             });
+
+        if (std::find(lockOutTimerItems.begin(), lockOutTimerItems.end(), PItem->getID()) != lockOutTimerItems.end())
+        {
+            m_globalWaitTimer = server_clock::now() + std::chrono::milliseconds(10000);
+        }
+
         float radius = 10.0f;
         PAI->TargetFind->findWithinArea(PTarget, AOERADIUS_ATTACKER, radius);
 
@@ -2784,6 +2792,11 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
             {
                 actionTarget.param = 0;
             }
+        }
+
+        if (std::find(lockOutTimerItems.begin(), lockOutTimerItems.end(), PItem->getID()) != lockOutTimerItems.end())
+        {
+            m_globalWaitTimer = server_clock::now() + std::chrono::milliseconds(10000);
         }
 
         battleutils::HandleFoodEffects(PItem, PTarget);

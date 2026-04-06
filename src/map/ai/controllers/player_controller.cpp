@@ -87,6 +87,12 @@ bool CPlayerController::Cast(uint16 targid, SpellID spellid)
             break;
     }
 
+    // Global lock out timer
+    if (server_clock::now() < PChar->m_globalWaitTimer)
+    {
+        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+        return false;
+    }
 
     if (!PChar->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(spellid), 0))
     {
@@ -179,6 +185,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
             return false;
         }
+
         if (PChar->PRecastContainer->HasRecast(RECAST_ABILITY, PAbility->getRecastId(), PAbility->getRecastTime()))
         {
             Recast_t* recast = PChar->PRecastContainer->GetRecast(RECAST_ABILITY, PAbility->getRecastId());
@@ -248,6 +255,13 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
                     return false;
                 }
             }
+        }
+
+        // Global lock out timer
+        if (server_clock::now() < PChar->m_globalWaitTimer)
+        {
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            return false;
         }
 
     std::map<int, EFFECT> abilityToEffectMap = { { ABILITY_DIFFUSION, EFFECT_DIFFUSION },
@@ -1365,6 +1379,13 @@ bool CPlayerController::RangedAttack(uint16 targid)
     auto PChar = static_cast<CCharEntity*>(POwner);
     if (PChar->PAI->CanChangeState())
     {
+        // Global lock out timer
+        if (server_clock::now() < PChar->m_globalWaitTimer)
+        {
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            return false;
+        }
+
         return PChar->PAI->Internal_RangedAttack(targid);
     }
     else
@@ -1393,6 +1414,13 @@ bool CPlayerController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
         if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_MUDDLE))
         {
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ITEM_CANNOT_USE));
+            return false;
+        }
+
+        // Global lock out timer
+        if (server_clock::now() < PChar->m_globalWaitTimer)
+        {
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
             return false;
         }
         return PChar->PAI->Internal_UseItem(targid, loc, slotid);
@@ -1438,6 +1466,13 @@ bool CPlayerController::WeaponSkill(uint16 targid, uint16 wsid)
                 PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_NO_RANGED_WEAPON));
                 return false;
             }
+        }
+
+        // Global lock out timer
+        if (server_clock::now() < PChar->m_globalWaitTimer)
+        {
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            return false;
         }
 
         std::unique_ptr<CBasicPacket> errMsg;
