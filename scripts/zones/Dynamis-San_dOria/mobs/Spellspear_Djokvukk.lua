@@ -7,12 +7,15 @@ mixins =
     require("scripts/mixins/dynamis_beastmen"),
     require("scripts/mixins/job_special")
 }
-require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
     local Pet = GetMobByID(mob:getID()+1)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30)
-    SetGenericNMStats(mob)
+    mob:addMod(tpz.mod.DEFP, 30) 
+    mob:addMod(tpz.mod.ATTP, 20)
+    mob:addMod(tpz.mod.ACC, 50) 
+    mob:addMod(tpz.mod.EVA, 30)
+    mob:setMod(tpz.mod.REFRESH, 300)
     mob:setMobMod(tpz.mod.MP_BASE, 10000)
     Pet:spawn()
     ApplyConfrontation(mob, Pet)
