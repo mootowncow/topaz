@@ -7,27 +7,31 @@ mixins =
     require("scripts/mixins/dynamis_beastmen"),
     require("scripts/mixins/job_special")
 }
+require("scripts/globals/dynamis")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-     local Pet = GetMobByID(mob:getID()+1)
-     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30)
-     mob:addMod(tpz.mod.DEFP, 30) 
-     mob:addMod(tpz.mod.ATTP, 20)
-     mob:addMod(tpz.mod.ACC, 50) 
-     mob:addMod(tpz.mod.EVA, 30)
-     mob:setMod(tpz.mod.REFRESH, 300)
-     Pet:spawn()
-     Pet:updateEnmity(target)
-     
+    dynamis.setUpOdiousNM(mob)
+end
+
+function onMobEngaged(mob, target)
 end
 
 function onMobFight(mob, target)
     tpz.mix.jobSpecial.config(mob, {
+        between = 120,
         specials =
         {
-            {id = tpz.jsa.CHAINSPELL, cooldown = 180, hpp = 90},
+            {id = tpz.jsa.CHAINSPELL, cooldown = 0, hpp = 90},
+            {id = tpz.jsa.CALL_WYVERN, cooldown = 0, hpp = 90},
         },
     })
+    
+    local pet = GetMobByID(mob:getID()+1)
+    if pet:isSpawned() then
+        ApplyConfrontationPet(mob, pet)
+        pet:updateEnmity(target)
+    end
 end
 
 function onMobDespawn(mob)

@@ -7,13 +7,11 @@ mixins =
     require("scripts/mixins/dynamis_beastmen"),
     require("scripts/mixins/job_special")
 }
+require("scripts/globals/dynamis")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-     mob:addMod(tpz.mod.DEFP, 30) 
-     mob:addMod(tpz.mod.ATTP, 20)
-     mob:addMod(tpz.mod.ACC, 50) 
-     mob:addMod(tpz.mod.EVA, 30)
-     
+    dynamis.setUpOdiousNM(mob)
 end
 
 function onMobFight(mob, target)
@@ -25,6 +23,12 @@ function onMobFight(mob, target)
             {id = tpz.jsa.BLOOD_WEAPON, cooldown = 0, hpp = 90},
         },
     })
+
+    if mob:hasStatusEffect(tpz.effect.HUNDRED_FISTS) then
+        mob:setMod(tpz.mod.COUNTER, 75)
+    else
+        mob:setMod(tpz.mod.COUNTER, 20)
+    end
 end
 
 function onMobDespawn(mob)

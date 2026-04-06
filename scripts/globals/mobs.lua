@@ -1461,6 +1461,21 @@ function ApplyConfrontation(mob, entity)
     end
 end
 
+function ApplyConfrontationPet(mob, pet)
+    if not pet:hasStatusEffect(tpz.effect.CONFRONTATION) then
+        local effect = mob:getStatusEffect(tpz.effect.CONFRONTATION)
+        if effect then
+            local power = effect:getPower()
+            local tick = effect:getTick() / 1000
+            local duration = math.ceil((effect:getTimeRemaining()) / 1000)
+            local subId = 0
+            local subPower = effect:getSubPower()
+            local tier = 0
+            pet:addStatusEffect(tpz.effect.CONFRONTATION, power, tick, duration, subId, subPower, tier)
+        end
+    end
+end
+
 function printEnmityList(enmityList)
     if enmityList then
         for i = 1, #enmityList do

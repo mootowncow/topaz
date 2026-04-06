@@ -7,25 +7,28 @@ mixins =
     require("scripts/mixins/dynamis_beastmen"),
     require("scripts/mixins/job_special")
 }
+require("scripts/globals/dynamis")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
-     mob:addMod(tpz.mod.DEFP, 30) 
-     mob:addMod(tpz.mod.ATTP, 20)
-     mob:addMod(tpz.mod.ACC, 50) 
-     mob:addMod(tpz.mod.EVA, 30)
-     mob:setMod(tpz.mod.REFRESH, 300)
-     
+    dynamis.setUpOdiousNM(mob)
 end
 
 function onMobFight(mob, target)
     tpz.mix.jobSpecial.config(mob, {
-        between = 60,
+        between = 90,
         specials =
         {
             {id = tpz.jsa.MANAFONT, cooldown = 0, hpp = 90},
             {id = tpz.jsa.MIGHTY_STRIKES, cooldown = 0, hpp = 90},
         },
     })
+
+    if mob:hasStatusEffect(tpz.effect.MIGHTY_STRIKES) then
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 100)
+    else
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
+    end
 end
 
 function onMobDespawn(mob)

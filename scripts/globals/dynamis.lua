@@ -824,3 +824,33 @@ function dynamis.removeTwoHour(mob)
         end
     end
 end
+
+function dynamis.setUpOdiousNM(mob)
+    local isH2H = mob:getWeaponSkillType(tpz.slot.MAIN) == tpz.skill.HAND_TO_HAND
+
+    if mob:getMainJob() == tpz.job.MNK or mob:getMainJob() == tpz.job.PUP or isH2H then
+        mob:setDamage(75)
+    else
+        mob:setDamage(180)
+    end
+
+    mob:addMod(tpz.mod.ATTP, 25)
+    mob:addMod(tpz.mod.DEFP, 25)
+    mob:addMod(tpz.mod.ACC, 25)
+    mob:addMod(tpz.mod.EVA, 25)
+    mob:addMod(tpz.mod.MATT, 25)
+    mob:addMod(tpz.mod.MDEF, 25)
+    mob:addMod(tpz.mod.REFRESH, 400)
+    mob:addMod(tpz.mod.INQUARTATA, 20)
+
+    mob:setMobMod(tpz.mobMod.CAN_PARRY, 1)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30)
+
+    mob:addImmunity(tpz.immunity.SLEEP)
+    mob:addImmunity(tpz.immunity.SILENCE)
+    mob:addImmunity(tpz.immunity.PETRIFY)
+    mob:addImmunity(tpz.immunity.PARALYZE)
+    mob:addImmunity(tpz.immunity.ELEGY)
+
+    AddAllAttributes(mob, 30)
+end

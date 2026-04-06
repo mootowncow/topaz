@@ -1154,6 +1154,8 @@ INSERT INTO `mob_pets` VALUES (16928827, 1, 15, 0, 9); -- Tonberry_s_Elemental
 INSERT INTO `mob_pets` VALUES (16928988, 1, 15, 0, 9); -- Yagudo_s_Elemental
 INSERT INTO `mob_pets` VALUES (16929007, 1, 15, 0, 9); -- Yagudo_s_Elemental
 INSERT INTO `mob_pets` VALUES (16929015, 1, 14, 0, 9); -- Orc_s_Wyvern
+INSERT INTO `mob_pets` VALUES (17535211, 1, 14, 0, 9); -- Djokvukks_Wyvern
+INSERT INTO `mob_pets` VALUES (17535208, 1, 9, 0, 9); -- Kratzvatzs_Hecteyes
 
 -- ------------------------------------------------------------
 -- Temenos Aerns (Zone 37)

@@ -12558,7 +12558,7 @@ INSERT INTO `mob_groups` VALUES (9375,4498,184,'Zeid',0,0,0,0,0,0,0,0);
 -- Dynamis-San_dOria (Zone 185)
 -- ------------------------------------------------------------
 
-INSERT INTO `mob_groups` VALUES (1,3076,185,'Overlords_Tombstone',0,128,9019,30000,12500,77,77,0); -- Zone Boss
+INSERT INTO `mob_groups` VALUES (1,3076,185,'Overlords_Tombstone',0,128,9019,30000,50000,77,77,0); -- Zone Boss
 INSERT INTO `mob_groups` VALUES (2,363,185,'Battlechoir_Gitchfotch',0,128,0,0,0,72,73,0); -- Zone Boss Pet
 INSERT INTO `mob_groups` VALUES (3,3705,185,'Soulsender_Fugbrag',0,128,0,0,0,72,73,0); -- Zone Boss Pet
 INSERT INTO `mob_groups` VALUES (4,4150,185,'Vanguard_Footsoldier',1800,0,0,2564,0,65,67,0);
@@ -12586,11 +12586,11 @@ INSERT INTO `mob_groups` VALUES (25,4387,185,'Wyrmgnasher_Bjakdek',3600,0,9018,2
 INSERT INTO `mob_groups` VALUES (26,4243,185,'Voidstreaker_Butchnotch',3600,0,9018,20000,0,70,71,0); -- PH
 INSERT INTO `mob_groups` VALUES (27,6081,185,'Bladeburner_Rokgevok',0,128,9020,40000,0,85,85,0);-- Odious Scale
 INSERT INTO `mob_groups` VALUES (28,6082,185,'Steelshank_Kratzvatz',0,128,9021,40000,0,85,85,0);-- Odious Leather
-INSERT INTO `mob_groups` VALUES (29,6083,185,'Kratzvatzs_Hecteyes',0,128,0,0,0,68,68,0);
+INSERT INTO `mob_groups` VALUES (29,6083,185,'Kratzvatzs_Hecteyes',0,128,0,0,0,81,81,0);
 INSERT INTO `mob_groups` VALUES (30,6084,185,'Bloodfist_Voshgrosh',0,128,9022,40000,0,85,85,0);-- Odious Cryptex
-INSERT INTO `mob_groups` VALUES (31,6085,185,'Spellspear_Djokvukk',0,128,9023,40000,0,85,85,0);-- Odious Strongbox
+INSERT INTO `mob_groups` VALUES (31,6085,185,'Spellspear_Djokvukk',0,128,9023,40000,50000,85,85,0);-- Odious Strongbox
 INSERT INTO `mob_groups` VALUES (32,6086,185,'Djokvukks_Wyvern',0,128,0,0,0,81,81,0);
-INSERT INTO `mob_groups` VALUES (33,6087,185,'Arch_Overlord_Tombstone',0,128,9024,50000,0,85,85,0); -- Uber Boss
+INSERT INTO `mob_groups` VALUES (33,6087,185,'Arch_Overlord_Tombstone',0,128,9024,50000,50000,85,85,0); -- Uber Boss
 INSERT INTO `mob_groups` VALUES (34,4150,185,'Vanguard_Footsoldier',1800,0,9001,0,0,80,82,0);
 INSERT INTO `mob_groups` VALUES (35,4151,185,'Vanguard_Grappler',1800,0,9001,0,0,80,82,0);
 INSERT INTO `mob_groups` VALUES (36,4135,185,'Vanguard_Amputator',1800,0,9001,0,0,80,82,0);
