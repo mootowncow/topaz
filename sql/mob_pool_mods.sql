@@ -262,9 +262,6 @@ INSERT INTO `mob_pool_mods` VALUES(2562, 74, 295, 1); -- Marids link with Iriz I
 INSERT INTO `mob_pool_mods` VALUES(1787, 74, 295, 1); -- Grand Marids link with Iriz Ima 
 
 
-
-
-
 INSERT INTO `mob_pool_mods` VALUES (2031,28,-100,1); -- Hydras_Avatar EXP_BONUS: don't give XP
 INSERT INTO `mob_pool_mods` VALUES (2032,28,-100,1); -- Hydras_Hound EXP_BONUS: don't give XP
 INSERT INTO `mob_pool_mods` VALUES (2033,28,-100,1); -- Hydras_Wyvern EXP_BONUS: don't give XP
@@ -283,7 +280,6 @@ INSERT INTO `mob_pool_mods` VALUES (4187,30,50,0); -- +50 Macc
 INSERT INTO `mob_pool_mods` VALUES (4188,30,50,0); -- +50 Macc
 INSERT INTO `mob_pool_mods` VALUES (4189,30,50,0); -- +50 Macc 
 INSERT INTO `mob_pool_mods` VALUES (4190,30,50,0); -- +50 Macc
-
 
 -- Vanguard_Alchemist
 INSERT INTO `mob_pool_mods` VALUES (4133,106,3,1); -- CAN_PARRY: 3

@@ -5621,12 +5621,23 @@ INSERT INTO `mob_spell_lists` VALUES ('Quicktrix_Hexhands',1004,345,48,255); -- 
 INSERT INTO `mob_spell_lists` VALUES ('Quicktrix_Hexhands',1004,348,44,255); -- Kurayami: Ni
 INSERT INTO `mob_spell_lists` VALUES ('Quicktrix_Hexhands',1004,342,1,255); -- jubaku_ni
 
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,147,24,255); -- Fire IV
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,152,24,255); -- Blizzard IV
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,157,24,255); -- Aero IV
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,162,24,255); -- Stone IV
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,167,24,255); -- Thunder IV
-INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,172,24,255); -- Water IV
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,146,24,255); -- Fire III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,151,24,255); -- Blizzard III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,156,24,255); -- Aero III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,161,24,255); -- Stone III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,166,24,255); -- Thunder III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,171,24,255); -- Water III
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,46,1,255);  -- Protect IV
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,51,1,255);  -- Shell IV
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,57,1,255);  -- Haste
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,34,1,255);  -- Diaga II
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,53,1,255);  -- Blink
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,54,1,255);  -- Stoneskin
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,55,1,255);  -- Aquaveil
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,56,1,255);  -- Slow
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,58,1,255);  -- Paralyze
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,59,1,255);  -- Silence
+INSERT INTO `mob_spell_lists` VALUES ('Spellspear_Djokvukk',1005,4,1,255); -- Cure IV
 
 INSERT INTO `mob_spell_lists` VALUES ('Hakutaku',1006, 100, 1, 255); -- Enfire 
 INSERT INTO `mob_spell_lists` VALUES ('Hakutaku',1006, 235, 1, 255); -- Burn 
@@ -7387,8 +7398,15 @@ INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,235,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,100,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('ShieldTrap',1026,249,1,255);
 
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 204, 1, 255); -- Flare
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 206, 1, 255); -- Freeze
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 208, 1, 255); -- Tornado
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 210, 1, 255); -- Quake
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 212, 1, 255); -- Burst
+INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 214, 1, 255); -- Flood
 
--- NEXT 1027
+
+-- NEXT 1028
 -- NEXT 2089(Custom)
 
 /*!40000 ALTER TABLE `mob_spell_lists` ENABLE KEYS */;

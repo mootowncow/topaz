@@ -714,7 +714,8 @@ INSERT INTO `mob_family_system` VALUES (653,'LesserBird_ToAU',8,'Bird',0,40,100,
 INSERT INTO `mob_family_system` VALUES (654,'GreaterBird_COP',8,'Bird',1,40,130,120,3,3,3,3,3,3,3,1,2,1,3,0.75,1.25,1,0.75,0.85,1.5,0.5,0.85,0.85,0.85,0.85,0.85,7,1,1,85,	85,	50,	50,	85,	5,	85,	150,	150,	85,	85,	85,	85,	85,	85);
 INSERT INTO `mob_family_system` VALUES (655,'Korrigan',17,'Plantoid',0,40,100,120,5,3,4,4,4,4,4,1,3,1,2,1,1.25,1,1,1.5,1.5,1.5,1.0,1.5,1.0,1.0,1.5,4,2,1,150,	150,	150,	150,	150,	100,	100,	150,	150,	100,	100,	100,	100,	150,	150);
 INSERT INTO `mob_family_system` VALUES (656,'Worm_ToAU',1,'Amorph',0,0,100,200,4,5,5,4,3,4,5,1,3,1,5,1,1,1,1,1.3,1.3,1.5,0.7,1.3,1.3,1.5,1,4,2,1,130,	130,	150,	150,	130,	150,	150,	130,	130,	70,	70,	70,	130,	100,	100);
-
+INSERT INTO `mob_family_system` VALUES (657,'Orc-OdiousNM',7,'Beastmen',1,40,100,100,1,3,3,3,5,4,1,1,1,1,3,1,1,1,1,0.50,0.50,0.70,0.70,0.70,0.90,0.70,0.70,1,257,0,50,	50,	70,	70,	70,	70,	70,	40,	40,	70,	70,	70,	90,	70,	70);
+-- TODO: Odious quadav/yagudo/goblin
 
 -- Mythic Weapon Fights (Custom)
 INSERT INTO `mob_family_system` VALUES (887,'Cyranuce',13,'Humanoid',0,50,100,120,4,3,3,4,2,5,5,1,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,0,2,0,50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50);
@@ -825,7 +826,7 @@ INSERT INTO `mob_family_system` VALUES (989,'Amunet',6,'Beast',1,60,100,120,4,3,
 
 
 -- 111, 230, 268, 317-318,405,411-434,439-443, 598 available for use
--- NEXT: 657
+-- NEXT: 658
 -- NEXT Custom: 975
 
   -- `familyid` smallint(4) unsigned NOT NULL,
