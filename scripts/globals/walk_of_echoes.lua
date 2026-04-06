@@ -24,7 +24,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Add a function generateProc() for a random spell, a random WS< and a random WS and run it on every walk creation then apply it to that walks bosses (so its randomized everytime you do that walk)
 -- TODO: These procs are x3 per boss (15s - > 10s -> 5s - > immune) ! Terror
 -- TODO: All mobs instantly patrol back to their spawn in a single tick and not slowly over time like normal. They also run back
--- TODO: Test fanatics(physical damage tonic) on Anguinus
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: Think need a MAGIC_DELAY of 30 on every mob, including bosses
@@ -1943,6 +1942,9 @@ tpz.woe.mob.onMobDisengage = function(mob)
     if mobDisengage then
         mobDisengage(mob)
     end
+
+    local spawnPos = mob:getSpawnPos()
+    mob:pathTo(spawnPos.x, spawnPos.y, spawnPos.z, tpz.path.flag.RUN)
 end
 
 tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
