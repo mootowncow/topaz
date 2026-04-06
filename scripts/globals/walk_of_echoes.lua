@@ -14,6 +14,7 @@ require("scripts/globals/spell_data")
 require("scripts/globals/status")
 require("scripts/globals/magic")
 require("scripts/globals/titles")
+require("scripts/globals/weaponskillids")
 --------------------------------------
 
 -- TODO: Physcal Shield i.e Fanatics Drink makes mob magic tp moves say no effectm prob phys too
@@ -25,7 +26,7 @@ require("scripts/globals/titles")
 -- TODO: All mobs instantly patrol back to their spawn in a single tick and not slowly over time like normal. They also run back
 -- TODO: Test fanatics(physical damage tonic) on Anguinus
 -- TODO: Anhanguera model
--- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Or maybe on random TP moves?
+-- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: Think need a MAGIC_DELAY of 30 on every mob, including bosses
 -- TODO: Anguis !!! procced by Thunder III?! Infinite procs? Do random spells proc bosses, then? Like how flash was? Cast all nukes on bosses? or just randomly make my own?
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
@@ -121,7 +122,7 @@ local walkData =
             -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
         -- Completion: All Caldera crabs dead
-        Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 77 },
+        Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 82 },
         Boss        = {'Caldera_Crab'},
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
@@ -145,7 +146,7 @@ local walkData =
         -- 3-4 Grenade Syrups with a Morbid Molasses
         -- Killing Morbid Molasses kills the Grenade Syrups partied with them
         -- Completion: All Morbid Molasses dead
-        Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 77 },
+        Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 82 },
         Boss        = {'Morbid_Molasses'},
         Progress    = 4,
         TempRate    = { 75 },
@@ -183,7 +184,7 @@ local walkData =
         -- Zone Mechanics: Killed 3 Albino antlions (patrols ), then I see "The Fiend thrists for blood! msg" x2, then 2 Anthracite Antlions come
         -- Completion: All Myrmeleontide dead
         -- TEST: Sandpit resets hate if it lands ???
-        Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 77 },
+        Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 82 },
         Boss        = {'Myrmeleontide'},
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
@@ -212,7 +213,7 @@ local walkData =
         -- Doesn't seem to always work? Unsure what causes it?
         -- When 17522755
         -- Completion: All Harpimaira dead
-        Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 77 },
+        Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 82 },
         Boss        = {'Harpimaira'},
         Progress    = 5,
         TempRate    = { 50 }, -- TODO
@@ -249,7 +250,7 @@ local walkData =
             -- Proc { }
         -- Zone Mechanics: 
         -- Completion: Natrix dead
-        Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 77 },
+        Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 82 },
         Boss        = {'Natrix'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
@@ -287,7 +288,7 @@ local walkData =
             -- 2053 HP 1020 TP 256 spirits within | 2287 HP 1020 TP 284 spirits within
         -- Zone Mechanics: 
         -- Completion: All Canis Dirus dead
-        Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 77 },
+        Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 82 },
         Boss        = {'Canis_Dirus'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
@@ -373,7 +374,7 @@ local walkData =
                 -- }
         -- Zone Mechanics: Have to wait for Varanus to despawn fully after Anguis dies for the Walk to complete and show the msg / start cutscene to por tout
         -- Completion: Anguis dead
-        Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 77 },
+        Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 85 },
         Boss        = {'Anguis'},
         Progress    = 1,
         TempRate    = { 0 }, -- TODO
@@ -430,7 +431,7 @@ local walkData =
             -- 1094 tp 2199 HP 4212 spirits within 
         -- Zone Mechanics: 
         -- Completion: All Jebutoise dead
-        Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
+        Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 82 },
         Boss        = {'Jebutoise'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
@@ -480,7 +481,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: 
     --     Completion: All Anhanguera dead
-        Mobs        = { IdStart = 17522800, IdEnd = 17522805, Lvl = 77 },
+        Mobs        = { IdStart = 17522800, IdEnd = 17522805, Lvl = 82 },
         Boss        = {'Anhanguera'},
         Progress    = 1,
         TempRate    = { 50 }, -- TODO
@@ -564,7 +565,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: All non-boss mobs can be slept. There are somewhere around 20-30. They should each die in one WS. Their TP moves can cause terror, so take care if you drag them along too long. 
     --     Completion: All Annihilative Adenium dead
-        Mobs        = { IdStart = 17522806, IdEnd = 17522832, Lvl = 77 },
+        Mobs        = { IdStart = 17522806, IdEnd = 17522832, Lvl = 82 },
         Boss        = {'Annihilative_Adenium'},
         Progress    = 3,
         TempRate    = { 50 }, -- TODO
@@ -615,7 +616,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Tapana dead
-        Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 77 },
+        Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 85 },
         Boss        = {'Tapana'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
@@ -686,7 +687,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Ironclad Harbinger and Ironclad Vaporizer dead
-        Mobs        = { IdStart = 17522862, IdEnd = 17522879, Lvl = 77 },
+        Mobs        = { IdStart = 17522862, IdEnd = 17522879, Lvl = 82 },
         Boss        = {'Ironclad_Harbinger', 'Ironclad_Vaporizer'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
@@ -770,7 +771,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Ligeia, Leucosia, Raidne all dead
-        Mobs        = { IdStart = 17522880, IdEnd = 17522898, Lvl = 77 },
+        Mobs        = { IdStart = 17522880, IdEnd = 17522898, Lvl = 82 },
         Boss        = {'Ligeia', 'Leucosia', 'Raidne' },
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
@@ -839,7 +840,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: All Barra Edinazu dead
-        Mobs        = { IdStart = 17522899, IdEnd = 17522916, Lvl = 77 },
+        Mobs        = { IdStart = 17522899, IdEnd = 17522916, Lvl = 82 },
         Boss        = {'Barra_Edinazu' },
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
@@ -1001,7 +1002,7 @@ local walkData =
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Mingyi dead
-        Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 77 },
+        Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 85 },
         Boss        = {'Mingyi' },
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
@@ -1650,7 +1651,10 @@ local function resetWalkVars(zone, walk)
 end
 
 local function createWalk(player, walk)
+    local data = walkData[walk]
     local zone = player:getZone()
+
+    if not data then return end
 
     -- Check if Walk is already active
     if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
@@ -1658,8 +1662,14 @@ local function createWalk(player, walk)
     tpz.woe.mob.spawnWalkMobs(walk)
     tpz.woe.mob.rollForEndowed(nil, player)
 
+    for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
+        local mob = GetMobByID(mobId)
+        if tpz.woe.mob.IsBoss(mob, walk) then
+            tpz.woe.mob.setUpRandomProcs(mob)
+        end
+    end
+
     if GetSurgedWalk(zone) == walk then
-        printf("Apply surged mods")
         tpz.woe.mob.applySurgeMods(walk)
     end
 
@@ -1778,23 +1788,6 @@ local function surgeWalkTimer(zone)
 end
 
 -- Mob functions
-local function IsBoss(mob, walk)
-    local data = walkData[walk]
-    if not data or not data.Boss then
-        return false
-    end
-
-    local mobName = mob:getName()
-
-    for _, bossName in pairs(data.Boss) do
-        if mobName == bossName then
-            return true
-        end
-    end
-
-    return false
-end
-
 tpz.woe.mob = tpz.woe.mob or {}
 
 local modByMobName =
@@ -1808,7 +1801,7 @@ local mixinByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
         -- TODO: Mega scissors x3
-        mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, mob, spell)
+        mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, target, spell)
             if (spell:getID() == tpz.magic.spell.FLASH) then
                 local duration = 10
                 BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
@@ -1959,7 +1952,7 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
     if isKiller or noKiller then
         local zone = mob:getZone()
         local walk = mob:getLocalVar("CurrentWalk")
-        local boss = IsBoss(mob, walk)
+        local boss = tpz.woe.mob.IsBoss(mob, walk)
 
         if boss then
             tpz.woe.incrementProgress(zone, walk)
@@ -2071,12 +2064,74 @@ tpz.woe.mob.applySurgeMods = function(walk)
     for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
         local mob = GetMobByID(mobId)
 
-        mob:setMobLevel(mob:getMainLvl() +5)
+        mob:setMobLevel(mob:getMainLvl() +3)
         mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
         mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
         mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
         AddAllAttributes(mob, 20)
     end
+end
+
+tpz.woe.mob.setUpRandomProcs = function(mob)
+    local spell = tpz.magic.spell
+    local ws = tpz.weaponskill
+
+    local spellProcs =
+    {
+        spell.STONE_III, spell.WATER_III, spell.AERO_III, spell.FIRE_III, spell.BLIZZARD_III, spell.THUNDER_III, spell.FLASH, spell.DRAIN
+    }
+
+    local wsProcs =
+    {
+        ws.DRAGON_KICK, ws.SHARK_BITE, ws.SWIFT_BLADE, ws.SPINNING_SLASH, ws.MISTRAL_AXE, ws.FULL_BREAK, ws.CROSS_REAPER, ws.WHEELING_THRUST, ws.BLADE_TEN, ws.TACHI_GEKKO, ws.HEXA_STRIKE, ws.FULL_SWING,
+        ws.ARCHING_ARROW, ws.HEAVY_SHOT
+    }
+
+    mob:setLocalVar("SpellProc", spellProcs[math.random(#spellProcs)])
+    mob:setLocalVar("WSProc", wsProcs[math.random(#wsProcs)])
+    mob:setLocalVar ("WSProcDuration", 15)
+    mob:setLocalVar ("SpellProcDuration", 15)
+
+    -- Can proc up to 3 times max, 15s - > 10s - > 5s
+    mob:addListener("WEAPONSKILL_TAKE", "WSPROC_WEAPONSKILL_TAKE", function(target, attacker, wsId, tp, action)
+        if (wsId == target:getLocalVar("WSProc") ) then
+            local duration = target:getLocalVar("WSProcDuration") or 0
+
+            if not mob:hasStatusEffect(tpz.effect.TERROR) and duration > 0 then
+                BreakMob(target, attacker, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
+                target:setLocalVar ("WSProcDuration", duration - 5)
+            end
+        end
+    end)
+
+    -- Can proc up to 3 times max, 15s - > 10s - > 5s
+    mob:addListener("MAGIC_HIT", "SPELLPROC_MAGIC_HIT", function(caster, target, spell)
+        if (spell:getID() == target:getLocalVar("SpellProc")) then
+            local duration = target:getLocalVar("SpellProcDuration") or 0
+
+            if not mob:hasStatusEffect(tpz.effect.TERROR) and duration > 0 then
+                BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
+                target:setLocalVar ("SpellProcDuration", duration - 5)
+            end
+        end
+    end)
+end
+
+tpz.woe.mob.IsBoss = function(mob, walk)
+    local data = walkData[walk]
+    if not data or not data.Boss then
+        return false
+    end
+
+    local mobName = mob:getName()
+
+    for _, bossName in pairs(data.Boss) do
+        if mobName == bossName then
+            return true
+        end
+    end
+
+    return false
 end
 
 local function startWalk(player, walk)
@@ -2490,7 +2545,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
     local data = confluxData[npcName]
 
     if not data then return end
-
+    printf("Walk %d", walk)
     if isExit then
         if (csid == 1001 and option == 1) then
             local tData = data.Exit.Update
@@ -2509,7 +2564,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
             -- Surged Walk warning message
             if (option == 5) then
                 if GetSurgedWalk(zone) == walk then
-                    player:messageSpecial(ID.text.CONTENT_LEVEL, 85)
+                    player:messageSpecial(ID.text.CONTENT_LEVEL, walkData[walk].Mobs.Lvl + 3)
                 end
             end
         end
