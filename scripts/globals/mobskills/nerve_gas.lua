@@ -12,9 +12,6 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if (mob:getFamily() == 313) then -- Tinnin only uses after Polar/Pyric Bulwark
-        return 1
-    end
     if (mob:getFamily() == 316) then -- PW
         local mobSkin = mob:getModelId()
         if (mobSkin == 1796) then
