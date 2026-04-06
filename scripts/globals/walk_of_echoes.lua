@@ -16,6 +16,7 @@ require("scripts/globals/magic")
 require("scripts/globals/titles")
 --------------------------------------
 
+-- TODO: Physcal Shield i.e Fanatics Drink makes mob magic tp moves say no effectm prob phys too
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
 -- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
 -- TODO: walkData logic for Boss being a table intead of a single entry
@@ -904,33 +905,36 @@ local walkData =
     --         Aggro: {}
     --         Move Speed { +25% }    
     --         Mechnaics: { Additional effect: Stone or Dark. Earth / Dark elemental  }
-    --     Sitke, lvl { 96 }, Model { 0x00005E0900000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Sitke, lvl { 96 }, Model { 0x00005E0900000000000000000000000000000000 }, Size { Large } HP { 39000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
+    --         Immune {  Normal }, 
+    --         Spells { Thunder V, Thundaga IV, Thundaja, Sleepga, Dispelga}, 
     --         Cast Timer { 30 }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
+    --         TP Moves: { Deathly Diminuendo (Curse? -50%), Malign Invocation, Hellish Crescendo, Interference, Stygian Sphere,
+    --         <= 25% Enthrall (Charm, AOE, Self, 15 yard, 2s cast)}
+    --         Traits { DA, 150+/tick Regain }
+    --         DT { -50% Earth / Water / Ice / Dark  }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { +25% }     
-    --         Mechanics { }
+    --         Mechanics { Additional effect: Amnesia (30s)}
     --         Proc { }
     --     Sin, lvl { 96 }, Model { 0x0000A50800000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { Blizzaga IV }, 
-    --         Cast Timer { 30   }
-    --         TP Moves: { Malign Invocation, Interference, Hellish Crescendo }
-    --         Traits { }
-    --         DT {  }
+    --         Immune { Normal  }, 
+    --         Spells { Water V, Waterga IV, Blizzaga IV, Blizzaja, Paralyga }, 
+    --         Cast Timer { 30  }
+    --         TP Moves: { https://wiki.ffo.jp/html/20357.html and https://www.bg-wiki.com/ffxi/Caturae
+    --         Malign Invocation, Interference, Hellish Crescendo, Afflicting Gaze (Eyes turn purple, gaze Plague aura (250 TP/tick)), Deathly Diminuendo 
+    --          <= 50% HP Shadow Wreck (1500-2000 Dark Damage? -50% Defense Down, 2s cast)}
+    --         Traits {  DA, 150+/tick Regain }
+    --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { +25% }     
-    --         Mechanics { }
+    --         Mechanics { Additional effect: Paralysis (45s duration 50%+ proc rate) }
     --         Proc { }
     --     Myin, lvl { 96 }, Model { 0x0000A20800000000000000000000000000000000 }, Size { Large } HP { 38000? }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
@@ -939,7 +943,7 @@ local walkData =
     --         Spells { Aero V, Aeroga IV, Aeroja, Graviga}, 
     --         Cast Timer { 30 }
     --         TP Moves: { Hellish Crescendo, Interference, Stygian Cyclone, Malign Invocation, Diabolic Claw,
-    --         <= 50% Banneret Charge (Hate Reset + -99% HP, Self, 2s cast) }
+    --         <= 50% Banneret Charge (Hate Reset + Sets Target HP to 1, Self, 2s cast) }
     --         Traits { DA, 150+/tick Regain }
     --         DT { -50% Earth / Water / Ice / Dark  }
     --         Aggro: {}
@@ -953,8 +957,8 @@ local walkData =
     --         Immune {  Normal }, 
     --         Spells { Stone V, Stonega IV, Stoneja, Slowga }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Hellish Crescendo (AOE (700 damage to no shell Valaineral),Self, 3s cast), Diabolic Claw (1s cast), Afflicting Gaze (Gaze, Bind + ???, 3s cast), Interference, Diabolic Claw, 
-    --          Stygian Sphere (1936-1996 Heal + Absorb Shield -100% MDT/BDT until removed, all magic/breath damage removes Or only a certain element? Uriel Blade removed (light damage)?, Self, 2s cast),
+    --         TP Moves: { Hellish Crescendo (AOE (700 damage to no shell Valaineral),Self, 3s cast), Diabolic Claw ( Mdef Down, 1s cast), Afflicting Gaze (Gaze, Bind + ???, 3s cast), Interference (761 damage no shell), 
+    --          Stygian Sphere (1936-1996 Heal + Full Erase + Absorb Shield -100% MDT/BDT until removed, all magic/breath damage removes Or only a certain element? Uriel Blade removed (light damage)?, Self, 2s cast),
     --          Deathly Diminuendo (AOE, Self, 3s cast), Interference
     --          <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2s cast)}
     --         Traits {  DA, 150+/tick Regain }
@@ -962,7 +966,7 @@ local walkData =
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { +25% }     
-    --         Mechanics { Bind + Plague (150+/tick Aura) from Afflicting Gaze? for 1m?}
+    --         Mechanics { Additional effect: Silence (45s), Bind + Plague (150+/tick Aura) from Afflicting Gaze? for 1m?}
     --         Proc { }
     --     Ne, lvl { 96 }, Model { 0x0000A40800000000000000000000000000000000 }, Size { Large } HP { 42000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
@@ -970,28 +974,31 @@ local walkData =
     --         Immune { Normal?  }, 
     --         Spells { Fire V, Firaga IV, Firaja }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Stygian Cyclone (3s cast, seems to be RANGED around person maybe?), Malign invocation (10s Amnesia, 2s cast), Interference (Dispel, Knockback 7, Self, 3s cast), Hellish Crescendo (Para 1m ~50%, Self, 3s cast),
+    --         TP Moves: { Stygian Cyclone (3s cast, seems to be RANGED around person maybe?), Malign invocation (380 damage no shell, 10s Amnesia, 2s cast), Interference (Dispel, Knockback 7, Self, 3s cast), 
+    --         Hellish Crescendo (Para 1m ~50%, Self, 3s cast),
     --         <= 25% Dark Arrivisme (5 Buff Dispel, 1m All Killer (including Humanoid) + 75%-95%, Knockback 5, Self, aoe, 2s cast)  }
     --         Traits { DA, 150+/tick Regain }, 
     --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { +25% }     
-    --         Mechanics { }
+    --         Mechanics { Additional effect: Curse (-25% Max HP / MP, 45s) }
     --         Proc { }
-    --     Mingyi, lvl { 96 }, Model { 0x00005F0900000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Mingyi, lvl { 96 }, Model { 0x00005F0900000000000000000000000000000000 }, Size { Large } HP { 110000 (110k) }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
+    --         Immune { Normal  }, 
+    --         Spells { Aero V, Fire V, Thunder V, Blizzaga IV, Thundaga IV, Stoneja, Aeroja, Waterja, Blizzaja, Thundaja, Paralyga, Dispelga, Sleepga, Silencega, Meteor ( <=25%, Instant Cast) 
+    --          All T5, Ga and Ja's?}, 
+    --         Cast Timer { 30 }
+    --         TP Moves: { Interference, Deathly Diminuendo, Malign Invocation, Dark Arrivisme, Stygian Sphere, Hellish Crescendo,
+    --          <= 50% Enthrall, <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2.5s cast), <=25% Shadow Wreck }
+    --         Traits { DA, 150+/tick Regain }
+    --         DT { -15%~ MDT }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { }     
-    --         Mechanics { }
+    --         Move Speed { +25% }     
+    --         Mechanics { "The fiend thirsts for blood!" randomly on a timer, and random Caturae boss comes comes (60% -> x2 at 16%, HP% based)}
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Mingyi dead
@@ -1081,7 +1088,7 @@ local walkData =
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
             item.FLASK_OF_MANA_MIST
-            -- dusty elixir I, lucid elixir II clerics, stalwarts gambir, lucid elixir I, ascetics tonic, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
+            -- dusty elixir I, lucid elixir II clerics, stalwarts gambir, lucid elixir I, ascetics tonic, ascetics gambir, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
             -- champion's gambir, mana powder, lucid wings I, revitalizer, body boost
         }
     },
@@ -1101,7 +1108,7 @@ local walkData =
                             -- TODO: Leather
                             -- TODO: Hides (Manticore was one)
                             -- TODO: Gems (spinel, clear topaz, light opal)
-                            -- TODO: Potions / ethers
+                            -- TODO: Potions / ethers / elixirs (hi-elixir, too)
                             -- Beastcoins (Gold / Silver)
                             item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
     }
@@ -1844,6 +1851,10 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.MUG_GIL, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.AGGRO_SIGHT, 0)
+    mob:setMobMod(tpz.mobMod.AGGRO_HP, 0)
+    mob:setMobMod(tpz.mobMod.AGGRO_MAGIC, 0)
+    mob:setMobMod(tpz.mobMod.AGGRO_WS, 0)
+    mob:setMobMod(tpz.mobMod.AGGRO_JA, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_SOUND, 1)
     mob:setMobMod(tpz.mobMod.TRUE_SOUND, 1)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30) -- Adjusted per mob
