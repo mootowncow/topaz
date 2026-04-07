@@ -44,7 +44,6 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.MUG_GIL, 8000)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 1)
     mob:setLocalVar("[rage]timer", 3600) -- 60 minutes
-    mob:setHP(mob:getMaxHP()/2)
     mob:setUnkillable(true)
 	mob:addTP(3000)
         tpz.mix.jobSpecial.config(mob, {
@@ -59,6 +58,10 @@ function onMobSpawn(mob)
     -- Number of crits to lose a head
     mob:setLocalVar("CritToTheFace", math.random(50, 100))
     mob:setLocalVar("crits", 0)
+end
+
+function onMobEngaged(mob, target)
+    mob:setHPP(50)
 end
 
 function onMobRoam(mob)

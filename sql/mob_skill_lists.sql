@@ -1524,7 +1524,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Tinnin',313,1831);
 INSERT INTO `mob_skill_lists` VALUES ('Tinnin',313,1832);
 INSERT INTO `mob_skill_lists` VALUES ('Tinnin',313,1834);
 INSERT INTO `mob_skill_lists` VALUES ('Tinnin',313,1835);
-INSERT INTO `mob_skill_lists` VALUES ('Tinnin',313,1836);
 INSERT INTO `mob_skill_lists` VALUES ('Sarameya',314,1785);
 INSERT INTO `mob_skill_lists` VALUES ('Sarameya',314,1786);
 INSERT INTO `mob_skill_lists` VALUES ('Sarameya',314,1787);

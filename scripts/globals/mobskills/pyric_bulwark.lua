@@ -13,7 +13,7 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:hasStatusEffect(tpz.effect.MAGICAL_SHIELD) or mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then
+    if mob:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD) then
         return 1
     end
 
@@ -39,6 +39,7 @@ function onMobWeaponSkill(target, mob, skill)
     skill:setMsg(MobBuffMove(mob, typeEffectOne, 1, 0, 60))
     local effect1 = mob:getStatusEffect(typeEffectOne)
     effect1:unsetFlag(tpz.effectFlag.DISPELABLE)
+    mob:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
 
     return typeEffectOne
 end
