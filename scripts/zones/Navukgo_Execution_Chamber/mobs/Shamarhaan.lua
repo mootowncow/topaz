@@ -55,7 +55,7 @@ function onMobEngaged(mob, target)
     end
 end
 
-function onMobDisengaged(mob)
+function onMobDisengage(mob)
     engagedID = mob:getLocalVar("engaged")
     if engagedID ~= 0 then
         player = GetPlayerByID(engagedID)

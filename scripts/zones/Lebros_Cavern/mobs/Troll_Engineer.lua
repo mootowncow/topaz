@@ -46,6 +46,10 @@ function onMobFight(mob, target)
     end
 end
 
+function onMobDisengage(mob)
+    mob:setLocalVar("AuraTick", 0)
+end
+
 function onMobWeaponSkillPrepare(mob, target)
 end
 

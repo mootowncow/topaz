@@ -49,7 +49,7 @@ function onMobEngaged(mob, target)
     mob:setLocalVar("quick_draw", os.time() + math.random(5, 10))
 end
 
-function onMobDisengaged(mob)
+function onMobDisengage(mob)
     engagedID = mob:getLocalVar("engaged")
     if engagedID ~= 0 then
         player = GetPlayerByID(engagedID)

@@ -60,7 +60,7 @@ function onMobEngaged(mob, target)
     mob:setLocalVar("wild_card", os.time() + math.random(45, 60))
 end
 
-function onMobDisengaged(mob)
+function onMobDisengage(mob)
     engagedID = mob:getLocalVar("engaged")
     if engagedID ~= 0 then
         player = GetPlayerByID(engagedID)
