@@ -21,24 +21,13 @@ require("scripts/globals/weaponskillids")
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
 -- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
 -- TODO: walkData logic for Boss being a table intead of a single entry
--- TODO: Add a function generateProc() for a random spell, a random WS< and a random WS and run it on every walk creation then apply it to that walks bosses (so its randomized everytime you do that walk)
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
 -- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
 -- TODO: Add MobDrops to generateTreasureCofferLoot
--- TODO: Liminal residue / liminal sack added to drops (only from 11+ confluxes? how does retail do it?) (12/13/14/15 only?) NOTE: Conflux 8 gave me a sack of liminality, Conflux 9 gave sack of Deviousness
--- TODO: but I prefer requiring diff tiers of walks imo, more challenging and makes them relevant and worth doing
--- TODO: Might need to split up coins / dice / residue into 3 different tiers of drops based on Walk
--- TODO: Are drops this? Fix if so https://ffxiclopedia.fandom.com/wiki/Category:Walk_of_Echoes_Battlefields Normally tiers i-iii are coins, tiers iv and v are devious, tiers vi and vii liminal.
 -- TODO: https://www.bg-wiki.com/ffxi/Category:Walk_of_Echoes_Battlefields
 -- TODO: https://wiki.ffo.jp/html/13678.html 
--- TODO: Go to Basics section, for nonsurged walks:
--- TODO: Tier 1-3: has a chance to drop coin pouches with chance of single die/residue
--- TODO: Tier 4-5: has a chance to drop die pouches with chance of single coin/residue
--- TODO: Tier 6-7: has a chance to drop residue pouches with chance of single die/coin 
--- TODO: Surged Walks can drop coins, dice, and residue 
--- TODO: If above is true, increase coin / dice / residue drop rates (~50%?)
 -- TODO: Code pouches, scrolls, drops
 -- TODO: Can you pet pull on retail? (No linking)
 -- TODO: No party hate on normal mobs? Just bosses?
@@ -115,7 +104,7 @@ local walkData =
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SurgedDrops = { item.THRIFT_GLOVES_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
-        MobDrops    = {},  -- TODO
+        MobDrops    = { item.CRAB_SHELL, item.HIGH_QUALITY_CRAB_SHELL },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
         Experience  = 1500
     },
@@ -139,7 +128,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
-        MobDrops    = {},  -- TODO: Clot Plasm, Slime Juice, 
+        MobDrops    = { item.VIAL_OF_SLIME_OIL, item.VIAL_OF_SLIME_JUICE, item.HANDFUL_OF_CLOT_PLASMA },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
     },
@@ -177,7 +166,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.ANTLION_JAW },
         Title       = { title.TORCHBEARER_OF_THE_3RD_WALK },
         Experience  = 1500
     },
@@ -206,7 +195,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { },
         Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
         Experience  = 1500
     },
@@ -243,7 +232,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.WYVERN_WING, item.WYVERN_SKIN, item.HANDFUL_OF_WYVERN_SCALES },
         Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
         Experience  = 1500
     },
@@ -281,7 +270,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.SMILODON_HIDE, item.SMILODON_LIVER },
         Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
         Experience  = 1500
     },
@@ -367,7 +356,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
         Experience  = 1500
     },
@@ -424,7 +413,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
         Experience  = 1500
     },
@@ -474,7 +463,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_9TH_WALK },
         Experience  = 1500
     },
@@ -558,7 +547,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.LYCOPODIUM_FLOWER },
         Title       = { title.TORCHBEARER_OF_THE_10TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -609,7 +598,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -680,7 +669,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -764,7 +753,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.BIRD_FEATHER, item.BIRD_EGG },
         Title       = { title.TORCHBEARER_OF_THE_13TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -833,7 +822,7 @@ local walkData =
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.COEURL_HIDE, item.COEURL_WHISKER, item.HIGH_QUALITY_COEURL_HIDE, item.SLICE_OF_COEURL_MEAT, item.LYNX_HIDE, item.SLICE_OF_LYNX_MEAT },
         Title       = { title.TORCHBEARER_OF_THE_14TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -989,76 +978,16 @@ local walkData =
     --     Zone Mechanics: {}
     --     Completion: Mingyi dead
         Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 85 },
-        Boss        = {'Mingyi' },
+        Boss        = {'Mingyi'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
         SurgedDrops = {},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-        MobDrops    = { item.ANTLION_JAW }, -- TODO
+        MobDrops    = { item.FIRE_CLUSTER, item.ICE_CLUSTER, item.WIND_CLUSTER, item.EARTH_CLUSTER, item.LIGHTNING_CLUSTER, item.WATER_CLUSTER, item.LIGHT_CLUSTER, item.DARK_CLUSTER },
         Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
-
-
-
-    -- Template
-
-    -- [8] =
-    -- {
-    --      Begrimed_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
-    --         Partied {  }, 
-    --         Patrols { }, 
-    --         Boss {  }, 
-    --         Immune { Normal }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {  }
-    --         DT: { }
-    --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
-    --      Bedraggled_Bale, lvl { 79 }, Model { 0x0000C80800000000000000000000000000000000 }, Size { Small }  HP { 14500 }, Amount { 9 }, Ids {}  
-    --         Partied {  }, 
-    --         Patrols {  }, 
-    --         Boss {  }, 
-    --         Immune {  }, 
-    --         Spells {  }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }, 
-    --         Traits: {}
-    --         DT: {  }
-    --         Aggro: {}
-    --         Move Speed { }    
-    --         Mechnaics: {}
-    --     Ironclad_Harbinger, lvl { 83 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { } 
-    --         Boss {  }, 
-    --         Immune {   }, 
-    --         Spells { }, 
-    --         Cast Timer {  }
-    --         TP Moves: {  }
-    --         Traits { }
-    --         DT {  }
-    --         Aggro: {}
-    --         No Turn {  }
-    --         Move Speed { }     
-    --         Mechanics { }
-    --         Proc { }
-    --     Zone Mechanics: {}
-    --     Completion: 
-    --     Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 77 },
-    --     Boss        = {'Ironclad_Harbinger' },
-    --     Progress    = 2,
-    --     TempRate    = { 25 }, -- TODO
-    --     GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-    --     SurgedDrops = {},
-    --     SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
-    --     MobDrops    = { item.ANTLION_JAW }, -- TODO
-    --     Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },  -- TODO
-    --     Experience  = 1500  -- TODO
-    -- },
 
     Temps =
     {
@@ -1083,8 +1012,9 @@ local walkData =
     {
         -- Coins and pouches share a group, one or other per slot]
         Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
+        Dice        =   { item.DEVIOUS_DIE},
         Residue     =   { item.POUCH_OF_LIMINAL_RESIDUE, item.FRAYED_SACK_OF_LIMINALITY },
-        Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.POUCH_OF_LIMINAL_RESIDUE },
+        Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.FRAYED_SACK_OF_DEVIOUSNESS, item.POUCH_OF_LIMINAL_RESIDUE },
         Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_PINING_NOCTURNE }, -- Stone V, nocturne, Jubaku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
         Misc        =   { 
                             item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
@@ -1560,11 +1490,19 @@ local function generateTreasureCofferLoot(player, walk)
         elseif roll <= 110 then
             item = getUniqueItem(drops.Scrolls, used)
 
-        -- Coin (20%)
-        elseif roll <= 310 then
+        -- Coin (50%)
+        elseif roll <= 610 then
             local pool = drops.Coins
 
-            if surged and math.random(100) <= 20 then
+            if walk <= 7 then
+                pool = drops.Coins
+            elseif walk <= 11 then
+                pool = drops.Dice
+            else
+                pool = drops.Residue
+            end
+
+            if surged and math.random(100) <= 50 then
                 pool = drops.Pouches
             end
 
