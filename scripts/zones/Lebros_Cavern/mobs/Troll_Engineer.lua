@@ -35,11 +35,13 @@ function onMobFight(mob, target)
 
     if BattleTime >= AuraTick then
         mob:setLocalVar("AuraTick", BattleTime + 3)
-        local nearbyPlayers = mob:getPlayersInRange(30)
-        if nearbyPlayers == nil then return end
-        for _,v in ipairs(nearbyPlayers) do
-            v:delStatusEffectSilent(tpz.effect.MUTE)
-            v:addStatusEffectEx(tpz.effect.MUTE, tpz.effect.MUTE, 1, 0, 3)
+    local NearbyEntities = mob:getNearbyEntities(30)
+    if NearbyEntities == nil then return end
+        for _,entity in pairs(NearbyEntities) do
+            if entity:getAllegiance() ~= mob:getAllegiance() then
+                entity:delStatusEffectSilent(tpz.effect.MUTE)
+                entity:addStatusEffectEx(tpz.effect.MUTE, tpz.effect.MUTE, 1, 0, 3)
+            end
         end
     end
 end
