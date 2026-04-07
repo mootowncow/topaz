@@ -34,7 +34,7 @@ function onMobFight(mob, target)
 
     if BattleTime >= AuraTick then
         mob:setLocalVar("AuraTick", BattleTime + 3)
-    local NearbyEntities = mob:getNearbyEntities(50)
+    local NearbyEntities = mob:getNearbyEntities(30)
     if NearbyEntities == nil then return end
         for _,entity in pairs(NearbyEntities) do
             if entity:getAllegiance() ~= mob:getAllegiance() then
