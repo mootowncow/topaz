@@ -845,6 +845,8 @@ function dynamis.setUpOdiousNM(mob)
 
     mob:setMobMod(tpz.mobMod.CAN_PARRY, 1)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30)
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
+    mob:setMobMod(tpz.mobMod.IDLE_DESPAWN, 180)
 
     mob:addImmunity(tpz.immunity.SLEEP)
     mob:addImmunity(tpz.immunity.SILENCE)

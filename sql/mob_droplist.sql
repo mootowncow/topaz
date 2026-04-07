@@ -17968,22 +17968,26 @@ INSERT INTO `mob_droplist` VALUES (9019,0,0,1000,1453,100); -- Montiont Silverpi
 INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,3405,1000); -- (Bladeburner Rokgevok - Odious Scale) Fiendish Tome: Chapter 2
 INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,1452,1000); -- Ordelle bronzepiece
 INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,1452,240); -- Ordelle bronzepiece
-INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,1453,100); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,1453,240); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,1453,50); -- Montiont Silverpiece
 INSERT INTO `mob_droplist` VALUES (9020,0,0,1000,11772,240); -- Oneiros Sash
 INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,3406,1000); -- (Steelshank Kratzvatz - Odious Leather) Fiendish Tome: Chapter 3
 INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,1452,1000); -- Ordelle bronzepiece
 INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,1452,240); -- Ordelle bronzepiece
-INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,1453,100); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,1453,240); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,1453,50); -- Montiont Silverpiece
 INSERT INTO `mob_droplist` VALUES (9021,0,0,1000,10972,240); -- Oneiros Cappa
 INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,3407,1000); -- (Bloodfist Voshgrosh - Odious Cryptex) Fiendish Tome: Chapter 4
 INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,1452,1000); -- Ordelle bronzepiece
 INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,1452,240); -- Ordelle bronzepiece
-INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,1453,100); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,1453,240); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,1453,50); -- Montiont Silverpiece
 INSERT INTO `mob_droplist` VALUES (9022,0,0,1000,11773,240); -- Oneiros Belt
 INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,3408,1000); -- (Spellspear Djokvukk - Odious Strongbox) Fiendish Tome: Chapter 5
 INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,1452,1000); -- Ordelle bronzepiece
 INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,1452,240); -- Ordelle bronzepiece
-INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,1453,100); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,1453,240); -- Montiont Silverpiece
+INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,1453,50); -- Montiont Silverpiece
 INSERT INTO `mob_droplist` VALUES (9023,0,0,1000,10973,240); -- Oneiros cape
 INSERT INTO `mob_droplist` VALUES (9024,0,0,1000,1474,1000); -- (Arch Overlord Tombstone) infinity Core
 INSERT INTO `mob_droplist` VALUES (9024,0,0,1000,1453,1000); -- Montiont Silverpiece

@@ -29,6 +29,12 @@ function onMobFight(mob, target)
     else
         mob:setMod(tpz.mod.COUNTER, 20)
     end
+
+    if mob:hasStatusEffect(tpz.effect.BLOOD_WEAPON) then
+        mob:setMod(tpz.mod.CRITHITRATE, 100)
+    else
+        mob:setMod(tpz.mod.COUNTER, 5)
+    end
 end
 
 function onMobDespawn(mob)
