@@ -522,5 +522,9 @@ function spawnMobInAssault(instance, mobTable)
 end
 
 function SetExcavationDutyMods(mob)
-    mob:setDamage(50)
+    if mob:getFamily() == 922 then -- Goblins
+        mob:setDamage(140)
+    else -- Trolls
+        mob:setDamage(50)
+    end
 end
