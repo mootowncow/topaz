@@ -5,8 +5,11 @@
 -----------------------------------
 local ID = require("scripts/zones/Lebros_Cavern/IDs")
 mixins = {require("scripts/mixins/weapon_break")}
+require("scripts/globals/mobs")
+require("scripts/globals/assault")
 -----------------------------------
 function onMobSpawn(mob)
+    SetExcavationDutyMods(mob)
     mob:setMod(tpz.mod.MDEF, 70)
     mob:setMod(tpz.mod.UDMGMAGIC, 25)
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)

@@ -2003,11 +2003,6 @@ bool CGambitsContainer::TryTrustSkill()
             }
         }
 
-        if (POwner->GetMJob() == JOB_MNK && !POwner->StatusEffectContainer->HasStatusEffect(EFFECT_BOOST))
-        {
-            return false;
-        }
-
         return true;
     }
 

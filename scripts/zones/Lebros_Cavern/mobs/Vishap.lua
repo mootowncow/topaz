@@ -5,11 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Lebros_Cavern/IDs")
 mixins = {require("scripts/mixins/families/dahak")}
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 40)
     mob:setMod(tpz.mod.UDMGMAGIC, 13)
-    mob:setMod(tpz.mod.DOUBLE_ATTACK, 0)
+    mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     mob:setMobMod(tpz.mobMod.DRAW_IN, 2) 
     mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
@@ -38,8 +39,21 @@ function onMobWeaponSkillPrepare(mob, target)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    -- Always uses a random breath 3x after Chaos Blade
     if skill:getID() == 647 then
-        mob:useMobAbility(math.random(642, 644)) -- Always uses a random breath after cChaos Blade
+        local randomBreath = math.random(642, 644)
+        UseMultipleTPMoves(mob, 3, randomBreath)
+    end
+
+    if skill:getID() == 642 then
+        mob:addStatusEffect(tpz.effect.BLAZE_SPIKES, 40, 0, 30)
+        mob:setEffectUndispellable(tpz.effect.BLAZE_SPIKES)
+    elseif skill:getID() == 643 then
+        mob:addStatusEffect(tpz.effect.DELUGE_SPIKES, 15, 0, 30)
+        mob:setEffectUndispellable(tpz.effect.DELUGE_SPIKES)
+    elseif skill:getID() == 644 then
+        mob:addStatusEffect(tpz.effect.GALE_SPIKES, 15, 0, 30)
+        mob:setEffectUndispellable(tpz.effect.GALE_SPIKES)
     end
 end
 

@@ -55,7 +55,7 @@ function onSpellCast(caster, target, spell)
     -- Spell physically hit, check for additional effect proccing
     if (spell:getMsg() ~= tpz.msg.basic.MAGIC_FAIL) then
         params.effect = tpz.effect.DEFENSE_DOWN
-        params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 125)
+        params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 100)
         local resist = applyResistanceEffect(caster, target, spell, params)
         local power = 20
         -- Check for defense down landing

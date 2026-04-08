@@ -4,6 +4,7 @@
 -- 
 -----------------------------------
 local ID = require("scripts/zones/Lebros_Cavern/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:setDamage(200)

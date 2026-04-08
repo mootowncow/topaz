@@ -520,3 +520,7 @@ function spawnMobInAssault(instance, mobTable)
         SpawnMob(v, instance)
     end
 end
+
+function SetExcavationDutyMods(mob)
+    mob:setDamage(50)
+end
