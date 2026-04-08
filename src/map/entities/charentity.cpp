@@ -2641,8 +2641,7 @@ void CCharEntity::OnRaise()
 
 void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
 {
-    static const std::vector<uint16> lockOutTimerItems =
-    { 4254, 4174, 4175 };
+    static const std::vector<uint16> lockOutTimerItems = { 4254, 4144, 4145 }; // Megalixir, Elixir, Hi-Elixir
     auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
     auto PItem = static_cast<CItemUsable*>(state.GetItem());
 

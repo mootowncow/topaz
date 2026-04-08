@@ -90,7 +90,7 @@ bool CPlayerController::Cast(uint16 targid, SpellID spellid)
     // Global lock out timer
     if (server_clock::now() < PChar->m_globalWaitTimer)
     {
-        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_CAST));
         return false;
     }
 
@@ -260,7 +260,7 @@ bool CPlayerController::Ability(uint16 targid, uint16 abilityid)
         // Global lock out timer
         if (server_clock::now() < PChar->m_globalWaitTimer)
         {
-            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA));
             return false;
         }
 
@@ -1420,7 +1420,7 @@ bool CPlayerController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
         // Global lock out timer
         if (server_clock::now() < PChar->m_globalWaitTimer)
         {
-            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ITEM_CANNOT_USE));
             return false;
         }
         return PChar->PAI->Internal_UseItem(targid, loc, slotid);
@@ -1471,7 +1471,7 @@ bool CPlayerController::WeaponSkill(uint16 targid, uint16 wsid)
         // Global lock out timer
         if (server_clock::now() < PChar->m_globalWaitTimer)
         {
-            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_WAIT_LONGER));
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_WS));
             return false;
         }
 
