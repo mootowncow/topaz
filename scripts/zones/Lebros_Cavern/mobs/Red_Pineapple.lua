@@ -5,6 +5,7 @@
 -----------------------------------
 mixins = {require("scripts/mixins/families/growing_bomb")}
 local ID = require("scripts/zones/Lebros_Cavern/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 function onMobSpawn(mob)
     mob:setMod(tpz.mod.MDEF, 0)
@@ -14,6 +15,7 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
 	mob:setMobMod(tpz.mobMod.SIGHT_RANGE, 20)
     mob:AnimationSub(0)
+    mob:setSpellList(2045) -- Fire through Fire III, Firaga, and Blaze Spikes
 end
 
 function onMobRoam(mob)
@@ -42,11 +44,13 @@ function onMobFight(mob, target)
 		    mob:setDamage(150)
 		    mob:setMod(tpz.mod.UFASTCAST, 25)
 		    mob:setMod(tpz.mod.MATT, 36)
+            mob:setSpellList(2045) -- Fire through Fire III, Firaga, and Blaze Spikes
 	    elseif animationSub == 2 then
 		    mob:AnimationSub(3)
 		    mob:setDamage(175)
 		    mob:setMod(tpz.mod.UFASTCAST, 50)
 		    mob:setMod(tpz.mod.MATT, 40)
+            mob:setSpellList(2046) -- Fire III and Fire IV, Firaga III, and Flare II.
 	    end
     end
     if mob:getHPP() <= 50 then
@@ -55,11 +59,13 @@ function onMobFight(mob, target)
 		    mob:setDamage(150)
 		    mob:setMod(tpz.mod.UFASTCAST, 25)
 		    mob:setMod(tpz.mod.MATT, 36)
+            mob:setSpellList(2045) -- Fire through Fire III, Firaga, and Blaze Spikes
 	    elseif animationSub == 2 then
 		    mob:AnimationSub(3)
 		    mob:setDamage(175)
 		    mob:setMod(tpz.mod.UFASTCAST, 50)
 		    mob:setMod(tpz.mod.MATT, 40)
+            mob:setSpellList(2046) -- Fire III and Fire IV, Firaga III, and Flare II.
 	    end
     end
     if mob:getHPP() <= 25 then
@@ -68,6 +74,7 @@ function onMobFight(mob, target)
 		    mob:setDamage(175)
 		    mob:setMod(tpz.mod.UFASTCAST, 50)
 		    mob:setMod(tpz.mod.MATT, 40)
+            mob:setSpellList(2046) -- Fire III and Fire IV, Firaga III, and Flare II.
 	    end
     end
 end
