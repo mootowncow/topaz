@@ -886,6 +886,8 @@ function BlueBuffShouldOverwrite(caster, buffEffect, power)
                     shouldOverwrite = true
                 end
             end
+        else -- All other buffs not in the buffData table should be able to overwrite freely
+            shouldOverwrite = true
         end
     end
 
