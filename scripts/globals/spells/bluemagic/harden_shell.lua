@@ -26,7 +26,7 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.PERFECT_DEFENSE
     local power = 100
-    local duration = 60
+    local duration = 30
     local tick = 3
     local subid = 0
     local subpower = 0
