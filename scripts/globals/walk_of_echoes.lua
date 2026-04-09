@@ -17,8 +17,6 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: Can use any HP/MP restoring item while full HP / MP
--- TODO: Medicated only blocks items that give you medicated effect - > code into C++ which items give medicated and unable to use if medicated? "Cannot use <item name> while medicated."
 -- TODO: Megalixir / Elixir / Hi-Elixir should be 10s cast
 -- TODO: Change the lock out to not be based on specific items and if the items cast time is >= 8s
 -- TODO: Can use % HP/MP heal items (vile elixirs, elixirs, megalixirs, etc) even if HP/MP is 100%
@@ -1003,15 +1001,14 @@ local walkData =
             item.LUCID_POTION_III, item.LUCID_ETHER_III, item.MEGALIXIR, item.TUBE_OF_HEALING_SALVE_II, item.BOTTLE_OF_CATHOLICON, item.BOTTLE_OF_VICARS_DRINK, item.TUBE_OF_CLEAR_SALVE_II,
             item.DUSTY_WING, item.SCROLL_OF_INSTANT_RERAISE, item.DUSTY_SCROLL_OF_RERAISE, item.BOTTLE_OF_GIANTS_DRINK, item.BOTTLE_OF_WIZARDS_DRINK, item.BOTTLE_OF_FANATICS_DRINK, item.BOTTLE_OF_FOOLS_DRINK,
             item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_CHAMPIONS_TONIC, item.BOTTLE_OF_BRAVERS_DRINK, item.BOTTLE_OF_MONARCHS_DRINK, item.BOTTLE_OF_BERSERKERS_TONIC, item.BOTTLE_OF_SWIFTSHOT_TONIC
-            -- strange milk 5/tick regen strange juice 2/tic refresh
         },
         Random =
         {
             item.FLASK_OF_STRANGE_MILK, item.BOTTLE_OF_STRANGE_JUICE, item.TUBE_OF_HEALING_SALVE_I, item.TUBE_OF_CLEAR_SALVE_I, item.BOTTLE_OF_CATHOLICON_HQ, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST,
             item.BOTTLE_OF_CLERICS_DRINK, item.LUCID_ETHER_I, item.SCROLL_OF_INSTANT_RERAISE, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_HEALING_POWDER, item.PINCH_OF_MANA_POWDER, item.FLASK_OF_HEALING_MIST,
-            item.FLASK_OF_MANA_MIST
-            -- dusty elixir I, lucid elixir II clerics, stalwarts gambir, lucid elixir I, ascetics tonic, ascetics gambir, Spiritual Incense, fools powder, fanatics tonic, fanatics powder, berserkers drink, lucid elixir II, primeval brew
-            -- champion's gambir, mana powder, lucid wings I, revitalizer, body boost
+            item.FLASK_OF_MANA_MIST, item.DUSTY_ELIXIR, item.LUCID_ELIXIR_I, item.LUCID_ELIXIR_II, item.BOTTLE_OF_CLERICS_DRINK, item.BOTTLE_OF_STALWARTS_GAMBIR, item.BOTTLE_OF_ASCETICS_TONIC, item.BOTTLE_OF_ASCETICS_GAMBIR,
+            item.CONTAINER_OF_SPIRITUAL_INCENSE, item.PINCH_OF_FANATICS_POWDER, item.PINCH_OF_FOOLS_POWDER, item.BOTTLE_OF_FANATICS_TONIC, item.BOTTLE_OF_FOOLS_TONIC, item.BOTTLE_OF_BERSERKERS_DRINK, item.FLASK_OF_PRIMEVAL_BREW,
+            item.BOTTLE_OF_CHAMPIONS_GAMBIR, item.PAIR_OF_LUCID_WINGS_I, item.REVITALIZER, item.BOTTLE_OF_BODY_BOOST, item.BOTTLE_OF_MANA_BOOST
         }
     },
 

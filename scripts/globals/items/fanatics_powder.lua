@@ -1,7 +1,7 @@
 -----------------------------------------
--- ID: 5845
--- Fanatic's Drink
--- Grants the user 50% reduction to physical damage
+-- ID: 5434
+-- Fanatic's Powder
+-- Makes user immune to physical damage
 -----------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/msg")
@@ -12,7 +12,7 @@ end
 
 function onItemUse(target)
     local effect = tpz.effect.PHYSICAL_SHIELD
-    local power = 50
+    local power = 1 
     local duration = 60
 
     if (target:addStatusEffect(effect, power, 0, duration)) then

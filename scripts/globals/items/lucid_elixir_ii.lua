@@ -9,9 +9,6 @@ require("scripts/globals/msg")
 require("scripts/globals/items")
 
 function onItemCheck(target)
-    if target:getMaxHP() == target:getHP() and target:getMaxMP() == target:getMP() then
-        return tpz.msg.basic.ITEM_UNABLE_TO_USE_2
-    end
     return 0
 end
 

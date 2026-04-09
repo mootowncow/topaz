@@ -1,7 +1,7 @@
 -----------------------------------------
--- ID: 5845
--- Fanatic's Drink
--- Grants the user 50% reduction to physical damage
+-- ID: 5434
+-- Carnal Incense
+-- Makes user immune to physical damage
 -----------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/msg")
@@ -12,8 +12,8 @@ end
 
 function onItemUse(target)
     local effect = tpz.effect.PHYSICAL_SHIELD
-    local power = 50
-    local duration = 60
+    local power = 1
+    local duration = 12
 
     if (target:addStatusEffect(effect, power, 0, duration)) then
         target:delStatusEffectSilent(tpz.effect.MAGIC_SHIELD)
