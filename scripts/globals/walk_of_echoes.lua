@@ -17,12 +17,21 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Change the lock out to not be based on specific items and if the items cast time is >= 8s
+-- TODO: Can use % HP/MP heal items (vile elixirs, elixirs, megalixirs, etc) even if HP/MP is 100%
+-- TODO: Endowed gives ALL starter temps back
+-- TODO: Says "Unable to cast spells at this time" after using a Megalixir (9-10s)
+-- TODO: Vile elixir(didnt test +1) does NOT cause the 10s lock out
+-- TODO: New BLU spells from the hybrid eles made level 75 / coded and any other spells from other mobs?
+-- TODO: Malediction HP/MP/TP drain
+-- TODO: Get temp drop rate from walkData.TempRate
 -- TODO: Physcal Shield i.e Fanatics Drink makes mob magic tp moves say no effectm prob phys too
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
 -- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
 -- TODO: walkData logic for Boss being a table intead of a single entry
 -- TODO: Anhanguera model
--- TODO: ALL walks "Fiend thrists for blood" message on mob death then a random mob in the walk within ~100 yards will run at the killer (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
+-- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
+-- TODO: All walks have this randomly happen on normal mobs too, its randomly assigned to a mob and then it randomly calls a mob within 100 yards. ADd it like random proc and only low chance on a mob (like 5%) to be applied
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
 -- TODO: Check spirits within outside for BDT. ~1k tp, 2242 HP, crocea mors + nyame(LAC auto equip gear): 394 damage
 -- TODO: Add MobDrops to generateTreasureCofferLoot
@@ -72,12 +81,7 @@ local item = tpz.items
 local title = tpz.title
 
 local exitWalkEvent = 1001
-local entryEvent = 44
 local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
-local lobbyPos = { X = -420, Y = 14, Z =-32, Rot = 192 }
-local leaveWoeEvent = 1004
-local timeLimit = 2700
-local failEvent = 1002
 local walkData =
 {
     -- Self means goes off without targets in range
@@ -102,7 +106,7 @@ local walkData =
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
-        SurgedDrops = { item.THRIFT_GLOVES_HQ },
+        SurgedDrops = { item.THRIFT_GLOVES_HQ, item.BELISAMAS_ROPE_HQ, item.ARDOR_PENDANT_HQ, item.KARAGOZ_MANTLE_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         MobDrops    = { item.CRAB_SHELL, item.HIGH_QUALITY_CRAB_SHELL },
         Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
@@ -125,8 +129,8 @@ local walkData =
         Boss        = {'Morbid_Molasses'},
         Progress    = 4,
         TempRate    = { 75 },
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.SASUKE_TEKKO, item.AUSTERITY_BELT, item.FELICITAS_CAPE, item.EIDOLON_PENDANT },
+        SurgedDrops = { item.SASUKE_TEKKO_HQ, item.AUSTERITY_BELT_HQ, item.FELICITAS_CAPE_HQ, item.EIDOLON_PENDANT_HQ },
         SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
         MobDrops    = { item.VIAL_OF_SLIME_OIL, item.VIAL_OF_SLIME_JUICE, item.HANDFUL_OF_CLOT_PLASMA },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
@@ -163,8 +167,8 @@ local walkData =
         Boss        = {'Myrmeleontide'},
         Progress    = 3,
         TempRate    = { 20 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.ACERBIC_SASH, item.ACESOS_CHOKER, item.FUGACITY_BERET, item.RAGER_LEDELSENS },
+        SurgedDrops = { item.ACERBIC_SASH_HQ, item.ACESOS_CHOKER_HQ, item.FUGACITY_BERET_HQ, item.RAGER_LEDELSENS_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },
         MobDrops    = { item.ANTLION_JAW },
         Title       = { title.TORCHBEARER_OF_THE_3RD_WALK },
@@ -192,8 +196,8 @@ local walkData =
         Boss        = {'Harpimaira'},
         Progress    = 5,
         TempRate    = { 50 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.PIXIE_HAIRPIN, item.VATES_CAPE, item.SVELTESSE_GOURIZ, item.WUKONGS_HAKAMA },
+        SurgedDrops = { item.PIXIE_HAIRPIN_HQ, item.VATES_CAPE_HQ, item.SVELTESSE_GOURIZ_HQ, item.WUKONGS_HAKAMA_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { },
         Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
@@ -229,8 +233,8 @@ local walkData =
         Boss        = {'Natrix'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.ADAPAS_SLACKS, item.AENOTHERUS_MANTLE, item.FORBAN_CAPE, item.SERAPH_MITTENS, item.SLITHER_GLOVES },
+        SurgedDrops = { item.ADAPAS_SLACKS_HQ, item.AENOTHERUS_MANTLE_HQ, item.FORBAN_CAPE_HQ, item.SERAPH_MITTENS_HQ, item.SLITHER_GLOVES_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.WYVERN_WING, item.WYVERN_SKIN, item.HANDFUL_OF_WYVERN_SCALES },
         Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
@@ -267,8 +271,8 @@ local walkData =
         Boss        = {'Canis_Dirus'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.ACCORD_HAT, item.FUGACITY_MANTLE, item.KATIPO_CHARM, item.SHIFTING_NECKLACE, item.QUARTZ_TATHLUM },
+        SurgedDrops = { item.ACCORD_HAT_HQ, item.FUGACITY_MANTLE_HQ, item.KATIPO_CHARM_HQ, item.SHIFTING_NECKLACE_HQ, item.QUARTZ_TATHLUM_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = { item.SMILODON_HIDE, item.SMILODON_LIVER },
         Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
@@ -353,8 +357,8 @@ local walkData =
         Boss        = {'Anguis'},
         Progress    = 1,
         TempRate    = { 0 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.CONDUIT_SHOES, item.LEISURE_MUSK, item.MEDBS_GAUNTLETS, item.VELLAUNUS_MANTLE, item.LACONO_NECKLACE },
+        SurgedDrops = { item.CONDUIT_SHOES_HQ, item.LEISURE_MUSK_HQ, item.MEDBS_GAUNTLETS_HQ, item.VELLAUNUS_MANTLE_HQ, item.LACONO_NECKLACE_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
@@ -410,8 +414,8 @@ local walkData =
         Boss        = {'Jebutoise'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.ESPER_STONE, item.GIGANTES_BOOTS, item.OMBRE_TATHLUM, item.MOONDOE_MANTLE },
+        SurgedDrops = { item.ESPER_STONE_HQ, item.GIGANTES_BOOTS_HQ, item.OMBRE_TATHLUM_HQ, item.MOONDOE_MANTLE_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
@@ -460,8 +464,8 @@ local walkData =
         Boss        = {'Anhanguera'},
         Progress    = 1,
         TempRate    = { 50 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE }, -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.DUALISM_COLLAR, item.MIRADOR_TROUSERS, item.ORETANIAS_CAPE, item.WAYLAYERS_SCARF },
+        SurgedDrops = { item.DUALISM_COLLAR_HQ, item.MIRADOR_TROUSERS_HQ, item.ORETANIAS_CAPE_HQ, item.WAYLAYERS_SCARF_HQ },
         SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_9TH_WALK },
@@ -544,8 +548,8 @@ local walkData =
         Boss        = {'Annihilative_Adenium'},
         Progress    = 3,
         TempRate    = { 50 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.COATL_GORGET, item.CHERSOS_HELM, item.MEANAGH_CAPE, item.ENCHANTERS_EARRING },
+        SurgedDrops = { item.COATL_GORGET_HQ, item.CHERSOS_HELM_HQ, item.MEANAGH_CAPE_HQ, item.ENCHANTERS_EARRING_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = { item.LYCOPODIUM_FLOWER },
         Title       = { title.TORCHBEARER_OF_THE_10TH_WALK },  -- TODO
@@ -595,8 +599,8 @@ local walkData =
         Boss        = {'Tapana'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.ALRUNAS_GLOVES, item.CHINERS_BELT, item.FLUME_BELT, item.MOROS_CROSSBOW, item.SAEVUS_PENDANT, item.THEIAS_HAIRPIN },
+        SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
@@ -666,8 +670,8 @@ local walkData =
         Boss        = {'Ironclad_Harbinger', 'Ironclad_Vaporizer'},
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.WEATHERING_SHIELD, item.PROSILIO_BELT, item.TEMPERED_CAPE, item.ARVINA_RINGLET },
+        SurgedDrops = { item.WEATHERING_SHIELD_HQ, item.PROSILIO_BELT_HQ, item.TEMPERED_CAPE_HQ, item.ARVINA_RINGLE_HQ},
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
@@ -750,8 +754,8 @@ local walkData =
         Boss        = {'Ligeia', 'Leucosia', 'Raidne' },
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.WINDBUFFET_BELT, item.THUELLAIC_ECU, item.SCOPULI_NAILS, item.HASTY_PINION },
+        SurgedDrops = { item.WINDBUFFET_BELT_HQ, item.THUELLAIC_ECU_HQ, item.SCOPULI_NAILS_HQ, item.HASTY_PINION_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = { item.BIRD_FEATHER, item.BIRD_EGG },
         Title       = { title.TORCHBEARER_OF_THE_13TH_WALK },  -- TODO
@@ -819,8 +823,8 @@ local walkData =
         Boss        = {'Barra_Edinazu' },
         Progress    = 2,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.DILETTANTES_GRIP, item.SMILODON_MASK, item.GALLIAN_HELM, item.HIDALGO_SLOPS },
+        SurgedDrops = { item.DILETTANTES_GRIP_HQ, item.SMILODON_MASK_HQ, item.GALLIAN_HELM_HQ, item.HIDALGO_SLOPS_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = { item.COEURL_HIDE, item.COEURL_WHISKER, item.HIGH_QUALITY_COEURL_HIDE, item.SLICE_OF_COEURL_MEAT, item.LYNX_HIDE, item.SLICE_OF_LYNX_MEAT },
         Title       = { title.TORCHBEARER_OF_THE_14TH_WALK },  -- TODO
@@ -981,8 +985,8 @@ local walkData =
         Boss        = {'Mingyi'},
         Progress    = 1,
         TempRate    = { 25 }, -- TODO
-        GearDrops   = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },  -- TODO
-        SurgedDrops = {},
+        GearDrops   = { item.LUNETTE_RING, item.ENGULFER_CAPE, item.NEFARIOUS_COLLAR, item.ELDERS_GRIP, item.NOMKAHPA_MITTENS },
+        SurgedDrops = { item.LUNETTE_RING_HQ, item.ENGULFER_CAPE_HQ, item.NEFARIOUS_COLLAR_HQ, item.ELDERS_GRIP_HQ, item.NOMKAHPA_MITTENS_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
         MobDrops    = { item.FIRE_CLUSTER, item.ICE_CLUSTER, item.WIND_CLUSTER, item.EARTH_CLUSTER, item.LIGHTNING_CLUSTER, item.WATER_CLUSTER, item.LIGHT_CLUSTER, item.DARK_CLUSTER },
         Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },  -- TODO
