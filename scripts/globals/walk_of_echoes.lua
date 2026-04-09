@@ -17,6 +17,9 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Can use any HP/MP restoring item while full HP / MP
+-- TODO: Medicated only blocks items that give you medicated effect - > code into C++ which items give medicated and unable to use if medicated? "Cannot use <item name> while medicated."
+-- TODO: Megalixir / Elixir / Hi-Elixir should be 10s cast
 -- TODO: Change the lock out to not be based on specific items and if the items cast time is >= 8s
 -- TODO: Can use % HP/MP heal items (vile elixirs, elixirs, megalixirs, etc) even if HP/MP is 100%
 -- TODO: Endowed gives ALL starter temps back
@@ -131,7 +134,7 @@ local walkData =
         TempRate    = { 75 },
         GearDrops   = { item.SASUKE_TEKKO, item.AUSTERITY_BELT, item.FELICITAS_CAPE, item.EIDOLON_PENDANT },
         SurgedDrops = { item.SASUKE_TEKKO_HQ, item.AUSTERITY_BELT_HQ, item.FELICITAS_CAPE_HQ, item.EIDOLON_PENDANT_HQ },
-        SetDrop     = { item.DENALI_GAMASHES, item.GOLIARD_CLOGS },
+        SetDrop     = { item.DENALI_GAMASHES },
         MobDrops    = { item.VIAL_OF_SLIME_OIL, item.VIAL_OF_SLIME_JUICE, item.HANDFUL_OF_CLOT_PLASMA },
         Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
         Experience  = 1500
@@ -198,7 +201,7 @@ local walkData =
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.PIXIE_HAIRPIN, item.VATES_CAPE, item.SVELTESSE_GOURIZ, item.WUKONGS_HAKAMA },
         SurgedDrops = { item.PIXIE_HAIRPIN_HQ, item.VATES_CAPE_HQ, item.SVELTESSE_GOURIZ_HQ, item.WUKONGS_HAKAMA_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.ASKAR_MANOPOLAS },
         MobDrops    = { },
         Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
         Experience  = 1500
@@ -235,7 +238,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.ADAPAS_SLACKS, item.AENOTHERUS_MANTLE, item.FORBAN_CAPE, item.SERAPH_MITTENS, item.SLITHER_GLOVES },
         SurgedDrops = { item.ADAPAS_SLACKS_HQ, item.AENOTHERUS_MANTLE_HQ, item.FORBAN_CAPE_HQ, item.SERAPH_MITTENS_HQ, item.SLITHER_GLOVES_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.DENALI_WRISTBANDS },
         MobDrops    = { item.WYVERN_WING, item.WYVERN_SKIN, item.HANDFUL_OF_WYVERN_SCALES },
         Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
         Experience  = 1500
@@ -273,7 +276,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.ACCORD_HAT, item.FUGACITY_MANTLE, item.KATIPO_CHARM, item.SHIFTING_NECKLACE, item.QUARTZ_TATHLUM },
         SurgedDrops = { item.ACCORD_HAT_HQ, item.FUGACITY_MANTLE_HQ, item.KATIPO_CHARM_HQ, item.SHIFTING_NECKLACE_HQ, item.QUARTZ_TATHLUM_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.GOLIARD_CUFFS },
         MobDrops    = { item.SMILODON_HIDE, item.SMILODON_LIVER },
         Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
         Experience  = 1500
@@ -359,7 +362,7 @@ local walkData =
         TempRate    = { 0 }, -- TODO
         GearDrops   = { item.CONDUIT_SHOES, item.LEISURE_MUSK, item.MEDBS_GAUNTLETS, item.VELLAUNUS_MANTLE, item.LACONO_NECKLACE },
         SurgedDrops = { item.CONDUIT_SHOES_HQ, item.LEISURE_MUSK_HQ, item.MEDBS_GAUNTLETS_HQ, item.VELLAUNUS_MANTLE_HQ, item.LACONO_NECKLACE_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.ASKAR_KORAZIN },
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
         Experience  = 1500
@@ -416,7 +419,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.ESPER_STONE, item.GIGANTES_BOOTS, item.OMBRE_TATHLUM, item.MOONDOE_MANTLE },
         SurgedDrops = { item.ESPER_STONE_HQ, item.GIGANTES_BOOTS_HQ, item.OMBRE_TATHLUM_HQ, item.MOONDOE_MANTLE_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.ASKAR_DIRS },
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
         Experience  = 1500
@@ -466,7 +469,7 @@ local walkData =
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.DUALISM_COLLAR, item.MIRADOR_TROUSERS, item.ORETANIAS_CAPE, item.WAYLAYERS_SCARF },
         SurgedDrops = { item.DUALISM_COLLAR_HQ, item.MIRADOR_TROUSERS_HQ, item.ORETANIAS_CAPE_HQ, item.WAYLAYERS_SCARF_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS }, -- TODO
+        SetDrop     = { item.DENALI_KECKS },
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_9TH_WALK },
         Experience  = 1500
@@ -550,7 +553,7 @@ local walkData =
         TempRate    = { 50 }, -- TODO
         GearDrops   = { item.COATL_GORGET, item.CHERSOS_HELM, item.MEANAGH_CAPE, item.ENCHANTERS_EARRING },
         SurgedDrops = { item.COATL_GORGET_HQ, item.CHERSOS_HELM_HQ, item.MEANAGH_CAPE_HQ, item.ENCHANTERS_EARRING_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.GOLIARD_TREWS },
         MobDrops    = { item.LYCOPODIUM_FLOWER },
         Title       = { title.TORCHBEARER_OF_THE_10TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
@@ -601,7 +604,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.ALRUNAS_GLOVES, item.CHINERS_BELT, item.FLUME_BELT, item.MOROS_CROSSBOW, item.SAEVUS_PENDANT, item.THEIAS_HAIRPIN },
         SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.DENALI_JACKET },
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
@@ -672,7 +675,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.WEATHERING_SHIELD, item.PROSILIO_BELT, item.TEMPERED_CAPE, item.ARVINA_RINGLET },
         SurgedDrops = { item.WEATHERING_SHIELD_HQ, item.PROSILIO_BELT_HQ, item.TEMPERED_CAPE_HQ, item.ARVINA_RINGLE_HQ},
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.ASKAR_ZUCCHETTO },
         MobDrops    = {  },
         Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
@@ -756,7 +759,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.WINDBUFFET_BELT, item.THUELLAIC_ECU, item.SCOPULI_NAILS, item.HASTY_PINION },
         SurgedDrops = { item.WINDBUFFET_BELT_HQ, item.THUELLAIC_ECU_HQ, item.SCOPULI_NAILS_HQ, item.HASTY_PINION_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.DENALI_BONNET },
         MobDrops    = { item.BIRD_FEATHER, item.BIRD_EGG },
         Title       = { title.TORCHBEARER_OF_THE_13TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
@@ -825,7 +828,7 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.DILETTANTES_GRIP, item.SMILODON_MASK, item.GALLIAN_HELM, item.HIDALGO_SLOPS },
         SurgedDrops = { item.DILETTANTES_GRIP_HQ, item.SMILODON_MASK_HQ, item.GALLIAN_HELM_HQ, item.HIDALGO_SLOPS_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.GOLIARD_CHAPEAU },
         MobDrops    = { item.COEURL_HIDE, item.COEURL_WHISKER, item.HIGH_QUALITY_COEURL_HIDE, item.SLICE_OF_COEURL_MEAT, item.LYNX_HIDE, item.SLICE_OF_LYNX_MEAT },
         Title       = { title.TORCHBEARER_OF_THE_14TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
@@ -987,9 +990,9 @@ local walkData =
         TempRate    = { 25 }, -- TODO
         GearDrops   = { item.LUNETTE_RING, item.ENGULFER_CAPE, item.NEFARIOUS_COLLAR, item.ELDERS_GRIP, item.NOMKAHPA_MITTENS },
         SurgedDrops = { item.LUNETTE_RING_HQ, item.ENGULFER_CAPE_HQ, item.NEFARIOUS_COLLAR_HQ, item.ELDERS_GRIP_HQ, item.NOMKAHPA_MITTENS_HQ },
-        SetDrop     = { item.GOLIARD_CLOGS },  -- TODO
+        SetDrop     = { item.GOLIARD_SAIO },
         MobDrops    = { item.FIRE_CLUSTER, item.ICE_CLUSTER, item.WIND_CLUSTER, item.EARTH_CLUSTER, item.LIGHTNING_CLUSTER, item.WATER_CLUSTER, item.LIGHT_CLUSTER, item.DARK_CLUSTER },
-        Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },  -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },
         Experience  = 1500  -- TODO
     },
 
@@ -1971,7 +1974,7 @@ tpz.woe.mob.rollForEndowed = function(mob, player, isKiller, noKiller)
 
         if math.random(100) <= 1 then
             tpz.woe.mob.applyEndowed(player, zone, walk)
-            addRandomTempItem(player, true)
+            addTempItems(player, walkData.Temps.Starter, true)
             utils.MessageSpecialParty(player, ID.text.WALK_NOW_ENDOWED)
             zone:setLocalVar("Endowed_" .. walk, 1)
         end
