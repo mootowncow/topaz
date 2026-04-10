@@ -72,6 +72,8 @@ void SetBlueSpell(CCharEntity* PChar, CBlueSpell* PSpell, uint8 slotIndex, bool 
                 }
 			}
             SaveSetSpells(PChar);
+            PChar->UpdateHealth();
+            PChar->updatemask |= UPDATE_HP;
 		}
 	}
 }
@@ -194,8 +196,8 @@ void UnequipAllBlueSpells(CCharEntity* PChar)
 	PChar->pushPacket(new CCharJobExtraPacket(PChar, false));
 	PChar->pushPacket(new CCharStatsPacket(PChar));
 	charutils::CalculateStats(PChar);
-	PChar->UpdateHealth();
     SaveSetSpells(PChar);
+    PChar->UpdateHealth();
     PChar->updatemask |= UPDATE_HP;
 }
 
@@ -399,6 +401,8 @@ void ValidateBlueSpells(CCharEntity* PChar)
     }
 
     SaveSetSpells(PChar);
+    PChar->UpdateHealth();
+    PChar->updatemask |= UPDATE_HP;
 }
 
 void CalculateTraits(CCharEntity* PChar)
