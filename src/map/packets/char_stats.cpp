@@ -50,21 +50,24 @@ CCharStatsPacket::CCharStatsPacket(CCharEntity * PChar)
 
 	memcpy(data+(0x14), &PChar->stats, 14); // TODO: с merits это не прокатит
 
-    // Hasso gives STR only if main weapon is two handed
+    // STR (with Hasso logic)
+    auto baseSTR = PChar->stats.STR;
+    int16 strMod = PChar->getMod(Mod::STR);
+
     if (auto* weapon = dynamic_cast<CItemWeapon*>(PChar->m_Weapons[SLOT_MAIN]); weapon->isTwoHanded())
     {
-        ref<uint16>(0x22) = std::clamp<int16>(PChar->getMod(Mod::STR) + PChar->getMod(Mod::TWOHAND_STR), -999 + PChar->stats.STR, 999 - PChar->stats.STR);
+        strMod += PChar->getMod(Mod::TWOHAND_STR);
     }
-    else
-    {
-        ref<uint16>(0x22) = std::clamp<int16>(PChar->getMod(Mod::STR), -999 + PChar->stats.STR, 999 - PChar->stats.STR);
-    }
-	ref<uint16>(0x24) = std::clamp<int16>(PChar->getMod(Mod::DEX), -999 + PChar->stats.DEX, 999 - PChar->stats.DEX);
-	ref<uint16>(0x26) = std::clamp<int16>(PChar->getMod(Mod::VIT), -999 + PChar->stats.VIT, 999 - PChar->stats.VIT);
-	ref<uint16>(0x28) = std::clamp<int16>(PChar->getMod(Mod::AGI), -999 + PChar->stats.AGI, 999 - PChar->stats.AGI);
-	ref<uint16>(0x2A) = std::clamp<int16>(PChar->getMod(Mod::INT), -999 + PChar->stats.INT, 999 - PChar->stats.INT);
-	ref<uint16>(0x2C) = std::clamp<int16>(PChar->getMod(Mod::MND), -999 + PChar->stats.MND, 999 - PChar->stats.MND);
-	ref<uint16>(0x2E) = std::clamp<int16>(PChar->getMod(Mod::CHR), -999 + PChar->stats.CHR, 999 - PChar->stats.CHR);
+
+    ref<uint16>(0x22) = charutils::ClampStatMod(strMod, baseSTR);
+
+    // Other stats
+    ref<uint16>(0x24) = charutils::ClampStatMod(PChar->getMod(Mod::DEX), PChar->stats.DEX);
+    ref<uint16>(0x26) = charutils::ClampStatMod(PChar->getMod(Mod::VIT), PChar->stats.VIT);
+    ref<uint16>(0x28) = charutils::ClampStatMod(PChar->getMod(Mod::AGI), PChar->stats.AGI);
+    ref<uint16>(0x2A) = charutils::ClampStatMod(PChar->getMod(Mod::INT), PChar->stats.INT);
+    ref<uint16>(0x2C) = charutils::ClampStatMod(PChar->getMod(Mod::MND), PChar->stats.MND);
+    ref<uint16>(0x2E) = charutils::ClampStatMod(PChar->getMod(Mod::CHR), PChar->stats.CHR);
 
     ref<uint16>(0x30) = PChar->ATT(SLOT_MAIN);
 	ref<uint16>(0x32) = PChar->DEF();

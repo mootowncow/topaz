@@ -1035,39 +1035,39 @@ uint16 CBattleEntity::STR()
     // Hasso gives STR only if main weapon is two handed
     if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]); weapon->isTwoHanded())
     {
-        return std::clamp(stats.STR + m_modStat[Mod::STR] + m_modStat[Mod::TWOHAND_STR], 0, 999);
+        return std::clamp(stats.STR + m_modStat[Mod::STR] + m_modStat[Mod::TWOHAND_STR], 1, 999);
     }
-    return std::clamp(stats.STR + m_modStat[Mod::STR], 0, 999);
+    return std::clamp(stats.STR + m_modStat[Mod::STR], 1, 999);
 }
 
 uint16 CBattleEntity::DEX()
 {
-    return std::clamp(stats.DEX + m_modStat[Mod::DEX], 0, 999);
+    return std::clamp(stats.DEX + m_modStat[Mod::DEX], 1, 999);
 }
 
 uint16 CBattleEntity::VIT()
 {
-    return std::clamp(stats.VIT + m_modStat[Mod::VIT], 0, 999);
+    return std::clamp(stats.VIT + m_modStat[Mod::VIT], 1, 999);
 }
 
 uint16 CBattleEntity::AGI()
 {
-    return std::clamp(stats.AGI + m_modStat[Mod::AGI], 0, 999);
+    return std::clamp(stats.AGI + m_modStat[Mod::AGI], 1, 999);
 }
 
 uint16 CBattleEntity::INT()
 {
-    return std::clamp(stats.INT + m_modStat[Mod::INT], 0, 999);
+    return std::clamp(stats.INT + m_modStat[Mod::INT], 1, 999);
 }
 
 uint16 CBattleEntity::MND()
 {
-    return std::clamp(stats.MND + m_modStat[Mod::MND], 0, 999);
+    return std::clamp(stats.MND + m_modStat[Mod::MND], 1, 999);
 }
 
 uint16 CBattleEntity::CHR()
 {
-    return std::clamp(stats.CHR + m_modStat[Mod::CHR], 0, 999);
+    return std::clamp(stats.CHR + m_modStat[Mod::CHR], 1, 999);
 }
 
 uint16 CBattleEntity::ATT(SLOTTYPE slot)

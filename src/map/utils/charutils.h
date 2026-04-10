@@ -238,6 +238,7 @@ namespace charutils
     bool hasEntitySpawned(CCharEntity* PChar, CBaseEntity* entity);
     void TryProcTH(CCharEntity* PChar, CMobEntity* PTarget, actionTarget_t* Action, bool highProcRate = false);
     void HandleToAuStrongholdCurrencies(CCharEntity* PChar, uint16 PZone);
+    int16 ClampStatMod(int16 mod, int16 base);
 };
 
 #endif // _CHARUTILS_H

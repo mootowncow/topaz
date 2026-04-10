@@ -6828,4 +6828,10 @@ void BuildingCharWeaponSkills(CCharEntity* PChar)
             charutils::AddPoints(PChar, currency, amount);
     }
 
+    int16 ClampStatMod(int16 mod, int16 base)
+    {
+        // Ensures: (base + mod) is always within [1, 999]
+        return std::clamp<int16>(mod, 1 - base, 999 - base);
+    }
+
 }; // namespace charutils
