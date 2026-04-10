@@ -226,6 +226,7 @@ end
 -- 101 = true
 -- params.DAMAGE_OVERRIDE - override damage with a specific number
 -- params.ALWAYS_CRIT = 100% crit rate
+-- params.ALWAYS_ENFEEBLE = 100% land rate (used for enfeebles)
 
 function MobMagicalMove(mob, target, skill, damage, element, dmgmod, tpeffect, ignoremacc, params)
     returninfo = {}
@@ -916,7 +917,9 @@ function MobDrainAllStatusEffectMove(mob, target, skill, flags)
 end
 
 -- Adds a status effect to a target
-function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze)
+function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze, params)
+
+    params = params or {}
 
     MobHandleFlagsRemoval(target)
     MobHandlePetEnmity(mob, target, 1, 320)
@@ -955,6 +958,11 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
         -- Negative / Positive element resist on players
         resist = CheckPlayerStatusElementResist(mob, target, element, typeEffect, resist, 0)
 
+        -- Always lands
+        if params.ALWAYS_ENFEEBLE ~= nil and params.ALWAYS_ENFEEBLE then
+            resist = 1
+        end
+
         -- Doom and Gradual Petrification can't have a lower duration from resisting
         if (resist < 1) then
             if (typeEffect == tpz.effect.DOOM) or (typeEffect == tpz.effect.GRADUAL_PETRIFICATION) then
@@ -991,8 +999,10 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
 end
 
 -- Adds a status effect to a target with customizable duration and subpower
-function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze)
+function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze, params)
 
+    params = params or {}
+    
     MobHandleFlagsRemoval(target)
     MobHandlePetEnmity(mob, target, 1, 320)
 
@@ -1019,8 +1029,8 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
         -- Negative / Positive element resist on players
         resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, 0)
 
-        -- Terror cannot be resisted
-        if (target:isPC() and typeEffect == tpz.effect.TERROR) then
+        -- Always lands
+        if params.ALWAYS_ENFEEBLE ~= nil and params.ALWAYS_ENFEEBLE then
             resist = 1
         end
 
@@ -1334,19 +1344,8 @@ function MobHealMoveExact(mob, target, skill, amount)
 end
 
 function MobEncumberMove(mob, target, maxSlots, duration)
-    local statmod = tpz.mod.INT
-    local dStat = mob:getStat(statmod)-target:getStat(statmod)
-    local effect = tpz.effect.ENCUMBRANCE_II
-    local element = tpz.magic.ele.WATER
-    local bonus = math.floor(mob:getMainLvl() / 2)
-
-    local resist = ApplyPlayerGearResistModCheck(mob, target, effect, dStat, bonus, element)
-
-    -- Negative / Positive element resist on players
-    resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, 0)
-
     if target:hasStatusEffect(tpz.effect.FEALTY) or not target:isPC() then
-	    resist = 1/16
+	    return
     end
 
     local encumberSlots = {};
@@ -1381,7 +1380,7 @@ function MobEncumberMove(mob, target, maxSlots, duration)
 	  end
 	end
 
-    if (resist >= 0.5) and not target:hasStatusEffect(tpz.effect.ENCUMBRANCE_II) then
+    if not target:hasStatusEffect(tpz.effect.ENCUMBRANCE_II) then
         local mask = 0;
         for i = 1,#encumberSlots,1 do
           target:unequipItem(encumberSlots[i]);
@@ -1389,7 +1388,7 @@ function MobEncumberMove(mob, target, maxSlots, duration)
         end
         MobHandleFlagsRemoval(target)
         MobHandlePetEnmity(mob, target, 1, 320)
-        target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration * resist);
+        target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration);
     end
 end
 
