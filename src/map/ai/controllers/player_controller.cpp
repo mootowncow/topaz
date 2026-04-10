@@ -1420,7 +1420,7 @@ bool CPlayerController::UseItem(uint16 targid, uint8 loc, uint16 slotid)
         // Global lock out timer
         if (server_clock::now() < PChar->m_globalWaitTimer)
         {
-            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ITEM_CANNOT_USE));
+            PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_ITEM_UNABLE_TO_USE));
             return false;
         }
         return PChar->PAI->Internal_UseItem(targid, loc, slotid);

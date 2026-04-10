@@ -19,14 +19,8 @@ require("scripts/globals/weaponskillids")
 
 -- TODO: All bosses no roam?
 -- TODO: Kozumi picture, eventually way to skip CS and just buy KI zoning from Xarcabard[S]
--- TODO: Megalixir / Elixir / Hi-Elixir should be 10s cast
--- TODO: Change the lock out to not be based on specific items and if the items cast time is >= 8s
--- TODO: Can use % HP/MP heal items (vile elixirs, elixirs, megalixirs, etc) even if HP/MP is 100%
 -- TODO: Endowed gives ALL starter temps back
--- TODO: Says "Unable to cast spells at this time" after using a Megalixir (9-10s)
--- TODO: New BLU spells from the hybrid eles made level 75 / coded and any other spells from other mobs?
 -- TODO: Get temp drop rate from walkData.TempRate
--- TODO: Physcal Shield i.e Fanatics Drink makes mob magic tp moves say no effectm prob phys too
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
@@ -58,9 +52,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Use addon to capture models
 -- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
--- TODO: Give Wizards / Giants drink to trusts (and pets?) also when a player uses
 -- TODO: Fill Misc item list
--- TODO: All members Fallen msg: [13:17:55] [CSData] Type: MsgID, EventID: 7260, Params: 67, 0, 734000, 3
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
 -- TODO: Save temp items incase of DC and reload them. If unable to do above logic, do this one. Unsure how to save, maybe each temps itemId as their own char var and load them then clear all of them on delTempItems?
 -- TODO: delTempItems(player, temps) doesn't work and should only delete when in lobby but not remove from saved sql database for that player and zone. Maybe delItem() doesn't work with tpz.inv.TEMPITEMS?

@@ -1,26 +1,21 @@
 -----------------------------------------
--- ID: 4145
--- Item: Elixir
+-- ID: 4254
+-- Item: Megalixir
 -- Item Effect: Instantly restores 100% of HP and MP
 -----------------------------------------
+require("scripts/globals/settings")
+require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/items")
 
 function onItemCheck(target)
-    local result = 0
-    local mHP = target:getMaxHP()
-    local cHP = target:getHP()
-    local mMP = target:getMaxMP()
-    local cMP = target:getMP()
-
-    if (mHP == cHP and mMP == cMP) then
-        result = 56 -- Does not let player use item if their hp and mp are full
-    end
-
-    return result
+    return 0
 end
 
 function onItemUse(target)
-    target:addHP(target:getMaxHP())
-    target:addMP(target:getMaxMP())
-    target:messageBasic(tpz.msg.basic.RECOVERS_HP_AND_MP)
+    local item = GetItem(tpz.items.MEGALIXIR)
+    local param = item:getParam() / 100
+    target:addHP(target:getMaxHP() * param)
+    target:addMP(target:getMaxMP() * param)
+    target:messageBasic(tpz.msg.basic.RECOVERS_HP_AND_MP, 0, target:getMaxHP())
 end
