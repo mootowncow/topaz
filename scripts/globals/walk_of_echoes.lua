@@ -1015,7 +1015,7 @@ local walkData =
         Dice        =   { item.DEVIOUS_DIE},
         Residue     =   { item.POUCH_OF_LIMINAL_RESIDUE, item.FRAYED_SACK_OF_LIMINALITY },
         Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.FRAYED_SACK_OF_DEVIOUSNESS, item.POUCH_OF_LIMINAL_RESIDUE },
-        Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_PINING_NOCTURNE }, -- Stone V, nocturne, Jubaku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
+        Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_PINING_NOCTURNE }, -- Stone V, Regen IV, Nocturne, Jubaku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
         Misc        =   { 
                             item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
                             item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
