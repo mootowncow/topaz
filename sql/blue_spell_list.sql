@@ -204,6 +204,21 @@ INSERT INTO `blue_spell_list` VALUES ('712','2048','6','27','2','0','0'); -- Rai
 INSERT INTO `blue_spell_list` VALUES ('712','2051','6','27','2','0','0'); -- Rail Cannon
 INSERT INTO `blue_spell_list` VALUES ('713','2054','6','20','2','0','0'); -- Diffusion Ray
 INSERT INTO `blue_spell_list` VALUES ('714','2073','6','31','2','9','5'); -- Sinker Drill
+-- Molting Plumage 
+-- Nectarous Deluge  
+-- Sweeping Gouge 
+-- Atra. Libations
+INSERT INTO `blue_spell_list` VALUES ('719','2735','8','8','2','0','0'); -- Searing Tempest
+INSERT INTO `blue_spell_list` VALUES ('720','2737','8','6','2','0','0'); -- Spectral Floe
+INSERT INTO `blue_spell_list` VALUES ('721','2739','8','16','2','0','0'); -- Anvil Lightning
+INSERT INTO `blue_spell_list` VALUES ('722','2741','8','11','2','0','0'); -- Entomb
+-- Saurian Slide
+-- Palling Salvo
+INSERT INTO `blue_spell_list` VALUES ('725','2736','8','29','2','0','0'); -- Blinding Fulgor
+INSERT INTO `blue_spell_list` VALUES ('726','2738','8','13','2','0','0'); -- Scouring Spate
+INSERT INTO `blue_spell_list` VALUES ('727','2740','8','18','2','0','0'); -- Silent Storm
+INSERT INTO `blue_spell_list` VALUES ('728','2742','8','36','2','0','0'); -- Tenebral Crush
+
 
 -- Unbridled Learning
 INSERT INTO `blue_spell_list` VALUES ('736','629','0','0','0','0','0'); -- Thunderbolt

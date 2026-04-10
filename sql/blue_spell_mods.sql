@@ -972,6 +972,83 @@ INSERT INTO `blue_spell_mods` VALUES ('714', '9', '4'); -- DEX+4
 INSERT INTO `blue_spell_mods` VALUES ('714', '10', '4'); -- VIT+4
 
 -- ----------------------------
+-- Molting Plumage 
+-- ----------------------------
+
+-- ----------------------------
+-- Nectarous Deluge  
+-- ----------------------------
+
+-- ----------------------------
+-- Sweeping Gouge 
+-- ----------------------------
+
+-- ----------------------------
+-- Atra. Libations
+-- ----------------------------
+
+-- ----------------------------
+-- Searing Tempest
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('719', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('719', '8', '8');  -- STR+8
+
+-- ----------------------------
+-- Spectral Floe
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('720', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('720', '12', '8');  -- INT+8
+
+-- ----------------------------
+-- Anvil Lightning
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('721', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('721', '9', '8'); -- DEX+8
+
+-- ----------------------------
+-- Entomb
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('722', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('722', '10', '8'); -- VIT+8
+
+-- ----------------------------
+-- Saurian Slide
+-- ----------------------------
+
+-- ----------------------------
+-- Palling Salvo
+-- ----------------------------
+
+-- ----------------------------
+-- Blinding Fulgor
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('725', '2', '40'); -- HP+40
+INSERT INTO `blue_spell_mods` VALUES ('725', '8', '4');  -- STR+4
+INSERT INTO `blue_spell_mods` VALUES ('725', '9', '4'); -- DEX+4
+INSERT INTO `blue_spell_mods` VALUES ('725', '11', '4'); -- AGI+4
+
+-- ----------------------------
+-- Scouring Spate
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('726', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('726', '13', '8'); -- MND+8
+
+-- ----------------------------
+-- Silent Storm
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('727', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('727', '11', '8'); -- AGI+8
+
+-- ----------------------------
+-- Tenebral Crush
+-- ----------------------------
+INSERT INTO `blue_spell_mods` VALUES ('728', '5', '30'); -- MP+30
+INSERT INTO `blue_spell_mods` VALUES ('728', '10', '4'); -- VIT+4
+INSERT INTO `blue_spell_mods` VALUES ('728', '12', '4'); -- INT+4
+INSERT INTO `blue_spell_mods` VALUES ('728', '13', '4'); -- MND+4
+
+
+-- ----------------------------
 -- Thunderbolt
 -- ----------------------------
 INSERT INTO `blue_spell_mods` VALUES ('736', '0', '0'); -- 

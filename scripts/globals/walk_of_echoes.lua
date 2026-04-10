@@ -17,19 +17,17 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: All bosses no roam?
+-- TODO: Kozumi picture, eventually way to skip CS and just buy KI zoning from Xarcabard[S]
 -- TODO: Megalixir / Elixir / Hi-Elixir should be 10s cast
 -- TODO: Change the lock out to not be based on specific items and if the items cast time is >= 8s
 -- TODO: Can use % HP/MP heal items (vile elixirs, elixirs, megalixirs, etc) even if HP/MP is 100%
 -- TODO: Endowed gives ALL starter temps back
 -- TODO: Says "Unable to cast spells at this time" after using a Megalixir (9-10s)
--- TODO: Vile elixir(didnt test +1) does NOT cause the 10s lock out
 -- TODO: New BLU spells from the hybrid eles made level 75 / coded and any other spells from other mobs?
--- TODO: Malediction HP/MP/TP drain
 -- TODO: Get temp drop rate from walkData.TempRate
 -- TODO: Physcal Shield i.e Fanatics Drink makes mob magic tp moves say no effectm prob phys too
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
--- TODO: Trash lvl 79, bosses lvl 82, "Tier Bosses" lvl 85. +3 or +5 from surge
--- TODO: walkData logic for Boss being a table intead of a single entry
 -- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: All walks have this randomly happen on normal mobs too, its randomly assigned to a mob and then it randomly calls a mob within 100 yards. ADd it like random proc and only low chance on a mob (like 5%) to be applied
@@ -47,8 +45,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: I think in TODO.txt I have WOE weather fix?
 -- TODO: On completion/timer running out all mobs should "fall to the ground" (die) then instantly despawn, and not give temps (add arg for forceKill or soemthing)
 -- TODO: Proc msg should be silent (add to BreakMob as an arg)
--- Temps drop rate seems to vary per walk. Random Temps drop rate needs arg, use TempRate in walkData. 
--- TODO: Finish random temps list (test on retail, walk 2 has like 75% drop chance on temps)
 -- TODO: Make sure all temps have a script and their scripts work
 -- TODO: Wizard / Giants drink dura and %. Might be +100% and 15m
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
@@ -105,7 +101,7 @@ local walkData =
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 82 },
         Boss        = {'Caldera_Crab'},
         Progress    = 3,
-        TempRate    = { 20 }, -- TODO
+        TempRate    = 25,
         Drops       = { item.THRIFT_GLOVES, item.BELISAMAS_ROPE, item.ARDOR_PENDANT, item.KARAGOZ_MANTLE },
         SurgedDrops = { item.THRIFT_GLOVES_HQ, item.BELISAMAS_ROPE_HQ, item.ARDOR_PENDANT_HQ, item.KARAGOZ_MANTLE_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
@@ -129,7 +125,7 @@ local walkData =
         Mobs        = { IdStart = 17522710, IdEnd = 17522729, Lvl = 82 },
         Boss        = {'Morbid_Molasses'},
         Progress    = 4,
-        TempRate    = { 75 },
+        TempRate    = 75,
         GearDrops   = { item.SASUKE_TEKKO, item.AUSTERITY_BELT, item.FELICITAS_CAPE, item.EIDOLON_PENDANT },
         SurgedDrops = { item.SASUKE_TEKKO_HQ, item.AUSTERITY_BELT_HQ, item.FELICITAS_CAPE_HQ, item.EIDOLON_PENDANT_HQ },
         SetDrop     = { item.DENALI_GAMASHES },
@@ -167,7 +163,7 @@ local walkData =
         Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 82 },
         Boss        = {'Myrmeleontide'},
         Progress    = 3,
-        TempRate    = { 20 }, -- TODO
+        TempRate    = 20,
         GearDrops   = { item.ACERBIC_SASH, item.ACESOS_CHOKER, item.FUGACITY_BERET, item.RAGER_LEDELSENS },
         SurgedDrops = { item.ACERBIC_SASH_HQ, item.ACESOS_CHOKER_HQ, item.FUGACITY_BERET_HQ, item.RAGER_LEDELSENS_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },
@@ -196,7 +192,7 @@ local walkData =
         Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 82 },
         Boss        = {'Harpimaira'},
         Progress    = 5,
-        TempRate    = { 50 }, -- TODO
+        TempRate    = 50,
         GearDrops   = { item.PIXIE_HAIRPIN, item.VATES_CAPE, item.SVELTESSE_GOURIZ, item.WUKONGS_HAKAMA },
         SurgedDrops = { item.PIXIE_HAIRPIN_HQ, item.VATES_CAPE_HQ, item.SVELTESSE_GOURIZ_HQ, item.WUKONGS_HAKAMA_HQ },
         SetDrop     = { item.ASKAR_MANOPOLAS },
@@ -233,7 +229,7 @@ local walkData =
         Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 82 },
         Boss        = {'Natrix'},
         Progress    = 1,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.ADAPAS_SLACKS, item.AENOTHERUS_MANTLE, item.FORBAN_CAPE, item.SERAPH_MITTENS, item.SLITHER_GLOVES },
         SurgedDrops = { item.ADAPAS_SLACKS_HQ, item.AENOTHERUS_MANTLE_HQ, item.FORBAN_CAPE_HQ, item.SERAPH_MITTENS_HQ, item.SLITHER_GLOVES_HQ },
         SetDrop     = { item.DENALI_WRISTBANDS },
@@ -271,7 +267,7 @@ local walkData =
         Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 82 },
         Boss        = {'Canis_Dirus'},
         Progress    = 2,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.ACCORD_HAT, item.FUGACITY_MANTLE, item.KATIPO_CHARM, item.SHIFTING_NECKLACE, item.QUARTZ_TATHLUM },
         SurgedDrops = { item.ACCORD_HAT_HQ, item.FUGACITY_MANTLE_HQ, item.KATIPO_CHARM_HQ, item.SHIFTING_NECKLACE_HQ, item.QUARTZ_TATHLUM_HQ },
         SetDrop     = { item.GOLIARD_CUFFS },
@@ -357,7 +353,7 @@ local walkData =
         Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 85 },
         Boss        = {'Anguis'},
         Progress    = 1,
-        TempRate    = { 0 }, -- TODO
+        TempRate    = 0,
         GearDrops   = { item.CONDUIT_SHOES, item.LEISURE_MUSK, item.MEDBS_GAUNTLETS, item.VELLAUNUS_MANTLE, item.LACONO_NECKLACE },
         SurgedDrops = { item.CONDUIT_SHOES_HQ, item.LEISURE_MUSK_HQ, item.MEDBS_GAUNTLETS_HQ, item.VELLAUNUS_MANTLE_HQ, item.LACONO_NECKLACE_HQ },
         SetDrop     = { item.ASKAR_KORAZIN },
@@ -414,7 +410,7 @@ local walkData =
         Mobs        = { IdStart = 17522767, IdEnd = 17522784, Lvl = 82 },
         Boss        = {'Jebutoise'},
         Progress    = 2,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.ESPER_STONE, item.GIGANTES_BOOTS, item.OMBRE_TATHLUM, item.MOONDOE_MANTLE },
         SurgedDrops = { item.ESPER_STONE_HQ, item.GIGANTES_BOOTS_HQ, item.OMBRE_TATHLUM_HQ, item.MOONDOE_MANTLE_HQ },
         SetDrop     = { item.ASKAR_DIRS },
@@ -464,7 +460,7 @@ local walkData =
         Mobs        = { IdStart = 17522800, IdEnd = 17522805, Lvl = 82 },
         Boss        = {'Anhanguera'},
         Progress    = 1,
-        TempRate    = { 50 }, -- TODO
+        TempRate    = 50,
         GearDrops   = { item.DUALISM_COLLAR, item.MIRADOR_TROUSERS, item.ORETANIAS_CAPE, item.WAYLAYERS_SCARF },
         SurgedDrops = { item.DUALISM_COLLAR_HQ, item.MIRADOR_TROUSERS_HQ, item.ORETANIAS_CAPE_HQ, item.WAYLAYERS_SCARF_HQ },
         SetDrop     = { item.DENALI_KECKS },
@@ -548,7 +544,7 @@ local walkData =
         Mobs        = { IdStart = 17522806, IdEnd = 17522832, Lvl = 82 },
         Boss        = {'Annihilative_Adenium'},
         Progress    = 3,
-        TempRate    = { 50 }, -- TODO
+        TempRate    = 50,
         GearDrops   = { item.COATL_GORGET, item.CHERSOS_HELM, item.MEANAGH_CAPE, item.ENCHANTERS_EARRING },
         SurgedDrops = { item.COATL_GORGET_HQ, item.CHERSOS_HELM_HQ, item.MEANAGH_CAPE_HQ, item.ENCHANTERS_EARRING_HQ },
         SetDrop     = { item.GOLIARD_TREWS },
@@ -599,7 +595,7 @@ local walkData =
         Mobs        = { IdStart = 17522833, IdEnd = 17522861, Lvl = 85 },
         Boss        = {'Tapana'},
         Progress    = 1,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.ALRUNAS_GLOVES, item.CHINERS_BELT, item.FLUME_BELT, item.MOROS_CROSSBOW, item.SAEVUS_PENDANT, item.THEIAS_HAIRPIN },
         SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
         SetDrop     = { item.DENALI_JACKET },
@@ -670,7 +666,7 @@ local walkData =
         Mobs        = { IdStart = 17522862, IdEnd = 17522879, Lvl = 82 },
         Boss        = {'Ironclad_Harbinger', 'Ironclad_Vaporizer'},
         Progress    = 2,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.WEATHERING_SHIELD, item.PROSILIO_BELT, item.TEMPERED_CAPE, item.ARVINA_RINGLET },
         SurgedDrops = { item.WEATHERING_SHIELD_HQ, item.PROSILIO_BELT_HQ, item.TEMPERED_CAPE_HQ, item.ARVINA_RINGLE_HQ},
         SetDrop     = { item.ASKAR_ZUCCHETTO },
@@ -754,7 +750,7 @@ local walkData =
         Mobs        = { IdStart = 17522880, IdEnd = 17522898, Lvl = 82 },
         Boss        = {'Ligeia', 'Leucosia', 'Raidne' },
         Progress    = 2,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.WINDBUFFET_BELT, item.THUELLAIC_ECU, item.SCOPULI_NAILS, item.HASTY_PINION },
         SurgedDrops = { item.WINDBUFFET_BELT_HQ, item.THUELLAIC_ECU_HQ, item.SCOPULI_NAILS_HQ, item.HASTY_PINION_HQ },
         SetDrop     = { item.DENALI_BONNET },
@@ -823,7 +819,7 @@ local walkData =
         Mobs        = { IdStart = 17522899, IdEnd = 17522916, Lvl = 82 },
         Boss        = {'Barra_Edinazu' },
         Progress    = 2,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.DILETTANTES_GRIP, item.SMILODON_MASK, item.GALLIAN_HELM, item.HIDALGO_SLOPS },
         SurgedDrops = { item.DILETTANTES_GRIP_HQ, item.SMILODON_MASK_HQ, item.GALLIAN_HELM_HQ, item.HIDALGO_SLOPS_HQ },
         SetDrop     = { item.GOLIARD_CHAPEAU },
@@ -897,7 +893,7 @@ local walkData =
     --         DT { -50% Earth / Water / Ice / Dark  }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, +25%  }     
     --         Mechanics { Additional effect: Amnesia (30s)}
     --         Proc { }
     --     Sin, lvl { 96 }, Model { 0x0000A50800000000000000000000000000000000 }, Size { Large } HP { 55000 }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -913,7 +909,7 @@ local walkData =
     --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, +25%  }     
     --         Mechanics { Additional effect: Paralysis (45s duration 50%+ proc rate) }
     --         Proc { }
     --     Myin, lvl { 96 }, Model { 0x0000A20800000000000000000000000000000000 }, Size { Large } HP { 38000? }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -928,7 +924,7 @@ local walkData =
     --         DT { -50% Earth / Water / Ice / Dark  }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, +25%  }     
     --         Mechanics { Additional effect: Slow (45s, Overwrote Haste II, stops Haste II application) }
     --         Proc { }
     --     Yahhta, lvl { 96 }, Model { 0x0000A30800000000000000000000000000000000 }, Size { Large } HP { 47000 }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -945,7 +941,7 @@ local walkData =
     --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, +25%  }     
     --         Mechanics { Additional effect: Silence (45s), Bind + Plague (150+/tick Aura) from Afflicting Gaze? for 1m?}
     --         Proc { }
     --     Ne, lvl { 96 }, Model { 0x0000A40800000000000000000000000000000000 }, Size { Large } HP { 42000 }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -961,7 +957,7 @@ local walkData =
     --         DT { -50% Earth / Water / Ice / Dark }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, NO ROAM, +25%  }     
     --         Mechanics { Additional effect: Curse (-25% Max HP / MP, 45s) }
     --         Proc { }
     --     Mingyi, lvl { 96 }, Model { 0x00005F0900000000000000000000000000000000 }, Size { Large } HP { 110000 (110k) }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -977,7 +973,7 @@ local walkData =
     --         DT { -15%~ MDT }
     --         Aggro: {}
     --         No Turn {  }
-    --         Move Speed { +25% }     
+    --         Move Speed { NO ROAM, +25%  }     
     --         Mechanics { "The fiend thirsts for blood!" randomly on a timer, and random Caturae boss comes comes (60% -> x2 at 16%, HP% based)}
     --         Proc { }
     --     Zone Mechanics: {}
@@ -985,7 +981,7 @@ local walkData =
         Mobs        = { IdStart = 17522917, IdEnd = 17522934, Lvl = 85 },
         Boss        = {'Mingyi'},
         Progress    = 1,
-        TempRate    = { 25 }, -- TODO
+        TempRate    = 25,
         GearDrops   = { item.LUNETTE_RING, item.ENGULFER_CAPE, item.NEFARIOUS_COLLAR, item.ELDERS_GRIP, item.NOMKAHPA_MITTENS },
         SurgedDrops = { item.LUNETTE_RING_HQ, item.ENGULFER_CAPE_HQ, item.NEFARIOUS_COLLAR_HQ, item.ELDERS_GRIP_HQ, item.NOMKAHPA_MITTENS_HQ },
         SetDrop     = { item.GOLIARD_SAIO },
@@ -1939,24 +1935,32 @@ tpz.woe.mob.despawnWalkMobs = function(walk)
 end
 
 tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
-    if math.random(100) <= 10 then
+    local walk = mob:getLocalVar("CurrentWalk")
+    local data = walkData[walk]
+
+    if not data then return end
+
+    if data.TempRate == 0 then return end
+
+    if math.random(100) <= data.TempRate then
         addRandomTempItem(player, false)
     end
 end
 
 tpz.woe.mob.applyEndowed = function(player, zone, walk)
     local data = walkData[walk]
+
     if not data then return end
 
     for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
-    local currentMob = GetMobByID(mobId)
+        local currentMob = GetMobByID(mobId)
 
-    currentMob:addMod(tpz.mod.ATTP, -25)
-    currentMob:addMod(tpz.mod.DEFP, -25)
-    currentMob:addMod(tpz.mod.ACC, -12)
-    currentMob:addMod(tpz.mod.EVA, -12)
-    currentMob:addMod(tpz.mod.MATT, -25)
-    currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
+        currentMob:addMod(tpz.mod.ATTP, -25)
+        currentMob:addMod(tpz.mod.DEFP, -25)
+        currentMob:addMod(tpz.mod.ACC, -12)
+        currentMob:addMod(tpz.mod.EVA, -12)
+        currentMob:addMod(tpz.mod.MATT, -25)
+        currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
     end
 end
 
@@ -2478,7 +2482,7 @@ tpz.woe.veridicalConflux.onEventUpdate = function(player, csid, option)
     local data = confluxData[npcName]
 
     if not data then return end
-    printf("Walk %d", walk)
+
     if isExit then
         if (csid == 1001 and option == 1) then
             local tData = data.Exit.Update

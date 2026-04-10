@@ -42,13 +42,9 @@ INSERT INTO `blue_traits` VALUES (6, 8, 5, 28, 32); -- Magic Attack Bonus IV
 INSERT INTO `blue_traits` VALUES (7, 2, 39, 231, 8); -- Undead Killer
 INSERT INTO `blue_traits` VALUES (7, 2, 39, 1231, 5); -- Undead Killer
 INSERT INTO `blue_traits` VALUES (8, 2, 3, 23, 10); -- Attack Bonus
-INSERT INTO `blue_traits` VALUES (8, 2, 3, 24, 10); -- Attack Bonus
 INSERT INTO `blue_traits` VALUES (8, 4, 3, 23, 22); -- Attack Bonus II
-INSERT INTO `blue_traits` VALUES (8, 4, 3, 24, 22); -- Attack Bonus II
 INSERT INTO `blue_traits` VALUES (8, 6, 3, 23, 35); -- Attack Bonus III
-INSERT INTO `blue_traits` VALUES (8, 6, 3, 24, 35); -- Attack Bonus III
 INSERT INTO `blue_traits` VALUES (8, 8, 3, 23, 48); -- Attack Bonus IV
-INSERT INTO `blue_traits` VALUES (8, 8, 3, 24, 48); -- Attack Bonus IV
 INSERT INTO `blue_traits` VALUES (9, 2, 11, 359, 10); -- Rapid Shot
 INSERT INTO `blue_traits` VALUES (10, 2, 8, 5, 10); -- Max MP Boost
 INSERT INTO `blue_traits` VALUES (10, 4, 8, 5, 20); -- Max MP Boost II
@@ -69,22 +65,18 @@ INSERT INTO `blue_traits` VALUES (15, 2, 7, 2, 30);     -- Max HP Boost
 INSERT INTO `blue_traits` VALUES (15, 4, 7, 2, 60);     -- Max HP Boost II
 INSERT INTO `blue_traits` VALUES (15, 6, 7, 2, 120);    -- Max HP Boost III
 INSERT INTO `blue_traits` VALUES (15, 8, 7, 2, 180);    -- Max HP Boost IV
-INSERT INTO `blue_traits` VALUES (16, 2, 1, 25, 10);    -- Accuravy Bonus
-INSERT INTO `blue_traits` VALUES (16, 2, 1, 26, 10);    -- Accuracy Bonus
-INSERT INTO `blue_traits` VALUES (16, 4, 1, 25, 22);    -- Accuravy Bonus II
-INSERT INTO `blue_traits` VALUES (16, 4, 1, 26, 22);    -- Accuracy Bonus II
-INSERT INTO `blue_traits` VALUES (16, 6, 1, 25, 35);    -- Accuravy Bonus III
-INSERT INTO `blue_traits` VALUES (16, 6, 1, 26, 35);    -- Accuracy Bonus III
-INSERT INTO `blue_traits` VALUES (16, 8, 1, 25, 48);    -- Accuravy Bonus IV
-INSERT INTO `blue_traits` VALUES (16, 8, 1, 26, 48);    -- Accuracy Bonus IV
+INSERT INTO `blue_traits` VALUES (16, 2, 1, 25, 10);    -- Accuracy Bonus
+INSERT INTO `blue_traits` VALUES (16, 4, 1, 25, 22);    -- Accuracy Bonus II
+INSERT INTO `blue_traits` VALUES (16, 6, 1, 25, 35);    -- Accuracy Bonus III
+INSERT INTO `blue_traits` VALUES (16, 8, 1, 25, 48);    -- Accuracy Bonus IV
 INSERT INTO `blue_traits` VALUES (17, 2, 13, 296, 25); -- Conserve MP
 INSERT INTO `blue_traits` VALUES (17, 4, 13, 296, 28); -- Conserve MP II
 INSERT INTO `blue_traits` VALUES (17, 6, 13, 296, 31); -- Conserve MP III
 INSERT INTO `blue_traits` VALUES (17, 8, 13, 296, 34); -- Conserve MP IV
-INSERT INTO `blue_traits` VALUES (18, 2, 2, 69, 10);    -- Evasion Bonus
-INSERT INTO `blue_traits` VALUES (18, 4, 2, 69, 22);    -- Evasion Bonus II
-INSERT INTO `blue_traits` VALUES (18, 6, 2, 69, 35);    -- Evasion Bonus III
-INSERT INTO `blue_traits` VALUES (18, 8, 2, 69, 48);    -- Evasion Bonus IV
+INSERT INTO `blue_traits` VALUES (18, 2, 2, 68, 10);    -- Evasion Bonus
+INSERT INTO `blue_traits` VALUES (18, 4, 2, 68, 22);    -- Evasion Bonus II
+INSERT INTO `blue_traits` VALUES (18, 6, 2, 68, 35);    -- Evasion Bonus III
+INSERT INTO `blue_traits` VALUES (18, 8, 2, 68, 48);    -- Evasion Bonus IV
 INSERT INTO `blue_traits` VALUES (19, 2, 58, 1249, 10); -- Resist Gravity
 INSERT INTO `blue_traits` VALUES (20, 2, 14, 73, 10); -- Store TP
 INSERT INTO `blue_traits` VALUES (20, 4, 14, 73, 15); -- Store TP II
@@ -149,3 +141,7 @@ INSERT INTO `blue_traits` VALUES (35, 2, 25, 485, 10); -- Shield Mastery
 INSERT INTO `blue_traits` VALUES (35, 4, 25, 485, 20); -- Shield Mastery II 
 INSERT INTO `blue_traits` VALUES (35, 6, 25, 485, 30); -- Shield Mastery III
 INSERT INTO `blue_traits` VALUES (35, 8, 25, 485, 40); -- Shield Mastery IV
+INSERT INTO `blue_traits` VALUES (36, 2, 125, 30, 10); -- Magic Accuracy Bonus
+INSERT INTO `blue_traits` VALUES (36, 4, 125, 30, 22); -- Magic Accuracy Bonus II 
+INSERT INTO `blue_traits` VALUES (36, 6, 125, 30, 35); -- Magic Accuracy Bonus III
+INSERT INTO `blue_traits` VALUES (36, 8, 125, 30, 48); -- Magic Accuracy Bonus IV

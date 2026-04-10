@@ -6,8 +6,6 @@
 --
 --
 --  Utsusemi/Blink absorb: Wipes shadows
---  Range: 30' radial
---  Notes: Long charge up time, easily stunnable
 ---------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
@@ -15,25 +13,17 @@ require("scripts/globals/monstertpmoves")
 
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
-    local result = 1
-    local mobhp = mob:getHPP()
-
-    if (mobhp <= 50) then
-        result = 0
-    end
-
-    return result
+    return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.BURN
-    local power = 35
-
-    MobStatusEffectMove(mob, target, typeEffect, power, 3, 300)
-
-    local dmgmod = 2
+    local dmgmod = 4
     local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*6, tpz.magic.ele.FIRE, dmgmod, TP_NO_EFFECT)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_WIPE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)
+    local typeEffect = tpz.effect.BURN
+    local power = 30
+    local intDown = 63
+    MobStatusEffectMoveSub(mob, target, typeEffect, power, 3, 60, 0, intDown, 0)
     return dmg
 end

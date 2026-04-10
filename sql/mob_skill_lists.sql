@@ -477,6 +477,14 @@ INSERT INTO `mob_skill_lists` VALUES ('Eft',98,517);
 INSERT INTO `mob_skill_lists` VALUES ('Eft',98,518);
 INSERT INTO `mob_skill_lists` VALUES ('Eft',98,519);
 -- 99 to 106: Elementals
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-FireLight',102,2735);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-FireLight',102,2736);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-IceWater',103,2737);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-IceWater',103,2738);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-ThunderWind',104,2739);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-ThunderWind',104,2740);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-EarthDark',105,2741);
+INSERT INTO `mob_skill_lists` VALUES ('Elemental-EarthDark',105,2742);
 INSERT INTO `mob_skill_lists` VALUES ('Eruca',107,344);
 INSERT INTO `mob_skill_lists` VALUES ('Eruca',107,346);
 INSERT INTO `mob_skill_lists` VALUES ('Eruca',107,1791);
