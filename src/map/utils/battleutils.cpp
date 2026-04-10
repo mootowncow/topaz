@@ -1274,6 +1274,17 @@ namespace battleutils
     {
         int32 damage = 0;
 
+        // Check for immunity to magic
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+        {
+            CStatusEffect* magicShield = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+            uint16 magicShieldPower = magicShield->GetPower();
+
+            // Full immunity to magic
+            if (magicShieldPower < 2)
+                return 0;
+        }
+
         //Tier 1 enspells have their damaged pre-calculated AT CAST TIME and is stored in Mod::ENSPELL_DMG
         if (Tier == 1)
         {
@@ -1472,6 +1483,18 @@ namespace battleutils
         auto rawDmg = damage;
         float magicDefense = 1.0f;
         uint32 spikesMaccBonus = PDefender->getMod(Mod::SPIKES_MACC) + 30;
+
+        // Check for immunity to magic
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+        {
+            CStatusEffect* magicShield = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+            uint16 magicShieldPower = magicShield->GetPower();
+
+            // Full immunity to magic
+            if (magicShieldPower < 2)
+                return 0;
+        }
+
         if (!HasNativeEnhancing(PDefender))
         {
             spikesMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PDefender->GetMLevel()); // A+ Skill
@@ -2003,6 +2026,18 @@ namespace battleutils
         float resist = 1.0f;
         ELEMENT element = ELEMENT_NONE;
         uint32 spikesMaccBonus = PDefender->getMod(Mod::SPIKES_MACC) + 30;
+
+        // Check for immunity to magic
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MAGIC_SHIELD))
+        {
+            CStatusEffect* magicShield = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_MAGIC_SHIELD, 0);
+            uint16 magicShieldPower = magicShield->GetPower();
+
+            // Full immunity to magic
+            if (magicShieldPower < 2)
+                return;
+        }
+
         if (!HasNativeEnhancing(PDefender))
         {
             spikesMaccBonus += battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PDefender->GetMLevel()); // A+ Skill

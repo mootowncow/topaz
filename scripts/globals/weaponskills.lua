@@ -271,7 +271,7 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
 
     if calcParams.hybridHit then
         local bonusMacc = wsParams.hybridBonusMacc or 0
-        local resist = applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusMacc)
+        local resist = applyResistanceWeaponSkill(attacker, target, wsParams.ele, wsParams.skill, bonusMacc)
         local paramshybrid = {}
         paramshybrid.includemab = true
 
@@ -842,32 +842,18 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     -- Track raw damage
     local rawDmg = dmg
 
+    -- For some reason "Physical Shield" nullify magic WS damage, NOT "Magic Shield" effects
+    if target:isMob() and target:hasStatusEffect(tpz.effect.PHYSICAL_SHIELD, 0) then
+        if target:getStatusEffect(tpz.effect.PHYSICAL_SHIELD):getPower() < 2 then
+            dmg = 0
+        end
+    end
+
     -- Handle Null
     dmg = utils.CheckForNull(attacker, target, tpz.attackType.MAGICAL, wsParams.ele, dmg)
 
-    -- Handle Positional MDT
-    if attacker:isInfront(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Front
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 3 then
-            dmg = 0
-        end
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 5 then
-            dmg = math.floor(dmg * 0.25) -- 75% DR
-        end
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 6 then
-            dmg = math.floor(dmg * 0.50) -- 50% DR
-        end
-    end
-    if attacker:isBehind(target, 90) and target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) then -- Behind
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 4 then
-            dmg = 0
-        end
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 7 then
-            dmg = math.floor(dmg * 0.25) -- 75% DR
-        end
-        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() == 8 then
-            dmg = math.floor(dmg * 0.50) -- 50% DR
-        end
-    end
+    -- Handle Positional PDT (NOT MDT!)
+    dmg = utils.HandlePositionalMDT(attacker, target, dmg)
 
     -- Handle Scarlet Delirium
     dmg = utils.ScarletDeliriumBonus(attacker, dmg)
@@ -880,7 +866,7 @@ function doMagicWeaponskill(attacker, target, wsID, wsParams, tp, action, primar
     dmg = addBonusesAbility(attacker, wsParams.ele, target, dmg, wsParams)
 
     if (wsParams.noResist == nil) then
-        dmg = dmg * applyResistanceAbility(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
+        dmg = dmg * applyResistanceWeaponSkill(attacker, target, wsParams.ele, wsParams.skill, bonusacc)
     end
 
     dmg = target:magicDmgTaken(dmg, wsParams.ele, rawDmg)

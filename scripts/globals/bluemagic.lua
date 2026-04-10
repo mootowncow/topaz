@@ -625,6 +625,14 @@ function BlueFinalAdjustments(caster, target, spell, dmg, params)
     local damageType = params.damageType or tpz.damageType.NONE
     local element = spell:getElement()
 
+
+    if target:isMob() and (target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0)) then
+        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+            spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+            return 0
+        end
+    end
+
     -- Handle Null
     dmg = utils.CheckForNull(caster, target, attackType, element, dmg)
 

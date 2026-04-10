@@ -530,7 +530,7 @@ function doHelix(caster, target, spell, tier)
 
     -- Avoid 0 damage Helix
     if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD) or target:hasStatusEffect(tpz.effect.STONESKIN) then
-        spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)
+        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
         return 0
     end
 
@@ -858,7 +858,6 @@ function applyResistance(caster, target, spell, params)
     local p = getMagicHitRate(caster, target, skill, element, SDT, percentBonus, magicaccbonus, params)
     local res = getMagicResist(p)
 
-
     if SDT >= 150 then -- 1.5 guarantees at least half value, no quarter or full resists.
         res = utils.clamp(res, 0.5, 1.0)
     end
@@ -873,7 +872,6 @@ function applyResistance(caster, target, spell, params)
             res = 1/8
         end
     end
-
 
     -- shiyo's research https://discord.com/channels/799050462539284533/799051759544434698/827052905151332354 (Project Wings Discord)
     -- Players are guaranteed to always take half damage if negative resistance
@@ -1010,6 +1008,22 @@ function applyResistanceAbility(player, target, element, skill, bonus)
     return res
 end
 
+-- Weaponskills only
+function applyResistanceWeaponSkill(player, target, element, skill, bonus)
+
+    local params = {}
+    params.WS = true
+    local SDT = getElementalSDT(element, target)
+    local p = getMagicHitRate(player, target, skill, element, SDT, 0, bonus, params)
+    local res = getMagicResist(p)
+
+    if SDT <= 5 then -- SDT tier .05 makes you lose ALL coin flips
+        res = 1/8
+    end
+
+    return res
+end
+
 -- Applies resistance for additional effects
 function applyResistanceAddEffect(player, target, element, bonus, effect, skill)
 
@@ -1079,10 +1093,12 @@ function getMagicHitRate(caster, target, skillType, element, SDT, percentBonus, 
 
     -- Resist everything if magic shield is active
     -- BLU spells ignore this
-    if (skillType ~= tpz.skill.BLUE_MAGIC) then
-        if target:isMob() and (target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0)) then
-            if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
-                return 0
+    if params and not params.WS then
+        if (skillType ~= tpz.skill.BLUE_MAGIC) then
+            if target:isMob() and (target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0)) then
+                if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+                    return 0
+                end
             end
         end
     end
@@ -1722,6 +1738,16 @@ function finalMagicAdjustments(caster, target, spell, dmg, rawDmg)
             dmg = dmg - target:getMod(tpz.mod.PHALANX)
         end
         dmg = utils.clamp(dmg, 0, 99999)
+    end
+
+    -- If Magic Shield (full immunity) is on the target, then change message to resist
+    -- BLU spells ignore this
+    if (skill ~= tpz.skill.BLUE_MAGIC) then
+        if target:isMob() and (target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0)) then
+            if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+                spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+            end
+        end
     end
 
     --handling rampart stoneskin
@@ -3511,6 +3537,13 @@ function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMA
     params.bonusmab = bonusMAB
     params.includemab = incudeMAB
 
+    -- Check for magic immunity
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) then
+        if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+            return 0
+        end
+    end
+
     if math.random(100) <= chance then
         if (statMod) then
             dmg = dmg + math.floor(player:getStat(statMod) / 3)
@@ -3520,7 +3553,7 @@ function doAdditionalEffectDamage(player, target, chance, dmg, statMod, incudeMA
         dmg = adjustForTarget(target, dmg, element)
         dmg = finalMagicNonSpellAdjustments(player, target, element, dmg, rawDmg)
     else
-         return 0
+        return 0
     end
     --printf("chance %i", chance)
     --printf("resist %i", resist * 100)
