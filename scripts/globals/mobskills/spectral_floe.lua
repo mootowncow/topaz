@@ -26,6 +26,6 @@ function onMobWeaponSkill(target, mob, skill)
     local params = {}
     params.ALWAYS_ENFEEBLE = true
 
-    MobStatusEffectMove(mob, target, typeEffect, power, 0, 20, false, params)
+    MobStatusEffectMove(mob, target, typeEffect, power, 0, 15, false, params)
     return dmg
 end

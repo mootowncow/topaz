@@ -42,7 +42,7 @@ function onSpellCast(caster, target, spell)
     -- For tracking what skill to use for spikes MACC formula in C++
     target:setCharVar("bluSpikes", 1)
 
-    target:delStatusEffect(effect)
+    target:delStatusEffectSilent(effect)
 
     return BlueBuffSpell(caster, target, spell, effect, power, tick, duration, subid, subpower, tier, params, bonus)
 end
