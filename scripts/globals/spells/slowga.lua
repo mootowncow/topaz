@@ -15,10 +15,10 @@ function onSpellCast(caster, target, spell)
     local dMND = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
 
     --Power
-    -- Lowest ~7.3%
-    -- Highest ~29.2%
-    local power = utils.clamp(math.floor(dMND * 73 / 5) + 1825, 730, 2920)
-    power = calculatePotency(power, dMND, spell:getSkillType(), caster, target)
+    -- Lowest ~30.1%
+    -- Highest ~40.1%
+    local power = utils.clamp(math.floor(dMND * 73 / 5) + 2380, 3010, 4010)
+    power = calculatePotency(power, spell:getSkillType(), caster, target)
 
     --Duration, including resistance
     local duration = 180
