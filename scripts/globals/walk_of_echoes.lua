@@ -17,6 +17,9 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Test -attributes clamping to 1 and see if attack is equal to w/e str is being removed by and works properly I guess?
+-- TODO: Make sure enums are correct for misc items where my comment is 
+-- TODO: what happens if you log off / dc mid walk, do you come back with a timer?
 -- TODO: All bosses no roam?
 -- TODO: Kozumi picture, eventually way to skip CS and just buy KI zoning from Xarcabard[S]
 -- TODO: Endowed gives ALL starter temps back
@@ -43,14 +46,11 @@ require("scripts/globals/weaponskillids")
 -- TODO: Wizard / Giants drink dura and %. Might be +100% and 15m
 -- TODO: Coffer doesn't properly work if < 6 items, works at >= 6. tpz.woe.TreasureCoffer.onTrigger/ tpz.woe.TreasureCoffer.onTrigger.onEventUpdate broken
 -- TODO: Craft mats from boss, too. Maybe used to make new gear? Voidwalker gear? Or abyssea crafted gear? Or furia / ebur / w/e Synergy sets with new stats? or Lore Robe / Gules Harness / ??? sets
--- TODO: Temps from kills, too?
 -- TODO: Magic cool on everything
 -- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
--- TODO: Code new spells into DATS/SQL (level 75)
 -- TODO: Use addon to capture models
--- TODO: New spell scrolls?
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
 -- TODO: Fill Misc item list
 -- TODO: Save temp gained between runs into other walks. Prob save temps by zone ID and load them by zone ID if applicable, maybe LSB has for abyssea?
@@ -437,7 +437,7 @@ local walkData =
                 -- TODO: Reaving Wind cause knockback aura? What's the aura do?
                 -- TODO: Test fanatics(physical damage tonic) on Anguinus
     --         TP Moves: { Storm Wing, Warped Wail, Reaving Wind (Self, Grants Aura but no knockback? 2s cast,  <= 10 yards), 
-    --              Vermillion Wind (Self -100% (86 str become -85, 94 dex become -93, 80 vit become -79, etc, player attributes cannot be lowered below 1) All Attributes down 3s cast, 15 yards, CANNOT BE RESISTED), 
+    --              Vermillion Wind (Self -101? (86 str become -85, 94 dex become -93, 80 vit become -79, etc, player attributes cannot be lowered below 1) All Attributes down 3s cast, 15 yards, CANNOT BE RESISTED), 
     --              Bloody Beak, Feral Peck (throat stab + hate reset, 2s cast 
     --              Tail Lash (BEHIND 2s cast)}
     --         Traits { DA, Store TP (300+) }
@@ -643,7 +643,7 @@ local walkData =
     --         Immune {  Normal }, 
     --         Spells { }, 
     --         Cast Timer {  }
-    --         TP Moves: { Seismic Impact (2s cast) Ballista Kick (Self, 2-3s cast)  Scapula Beam (All Attributes Down -100%, Self, 2s cast, CANNOT BE RESISTED), Arm Cannon(2s Cast), Incinerator (Self, 3s cast),
+    --         TP Moves: { Seismic Impact (2s cast) Ballista Kick (Self, 2-3s cast)  Scapula Beam (All Attributes Down -101?, Self, 2s cast, CANNOT BE RESISTED), Arm Cannon(2s Cast), Incinerator (Self, 3s cast),
     --          Eradicator (50% <= or <= 25%, 15-30s weakness, -50% HP Down (30-60s), -50% MP down (30-60s) 2s cast CANNOT BE RESISTED), 
     --          Turbine Cyclone (<= 50% or <= 25%, 3s cast)}
     --         Traits { 150/tick Regain }
@@ -1004,21 +1004,27 @@ local walkData =
     {
         -- Coins and pouches share a group, one or other per slot]
         Coins       =   { item.COIN_OF_ADVANCEMENT, item.COIN_OF_BIRTH, item.COIN_OF_DECAY, item.COIN_OF_GLORY, item.COIN_OF_RUIN },
-        Dice        =   { item.DEVIOUS_DIE},
+        Dice        =   { item.DEVIOUS_DIE },
         Residue     =   { item.POUCH_OF_LIMINAL_RESIDUE, item.FRAYED_SACK_OF_LIMINALITY },
-        Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.FRAYED_SACK_OF_DEVIOUSNESS, item.POUCH_OF_LIMINAL_RESIDUE },
-        Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_PINING_NOCTURNE }, -- Stone V, Regen IV, Nocturne, Jubaku: Ni, Gain spells, Boost spells (Remove from vendor, refund cost, delete spells)
-        Misc        =   { 
-                            item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
-                            item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
-                            item.ELM_LOG, item.WALNUT_LOG, -- Log (Beech?)
-                            item.SQUARE_OF_LINEN_CLOTH, item.SQUARE_OF_WOOL_CLOTH, -- Cloth
-                            -- TODO: Leather
-                            -- TODO: Hides (Manticore was one)
-                            -- TODO: Gems (spinel, clear topaz, light opal)
-                            -- TODO: Potions / ethers / elixirs (hi-elixir, too)
-                            -- Beastcoins (Gold / Silver)
-                            item.BLACK_TIGER_FANG }, -- Bone -- TODO: Finish (New craft mats - Carnelian, Beech Log, Fiendish Skin, Flocon-de-mer, Gems for +6 stat rings, etc?)
+        Pouches     =   { item.FRAYED_POUCH_OF_ADVANCEMENT, item.FRAYED_POUCH_OF_BIRTH, item.FRAYED_POUCH_OF_DECAY, item.FRAYED_POUCH_OF_GLORY, item.FRAYED_POUCH_OF_RUIN, item.FRAYED_SACK_OF_DEVIOUSNESS,
+                           item.POUCH_OF_LIMINAL_RESIDUE },
+        Scrolls     =   { item.SCROLL_OF_STONE_V,  item.SCROLL_OF_REGEN_IV, item.SCROLL_OF_PINING_NOCTURNE, item.SCROLL_OF_JUBAKU_NI,
+                          item.SCROLL_OF_GAIN_STR, item.SCROLL_OF_GAIN_VIT, item.SCROLL_OF_BOOST_STR, item.SCROLL_OF_BOOST_VIT },
+                          -- Others saved for later content (maybe)
+                          -- item.SCROLL_OF_GAIN_DEX, item.SCROLL_OF_GAIN_AGI, item.SCROLL_OF_GAIN_INT, item.SCROLL_OF_GAIN_MND, item.SCROLL_OF_GAIN_CHR,
+                          -- item.SCROLL_OF_BOOST_DEX, item.SCROLL_OF_BOOST_AGI, item.SCROLL_OF_BOOST_INT, item.SCROLL_OF_BOOST_MND, item.SCROLL_OF_BOOST_CHR, },
+        Misc        =   {
+                            item.CHUNK_OF_SILVER_ORE, item.CHUNK_OF_ZINC_ORE, item.CHUNK_OF_IRON_ORE, item.CHUNK_OF_MYTHRIL_ORE, -- Ore
+                            item.BRASS_INGOT, item.IRON_INGOT,item.STEEL_INGOT, item.MYTHRIL_INGOT, -- Ingot
+                            item.ELM_LOG, item.MAPLE_LOG, item.WALNUT_LOG, item.CHESTNUT_LOG, -- Logs
+                            item.SQUARE_OF_LINEN_CLOTH, item.SQUARE_OF_WOOL_CLOTH, item.SQUARE_OF_VELVET_CLOTH, item.SQUARE_OF_SILK_CLOTH, -- Cloth
+                            item.SQUARE_OF_SHEEP_LEATHER, item.SQUARE_OF_DHALMEL_LEATHER, item.SQUARE_OF_RAM_LEATHER, item.SQUARE_OF_BLACK_TIGER_LEATHER, -- Leather
+                            item.LIZARD_SKIN, item.WOLF_HIDE, item.COCKATRICE_SKIN, item.MANTICORE_HIDE, -- Hides
+                            item.SUNSTONE, item.CHRYSOBERYL, item.AQUAMARINE, item.JADEITE, item.ZIRCON, item.FLUORITE, item.MOONSTONE, item.PAINITE ,-- Gems 1
+                            item.GARNET, item.SPHENE, item.TURQUOISE, item.PERIDOT, item.GOSHENITE, item.AMETRINE, item.LIGHT_OPAL, item.ONYX,  -- Gems 2
+                            item.HI_POTION, item.HI_POTION_HQ, item.HI_POTION_HQ2, item.HI_POTION_HQ3, item.HI_ETHER, item.HI_ETHER_HQ, item.HI_ETHER_HQ2, item.HI_ETHER_HQ3, item.ELIXIR, -- Potions
+                            item.SILVER_BEASTCOIN, item.MYTHRIL_BEASTCOIN, item.GOLD_BEASTCOIN, -- Beastcoins
+                            item.TURTLE_SHELL, item.GIANT_FEMUR, item.BLACK_TIGER_FANG, item.RAM_HORN, item.SCORPION_CLAW< item.SCORPION_SHELL }, -- Bones
     }
 }
 
