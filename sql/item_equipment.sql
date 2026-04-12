@@ -389,7 +389,7 @@ INSERT INTO `item_equipment` VALUES (10598,'alcedo_cuisses',99,0,193,112,0,0,128
 INSERT INTO `item_equipment` VALUES (10600,'ogiers_leggings',96,0,10689,325,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (10601,'athoss_boots',96,0,2593826,326,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (10602,'rubeus_boots',96,0,1589788,327,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (10603,'scopuli_nails',96,0,2462754,172,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (10603,'scopuli_nails',75,0,2462754,172,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (10604,'avant_leggings',96,0,10689,29,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (10605,'avant_leggings_+1',96,0,10689,29,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (10606,'kacura_leggings',96,0,2462754,110,0,0,256,0,0);
@@ -550,7 +550,7 @@ INSERT INTO `item_equipment` VALUES (10761,'portus_annulet',94,0,4194303,0,0,0,2
 INSERT INTO `item_equipment` VALUES (10762,'angha_ring',94,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (10763,'poeas_ring',94,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (10764,'sheltered_ring',96,0,4194303,0,0,0,24576,0,0);
-INSERT INTO `item_equipment` VALUES (10765,'arvina_ringlet',98,0,4194303,0,0,0,24576,0,0);
+INSERT INTO `item_equipment` VALUES (10765,'arvina_ringlet',75,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (10766,'lunette_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (10767,'pernicious_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (10768,'gelatinous_ring',99,0,4194303,0,0,0,24576,0,0);
@@ -588,8 +588,8 @@ INSERT INTO `item_equipment` VALUES (10799,'sljor_ring',99,0,4194303,0,0,0,24576
 INSERT INTO `item_equipment` VALUES (10800,'castellans_shield',92,0,2529,34,4,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (10801,'psychist_shield',92,0,2421,36,2,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (10802,'majorelle_shield',94,0,193,47,3,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (10803,'weathering_shield',97,0,64,47,3,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (10804,'thuellaic_ecu',97,0,2421,46,2,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (10803,'weathering_shield',75,0,64,47,3,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (10804,'thuellaic_ecu',75,0,2421,46,2,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (10805,'panzer_shield',99,0,65,33,4,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (10806,'adamas',99,0,64,61,3,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (10807,'mandraguard',1,0,4194303,62,1,0,2,0,0);
@@ -611,8 +611,8 @@ INSERT INTO `item_equipment` VALUES (10823,'cimmerian_sash',93,0,4194303,0,0,0,1
 INSERT INTO `item_equipment` VALUES (10824,'casso_sash',93,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (10825,'chiners_belt',75,0,2473969,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (10826,'witful_belt',96,0,1622556,0,0,0,1024,0,0);
-INSERT INTO `item_equipment` VALUES (10827,'prosilio_belt',98,0,4194303,0,0,0,1024,0,0);
-INSERT INTO `item_equipment` VALUES (10828,'windbuffet_belt',97,0,4194303,0,0,0,1024,0,0);
+INSERT INTO `item_equipment` VALUES (10827,'prosilio_belt',75,0,4194303,0,0,0,1024,0,0);
+INSERT INTO `item_equipment` VALUES (10828,'windbuffet_belt',75,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (10829,'artful_belt',96,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (10830,'artful_belt_+1',96,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (10831,'paewr_belt',96,0,4194303,0,0,0,1024,0,0);
@@ -654,8 +654,8 @@ INSERT INTO `item_equipment` VALUES (10878,'rubeus_bandeau',98,0,1589788,327,0,0
 INSERT INTO `item_equipment` VALUES (10879,'hreysti_helm',97,0,6593,230,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (10880,'praeco_beret',97,0,1753628,324,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (10881,'brego_helm',97,0,2371507,120,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (10882,'smilodon_mask',98,0,2363683,117,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (10883,'gallian_helm',98,0,6593,230,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (10882,'smilodon_mask',75,0,2363683,117,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (10883,'gallian_helm',75,0,6593,230,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (10884,'avant_helm',96,0,10689,29,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (10885,'avant_helm_+1',96,0,10689,29,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (10886,'kacura_cap',96,0,2462754,110,0,0,16,0,0);
@@ -759,7 +759,7 @@ INSERT INTO `item_equipment` VALUES (10985,'moondoe_mantle',75,0,2473971,0,0,0,3
 INSERT INTO `item_equipment` VALUES (10986,'oretanias_cape',75,0,1753628,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (10987,'meanagh_cape',75,0,2594082,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (10988,'blithe_mantle',96,0,4194303,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (10989,'tempered_cape',97,0,3850780,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (10989,'tempered_cape',75,0,3850780,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (10990,'engulfer_cape',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (10991,'rancorous_mantle',75,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (10992,'vassals_mantle',96,0,2473971,0,0,0,32768,0,0);
@@ -1739,7 +1739,7 @@ INSERT INTO `item_equipment` VALUES (11969,'ogiers_breeches',98,0,10689,325,0,0,
 INSERT INTO `item_equipment` VALUES (11970,'athoss_tights',98,0,2593826,326,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (11971,'rubeus_spats',98,0,1589788,327,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (11972,'praeco_slacks',97,0,1753628,329,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (11973,'hidalgo_slops',98,0,49180,149,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (11973,'hidalgo_slops',75,0,49180,149,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (11974,'avant_cuisses',96,0,10689,29,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (11975,'avant_cuisses_+1',96,0,10689,29,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (11976,'kacura_subligar',96,0,2462754,110,0,0,128,0,0);
@@ -8525,7 +8525,7 @@ INSERT INTO `item_equipment` VALUES (18814,'salubrious_grip',92,0,4194303,0,0,0,
 INSERT INTO `item_equipment` VALUES (18815,'arbuda_grip',95,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18816,'wizzan_grip',65,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18817,'furtive_grip',60,0,4194303,0,0,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (18818,'dilettantes_grip',96,0,4194303,0,0,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (18818,'dilettantes_grip',75,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18819,'elders_grip',99,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18820,'duplus_grip',99,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18821,'potens_grip',99,0,4194303,0,0,0,2,0,0);
@@ -9472,7 +9472,7 @@ INSERT INTO `item_equipment` VALUES (19774,'angha_gem',95,0,65,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19775,'memoria_sachet',95,0,1589788,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19776,'mogratuity',1,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19777,'ombre_tathlum',93,0,4194303,0,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (19778,'hasty_pinion',96,0,4194303,0,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (19778,'hasty_pinion',75,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19779,'potestas_bomblet',75,0,2500642,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19780,'mana_ampulla',65,0,1589788,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (19781,'eluders_sachet',96,0,4194303,0,0,0,8,4,0);
@@ -10471,9 +10471,9 @@ INSERT INTO `item_equipment` VALUES (21359,'quartz_tathlum_+1',99,0,4194303,0,0,
 INSERT INTO `item_equipment` VALUES (21360,'leisure_musk_+1',99,0,1589788,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21361,'esper_stone_+1',99,0,1589788,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21362,'ombre_tathlum_+1',99,0,4194303,0,0,0,8,4,0);
-INSERT INTO `item_equipment` VALUES (21363,'hasty_pinion_+1',99,0,4194303,0,0,0,8,4,0);
+INSERT INTO `item_equipment` VALUES (21363,'hasty_pinion_+1',75,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21364,'elders_grip_+1',99,0,4194303,0,0,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (21365,'dilet.s_grip_+1',99,0,4194303,0,0,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (21365,'dilet.s_grip_+1',75,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (21366,'floestone',99,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21367,'tengu-no-hane',75,0,266272,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21368,'bestas_bane',75,0,299040,27,0,0,4,0,0);
@@ -12372,8 +12372,8 @@ INSERT INTO `item_equipment` VALUES (26696,'pixie_hairpin_+1',75,0,4194303,0,0,0
 INSERT INTO `item_equipment` VALUES (26697,'accord_hat_+1',75,0,16384,101,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (26698,'chersos_helm_+1',75,0,65,95,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (26699,'theias_hairpin_+1',75,0,4194303,0,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (26700,'gallian_helm_+1',99,118,6593,118,0,0,16,0,0);
-INSERT INTO `item_equipment` VALUES (26701,'smilodon_mask_+1',99,118,2363683,334,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (26700,'gallian_helm_+1',75,0,6593,118,0,0,16,0,0);
+INSERT INTO `item_equipment` VALUES (26701,'smilodon_mask_+1',75,0,2363683,334,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (26702,'gavialis_helm',99,119,14785,375,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (26703,'lyco._masque',1,0,4194303,377,0,0,16,0,0);
 INSERT INTO `item_equipment` VALUES (26704,'lyco._masque_+1',1,0,4194303,377,0,0,16,0,0);
@@ -13288,8 +13288,8 @@ INSERT INTO `item_equipment` VALUES (27624,'homestead_shield',99,119,193,25,3,0,
 INSERT INTO `item_equipment` VALUES (27625,'morbol_shield',1,0,4194303,652,2,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (27626,'cassies_shield',1,0,4194303,652,2,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (27627,'svalinn',99,119,64,653,3,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (27629,'weather._shield_+1',99,118,64,47,3,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (27630,'thuellaic_ecu_+1',99,118,2421,46,2,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (27629,'weather._shield_+1',75,0,64,47,3,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (27630,'thuellaic_ecu_+1',75,0,2421,46,2,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (27631,'cait_sith_guard',1,0,4194303,654,1,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (27632,'cait_sith_gua._+1',1,0,4194303,654,1,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (27633,'thorfinn_shield',99,0,2421,40,2,0,2,0,0);
@@ -13796,7 +13796,7 @@ INSERT INTO `item_equipment` VALUES (28142,'brontes_cuisses',99,119,193,112,0,0,
 INSERT INTO `item_equipment` VALUES (28143,'wukongs_haka._+1',75,0,7171,4,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (28144,'adapas_slacks_+1',75,0,1065500,3,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (28145,'mirador_trou._+1',75,0,66560,63,0,0,128,0,0);
-INSERT INTO `item_equipment` VALUES (28146,'hidalgo_slops_+1',99,118,49180,20,0,0,128,0,0);
+INSERT INTO `item_equipment` VALUES (28146,'hidalgo_slops_+1',75,0,49180,20,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (28148,'perdition_slops',72,0,540684,19,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (28149,'ken._hanmomohiki',1,0,4194303,0,0,0,128,0,0);
 INSERT INTO `item_equipment` VALUES (28150,'sho._hanmomohiki',1,0,4194303,0,0,0,128,0,0);
@@ -13928,7 +13928,7 @@ INSERT INTO `item_equipment` VALUES (28280,'soku._sune-ate',99,119,6146,60,0,0,2
 INSERT INTO `item_equipment` VALUES (28281,'rager_ledel._+1',75,0,2569522,1,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (28282,'conduit_shoes_+1',75,0,1589788,11,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (28283,'gigan._boots_+1',75,0,10689,54,0,0,256,0,0);
-INSERT INTO `item_equipment` VALUES (28284,'scopuli_nails_+1',99,118,2462754,209,0,0,256,0,0);
+INSERT INTO `item_equipment` VALUES (28284,'scopuli_nails_+1',75,0,2462754,209,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (28285,'coalrake_sabots',99,119,1622556,179,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (28286,'ostro_greaves',99,119,8641,219,0,0,256,0,0);
 INSERT INTO `item_equipment` VALUES (28287,'durgai_leggings',99,119,2494754,110,0,0,256,0,0);
@@ -14078,8 +14078,8 @@ INSERT INTO `item_equipment` VALUES (28435,'acerbic_sash_+1',75,0,4194303,0,0,0,
 INSERT INTO `item_equipment` VALUES (28436,'svelt._gouriz_+1',75,0,2465590,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (28437,'flume_belt_+1',75,0,2473969,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (28438,'chiners_belt_+1',75,0,2473969,0,0,0,1024,0,0);
-INSERT INTO `item_equipment` VALUES (28439,'prosilio_belt_+1',99,0,4194303,0,0,0,1024,0,0);
-INSERT INTO `item_equipment` VALUES (28440,'windbuffet_belt_+1',99,0,4194303,0,0,0,1024,0,0);
+INSERT INTO `item_equipment` VALUES (28439,'prosilio_belt_+1',75,0,4194303,0,0,0,1024,0,0);
+INSERT INTO `item_equipment` VALUES (28440,'windbuffet_belt_+1',75,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (28441,'ponente_sash',99,0,66560,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (28442,'olseni_belt',99,0,4194303,0,0,0,1024,0,0);
 INSERT INTO `item_equipment` VALUES (28443,'yamabuki-no-obi',99,0,3851870,0,0,0,1024,0,0);
@@ -14169,7 +14169,7 @@ INSERT INTO `item_equipment` VALUES (28532,'candent_ring',99,0,4194303,0,0,0,245
 INSERT INTO `item_equipment` VALUES (28533,'mouflon_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28534,'nekhen_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28535,'supershear_ring',99,0,4194303,0,0,0,24576,0,0);
-INSERT INTO `item_equipment` VALUES (28536,'arvina_ringlet_+1',99,0,4194303,0,0,0,24576,0,0);
+INSERT INTO `item_equipment` VALUES (28536,'arvina_ringlet_+1',75,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28537,'lunette_ring_+1',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28538,'lebeche_ring',99,0,4194303,0,0,0,24576,0,0);
 INSERT INTO `item_equipment` VALUES (28539,'globidonta_ring',99,0,4194303,0,0,0,24576,0,0);
@@ -14230,7 +14230,7 @@ INSERT INTO `item_equipment` VALUES (28594,'vell._mantle_+1',75,0,2569522,0,0,0,
 INSERT INTO `item_equipment` VALUES (28595,'moondoe_mantle_+1',75,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (28596,'oretan._cape_+1',75,0,1753628,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (28597,'meanagh_cape_+1',75,0,2594082,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (28598,'tempered_cape_+1',99,0,3850780,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (28598,'tempered_cape_+1',75,0,3850780,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (28599,'engulfer_cape_+1',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (28600,'trepidity_mantle',72,0,2241,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (28601,'seshaw_cape',99,0,1753628,0,0,0,32768,0,0);
