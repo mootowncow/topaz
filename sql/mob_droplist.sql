@@ -7936,7 +7936,7 @@ INSERT INTO `mob_droplist` VALUES (1488,0,0,1000,5384,100);
 INSERT INTO `mob_droplist` VALUES (1489,0,0,1000,5365,100);
 INSERT INTO `mob_droplist` VALUES (1489,0,0,1000,5371,100);
 INSERT INTO `mob_droplist` VALUES (1489,0,0,1000,5374,100);
-INSERT INTO `mob_droplist` VALUES (1490,0,0,1000,2167,50); -- (Lamia Fatedealer) Lamian ARmlet
+INSERT INTO `mob_droplist` VALUES (1490,0,0,1000,2167,50); -- (Lamia Fatedealer) Lamian Armlet
 INSERT INTO `mob_droplist` VALUES (1490,2,0,1000,18688,0); -- Lamian Kaman -1 (Steal)
 INSERT INTO `mob_droplist` VALUES (1490,0,0,1000,2229,100);
 INSERT INTO `mob_droplist` VALUES (1490,0,0,1000,2332,150);

@@ -3268,7 +3268,7 @@ INSERT INTO `item_weapon` VALUES (19735,'cecchinos_fucile',26,1,0,0,0,1,1,600,46
 INSERT INTO `item_weapon` VALUES (19736,'cecchin._fucile_+1',26,1,0,0,0,1,1,582,47,0);
 INSERT INTO `item_weapon` VALUES (19737,'percept_bow',25,5,0,0,0,1,1,540,93,0);
 INSERT INTO `item_weapon` VALUES (19738,'aifes_bow',25,5,0,0,0,1,1,540,106,0);
-INSERT INTO `item_weapon` VALUES (19739,'moros_crossbow',26,0,0,0,0,1,1,432,68,0);
+INSERT INTO `item_weapon` VALUES (19739,'moros_crossbow',26,0,0,0,0,1,1,432,56,0);
 INSERT INTO `item_weapon` VALUES (19740,'stoertebeker',26,1,0,0,0,1,1,480,55,0);
 INSERT INTO `item_weapon` VALUES (19741,'handgonne',26,1,0,0,0,1,1,600,47,0);
 INSERT INTO `item_weapon` VALUES (19742,'handgonne_+1',26,1,0,0,0,1,1,582,48,0);
@@ -4388,7 +4388,7 @@ INSERT INTO `item_weapon` VALUES (21472,'turpid_broth',0,120,0,0,0,1,1,2195,6244
 INSERT INTO `item_weapon` VALUES (21473,'feculent_broth',0,121,0,0,0,1,1,2196,6245,0);
 INSERT INTO `item_weapon` VALUES (21476,'doomsday',26,1,242,0,0,1,1,680,120,0);
 INSERT INTO `item_weapon` VALUES (21477,'atalanta',26,0,228,0,0,1,1,130,69,0);
-INSERT INTO `item_weapon` VALUES (21478,'moros_cross._+1',26,0,228,0,0,1,1,432,131,0);
+INSERT INTO `item_weapon` VALUES (21478,'moros_cross._+1',26,0,228,0,0,1,1,418,57,0);
 INSERT INTO `item_weapon` VALUES (21479,'tsoa._crossbow',26,0,242,0,0,1,1,288,104,0);
 INSERT INTO `item_weapon` VALUES (21480,'blurred_crossbow',26,0,242,0,0,1,1,288,120,0);
 INSERT INTO `item_weapon` VALUES (21481,'blurred_cross._+1',26,0,242,0,0,1,1,280,121,0);

@@ -95,7 +95,7 @@ INSERT INTO `item_mods_pet` VALUES (11531,73,3,0);      -- Fidelity Mantle Pet: 
 INSERT INTO `item_mods_pet` VALUES (11536,101,2,3);     -- Wyg. Klt. Mantle Automaton: Melee skill +2
 INSERT INTO `item_mods_pet` VALUES (11555,25,10,0);     -- Ferine Mantle Pet: Accuracy+10
 INSERT INTO `item_mods_pet` VALUES (11564,28,1,1);      -- Tiresias' Cape Avatar:"Magic Atk. Bonus"+1
-INSERT INTO `item_mods_pet` VALUES (11571,25,12,3);     -- Karagoz Mantle Automaton: Accuracy +10
+INSERT INTO `item_mods_pet` VALUES (11571,25,15,3); -- Automaton: ACC 15
 INSERT INTO `item_mods_pet` VALUES (11612,28,2,1);      -- Eidolon Pendant Avatar: "Magic Atk. Bonus"+2
 INSERT INTO `item_mods_pet` VALUES (11617,288,2,0);     -- Ferine Necklace Pet: "Double Attack"+2%
 INSERT INTO `item_mods_pet` VALUES (11619,368,25,1);    -- Caller's Pendant Avatar: Regain + 25
@@ -225,7 +225,7 @@ INSERT INTO `item_mods_pet` VALUES (21167,30,20,1);     -- Frazil Staff Avatar: 
 INSERT INTO `item_mods_pet` VALUES (21167,28,120,1);    -- Avatar: "Magic Atk. Bonus"+120
 INSERT INTO `item_mods_pet` VALUES (21167,27,10,1);     -- Avatar: Enmity+10
 INSERT INTO `item_mods_pet` VALUES (21183,28,108,1);    -- Eminent Pole Avatar: "Magic Atk. Bonus"+108
-INSERT INTO `item_mods_pet` VALUES (21361,28,6,0);      -- Esper Stone +1 Pet: "Magic Atk. Bonus"+6
+INSERT INTO `item_mods_pet` VALUES (21361,28,2,1); -- Avatar: MATT 2
 INSERT INTO `item_mods_pet` VALUES (21526,25,50,3);     -- Xiucoatl: Automaton: Accuracy+50
 INSERT INTO `item_mods_pet` VALUES (21526,26,50,3);     -- Xiucoatl: Automaton: Ranged Accuracy+50
 INSERT INTO `item_mods_pet` VALUES (21526,30,50,3);     -- Xiucoatl: Automaton: Magic Accuracy+50
@@ -473,7 +473,7 @@ INSERT INTO `item_mods_pet` VALUES (28258,27,5,1);      -- Con. Pigaches +1 Avat
 INSERT INTO `item_mods_pet` VALUES (28258,68,20,1);     -- Avatar: Evasion+20
 INSERT INTO `item_mods_pet` VALUES (28258,126,6,1);     -- Avatar: "Blood Pact" damage +6
 INSERT INTO `item_mods_pet` VALUES (28261,384,300,3);   -- Foire Bab. +1 Automaton: Haste+3%
-INSERT INTO `item_mods_pet` VALUES (28356,28,5,1);      -- Eidolon Pendant +1 Avatar: "Magic Atk. Bonus"+5
+INSERT INTO `item_mods_pet` VALUES (28356,28,3,1); -- Avatar: MATT 3
 INSERT INTO `item_mods_pet` VALUES (28432,25,15,3);     -- Ukko Sash Automaton: Accuracy+15
 INSERT INTO `item_mods_pet` VALUES (28432,26,15,3);     -- Automaton: Ranged Accuracy+15
 INSERT INTO `item_mods_pet` VALUES (28432,30,15,3);     -- Automaton: Magic Accuracy+15
@@ -482,9 +482,7 @@ INSERT INTO `item_mods_pet` VALUES (28432,170,5,3);     -- Automaton: "Fast Cast
 INSERT INTO `item_mods_pet` VALUES (28495,384,300,0);   -- Rimeice Earring Pet: Haste+3%
 INSERT INTO `item_mods_pet` VALUES (28495,27,5,0);      -- Pet: Enmity+5
 INSERT INTO `item_mods_pet` VALUES (28495,160,1,0);     -- Pet: Damage taken -1%
-INSERT INTO `item_mods_pet` VALUES (28588,23,15,3);     -- Karagoz Mantle +1 Automaton: Attack +15
-INSERT INTO `item_mods_pet` VALUES (28588,25,15,3);     -- Automaton: Accuracy +15
-INSERT INTO `item_mods_pet` VALUES (28588,68,10,3);     -- Automaton: Evasion +10
+INSERT INTO `item_mods_pet` VALUES (28588,25,17,3); -- Automaton: ACC 17
 INSERT INTO `item_mods_pet` VALUES (28605,25,7,1);      -- Samanisi Cape Avatar: Accuracy +7
 INSERT INTO `item_mods_pet` VALUES (28605,30,7,1);      -- Avatar: Magic Accuracy +7
 INSERT INTO `item_mods_pet` VALUES (28643,12,8,3);      -- Refraction Cape Automaton: INT+8

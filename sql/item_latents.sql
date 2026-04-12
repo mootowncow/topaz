@@ -3855,3 +3855,5 @@ INSERT INTO `item_latents` VALUES(20979, 165, 7, 62, 0); -- [20979] Aizushintogo
 INSERT INTO `item_latents` VALUES(20979, 421, 10, 62, 0); -- [20979] Aizushintogo: Main hand: - CRIT_DMG_INCREASE 10
 INSERT INTO `item_latents` VALUES(20597, 165, 7, 62, 0); -- [20597] Enchufla: Main hand: - CRITHITRATE 7
 INSERT INTO `item_latents` VALUES(20597, 421, 10, 62, 0); -- [20597] Enchufla: Main hand: - CRIT_DMG_INCREASE 10
+INSERT INTO `item_latents` VALUES(12493, 346, 1, 9, 9); -- [12493] Accord Hat: Pet Id(9) - PERPETUATION_REDUCTION 1
+INSERT INTO `item_latents` VALUES(26697, 346, 2, 9, 9); -- [26697] Accord Hat +1: Pet Id(9) - PERPETUATION_REDUCTION 2
