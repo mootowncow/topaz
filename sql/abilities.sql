@@ -123,8 +123,8 @@ INSERT INTO `abilities` VALUES (90,'release',15,1,1,5,172,0,0,94,2000,0,6,20.0,0
 INSERT INTO `abilities` VALUES (91,'blood_pact_rage',15,1,1,30,173,0,0,0,2000,0,6,20.0,0,1,300,0,256,NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (92, 'rampart', 7, 62, 1, 300, 77, 319, 0, 91, 2000, 0, 6, 20.0, 1, 320, 320, 776, 0, NULL,0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (93,'azure_lore',16,0,1,7200,0,0,0,142,2000,0,6,20.0,0,1,300,0,0,'TOAU',0,0,0,0,0,0);
-INSERT INTO `abilities` VALUES (94,'chain_affinity',16,40,1,60,181,0,0,140,2000,0,6,20.0,0,1,300,1344,4,'TOAU',0,0,0,0,0,0);	-- changed to 60s cd
-INSERT INTO `abilities` VALUES (95,'burst_affinity',16,25,1,60,182,0,0,141,2000,0,6,20.0,0,1,300,1346,4,'TOAU',0,0,0,0,0,0);	-- changed to 60s cd
+INSERT INTO `abilities` VALUES (94,'chain_affinity',16,40,1,120,181,0,0,140,2000,0,6,20.0,0,1,300,1344,4,'TOAU',0,0,0,0,0,0);	-- changed to 60s cd
+INSERT INTO `abilities` VALUES (95,'burst_affinity',16,25,1,120,182,0,0,141,2000,0,6,20.0,0,1,300,1346,4,'TOAU',0,0,0,0,0,0);	-- changed to 60s cd
 INSERT INTO `abilities` VALUES (96,'wild_card',17,0,1,7200,0,0,0,132,2000,0,6,20.0,1,1,300,0,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (97,'phantom_roll',17,5,1,60,193,0,0,0,2000,0,6,18.0,0,0,0,1408,0,'TOAU',0,0,0,0,0,0);
 INSERT INTO `abilities` VALUES (98,'fighters_roll',17,49,1,60,193,420,0,98,2000,0,6,8.0,1,1,80,0,8,'TOAU',0,0,0,0,0,0);
