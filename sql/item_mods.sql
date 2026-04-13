@@ -999,10 +999,10 @@ INSERT INTO `item_mods` VALUES (10504,8,7);
 INSERT INTO `item_mods` VALUES (10504,10,7);
 INSERT INTO `item_mods` VALUES (10504,13,7);
 INSERT INTO `item_mods` VALUES (10504,384,500);
-INSERT INTO `item_mods` VALUES (10505,1,28);
-INSERT INTO `item_mods` VALUES (10505,8,5);
-INSERT INTO `item_mods` VALUES (10505,288,3);
-INSERT INTO `item_mods` VALUES (10505,384,300);
+INSERT INTO `item_mods` VALUES (10505,1,28); -- DEF 28
+INSERT INTO `item_mods` VALUES (10505,8,4); -- STR 4
+INSERT INTO `item_mods` VALUES (10505,288,2); -- DOUBLE_ATTACK 2
+INSERT INTO `item_mods` VALUES (10505,384,300); -- HASTE_GEAR 300
 INSERT INTO `item_mods` VALUES (10506,1,30);
 INSERT INTO `item_mods` VALUES (10506,8,6);
 INSERT INTO `item_mods` VALUES (10506,9,6);
@@ -27162,10 +27162,9 @@ INSERT INTO `item_mods` VALUES (21358,2,15);      -- Plumrose Sachet: HP +15
 INSERT INTO `item_mods` VALUES (21358,27,-2);     -- Enmity -2
 INSERT INTO `item_mods` VALUES (21358,30,5);      -- Magic Accuracy +5
 INSERT INTO `item_mods` VALUES (21361,27,-3); -- ENMITY -3
-INSERT INTO `item_mods` VALUES (21364,5,35);
-INSERT INTO `item_mods` VALUES (21364,27,-2);
-INSERT INTO `item_mods` VALUES (21364,28,4);
-INSERT INTO `item_mods` VALUES (21364,30,4);
+INSERT INTO `item_mods` VALUES (21364,5,35); -- MP 35
+INSERT INTO `item_mods` VALUES (21364,28,2); -- MATT 2
+INSERT INTO `item_mods` VALUES (21364,30,2); -- MACC 2
 INSERT INTO `item_mods` VALUES (21366,8,3);
 INSERT INTO `item_mods` VALUES (21366,12,5);
 INSERT INTO `item_mods` VALUES (21366,23,10);
@@ -51774,11 +51773,9 @@ INSERT INTO `item_mods` VALUES (28363,369,1);     -- Refresh +1
 INSERT INTO `item_mods` VALUES (28363,370,1);     -- Regen +1
 INSERT INTO `item_mods` VALUES (28364,30,-3); -- MACC -3
 INSERT INTO `item_mods` VALUES (28364,28,6); -- MATT 6
-INSERT INTO `item_mods` VALUES (28365,25,3);      -- Nefarious Collar +1: Accuracy +3
-INSERT INTO `item_mods` VALUES (28365,30,3);      -- Magic Accuracy +3
-INSERT INTO `item_mods` VALUES (28365,165,3);     -- Critical hit rate +3%
-INSERT INTO `item_mods` VALUES (28365,562,5);     -- Magic critical hit rate +5%
-INSERT INTO `item_mods` VALUES (28365,563,10);    -- Magic critical hit damage +10%
+INSERT INTO `item_mods` VALUES (28365,165,4); -- CRITHITRATE 4
+INSERT INTO `item_mods` VALUES (28365,562,4); -- MAGIC_CRITHITRATE 4
+INSERT INTO `item_mods` VALUES (28365,563,6); -- MAGIC_CRIT_DMG_INCREASE 6
 INSERT INTO `item_mods` VALUES (28366,24,5);
 INSERT INTO `item_mods` VALUES (28366,26,10);
 INSERT INTO `item_mods` VALUES (28366,73,4);
@@ -52408,11 +52405,9 @@ INSERT INTO `item_mods` VALUES (28597,68,8); -- EVA 8
 INSERT INTO `item_mods` VALUES (28597,26,8); -- RACC 8
 INSERT INTO `item_mods` VALUES (28598,1,10); -- DEF 10
 INSERT INTO `item_mods` VALUES (28598,25,8); -- ACC 8
-INSERT INTO `item_mods` VALUES (28599,1,16);      -- Engulfer Cape +1: DEF 16
-INSERT INTO `item_mods` VALUES (28599,2,30);      -- HP +30
-INSERT INTO `item_mods` VALUES (28599,5,30);      -- MP +30
-INSERT INTO `item_mods` VALUES (28599,163,-4);    -- Magic damage taken -4%
-INSERT INTO `item_mods` VALUES (28599,475,5);     -- Occasionally absorbs magic damage taken +5%
+INSERT INTO `item_mods` VALUES (28599,1,11); -- DEF 11
+INSERT INTO `item_mods` VALUES (28599,5,35); -- MP 35
+INSERT INTO `item_mods` VALUES (28599,475,6); -- MAGIC_ABSORB 6
 INSERT INTO `item_mods` VALUES (28600,1,20); -- DEF 20
 INSERT INTO `item_mods` VALUES (28600,2,35); -- HP 35
 INSERT INTO `item_mods` VALUES (28600,5,35); -- MP 35
@@ -52969,3 +52964,7 @@ INSERT INTO `item_mods` VALUES (28146,14,8); -- CHR 8
 INSERT INTO `item_mods` VALUES (28146,114,6); -- ENFEEBLE 6
 INSERT INTO `item_mods` VALUES (28146,119,6); -- SINGING 6
 INSERT INTO `item_mods` VALUES (28146,384,300); -- HASTE_GEAR 300
+INSERT INTO `item_mods` VALUES (28007,1,29); -- DEF 29
+INSERT INTO `item_mods` VALUES (28007,8,5); -- STR 5
+INSERT INTO `item_mods` VALUES (28007,288,3); -- DOUBLE_ATTACK 3
+INSERT INTO `item_mods` VALUES (28007,384,300); -- HASTE_GEAR 300

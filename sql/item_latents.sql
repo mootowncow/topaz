@@ -50,8 +50,8 @@ INSERT INTO `item_latents` VALUES(10737, 63, 10, 13, 64);   -- +2: Enhances "Las
 -- -------------------------------------------------------
 -- Lunette ring
 -- -------------------------------------------------------
-INSERT INTO `item_latents` VALUES(10766, 29, 5, 10, 0);     -- MDEF+7
-INSERT INTO `item_latents` VALUES(10766, 369, -2, 10, 0);   -- Latent is active when engaged and drains 2mp/tick.
+INSERT INTO `item_latents` VALUES(10766, 369, -2, 10, 0); -- [10766] Lunette Ring: Weapon Drawn(0) - REFRESH -2
+INSERT INTO `item_latents` VALUES(10766, 29, 7, 10, 0); -- [10766] Lunette Ring: Weapon Drawn(0) - MDEF 7
 
 -- -------------------------------------------------------
 -- Mandraguard
@@ -3857,3 +3857,4 @@ INSERT INTO `item_latents` VALUES(20597, 165, 7, 62, 0); -- [20597] Enchufla: Ma
 INSERT INTO `item_latents` VALUES(20597, 421, 10, 62, 0); -- [20597] Enchufla: Main hand: - CRIT_DMG_INCREASE 10
 INSERT INTO `item_latents` VALUES(12493, 346, 1, 9, 9); -- [12493] Accord Hat: Pet Id(9) - PERPETUATION_REDUCTION 1
 INSERT INTO `item_latents` VALUES(26697, 346, 2, 9, 9); -- [26697] Accord Hat +1: Pet Id(9) - PERPETUATION_REDUCTION 2
+INSERT INTO `item_latents` VALUES(28537, 29, 9, 10, 0); -- [28537] Lunette Ring +1: Weapon Drawn(0) - MDEF 9
