@@ -4647,7 +4647,7 @@ INSERT INTO `item_equipment` VALUES (14885,'sennight_bangles',36,0,4194303,0,0,0
 INSERT INTO `item_equipment` VALUES (14886,'heavy_gauntlets',67,0,193,22,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14887,'ocelot_gloves',80,0,2594082,231,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14888,'augurs_gloves',79,0,1589788,223,0,0,64,0,0);
-INSERT INTO `item_equipment` VALUES (14889,'barbarian_mittens',71,0,2473969,5,0,0,64,0,0);
+INSERT INTO `item_equipment` VALUES (14889,'barbarian_mittens',71,0,2595858,5,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14890,'ftr._mufflers_+1',74,0,1,64,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14891,'tpl._gloves_+1',74,0,2,66,0,0,64,0,0);
 INSERT INTO `item_equipment` VALUES (14892,'hlr._mitts_+1',74,0,4,68,0,0,64,0,0);
@@ -8525,7 +8525,7 @@ INSERT INTO `item_equipment` VALUES (18814,'salubrious_grip',92,0,4194303,0,0,0,
 INSERT INTO `item_equipment` VALUES (18815,'arbuda_grip',95,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18816,'wizzan_grip',65,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18817,'furtive_grip',60,0,4194303,0,0,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (18818,'dilettantes_grip',96,0,4194303,0,0,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (18818,'dilettantes_grip',75,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18819,'elders_grip',75,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18820,'duplus_grip',99,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (18821,'potens_grip',99,0,4194303,0,0,0,2,0,0);
@@ -10473,7 +10473,7 @@ INSERT INTO `item_equipment` VALUES (21361,'esper_stone_+1',99,0,1589788,0,0,0,8
 INSERT INTO `item_equipment` VALUES (21362,'ombre_tathlum_+1',99,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21363,'hasty_pinion_+1',99,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21364,'elders_grip_+1',75,0,4194303,0,0,0,2,0,0);
-INSERT INTO `item_equipment` VALUES (21365,'dilet.s_grip_+1',99,0,4194303,0,0,0,2,0,0);
+INSERT INTO `item_equipment` VALUES (21365,'dilet.s_grip_+1',75,0,4194303,0,0,0,2,0,0);
 INSERT INTO `item_equipment` VALUES (21366,'floestone',99,0,4194303,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21367,'tengu-no-hane',75,0,266272,0,0,0,8,4,0);
 INSERT INTO `item_equipment` VALUES (21368,'bestas_bane',75,0,299040,27,0,0,4,0,0);

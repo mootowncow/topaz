@@ -3807,6 +3807,11 @@ INSERT INTO `item_latents` VALUES(18592, 355, 188, 47, 0);  -- Elder Staff
 -- -------------------------------------------------------
 INSERT INTO `item_latents` VALUES(20632, 303, 1, 62, 1); -- Offhand: TH+1
 
+-- -------------------------------------------------------
+-- Thief's Knife
+-- -------------------------------------------------------
+INSERT INTO `item_latents` VALUES(16480, 303, 1, 62, 1); -- Offhand: TH+1
+
 --  `itemId` smallint(5) unsigned NOT NULL,
 --  `modId` smallint(5) unsigned NOT NULL,
 --  `value` smallint(5) NOT NULL DEFAULT '0',
@@ -3858,3 +3863,4 @@ INSERT INTO `item_latents` VALUES(20597, 421, 10, 62, 0); -- [20597] Enchufla: M
 INSERT INTO `item_latents` VALUES(12493, 346, 1, 9, 9); -- [12493] Accord Hat: Pet Id(9) - PERPETUATION_REDUCTION 1
 INSERT INTO `item_latents` VALUES(26697, 346, 2, 9, 9); -- [26697] Accord Hat +1: Pet Id(9) - PERPETUATION_REDUCTION 2
 INSERT INTO `item_latents` VALUES(28537, 29, 9, 10, 0); -- [28537] Lunette Ring +1: Weapon Drawn(0) - MDEF 9
+INSERT INTO `item_latents` VALUES(14765, 27, 4, 13, 197); -- [14765] Titanis Earring: Status Effect Active(197) - ENMITY 4
