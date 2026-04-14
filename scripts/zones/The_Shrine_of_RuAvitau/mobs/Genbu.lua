@@ -16,6 +16,9 @@ function onMobSpawn(mob)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
+    mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:setMod(tpz.mod.REGAIN, 50)
 end
 
@@ -38,17 +41,8 @@ function onMonsterMagicPrepare(mob, target)
 end
 
 function onMobDespawn(mob)
-    local Kirin = GetMobByID(ID.mob.KIRIN)
-    Kirin:setMobMod(tpz.mobMod.NO_MOVE, 0)
-    Kirin:setMod(tpz.mod.UDMGPHYS, 0)
-    Kirin:setMod(tpz.mod.UDMGRANGE, 0)
-    Kirin:setMod(tpz.mod.UDMGMAGIC, 0)
-    Kirin:setMod(tpz.mod.UDMGBREATH, 0)
-    Kirin:SetAutoAttackEnabled(true)
-    Kirin:SetMobAbilityEnabled(true)
-    Kirin:SetMagicCastingEnabled(true)
-    Kirin:setUnkillable(false)
 end
+
 
 function onMobDeath(mob, player, isKiller, noKiller)
 end
