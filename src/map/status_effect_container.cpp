@@ -2166,62 +2166,41 @@ void CStatusEffectContainer::TickEffects(time_point tick)
     TracyZoneScoped;
     TPZ_DEBUG_BREAK_IF(m_POwner == nullptr);
 
-    if (!m_POwner->isDead())
+    if (m_POwner->status == STATUS_DISAPPEAR)
     {
-        for (const auto& PStatusEffect : m_StatusEffectSet)
-        {
-            if (PStatusEffect->GetTickTime() != 0 &&
-                PStatusEffect->GetElapsedTickCount() <
-                    std::chrono::duration_cast<std::chrono::milliseconds>(tick - PStatusEffect->GetStartTime()).count() / PStatusEffect->GetTickTime())
-            {
-                if (PStatusEffect->GetFlag() & EFFECTFLAG_AURA)
-                {
-                    HandleAura(PStatusEffect);
-                }
-                PStatusEffect->IncrementElapsedTickCount();
-
-                try
-                {
-                    luautils::OnEffectTick(m_POwner, PStatusEffect);
-                }
-                catch (const std::exception& e)
-                {
-                    ShowDebug("Exception caught in OnEffectTick: %s\n", e.what());
-                }
-                catch (...)
-                {
-                    ShowDebug("Unknown exception caught in OnEffectTick.\n");
-                }
-            }
-        }
+        return;
     }
 
-    if (!m_POwner->isDead())
+    for (auto it = m_StatusEffectSet.begin(); it != m_StatusEffectSet.end();)
     {
-        for (const auto& PStatusEffect : m_StatusEffectSet)
-        {
-            if (PStatusEffect->GetTickTime() != 0 &&
-                PStatusEffect->GetElapsedTickCount() <=
-                    std::chrono::duration_cast<std::chrono::milliseconds>(tick - PStatusEffect->GetStartTime()).count() / PStatusEffect->GetTickTime())
-            {
-                if (PStatusEffect->GetFlag() & EFFECTFLAG_AURA)
-                {
-                    HandleAura(PStatusEffect);
-                    PStatusEffect->IncrementElapsedTickCount();
+        auto PStatusEffect = *it;
+        ++it;
 
-                    try
-                    {
-                        luautils::OnEffectTick(m_POwner, PStatusEffect);
-                    }
-                    catch (const std::exception& e)
-                    {
-                        ShowDebug("Exception caught in OnEffectTick (AURA): %s\n", e.what());
-                    }
-                    catch (...)
-                    {
-                        ShowDebug("Unknown exception caught in OnEffectTick (AURA).\n");
-                    }
-                }
+        if (PStatusEffect->GetTickTime() == 0)
+            continue;
+
+        auto elapsedTicks = std::chrono::duration_cast<std::chrono::milliseconds>(tick - PStatusEffect->GetStartTime()).count() / PStatusEffect->GetTickTime();
+
+        if (PStatusEffect->GetElapsedTickCount() < elapsedTicks)
+        {
+            if (PStatusEffect->GetFlag() & EFFECTFLAG_AURA)
+            {
+                HandleAura(PStatusEffect);
+            }
+
+            PStatusEffect->IncrementElapsedTickCount();
+
+            try
+            {
+                luautils::OnEffectTick(m_POwner, PStatusEffect);
+            }
+            catch (const std::exception& e)
+            {
+                ShowDebug("Exception caught in OnEffectTick: %s\n", e.what());
+            }
+            catch (...)
+            {
+                ShowDebug("Unknown exception caught in OnEffectTick.\n");
             }
         }
     }
