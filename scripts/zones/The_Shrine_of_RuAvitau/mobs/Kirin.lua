@@ -21,6 +21,9 @@ function onMobSpawn(mob)
     mob:setMod(tpz.mod.REFRESH, 300)
     mob:setMod(tpz.mod.REGEN, 50)
     mob:setMod(tpz.mod.REGAIN, 50)
+    mob:setMod(tpz.mod.MATT, 50)
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+    mob:setMobMod(tpz.mobMod.HP_STANDBACK, -1)
     mob:SetAutoAttackEnabled(true)
     mob:SetMobAbilityEnabled(true)
     mob:SetMagicCastingEnabled(true)
@@ -29,7 +32,7 @@ function onMobSpawn(mob)
     tpz.mix.jobSpecial.config(mob, {
         specials =
         {
-            {id = tpz.jsa.ASTRAL_FLOW, hpp = 69},
+            {id = tpz.jsa.ASTRAL_FLOW, hpp = 24},
         },
     })
 end
@@ -40,130 +43,121 @@ function onMobRoam(mob)
     mob:SetMagicCastingEnabled(true)
 end
 
-function onMobFight( mob, target )
+function onMobFight(mob, target)
     local GodsSummoned = mob:getLocalVar("GodsSummoned")
-	local BattleTime = mob:getBattleTime()
-    -- Disable movement / attacking if any God is spawned
-    for i = 17506671, 17506674 do
+    local spawnLock = mob:getLocalVar("SpawnLock")
+
+    ----------------------------------------
+    -- Check if any gods are alive
+    ----------------------------------------
+    local anyPetAlive = false
+    for i = ID.mob.KIRIN + 1, ID.mob.KIRIN + 4 do
         local pet = GetMobByID(i)
-        if pet:isSpawned() then
-            mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
-            mob:SetAutoAttackEnabled(false)
-            mob:SetMobAbilityEnabled(false)
-            mob:SetMagicCastingEnabled(false)
+        if pet and pet:isAlive() then
+            anyPetAlive = true
+            break
         end
     end
 
-    -- spawn gods
-    if mob:getHPP() <= 75 and GodsSummoned == 0 and mob:getCurrentAction() ~= tpz.action.MAGIC_CASTING then
-        local godsRemaining = {}
-        for i = 1, 4 do
-            if (mob:getLocalVar("add"..i) == 0) then
-                table.insert(godsRemaining, i)
-            end
+    ----------------------------------------
+    -- Disable / Enable Kirin
+    ----------------------------------------
+    if anyPetAlive then
+        mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
+        mob:SetAutoAttackEnabled(false)
+        mob:SetMobAbilityEnabled(false)
+        mob:SetMagicCastingEnabled(false)
+    else
+        mob:setMobMod(tpz.mobMod.NO_MOVE, 0)
+        mob:SetAutoAttackEnabled(true)
+        mob:SetMobAbilityEnabled(true)
+        mob:SetMagicCastingEnabled(true)
+
+        -- remove invulnerability when no gods alive
+        mob:setMod(tpz.mod.UDMGPHYS, 0)
+        mob:setMod(tpz.mod.UDMGRANGE, 0)
+        mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:setMod(tpz.mod.UDMGBREATH, 0)
+
+        -- Killable only after all 4 gods are dead
+        if mob:getLocalVar("GodsSummoned") == 4 then
+            mob:setUnkillable(false)
         end
-        if (#godsRemaining > 0) then
-            local g = godsRemaining[math.random(#godsRemaining)]
-            local god = SpawnMob(ID.mob.KIRIN + g)
-            mob:useMobAbility(624) -- 2 hour "cloud" animation
-            mob:removeAllNegativeEffects()
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-            mob:setMod(tpz.mod.UDMGRANGE, -100)
-            mob:setMod(tpz.mod.UDMGMAGIC, -100)
-            mob:setMod(tpz.mod.UDMGBREATH, -100)
+    end
+
+    ----------------------------------------
+    -- Spawn helper
+    ----------------------------------------
+local function spawnGod(nextPhase)
+    if mob:getLocalVar("SpawnLock") ~= 0 then return end
+
+    mob:setLocalVar("SpawnLock", 1)
+
+    local godsRemaining = {}
+    for i = 1, 4 do
+        if mob:getLocalVar("add"..i) == 0 then
+            table.insert(godsRemaining, i)
+        end
+    end
+
+    if #godsRemaining == 0 then
+        mob:setLocalVar("SpawnLock", 0)
+        return
+    end
+
+    local g = godsRemaining[math.random(#godsRemaining)]
+    local godID = ID.mob.KIRIN + g
+
+    -- start animation
+    mob:entityAnimationPacket("casm")
+
+    mob:timer(3000, function(mobArg)
+        mobArg:entityAnimationPacket("shsm")
+
+        local god = SpawnMob(godID)
+
+        if god then
+            god:setPos(mobArg:getXPos() + 3, mobArg:getYPos(), mobArg:getZPos())
             god:updateEnmity(target)
-            god:setPos(mob:getXPos() +3, mob:getYPos(), mob:getZPos())
-            mob:setLocalVar("add"..g, 1)
-            mob:setLocalVar("GodsSummoned", 1)
         end
+
+        -- mark spawned
+        mobArg:setLocalVar("add"..g, 1)
+        mobArg:setLocalVar("GodsSummoned", nextPhase)
+
+        -- make Kirin immune while gods are up
+        mobArg:setMod(tpz.mod.UDMGPHYS, -100)
+        mobArg:setMod(tpz.mod.UDMGRANGE, -100)
+        mobArg:setMod(tpz.mod.UDMGMAGIC, -100)
+        mobArg:setMod(tpz.mod.UDMGBREATH, -100)
+
+        -- unlock AFTER everything finishes
+        mobArg:setLocalVar("SpawnLock", 0)
+    end)
+end
+
+    ----------------------------------------
+    -- Phase triggers
+    ----------------------------------------
+    if mob:getHPP() <= 75 and GodsSummoned == 0 then
+        spawnGod(1)
+
+    elseif mob:getHPP() <= 50 and GodsSummoned == 1 then
+        spawnGod(2)
+
+    elseif mob:getHPP() <= 25 and GodsSummoned == 2 then
+        spawnGod(3)
+
+    elseif mob:getHPP() <= 5 and GodsSummoned == 3 then
+        spawnGod(4)
     end
 
-    if mob:getHPP() <= 50 and GodsSummoned == 1 and mob:getCurrentAction() ~= tpz.action.MAGIC_CASTING then
-        local godsRemaining = {}
-        for i = 1, 4 do
-            if (mob:getLocalVar("add"..i) == 0) then
-                table.insert(godsRemaining, i)
-            end
-        end
-        if (#godsRemaining > 0) then
-            local g = godsRemaining[math.random(#godsRemaining)]
-            local god = SpawnMob(ID.mob.KIRIN + g)
-            mob:useMobAbility(624) -- 2 hour "cloud" animation
-            for i, effect in ipairs(removables) do
-                if (mob:hasStatusEffect(effect)) then
-                    mob:delStatusEffect(effect)
-                end
-            end
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-            mob:setMod(tpz.mod.UDMGRANGE, -100)
-            mob:setMod(tpz.mod.UDMGMAGIC, -100)
-            mob:setMod(tpz.mod.UDMGBREATH, -100)
-            god:updateEnmity(target)
-            god:setPos(mob:getXPos() +3, mob:getYPos(), mob:getZPos())
-            mob:setLocalVar("add"..g, 1)
-            mob:setLocalVar("GodsSummoned", 2)
-        end
-    end
-
-    if mob:getHPP() <= 25 and GodsSummoned == 2 and mob:getCurrentAction() ~= tpz.action.MAGIC_CASTING then
-        local godsRemaining = {}
-        for i = 1, 4 do
-            if (mob:getLocalVar("add"..i) == 0) then
-                table.insert(godsRemaining, i)
-            end
-        end
-        if (#godsRemaining > 0) then
-            local g = godsRemaining[math.random(#godsRemaining)]
-            local god = SpawnMob(ID.mob.KIRIN + g)
-            mob:useMobAbility(624) -- 2 hour "cloud" animation
-            for i, effect in ipairs(removables) do
-                if (mob:hasStatusEffect(effect)) then
-                    mob:delStatusEffect(effect)
-                end
-            end
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-            mob:setMod(tpz.mod.UDMGRANGE, -100)
-            mob:setMod(tpz.mod.UDMGMAGIC, -100)
-            mob:setMod(tpz.mod.UDMGBREATH, -100)
-            god:updateEnmity(target)
-            god:setPos(mob:getXPos() +3, mob:getYPos(), mob:getZPos())
-            mob:setLocalVar("add"..g, 1)
-            mob:setLocalVar("GodsSummoned", 3)
-        end
-    end
-
-    if mob:getHPP() <= 5 and GodsSummoned == 3 and mob:getCurrentAction() ~= tpz.action.MAGIC_CASTING then
-        local godsRemaining = {}
-        for i = 1, 4 do
-            if (mob:getLocalVar("add"..i) == 0) then
-                table.insert(godsRemaining, i)
-            end
-        end
-        if (#godsRemaining > 0) then
-            local g = godsRemaining[math.random(#godsRemaining)]
-            local god = SpawnMob(ID.mob.KIRIN + g)
-            mob:setUnkillable(true)
-            mob:useMobAbility(624) -- 2 hour "cloud" animation
-            for i, effect in ipairs(removables) do
-                if (mob:hasStatusEffect(effect)) then
-                    mob:delStatusEffect(effect)
-                end
-            end
-            mob:setMod(tpz.mod.UDMGPHYS, -100)
-            mob:setMod(tpz.mod.UDMGRANGE, -100)
-            mob:setMod(tpz.mod.UDMGMAGIC, -100)
-            mob:setMod(tpz.mod.UDMGBREATH, -100)
-            god:updateEnmity(target)
-            god:setPos(mob:getXPos() +3, mob:getYPos(), mob:getZPos())
-            mob:setLocalVar("add"..g, 1)
-            mob:setLocalVar("GodsSummoned", 4)
-        end
-    end
-
-    -- ensure all spawned pets are doing stuff
+    ----------------------------------------
+    -- Make sure gods engage
+    ----------------------------------------
     for i = ID.mob.KIRIN + 1, ID.mob.KIRIN + 4 do
         local god = GetMobByID(i)
-        if (god:getCurrentAction() == tpz.act.ROAMING) then
+        if god and god:isSpawned() and god:getCurrentAction() == tpz.act.ROAMING then
             god:updateEnmity(target)
         end
     end
