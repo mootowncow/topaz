@@ -7405,8 +7405,224 @@ INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 210, 1,
 INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 212, 1, 255); -- Burst
 INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 214, 1, 255); -- Flood
 
+INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_ENWATER, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_WATER_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_WATERGA_II, 1, 255);
 
--- NEXT 1028
+INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_POISONGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_WATERGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_WATER_IV, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Caldera_crab', 1030, @SPELL_WATER_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Caldera_crab', 1030, @SPELL_WATERGA_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BLIND, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BIO_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_DISPELGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_SLEEPGA_II, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Albino_Antlion', 1033, @SPELL_BIND, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Albino_Antlion', 1033, @SPELL_STONE_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Anthracite_Antlion', 1034, @SPELL_STONEGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anthracite_Antlion', 1034, @SPELL_SLOW, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Myrmeleontide', 1035, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Myrmeleontide', 1035, @SPELL_SLOWGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Myrmeleontide', 1035, @SPELL_STONEGA_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Saltopus', 1036, @SPELL_AERO_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Saltopus', 1036, @SPELL_AEROGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Saltopus', 1036, @SPELL_SILENCE, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Saltopus', 1036, @SPELL_HASTE, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Natrix', 1037, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Natrix', 1037, @SPELL_SILENCEGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Pardus', 1038, @SPELL_BLAZE_SPIKES, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pardus', 1038, @SPELL_GRAVITY, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pardus', 1038, @SPELL_FIRAGA_II, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Canis_Dirus', 1039, @SPELL_PARALYGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Canis_Dirus', 1039, @SPELL_GRAVIGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Canis_Dirus', 1039, @SPELL_FIRAGA_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Anguis', 1040, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anguis', 1040, @SPELL_SLEEPGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anguis', 1040, @SPELL_DISPELGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anguis', 1040, @SPELL_COMET, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Bedraggled_Bale', 1041, @SPELL_STONE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Bedraggled_Bale', 1041, @SPELL_STONEGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Bedraggled_Bale', 1041, @SPELL_BREAK, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Begrimed_Bale', 1042, @SPELL_STONEGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Begrimed_Bale', 1042, @SPELL_STONE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Begrimed_Bale', 1042, @SPELL_SLOWGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Jebutoise', 1043, @SPELL_STONEGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Jebutoise', 1043, @SPELL_STONE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Jebutoise', 1043, @SPELL_BREAK, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Pteranodon', 1044, @SPELL_THUNDER_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pteranodon', 1044, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pteranodon', 1044, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pteranodon', 1044, @SPELL_THUNDAGA_III, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Anhanguera', 1045, @SPELL_THUNDAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anhanguera', 1045, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anhanguera', 1045, @SPELL_GRAVIGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anhanguera', 1045, @SPELL_SILENCEGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Anhanguera', 1045, @SPELL_STUN, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Killer_Korrigan', 1046, @SPELL_BLIZZARD_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Killer_Korrigan', 1046, @SPELL_BLIZZAGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Killer_Korrigan', 1046, @SPELL_BINDGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Murderous_Mandragora', 1047, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Murderous_Mandragora', 1047, @SPELL_AEROGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Murderous_Mandragora', 1047, @SPELL_GRAVIGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Lunatic_Lycopodium', 1048, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Lunatic_Lycopodium', 1048, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Lunatic_Lycopodium', 1048, @SPELL_SILENCEGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Pernicious_Pachypodium', 1049, @SPELL_BLIZZARD_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pernicious_Pachypodium', 1049, @SPELL_BLIZZAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Pernicious_Pachypodium', 1049, @SPELL_PARALYGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_BLIZZARD_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_AERO_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_BLIZZAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_PARALYGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_SILENCEGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Annihilative_Adenium', 1050, @SPELL_GRAVIGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Tapanas_Minion', 1051, @SPELL_ABSORB_STR, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapanas_Minion', 1051, @SPELL_ABSORB_DEX, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapanas_Minion', 1051, @SPELL_ABSORB_TP, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Tapana', 1052, @SPELL_BLIZZAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapana', 1052, @SPELL_PARALYGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapana', 1052, @SPELL_BLINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapana', 1052, @SPELL_DISPELGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Tapana', 1052, @SPELL_SLEEPGA_II, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Sanguine_Sapsucker', 1053, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sanguine_Sapsucker', 1053, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sanguine_Sapsucker', 1053, @SPELL_GRAVIGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Raidne', 1054, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Raidne', 1054, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Raidne', 1054, @SPELL_AEROJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Raidne', 1054, @SPELL_GRAVIGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Raidne', 1054, @SPELL_SILENCEGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Mystic', 1055, @SPELL_FIRE_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Mystic', 1055, @SPELL_FIRAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Mystic', 1055, @SPELL_FIRAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Mystic', 1055, @SPELL_SLOWGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Mystic', 1055, @SPELL_SILENCEGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Prentice', 105, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Prentice', 105, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Prentice', 105, @SPELL_SILENCEGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Tiro', 1057, @SPELL_STONE_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Tiro', 1057, @SPELL_STONEGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Coeurl_Tiro', 1057, @SPELL_SLOWGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Barra_Edinazu', 1058, @SPELL_FIRE_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Barra_Edinazu', 1058, @SPELL_FIRAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Barra_Edinazu', 1058, @SPELL_FIRAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Barra_Edinazu', 1058, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Barra_Edinazu', 1058, @SPELL_DISPELGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Scorched_Yanthu', 1059, @SPELL_HOLY, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Scorched_Yanthu', 1059, @SPELL_BANISH_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Scorched_Yanthu', 1059, @SPELL_BANISHGA_II, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Scorched_Yanthu', 1059, @SPELL_FIRAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Scorched_Yanthu', 1059, @SPELL_FIRAJA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_WATER_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_BLIZZARD_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_BLIZZAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_WATERGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_WATERJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Glaciated_Yanthu', 1060, @SPELL_BLIZZAJA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_AERO_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_THUNDER_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_AEROGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_THUNDAGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_AEROJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Electrified_Yanthu', 1061, @SPELL_THUNDAJA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_STONE_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_STONEGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_STONEJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_DISPEL, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_BIO_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Entombed_Yanthu', 1062, @SPELL_DRAIN, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Sitke', 1063, @SPELL_THUNDER_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sitke', 1063, @SPELL_THUNDAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sitke', 1063, @SPELL_THUNDAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sitke', 1063, @SPELL_SLEEPGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sitke', 1063, @SPELL_DISPELGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_BLIZZARD_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_WATER_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_WATERGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_BLIZZAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_WATERJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_BLIZZAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Sin', 1064, @SPELL_PARALYGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Myin', 1065, @SPELL_AERO_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Myin', 1065, @SPELL_AEROGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Myin', 1065, @SPELL_AEROJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Myin', 1065, @SPELL_GRAVIGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Yahhta', 1066, @SPELL_STONE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Yahhta', 1066, @SPELL_STONEGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Yahhta', 1066, @SPELL_STONEJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Yahhta', 1066, @SPELL_SLOWGA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Ne', 1067, @SPELL_FIRE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Ne', 1067, @SPELL_FIRAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Ne', 1067, @SPELL_FIRAJA, 1, 255);
+
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_STONE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_WATER_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_AERO_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_FIRE_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_BLIZZARD_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_THUNDER_V, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_STONEGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_WATERGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_AEROGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_FIRAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_BLIZZAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_THUNDAGA_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_STONEJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_WATERJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_AEROJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_FIREAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_BLIZZAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_THUNDAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_PARALYGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_DISPELGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_SLEEPGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_SILENCEGA, 1, 255);
+
+
+
+-- NEXT 1069
 -- NEXT 2089(Custom)
 
 /*!40000 ALTER TABLE `mob_spell_lists` ENABLE KEYS */;
