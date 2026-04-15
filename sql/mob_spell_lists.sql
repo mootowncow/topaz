@@ -7612,7 +7612,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_THUNDAGA_IV, 1, 255
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_STONEJA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_WATERJA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_AEROJA, 1, 255);
-INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_FIREAJA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_FIRAJA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_BLIZZAJA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_THUNDAJA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Mingyi', 1068, @SPELL_PARALYGA, 1, 255);
