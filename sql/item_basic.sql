@@ -1290,10 +1290,10 @@ INSERT INTO `item_basic` VALUES (1400,0,'cursed_subligar','cursed_subligar',1,4,
 INSERT INTO `item_basic` VALUES (1401,0,'cursed_subligar_-1','cursed_subligar_-1',1,0,37,0,10629);
 INSERT INTO `item_basic` VALUES (1402,0,'cursed_leggings','cursed_leggings',1,4,37,0,11388);
 INSERT INTO `item_basic` VALUES (1403,0,'cursed_leggings_-1','c._leggings_-1',1,0,37,0,11388);
-INSERT INTO `item_basic` VALUES (1404,0,'seal_of_genbu','seal_of_genbu',12,12372,0,1,0);
-INSERT INTO `item_basic` VALUES (1405,0,'seal_of_seiryu','seal_of_seiryu',12,12372,0,1,0);
-INSERT INTO `item_basic` VALUES (1406,0,'seal_of_byakko','seal_of_byakko',12,12372,0,1,0);
-INSERT INTO `item_basic` VALUES (1407,0,'seal_of_suzaku','seal_of_suzaku',12,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1404,0,'seal_of_genbu','seal_of_genbu',99,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1405,0,'seal_of_seiryu','seal_of_seiryu',99,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1406,0,'seal_of_byakko','seal_of_byakko',99,12372,0,1,0);
+INSERT INTO `item_basic` VALUES (1407,0,'seal_of_suzaku','seal_of_suzaku',99,12372,0,1,0);
 INSERT INTO `item_basic` VALUES (1408,0,'illuminink','illuminink',1,4164,0,1,0);
 INSERT INTO `item_basic` VALUES (1409,0,'sirens_macrame','sirens_macrame',99,4,40,0,1496);
 INSERT INTO `item_basic` VALUES (1410,0,'sweet_william','sweet_william',99,4,44,0,366);
@@ -8350,7 +8350,7 @@ INSERT INTO `item_basic` VALUES (10998,0,'attackers_mantle','attackers_mantle',1
 INSERT INTO `item_basic` VALUES (10999,0,'dauntless_mantle','dauntless_mantle',1,2080,26,0,0);
 INSERT INTO `item_basic` VALUES (11000,0,'swith_cape','swith_cape',1,2084,26,0,7026);
 INSERT INTO `item_basic` VALUES (11001,0,'swith_cape_+1','swith_cape_+1',1,2080,26,0,7988);
-INSERT INTO `item_basic` VALUES (11002,0,'dragon_tank','dragon_tank',1,3116,26,0,0);
+INSERT INTO `item_basic` VALUES (11002,0,'beneficent_cape','beneficent_cape',1,56364,26,0,0);
 INSERT INTO `item_basic` VALUES (11003,0,'prodigious_mantle','prodigious_mantle',1,34820,26,0,8085);
 INSERT INTO `item_basic` VALUES (11004,0,'algidus_cape','algidus_cape',1,34820,26,0,0);
 INSERT INTO `item_basic` VALUES (11005,0,'fierabrass_mantle','fierabrass_mantle',1,38916,26,0,0);
