@@ -772,7 +772,7 @@ INSERT INTO `item_equipment` VALUES (10998,'attackers_mantle',99,0,2473971,0,0,0
 INSERT INTO `item_equipment` VALUES (10999,'dauntless_mantle',99,0,2473971,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (11000,'swith_cape',99,0,1753628,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (11001,'swith_cape_+1',99,0,1753628,0,0,0,32768,0,0);
-INSERT INTO `item_equipment` VALUES (11002,'beneficent_cape',75,0,4194303,0,0,0,32768,0,0);
+INSERT INTO `item_equipment` VALUES (11002,'beneficent_cape',73,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (11003,'prodigious_mantle',99,0,4194303,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (11004,'algidus_cape',99,0,1753628,0,0,0,32768,0,0);
 INSERT INTO `item_equipment` VALUES (11005,'fierabrass_mantle',99,0,65,0,0,0,32768,0,0);
