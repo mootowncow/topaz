@@ -8350,7 +8350,7 @@ INSERT INTO `item_basic` VALUES (10998,0,'attackers_mantle','attackers_mantle',1
 INSERT INTO `item_basic` VALUES (10999,0,'dauntless_mantle','dauntless_mantle',1,2080,26,0,0);
 INSERT INTO `item_basic` VALUES (11000,0,'swith_cape','swith_cape',1,2084,26,0,7026);
 INSERT INTO `item_basic` VALUES (11001,0,'swith_cape_+1','swith_cape_+1',1,2080,26,0,7988);
-INSERT INTO `item_basic` VALUES (11002,0,'dragon_tank','dragon_tank',1,3116,26,0,0);
+INSERT INTO `item_basic` VALUES (11002,0,'beneficent_cape','beneficent_cape',1,56364,26,0,0);
 INSERT INTO `item_basic` VALUES (11003,0,'prodigious_mantle','prodigious_mantle',1,34820,26,0,8085);
 INSERT INTO `item_basic` VALUES (11004,0,'algidus_cape','algidus_cape',1,34820,26,0,0);
 INSERT INTO `item_basic` VALUES (11005,0,'fierabrass_mantle','fierabrass_mantle',1,38916,26,0,0);

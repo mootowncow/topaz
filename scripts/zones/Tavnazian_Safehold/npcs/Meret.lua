@@ -52,6 +52,12 @@ function onTrade(player, npc, trade)
             end
         end
     end
+
+	if npcUtil.tradeHasExactly(trade, {{tpz.items.MERCIFUL_CAPE, 1}, {tpz.items.ALTRUISTIC_CAPE, 1}, {tpz.items.ASTUTE_CAPE, 1}}) then
+        player:confirmTrade()
+        player:PrintToPlayer("Very good! My research on Capes is now fully complete!",0,"Meret")
+        npcUtil.giveItem(player, tpz.items.BENEFICENT_CAPE)
+    end
 end
 
 function onTrigger(player, npc)
