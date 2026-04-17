@@ -34,6 +34,7 @@ g_mixins.families.aern = function(mob)
 						mob:setLocalVar("AERN_RERAISES", curr_reraise + 1)
 						mob:resetAI()
 						mob:stun(3000)
+                        mob:setLocalVar("petSpawnTimer", 0)
 						if target and target:isAlive() and mob:checkDistance(target) < 40 then
 							mob:updateClaim(target)
 							mob:updateEnmity(target)
@@ -89,8 +90,9 @@ g_mixins.families.aern = function(mob)
         local pet = mob:getPet()
         local isSMN = mob:getMainJob() == tpz.job.SMN
 
-        if pet and not isSMN then
+        if pet and not isSMN and not pet:isSpawned() then
             utils.spawnPetInBattle(mob, pet, true, false, true)
+            mob:setLocalVar("petSpawnTimer", os.time() + 180)
         else
             print("No pet offset found for mobID: " .. mob:getID())
         end
@@ -137,8 +139,22 @@ g_mixins.families.aern = function(mob)
 		    end
         end
 
-        -- Ensure pet is engaged
+        -- Makesure pet is spawned
+        local isSMN = mob:getMainJob() == tpz.job.SMN
         local pet = mob:getPet()
+        local recastTimer = mob:getLocalVar("petSpawnTimer") or 0
+
+        -- Resummon pet in combat every 3 minutes (if it's not already spawned)
+        if pet then
+            if os.time() >= recastTimer and not isSMN and not pet:isSpawned() then
+                utils.spawnPetInBattle(mob, pet, true, false, true)
+                mob:setLocalVar("petSpawnTimer", os.time() + 180)
+            end
+        else
+            print("No pet offset found for mobID: " .. mob:getID())
+        end
+
+        -- Ensure pet is engaged
         if pet then
             if pet:isSpawned() and pet:getCurrentAction() == tpz.act.ROAMING then
                 pet:updateEnmity(mob:getTarget())
