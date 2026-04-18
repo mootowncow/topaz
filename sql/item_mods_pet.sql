@@ -151,7 +151,6 @@ INSERT INTO `item_mods_pet` VALUES (15594,27,2,1);      -- Smn. Spats +1 Avatar:
 INSERT INTO `item_mods_pet` VALUES (15602,374,10,3);    -- Pup. Churidars Automaton: Enhances "Cure" potency +10%
 INSERT INTO `item_mods_pet` VALUES (15602,370,3,3);     -- Pup. Churidars Automaton: Regen+3
 INSERT INTO `item_mods_pet` VALUES (15602,168,20,3);    -- Automaton: Spell interruption rate down 20%
-INSERT INTO `item_mods_pet` VALUES (15647,1,10,0);      -- Askar Dirs Pet: DEF +10
 INSERT INTO `item_mods_pet` VALUES (15649,1,10,0);      -- Goliard Trews Pet: DEF +10
 INSERT INTO `item_mods_pet` VALUES (15661,2,50,2);      -- Homam Gambieras Wyvern: HP+50
 INSERT INTO `item_mods_pet` VALUES (15679,23,17,1);     -- Smn. Pigaches +1 Avatar: Enhances attack +17 
