@@ -1,6 +1,7 @@
 ---------------------------------------------
--- Tepal Twist
---  -50% Max HP Down
+-- Sand Blast
+-- Deals Earth damage to targets in a fan-shaped area of effect. Additional effect: Blind
+-- Range: 8' cone
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -12,11 +13,8 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.MAX_HP_DOWN
-    local power = 50
-    local duration = 120
-
-    skill:setMsg(MobStatusEffectMoveSub(mob, target, typeEffect, power, 0, duration))
+    local typeEffect = tpz.effect.BLINDNESS
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 80, 0, 300))
 
     return typeEffect
 end

@@ -17,6 +17,18 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
+-- TODO: in spawnPetInBattle and any place a mob spawns a pet set their pets before spawning them to have mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30) somehow. Can it be added in  that util after spawning mob? Prob not...
+-- TODO: Dia / Bio no effect (and thus don't apply dia/bio) if target has magic shield and power of 1
+-- TODO: Almost all mobs WAR/BLM
+-- TODO: inundation is light magic type
+-- TODO: Refund gil cost of boost spells and remove off shiyo and vendor
+-- TODO: Add All T4 -gas
+-- TODO: Test spells from earlier walks, like 1-6. Can check ohafumis chat logs
+-- TODO: Anhanguera stun AOE?
+-- TODO: Oneiros Cappa sell price (Check all Oneiros items)
+-- TODO: Nyzul set stats (Make all bodies super good, Denali sucks I think?)
+-- TODO: Add https://github.com/LandSandBoat/server/pull/9760
 -- TODO: Test -attributes clamping to 1 and see if attack is equal to w/e str is being removed by and works properly I guess?
 -- TODO: Make sure enums are correct for misc items where my comment is 
 -- TODO: what happens if you log off / dc mid walk, do you come back with a timer?
@@ -85,7 +97,7 @@ local walkData =
             -- TP Moves: { Crab} Traits: {}
         -- Caldera Crab, lvl { 80 }, Model { 0x0000660100000000000000000000000000000000 }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Water IV, Waterga III }, 
-            -- TP Moves: { Mega Scissors, Venom Shower (Self?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
+            -- TP Moves: { Mega Scissors(Self), Venom Shower (Self?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
             -- Cast Timer { :47 -> :14 - > :53 - > :34 - > 16 }
             -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
@@ -104,7 +116,7 @@ local walkData =
     [2] =
     {
         -- Grenade Syrup lvl { 77 }, Model { 0x0000260100000000000000000000000000000000 }, Size { Small }  Amount { 9 }, Ids {} Partied { 4, need ids }, Boss { False }, Immune { Normal }, 
-            -- Spells { Blind, Bio III }, 
+            -- Spells { Blind, Bio III }, -- TODO: Test for more
             -- TP Moves: { Mucus Spread}, Traits: { DA }
         -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Blindga, Dispelga, Sleepga II }, 
@@ -140,12 +152,12 @@ local walkData =
             -- Immune { Normal + Paralyze | Slow | Blind | Stun }, 
             -- Spells { Stonega II, Slow }, 
             -- Cast Timer { 25 }
-            -- TP Moves: { Antlion } Traits: { DA }
+            -- TP Moves: { "Orcus" antlion } Traits: { DA }
         -- Myrmeleontide, lvl { 80 }, Model { 0x0000A60800000000000000000000000000000000 }, Size { Large } HP { 29000 }, Ids {},  Amount { 3 }, Partied { 0 }, 
             -- Patrols { true, waits, run } 
             -- Boss { True }, 
             -- Immune { Normal + Paralyze | Slow | Blind | Stun }, 
-            -- Spells { Bindga (Resets hate, even if spell is interrupted or resisted), Slowga (Overwrote Haste II and Haste II won't overwrite it), Stonega III, Breakga (<= 25% HP) }, 
+            -- Spells { Bindga (Resets hate, even if spell is interrupted or resisted), Slowga, Stonega III, Breakga (<= 25% HP) }, 
             -- Cast Timer { 25 }
             -- TP Moves: { Quake Blast (Self, 3s cast), Gravitic Horn (Self, 2s cast, Hate Reset), Mandibular Bite (Conal) }, Traits: { DA, High Store TP }
             -- Mechanics { Gravity aura after Gravitic Horn (~50%?) -50% earth damage taken }
@@ -214,7 +226,7 @@ local walkData =
             -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
             -- DT { -100% breath, -50% wind / fire / ice }
             -- No Turn { True}
-            -- Mechanics { Barofield 2-4 times in a row below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
+            -- Mechanics { Cannot lose heads. Barofield 2-4 times in a row below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
             -- Proc { }
         -- Zone Mechanics: 
         -- Completion: Natrix dead
@@ -417,7 +429,7 @@ local walkData =
     --         Patrols {  }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { Thunder IV, Aero IV Aeroga III, Thundaga III }, 
+    --         Spells { Thunder IV, Aero IV, Aeroga III, Thundaga III }, 
     --         Cast Timer { 50 }
     --         TP Moves: { Storm Wing (Self Knockback 5, ~1.5s cast), Feral Peck(Self), Bloody Beak (self ~1.5s cast), Warped Wail (Self 2.5-3m Max HP + Max MP down (-50%) CANNOT BE RESISTED?, 0s cast), 
             -- Calamitous Wind (Self Knock 6, full dispel, 2s cast)   }, 
@@ -426,17 +438,17 @@ local walkData =
     --         Aggro: {}
     --         Move Speed { }    
     --         Mechnaics: 
-    --     Anhanguera, lvl { 88 }, Model { 0x0000010700000000000000000000000000000000 }, Size { Large } HP { 61000h }, Ids {},  Amount { 1 }, Partied { 0 },
+    --     Anhanguera, lvl { 88 }, Model { 0x0000570900000000000000000000000000000000 }, Size { Large } HP { 61000h }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune {  Normal + Slow }, 
-    --         Spells { Thundaga III, Aeroga III, Graviga, Silencega, Stun }, 
+    --         Spells { Thundaga III, Aeroga III, Graviga, Silencega, Stun (AOE) }, 
     --         Cast Timer {  }
                 -- TODO: TP move ranges
                 -- TODO: Anhanguera model
                 -- TODO: Reaving Wind cause knockback aura? What's the aura do?
                 -- TODO: Test fanatics(physical damage tonic) on Anguinus
-    --         TP Moves: { Storm Wing, Warped Wail, Reaving Wind (Self, Grants Aura but no knockback? 2s cast,  <= 10 yards), 
+    --         TP Moves: { Storm Wing, Warped Wail, Reaving Wind (Self, Grants Aura but no knockback 2s cast,  <= 10 yards), 
     --              Vermillion Wind (Self -101? (86 str become -85, 94 dex become -93, 80 vit become -79, etc, player attributes cannot be lowered below 1) All Attributes down 3s cast, 15 yards, CANNOT BE RESISTED), 
     --              Bloody Beak, Feral Peck (throat stab + hate reset, 2s cast 
     --              Tail Lash (BEHIND 2s cast)}
@@ -445,7 +457,7 @@ local walkData =
     --         Aggro: {}
     --         No Turn { True }
     --         Move Speed { Normal }    
-    --         Mechanics { }
+    --         Mechanics { Gains windy aura but does not knock back }
     --         Proc { }
     --     Zone Mechanics: 
     --     Completion: All Anhanguera dead
@@ -468,8 +480,8 @@ local walkData =
     --         Boss {  }, 
     --         Immune { Normal }, 
     --         Spells { Blizzard IV, Blizzaga II, Bindga }, 
-    --         Cast Timer {  }  -- TODO
-    --         TP Moves: {  },  -- TODO
+    --         Cast Timer { 35 }
+    --         TP Moves: { Scream (Terror), Tepal Twist (-50% max HP down 5m duration },
     --         Traits: { Counter, KA, DA }
     --         DT: { } 
     --         Aggro: {}
@@ -481,8 +493,8 @@ local walkData =
     --         Boss {  }, 
     --         Immune { Normal }, 
     --         Spells { Aero IV, Aeroga II, Graviga }, 
-    --         Cast Timer {  }  -- TODO
-    --         TP Moves: {  Dream Flower },  -- TODO
+    --         Cast Timer { 30 }
+    --         TP Moves: {  Dream Flower, Bloom Fouette },
     --         Traits: { Counter, KA, DA }
     --         DT: { }
     --         Aggro: {}
@@ -505,10 +517,10 @@ local walkData =
     --         Partied {  }, 
     --         Patrols { Yes, waits, run}, 
     --         Boss {  }, 
-    --         Immune {  },  -- TODO
+    --         Immune { Normal },
     --         Spells {  Blizzard IV, Blizzaga III, Paralyga }, 
-    --         Cast Timer {  }  -- TODO
-    --         TP Moves: {  }, -- TODO
+    --         Cast Timer { 30 } 
+    --         TP Moves: { Phaeosynthesis, Scream (Terror),  },
     --         Traits: { Counter, KA, DA}
     --         DT: { Stone / Water -50% }
     --         Aggro: {}
@@ -520,7 +532,7 @@ local walkData =
     --         Immune { Normal  }, 
     --         Spells { Blizzard V, Aero V, Aeroga III, Blizzaga III, Bindga, Paralyga (20 yards), Silencega (20 yards), Graviga (20 yards)}, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Fatal Scream (10s countdown Doom, 2s cast, <= 10 yard), Petalback Spin (Poison, 1.5s cast <= 5 yards), Bloom Fouette (Max MP Down, 2s cast <= 5 yard), Bloom Fouette (2s cast, <= 5 yard), 
+    --         TP Moves: { Fatal Scream (10s countdown Doom, 2s cast, <= 10 yard), Petalback Spin (Poison, 1.5s cast <= 5 yards), Bloom Fouette (Max MP Down, 2s cast <= 5 yard), 
     --         Petal Pirouette (2s cast <=5 yard), Tepal Twist (<= 50% HP Max HP down, <= 5 yard 2s cast), Scream (MND Down + Terror, 10 yard 1.5s cast)
     --         Phaeosynthesis (AOE, Regen + regain, 2s cast)
     --         TODO: Some TP move plagues, }
@@ -783,7 +795,7 @@ local walkData =
     --         Patrols {  }, 
     --         Boss {  }, 
     --         Immune { Normal  }, 
-    --         Spells { Stone IV, Stonega III, Slowga (Overwrites Haste II, disables reapplication)  }, 
+    --         Spells { Stone IV, Stonega III, Slowga }, 
     --         Cast Timer { 30 }
     --         TP Moves: { Blink of Peril (Throat stab -95% (Reduced by PDT or MDT), Hate Reset, 2s cast), Charged Whisker (2s cast), Amnesic Blast (Knockback 7, 2s cast) }, 
     --         Traits: { DA, 0 +MDB (100 total) }
@@ -797,7 +809,7 @@ local walkData =
     --         Immune {  Normal, but ~5% stun SDT (Always resisted) }, 
     --         Spells { Fire IV, Firaga III, Firaja, Bindga, Dispelga, Meteor (<= 50% HP, Rare) }, 
     --         Cast Timer { 45? }
-    --         TP Moves: { Shockwave(Knockback 4, 1s cast), Howl(1s cast), Thunderbolt(1s cast), Flame Armor(Burn (- 63 INT, 30/tick) + Attack Down Aura (-33%) for ~30s, 1s cast),  
+    --         TP Moves: { Shockwave(Knockback 4, 1s cast), Howl(1s cast), Thunderbolt(1s cast), Flame Armor(Burn (-63 INT, 30/tick) + Attack Down Aura (-33%) for ~30s, 1s cast),  
     --          Amnesic Blast (20-30s Amnesia, 7 Knockback, 3s cast), Kick Out (Behind, 1.5s cast), Ecliptic Meteor (<= 25% HP, 3s cast) }
     --         Traits { DA, Regain 100/tick }
     --         DT {  }
@@ -852,7 +864,7 @@ local walkData =
     --         Patrols {  }, 
     --         Boss {  }, 
     --         Immune {  Normal + Stun }, 
-    --         Spells { Aero IV, Thunder IV, Aeroga III, Aeroja, Thundaja }, 
+    --         Spells { Aero IV, Thunder IV, Aeroga III, Thundaga III?, Aeroja, Thundaja }, 
     --         Cast Timer { 30 }
     --         TP Moves: { Anvil Lightning (2.5s cast), Silent Storm (2.5s cast) }, 
     --         Traits: { 0 +MDB (100 total) }
@@ -892,7 +904,7 @@ local walkData =
     --         Patrols { } 
     --         Boss { True }, 
     --         Immune { Normal  }, 
-    --         Spells { Water V, Waterga IV, Blizzaga IV, Blizzaja, Paralyga }, 
+    --         Spells { Water V, Blizzard V? Waterga IV, Blizzaga IV, Blizzaja, Waterja? Paralyga }, 
     --         Cast Timer { 30  }
     --         TP Moves: { https://wiki.ffo.jp/html/20357.html and https://www.bg-wiki.com/ffxi/Caturae
     --         Malign Invocation, Interference, Hellish Crescendo, Afflicting Gaze (Eyes turn purple, gaze Plague aura (250 TP/tick)), Deathly Diminuendo 
@@ -960,7 +972,8 @@ local walkData =
     --          All T5, Ga and Ja's?}, 
     --         Cast Timer { 30 }
     --         TP Moves: { Interference, Deathly Diminuendo, Malign Invocation, Dark Arrivisme, Stygian Sphere, Hellish Crescendo,
-    --          <= 50% Enthrall, <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2.5s cast), <=25% Shadow Wreck }
+    --          <= 50% Enthrall, <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2.5s cast), <=25% Shadow Wreck, 
+    --          <= 25% Royal Decree (20' Area of Effect high damage and support job restriction) },
     --         Traits { DA, 150+/tick Regain }
     --         DT { -15%~ MDT }
     --         Aggro: {}
@@ -1744,6 +1757,12 @@ local mobFightByMobName =
     end,
 }
 
+local onMobWeaponSkillPrepareByMobName =
+{
+    ['Caldera_Crab'] = function(mob, target)
+    end,
+}
+
 local mobAdditionalEffectByMobName =
 {
     ['Caldera_Crab'] = function(mob, target, damage)
@@ -1798,7 +1817,6 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.TRUE_SOUND, 1)
     mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30) -- Adjusted per mob
     mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
-    mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
     mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
     mob:setMobMod(tpz.mobMod.ALLI_HATE, 200)
@@ -1846,6 +1864,15 @@ tpz.woe.mob.onMobFight = function(mob, target)
 
     if mobFight then
         mobFight(mob, target)
+    end
+end
+
+tpz.woe.mob.onMobWeaponSkillPrepare = function(mob, target)
+    local mobName  = mob:getName()
+    local weaponSkillPrepare = onMobWeaponSkillPrepareByMobName[mobName]
+
+    if weaponSkillPrepare then
+        weaponSkillPrepare(mob, target)
     end
 end
 

@@ -23,5 +23,4 @@ function onItemUse(target)
     target:addStatusEffect(tpz.effect.INT_BOOST, power, 0, duration)
     target:addStatusEffect(tpz.effect.MND_BOOST, power, 0, duration)
     target:addStatusEffect(tpz.effect.CHR_BOOST, power, 0, duration)
-    target:messagePublic(tpz.msg.basic.ITEM_ALL_STATS_BOOSTED, target, effect, effect)
 end

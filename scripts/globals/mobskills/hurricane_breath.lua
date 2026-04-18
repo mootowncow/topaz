@@ -10,6 +10,7 @@
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
+require("scripts/globals/utils")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -18,10 +19,15 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local dmgCap = 700
+
     if mob:isNM() then
-        dmgcap = 1400
+        dmgCap = 2100
     end
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.125, 1, tpz.magic.ele.WIND, dmgcap)
+
+    local dmgmod = MobHPBasedMove(mob, target, skill, 0.125, 1, tpz.magic.ele.WIND, dmgCap)
+
+    dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
+
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.WIND, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.WIND)
     MobEncumberMove(mob, target, 1, 30)

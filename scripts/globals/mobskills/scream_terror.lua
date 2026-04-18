@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Tepal Twist
---  -50% Max HP Down
+-- Scream (Terror)
+-- 10' MND Down + Terror.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -12,11 +12,11 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.MAX_HP_DOWN
-    local power = 50
-    local duration = 120
+    local tick = 30
+    local power = (target:getStat(tpz.mod.MND) * 0.25)
 
-    skill:setMsg(MobStatusEffectMoveSub(mob, target, typeEffect, power, 0, duration))
+    MobStatusEffectMove(mob, target, tpz.effect.MND_DOWN, power, tick, 300)
+    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.TERROR, 1, 0, 12))
 
     return typeEffect
 end

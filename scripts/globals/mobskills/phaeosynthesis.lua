@@ -1,7 +1,7 @@
 ---------------------------------------------
 -- Phaeosynthesis
 --
--- Description: Enhances evasion and  gives a potent(12/tick) regen effect.
+-- Description: Enhances evasion and gives a potent(12/tick) regen effect.
 -- Type: Enhancing
 -- Utsusemi/Blink absorb: N/A
 -- Range: Self
@@ -24,9 +24,14 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.EVASION_BOOST
-    local power = (mob:getEVA() * 0.5)
+    local power = (target:getEVA() * 0.5)
+    local mobName = mob:getName()
 
-    MobBuffMove(mob, tpz.effect.REGEN, 12, 3, 300)
-    skill:setMsg(MobBuffMove(mob, typeEffect, power, 0, 300)) 
+    skill:setMsg(MobBuffMove(target, tpz.effect.REGEN, 12, 3, 300))
+
+    if mobName == 'Albumen' or mobName == 'Artemisia' then
+        MobBuffMove(target, typeEffect, power, 0, 300)
+    end
+
     return tpz.effect.REGEN
 end

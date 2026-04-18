@@ -1002,7 +1002,7 @@ end
 function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze, params)
 
     params = params or {}
-    
+
     MobHandleFlagsRemoval(target)
     MobHandlePetEnmity(mob, target, 1, 320)
 
@@ -1630,22 +1630,20 @@ function MobTransferEnfeeblesMove(mob, target, skill, isAOE)
     end
 end
 
-function MobAllStatDownMove(mob, target, power, duration)
-    local msg = tpz.msg.basic.SKILL_MISS
-    local effectsLanded = 0
+function MobAllStatDownMove(mob, target, power, duration, isGaze, params)
+    params = params or {}
 
     for v = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
-        MobStatusEffectMove(mob, target, v, power, 3, 120)
+        MobStatusEffectMove(mob, target, v, power, 3, duration, isGaze, params)
     end
 end
 
-function MobAllStatDownMovePhysical(mob, target, skill, power, duration)
-    local msg = tpz.msg.basic.SKILL_MISS
-    local effectsLanded = 0
+function MobAllStatDownMovePhysical(mob, target, skill, power, duration, isGaze, params)
+    params = params or {}
 
     if (MobPhysicalHit(mob, skill)) then
         for v = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
-            MobStatusEffectMove(mob, target, v, power, 3, 120)
+            MobStatusEffectMove(mob, target, v, power, 3, duration, isGaze, params)
         end
     end
 end

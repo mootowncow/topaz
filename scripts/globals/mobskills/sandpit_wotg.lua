@@ -1,6 +1,6 @@
 ---------------------------------------------
--- Tepal Twist
---  -50% Max HP Down
+-- Sand Pit
+-- Single target bind
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -12,11 +12,9 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = tpz.effect.MAX_HP_DOWN
-    local power = 50
-    local duration = 120
-
-    skill:setMsg(MobStatusEffectMoveSub(mob, target, typeEffect, power, 0, duration))
+    local typeEffect = tpz.effect.BIND
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 30))
+    mob:resetEnmity(target)
 
     return typeEffect
 end
