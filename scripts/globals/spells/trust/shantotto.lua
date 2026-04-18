@@ -59,7 +59,7 @@ function onMobSpawn(mob)
 
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_SC_AVAILABLE, 0, ai.r.MA, ai.s.BEST_AGAINST_TARGET, tpz.magic.spellFamily.NONE)
 
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, tpz.trust.movementType.LONG_RANGE)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 20)
 
     mob:SetAutoAttackEnabled(false)
 
