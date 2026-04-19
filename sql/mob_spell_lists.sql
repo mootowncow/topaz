@@ -7405,6 +7405,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 210, 1,
 INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 212, 1, 255); -- Burst
 INSERT INTO `mob_spell_lists` VALUES ('Arch_Overlord_s_Tombstone', 1027, 214, 1, 255); -- Flood
 
+-- WoE (Walk of Echoes)
 INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_ENWATER, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_WATER_II, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Cyanic_Crab', 1028, @SPELL_WATERGA_II, 1, 255);

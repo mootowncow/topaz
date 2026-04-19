@@ -2865,6 +2865,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,733); -- Jump
 INSERT INTO `mob_skill_lists` VALUES ('Draketrader_Zlodgodd',1214,1064); -- Jump (Long Cast Time)
 INSERT INTO `mob_skill_lists` VALUES ('AnimatedWeapon-Shield',1215,405); -- Dire Whorl
 
+-- WoE (Walk of Echoes)
 INSERT INTO `mob_skill_lists` VALUES ('Caldera_Crab',1216,2513);
 INSERT INTO `mob_skill_lists` VALUES ('Caldera_Crab',1216,2512);
 INSERT INTO `mob_skill_lists` VALUES ('Caldera_Crab',1216,1590);
@@ -2929,7 +2930,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Saltopus',1227,817);
 INSERT INTO `mob_skill_lists` VALUES ('Saltopus',1227,818);
 INSERT INTO `mob_skill_lists` VALUES ('Saltopus',1227,2222);
 
-
 INSERT INTO `mob_skill_lists` VALUES ('Jebutoise',1228,1047);
 INSERT INTO `mob_skill_lists` VALUES ('Jebutoise',1228,1049);
 INSERT INTO `mob_skill_lists` VALUES ('Jebutoise',1228,2585);
@@ -2987,26 +2987,56 @@ INSERT INTO `mob_skill_lists` VALUES ('Annihilative_Adenium',1237,2600);
 INSERT INTO `mob_skill_lists` VALUES ('Annihilative_Adenium',1237,2601);
 INSERT INTO `mob_skill_lists` VALUES ('Annihilative_Adenium',1237,2387);
 
-INSERT INTO `mob_skill_lists` VALUES ('Pernicious_Pachypodium',1238,999); -- TODO
+INSERT INTO `mob_skill_lists` VALUES ('Pernicious_Pachypodium',1238,1588);
+INSERT INTO `mob_skill_lists` VALUES ('Pernicious_Pachypodium',1238,2579);
 
 INSERT INTO `mob_skill_lists` VALUES ('Lunatic_Lycopodium',1239,2601);
 INSERT INTO `mob_skill_lists` VALUES ('Lunatic_Lycopodium',1239,2210);
 
-INSERT INTO `mob_skill_lists` VALUES ('Killer_Korrigan',1240,999); -- TODO
+INSERT INTO `mob_skill_lists` VALUES ('Killer_Korrigan',1240,1588);
+INSERT INTO `mob_skill_lists` VALUES ('Killer_Korrigan',1240,2599);
 
-INSERT INTO `mob_skill_lists` VALUES ('Murderous_Mandragora',1241,999); -- TODO
+INSERT INTO `mob_skill_lists` VALUES ('Murderous_Mandragora',1241,1585);
+INSERT INTO `mob_skill_lists` VALUES ('Murderous_Mandragora',1241,2600);
 
-INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,999);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2714);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2715);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2716);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2717);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2718);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2719);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2720);
+INSERT INTO `mob_skill_lists` VALUES ('Tapana',1242,2721);
 
-INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,999);
+INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,2763);
+INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,2764);
+INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,2765);
+INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,2766);
+INSERT INTO `mob_skill_lists` VALUES ('Tapanas_Minion',1243,2767);
 
-INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,999);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2619);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2620);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2621);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2622);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2623);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2624);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Harbinger',1244,2625);
 
-INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,999);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2619);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2620);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2731);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2732);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2733);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2624);
+INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Vaporizer',1245,2625);
 
-INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV1',1246,999);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV1',1246,2626);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV1',1246,2627);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV1',1246,2628);
 
-INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,999);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2626);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2627);
+INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2628);
 
 INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,999);
 
@@ -3037,14 +3067,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,999);
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,999);
 
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,999);
-
-INSERT INTO `mob_skill_lists` VALUES ('Scorched_Yanthu',1263,999);
-
-INSERT INTO `mob_skill_lists` VALUES ('Glaciated_Yanthu',1264,999);
-
-INSERT INTO `mob_skill_lists` VALUES ('Electrified_Yanthu',1265,999);
-
-INSERT INTO `mob_skill_lists` VALUES ('Entombed_Yanthu',1266,999);
 
 
 -- TODO: Rest
@@ -5287,6 +5309,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
 INSERT INTO `mob_skill_lists` VALUES ('Batteilant_Bhoot',6171,1794); -- perdition
 
--- Next available ID: 1216
+-- Next available ID: 1263
 -- Next custom ID: 6172
 

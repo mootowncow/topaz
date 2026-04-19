@@ -17,6 +17,14 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Cast time on Naraka TP moves
+-- TODO: Check naraka shadow logic for magic moves via jp wiki
+-- TODO: Nerf Kalboron stone to +2 or +1 MACC
+-- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
+-- TODO: Fanatics blocks mob status effect moves too
+-- TODO: Naraka (Check spreadsheet also) Weakness Attributes : Hitting attribute (+12.5%), Fighting Attributes (+12.5%)
+-- Resistant attributes : dark (-85%), ice (-60%), soil (-40%), water (-30%), wind (-30%), lightning (-30%), gust attribute (-50%), slash attribute (-12.5%)
+-- https://www.bg-wiki.com/ffxi/Category:Naraka wep/magic resistances
 -- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
 -- TODO: in spawnPetInBattle and any place a mob spawns a pet set their pets before spawning them to have mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30) somehow. Can it be added in  that util after spawning mob? Prob not...
 -- TODO: Dia / Bio no effect (and thus don't apply dia/bio) if target has magic shield and power of 1
@@ -565,7 +573,7 @@ local walkData =
     --         Immune { Normal }, 
     --         Spells { Absorb-STR/DEX/TP }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Black Cloud, Blood Saber, Horror Cloud, Crepuscule Blade (Curse -50%, Bio 48/tick 2s cast), Malediction (<= 50% HP) }, 
+    --         TP Moves: { Black Cloud, Blood Saber, Horror Cloud, Crepuscule Blade (Curse -50%, Bio 48/tick 2s cast), Malediction (<= 50% HP) CURSE CANNOT BE REMOVED }, 
     --         Traits: { DA (Zanshin?) }
     --         DT: { }
     --         Aggro: {}
@@ -581,7 +589,7 @@ local walkData =
     --          All Self
     --          Raksha: Vengeance (Self Muddle 1m, 15s weakness, aoe, <= 15 yard), Raksha: Judgement (self, Bind, Amnesia ~30s?, Silence, Knock 3, aoe <= 10 yards), Yaksha: Bliss (self, Knockback 3), 
     --          Yaksha Damnation (Self), 
-    --          Yaksa Oblivion (Self, 5 Knockback, aoe, 10 yard)
+    --          Yaksa Oblivion (Self, -50% all attributes down, 5 Knockback, aoe, 10 yard)
     --          Raksha Stance (self), Yaksha Stance (Self), Raksha Illusion (Self, pare? 10s weakness?, conal?)
     --          Something dispelled 3-4 buffs, Vengance or Judgment
     --          https://ffxiclopedia.fandom.com/wiki/Tapana }

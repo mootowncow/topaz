@@ -57,6 +57,12 @@ TP_IGNORE_MACC = 8
 
 BOMB_TOSS_HPP = 1
 
+-- PARAMS
+-- params.DAMAGE_OVERRIDE - override damage with a specific number
+-- params.ALWAYS_CRIT = 100% crit rate
+-- params.ALWAYS_ENFEEBLE = 100% land rate (used for enfeebles)
+-- params.PERCENT_BASED = use percentage of targets attribute when calculating all attributes down
+
 function MobRangedMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeffect, params_phys)
     -- All formula changes for being ranged are handled in Mob1Move via the TP_RANGED param
     -- A MOVE WILL NOT BE CONSIDERED RANGED IF YOU DON'T SET THE tpeffect to TP_RANGED!
@@ -1503,6 +1509,32 @@ function MobDispelMove(mob, target, skill, element, param1, param2)
 	end
 end
 
+function MobMultipleDispelMove(mob, target, skill, amount, element, param1, param2)
+    local dispelAttempts = 0
+    local dispelCount = 0
+
+    if amount == 0 then
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+        return 0
+    end
+
+    while dispelAttempts < amount do
+        if MobDispelMove(mob, target, skill, element, param1, param2) ~= tpz.effect.NONE then
+            dispelCount = dispelCount + 1
+        end
+
+        dispelAttempts = dispelAttempts + 1
+    end
+
+    if (dispelCount == 0) then
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+    else
+        skill:setMsg(tpz.msg.basic.DISAPPEAR_NUM)
+    end
+
+    return dispelCount
+end
+
 function MobFullDispelMove(mob, target, skill, param1, param2)
     -- TODO: Element arg
     local statmod = tpz.mod.INT
@@ -1633,8 +1665,14 @@ end
 function MobAllStatDownMove(mob, target, power, duration, isGaze, params)
     params = params or {}
 
-    for v = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
-        MobStatusEffectMove(mob, target, v, power, 3, duration, isGaze, params)
+    for attribute = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
+
+        -- Percent based reduction
+        if params.PERCENT_BASED ~= nil and params.PERCENT_BASED then
+            power = target:getStat(attribute) * power
+        end
+        
+        MobStatusEffectMove(mob, target, attribute, power, 3, duration, isGaze, params)
     end
 end
 
@@ -1642,8 +1680,14 @@ function MobAllStatDownMovePhysical(mob, target, skill, power, duration, isGaze,
     params = params or {}
 
     if (MobPhysicalHit(mob, skill)) then
-        for v = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
-            MobStatusEffectMove(mob, target, v, power, 3, duration, isGaze, params)
+        for attribute = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
+
+            -- Percent based reduction
+            if params.PERCENT_BASED ~= nil and params.PERCENT_BASED then
+                power = target:getStat(attribute) * power
+            end
+
+            MobStatusEffectMove(mob, target, attribute, power, 3, duration, isGaze, params)
         end
     end
 end

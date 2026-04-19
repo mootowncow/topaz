@@ -18,22 +18,5 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dispelAttempts = 0
-    local dispelCount = 0
-
-    while dispelAttempts < 3 do
-        if MobDispelMove(mob, target, skill, tpz.magic.ele.LIGHT, tpz.effectFlag.DISPELABLE) ~= tpz.effect.NONE then
-            dispelCount = dispelCount + 1
-        end
-
-        dispelAttempts = dispelAttempts + 1
-    end
-
-    if (dispelCount == 0) then
-        skill:setMsg(tpz.msg.basic.SKILL_MISS)
-    else
-        skill:setMsg(tpz.msg.basic.DISAPPEAR_NUM)
-    end
-
-    return dispelCount
+    return skill:setMsg(MobMultipleDispelMove(mob, target, skill, 3, tpz.magic.ele.LIGHT, tpz.effectFlag.DISPELABLE))
 end
