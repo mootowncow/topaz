@@ -2053,7 +2053,10 @@ void CStatusEffectContainer::CheckEffectsExpiry(time_point tick)
 void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
 {
     TracyZoneScoped;
-    CBattleEntity* PEntity = static_cast<CBattleEntity*>(m_POwner);
+    auto* PEntity = dynamic_cast<CBattleEntity*>(m_POwner);
+    if (!PEntity)
+        return;
+
     AURATARGET auraTarget = static_cast<AURATARGET>(PStatusEffect->GetTier());
 
     if (PEntity->objtype == TYPE_PET || PEntity->objtype == TYPE_TRUST)
@@ -2165,6 +2168,9 @@ void CStatusEffectContainer::TickEffects(time_point tick)
 {
     TracyZoneScoped;
     TPZ_DEBUG_BREAK_IF(m_POwner == nullptr);
+
+    if (!m_POwner)
+        return;
 
     if (m_POwner->status == STATUS_DISAPPEAR)
     {
