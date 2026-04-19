@@ -83,7 +83,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS_FLAG, tpz.effectFlag.ERASABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.ERASE)
 
-    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 20)
+    mob:setMobMod(tpz.mobMod.TRUST_DISTANCE, 18)
 
     tpz.trust.onMobSpawn(mob)
 end
