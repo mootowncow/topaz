@@ -1,8 +1,8 @@
 ---------------------------------------------------
--- Naraka Auto One
+-- Harpeia Melee Fly
 --
--- Physical damage
--- Single target
+-- Physical damage 
+-- AOE
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/mobs")

@@ -21,15 +21,10 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local message = tpz.msg.basic.SKILL_MISS
     local typeEffect = tpz.effect.SLEEP_II
-
-    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, 90))
-    if (target:isFacing(mob) and target:hasStatusEffect(tpz.effect.SLEEP_II)) then
-		if not target:hasStatusEffect(tpz.effect.BLINDNESS) then
-            target:addStatusEffectEx(tpz.effect.DEEPSLEEP,0,1,3,90)
-        end
-    end
+    local params = {}
+    params.DEEPSLEEP = true
+    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, 90, params))
 
     return typeEffect
 end

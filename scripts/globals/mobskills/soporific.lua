@@ -18,17 +18,16 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
+    local params = {}
     local typeEffect = tpz.effect.SLEEP_II
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 90))
     if mob:getName() == 'Gnoletrap' then
         mob:resetEnmity(target)
     elseif mob:getName() == 'Goblintrap' then
-        local effect = target:getStatusEffect(tpz.effect.SLEEP_II)
-        local duration = math.ceil((effect:getTimeRemaining()) / 1000)
-        if (duration > 0) then
-            target:addStatusEffectEx(tpz.effect.DEEPSLEEP,0,1,3,duration)
-        end
+        params.DEEPSLEEP = true
     end
+
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, 90, false, params))
+
     return tpz.effect.SLEEP_I
 end

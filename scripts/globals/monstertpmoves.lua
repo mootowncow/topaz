@@ -18,6 +18,17 @@ require("scripts/globals/battle_utils")
 --            What is known is that they roughly follow player Weaponskill calculations (pDIF, dMOD, ratio, etc) so this is what
 --            this set of functions emulates.
 
+local effectToStat =
+{
+    [tpz.effect.STR_DOWN] = tpz.mod.STR,
+    [tpz.effect.DEX_DOWN] = tpz.mod.DEX,
+    [tpz.effect.VIT_DOWN] = tpz.mod.VIT,
+    [tpz.effect.AGI_DOWN] = tpz.mod.AGI,
+    [tpz.effect.INT_DOWN] = tpz.mod.INT,
+    [tpz.effect.MND_DOWN] = tpz.mod.MND,
+    [tpz.effect.CHR_DOWN] = tpz.mod.CHR,
+}
+
 -- mob types
 -- used in mob:isMobType()
 MOBTYPE_NORMAL              = 0x00
@@ -57,11 +68,15 @@ TP_IGNORE_MACC = 8
 
 BOMB_TOSS_HPP = 1
 
+FULL_ENCUMBER = 16
+
 -- PARAMS
 -- params.DAMAGE_OVERRIDE - override damage with a specific number
 -- params.ALWAYS_CRIT = 100% crit rate
 -- params.ALWAYS_ENFEEBLE = 100% land rate (used for enfeebles)
 -- params.PERCENT_BASED = use percentage of targets attribute when calculating all attributes down
+-- params.UNREMOVABLE = status effect is unremovable by erase/waltz/etc
+-- params.DEEPSLEEP = adds deep sleep (nightmare) effect to sleep. Cannot be woken up by damage.
 
 function MobRangedMove(mob, target, skill, numberOfHits, accmod, dmgmod, tpeffect, params_phys)
     -- All formula changes for being ranged are handled in Mob1Move via the TP_RANGED param
@@ -965,7 +980,7 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
         resist = CheckPlayerStatusElementResist(mob, target, element, typeEffect, resist, 0)
 
         -- Always lands
-        if params.ALWAYS_ENFEEBLE ~= nil and params.ALWAYS_ENFEEBLE then
+        if params.ALWAYS_ENFEEBLE then
             resist = 1
         end
 
@@ -995,6 +1010,16 @@ function MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isG
 
             AddDimishingReturns(mob, target, nil, typeEffect)
             target:addStatusEffect(typeEffect, power, tick, totalDuration)
+
+            if params.UNREMOVABLE then
+                target:setEffectUndispellable(typeEffect)
+            end
+
+            if params.DEEPSLEEP then
+                if typeEffect == tpz.effect.SLEEP_I or typeEffect == tpz.effect.SLEEP_II or typeEffect == tpz.effect.LULLABY then
+                    target:addStatusEffectEx(tpz.effect.DEEPSLEEP, 0, 1, 3, totalDuration)
+                end
+            end
 
             return tpz.msg.basic.SKILL_ENFEEB_IS
         end
@@ -1036,7 +1061,7 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
         resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, 0)
 
         -- Always lands
-        if params.ALWAYS_ENFEEBLE ~= nil and params.ALWAYS_ENFEEBLE then
+        if params.ALWAYS_ENFEEBLE then
             resist = 1
         end
 
@@ -1064,6 +1089,16 @@ function MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, 
             end
 
             target:addStatusEffect(typeEffect, power, tick, totalDuration, subid, subpower, tier)
+
+            if params.UNREMOVABLE then
+                target:setEffectUndispellable(typeEffect)
+            end
+
+            if params.DEEPSLEEP then
+                if typeEffect == tpz.effect.SLEEP_I or typeEffect == tpz.effect.SLEEP_II or typeEffect == tpz.effect.LULLABY then
+                    target:addStatusEffectEx(tpz.effect.DEEPSLEEP, 0, 1, 3, totalDuration)
+                end
+            end
 
             return tpz.msg.basic.SKILL_ENFEEB_IS
         end
@@ -1113,34 +1148,34 @@ function MobHasteOverwriteSlowMove(mob, target, power, tick, duration, subid, su
 end
 
 -- similar to status effect move except, this will not land if the attack missed
-function MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, tick, duration)
+function MobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, tick, duration, isGaze, params)
 
     if (MobPhysicalHit(mob, skill)) then
-        return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration)
+        return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, isGaze, params)
     end
 
     return tpz.msg.basic.SKILL_MISS
 end
 
 -- checks to make sure the attack hit with customizable duration and subpower
-function MobPhysicalStatusEffectMoveSub(mob, target, skill, typeEffect, power, tick, duration, subid, subpower, tier)
+function MobPhysicalStatusEffectMoveSub(mob, target, skill, typeEffect, power, tick, duration, subid, subpower, tier,isGaze, params)
 
     if (MobPhysicalHit(mob, skill)) then
-        return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
+        return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, isGaze, params)
     end
 
     return tpz.msg.basic.SKILL_MISS
 end
 
 -- similar to statuseffect move except it will only take effect if facing
-function MobGazeMove(mob, target, typeEffect, power, tick, duration)
+function MobGazeMove(mob, target, typeEffect, power, tick, duration, params)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
             MobHandleFlagsRemoval(target)
             MobHandlePetEnmity(mob, target, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
-			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, true)
+			return MobStatusEffectMove(mob, target, typeEffect, power, tick, duration, true, params)
 		end
     end
 
@@ -1150,14 +1185,14 @@ function MobGazeMove(mob, target, typeEffect, power, tick, duration)
 end
 
 -- similar to statuseffect move except it will only take effect if facing
-function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier)
+function MobGazeMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, params)
     if (target:isFacing(mob)) then
 		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
             MobHandleFlagsRemoval(target)
             MobHandlePetEnmity(mob, target, 1, 320)
 			return tpz.msg.basic.SKILL_MISS
 		else
-			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, true)
+			return MobStatusEffectMoveSub(mob, target, typeEffect, power, tick, duration, subid, subpower, tier, true, params)
 		end
     end
 
@@ -1395,6 +1430,24 @@ function MobEncumberMove(mob, target, maxSlots, duration)
         MobHandleFlagsRemoval(target)
         MobHandlePetEnmity(mob, target, 1, 320)
         target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration);
+    end
+end
+
+function MobEncumberWeaponMove(mob, target, duration)
+    if target:hasStatusEffect(tpz.effect.FEALTY) or not target:isPC() then
+        return
+    end
+
+    if not target:hasStatusEffect(tpz.effect.ENCUMBRANCE_II) then
+        local mask = math.pow(2, tpz.slot.MAIN) + math.pow(2, tpz.slot.SUB)
+
+        target:unequipItem(tpz.slot.MAIN)
+        target:unequipItem(tpz.slot.SUB)
+
+        MobHandleFlagsRemoval(target)
+        MobHandlePetEnmity(mob, target, 1, 320)
+
+        target:addStatusEffectEx(tpz.effect.ENCUMBRANCE_II, tpz.effect.ENCUMBRANCE_II, mask, 0, duration)
     end
 end
 
@@ -1665,29 +1718,33 @@ end
 function MobAllStatDownMove(mob, target, power, duration, isGaze, params)
     params = params or {}
 
-    for attribute = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
+    for effect = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
 
-        -- Percent based reduction
-        if params.PERCENT_BASED ~= nil and params.PERCENT_BASED then
-            power = target:getStat(attribute) * power
+        local finalPower = power
+
+        if params.PERCENT_BASED then
+            local stat = target:getStat(effectToStat[effect])
+            finalPower = math.floor(stat * (power / 100))
         end
-        
-        MobStatusEffectMove(mob, target, attribute, power, 3, duration, isGaze, params)
+
+        MobStatusEffectMove(mob, target, effect, finalPower, 3, duration, isGaze, params)
     end
 end
 
-function MobAllStatDownMovePhysical(mob, target, skill, power, duration, isGaze, params)
+function MobAlleffectMovePhysical(mob, target, skill, power, duration, isGaze, params)
     params = params or {}
 
     if (MobPhysicalHit(mob, skill)) then
-        for attribute = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
+        for effect = tpz.effect.STR_DOWN, tpz.effect.CHR_DOWN do
 
-            -- Percent based reduction
-            if params.PERCENT_BASED ~= nil and params.PERCENT_BASED then
-                power = target:getStat(attribute) * power
+            local finalPower = power
+
+            if params.PERCENT_BASED then
+                local stat = target:getStat(effectToStat[effect])
+                finalPower = math.floor(stat * (power / 100))
             end
 
-            MobStatusEffectMove(mob, target, attribute, power, 3, duration, isGaze, params)
+            MobStatusEffectMove(mob, target, effect, finalPower, 3, duration, isGaze, params)
         end
     end
 end

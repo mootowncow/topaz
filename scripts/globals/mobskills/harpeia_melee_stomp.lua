@@ -1,5 +1,5 @@
 ---------------------------------------------------
--- Naraka Auto One
+-- Harpeia Melee Stomp
 --
 -- Physical damage
 -- Single target

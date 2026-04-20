@@ -3038,11 +3038,20 @@ INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2626);
 INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2627);
 INSERT INTO `mob_skill_lists` VALUES ('Iron_CraniumV2',1247,2628);
 
-INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,999);
+INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,2725);
+INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,2730);
+INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,2726);
+INSERT INTO `mob_skill_lists` VALUES ('Ligeia',1248,2729);
 
-INSERT INTO `mob_skill_lists` VALUES ('Leucosia',1249,999);
+INSERT INTO `mob_skill_lists` VALUES ('Leucosia',1249,2725);
+INSERT INTO `mob_skill_lists` VALUES ('Leucosia',1249,2726);
+INSERT INTO `mob_skill_lists` VALUES ('Leucosia',1249,2727);
+INSERT INTO `mob_skill_lists` VALUES ('Leucosia',1249,2758);
 
-INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,999);
+INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2725);
+INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2726);
+INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2728);
+INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2811);
 
 INSERT INTO `mob_skill_lists` VALUES ('Sanguine_Sapsucker',1251,999);
 

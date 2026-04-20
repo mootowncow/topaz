@@ -17,14 +17,16 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Augur Smash shadow count
 -- TODO: Cast time on Naraka TP moves
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
--- TODO: Nerf Kalboron stone to +2 or +1 MACC
+-- TODO: Nerf Kalboron stone to +1 MACC and +10 MP
 -- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
 -- TODO: Fanatics blocks mob status effect moves too
 -- TODO: Naraka (Check spreadsheet also) Weakness Attributes : Hitting attribute (+12.5%), Fighting Attributes (+12.5%)
 -- Resistant attributes : dark (-85%), ice (-60%), soil (-40%), water (-30%), wind (-30%), lightning (-30%), gust attribute (-50%), slash attribute (-12.5%)
 -- https://www.bg-wiki.com/ffxi/Category:Naraka wep/magic resistances
+-- TODO: Harpeia, iconclads, and Carturaes too. They all have weird weapon / magic resistances
 -- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
 -- TODO: in spawnPetInBattle and any place a mob spawns a pet set their pets before spawning them to have mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30) somehow. Can it be added in  that util after spawning mob? Prob not...
 -- TODO: Dia / Bio no effect (and thus don't apply dia/bio) if target has magic shield and power of 1
@@ -716,7 +718,7 @@ local walkData =
     --         Mechnaics: {}
     --      Ligeia, lvl { 93 }, Model { 0x00003E0800000000000000000000000000000000 }, Size { ??? }  HP { 35000 }, Amount { 9 }, Ids {}  
     --         Partied {  }, 
-    --         Patrols {  }, 
+    --         Patrols { Yes, walks, waits, travels between all areas, goes to small birds and follows them around a bit then waits by them too }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
     --         Spells {  }, 
@@ -729,13 +731,13 @@ local walkData =
     --         Move Speed { }    
     --         Mechnaics: { Always uses Ravenous Wail immediately after using Shrieking Gale}
     --     Leucosia, lvl { 93 }, Model { 0x00003A0800000000000000000000000000000000 }, Size { ??? } HP { 35000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { Yes, walk } 
+    --         Patrols { Yes, walks, waits, travels between all areas, goes to small birds and follows them around a bit then waits by them too  } 
     --         Boss {  }, 
     --         Immune {  Normal }, 
     --         Spells { }, 
     --         Cast Timer {  }
     --         TP Moves: { Wings of Woe (Self, 2s cast), Shrieking Gale (3+ dispel, Self, 7 Knockback, 2s cast), Rending Talons (Resets targets TP to 0, Self, Conal?, 2s cast), 
-    --          Kaleidoscopic Fury (ALL Attributes down <= 50% or <= 25% resets ALL JA's including 2hrs, Self, 3s cast CANNOT BE RESISTED) }
+    --          Kaleidoscopic Fury (ALL Attributes down <= 50%  resets ALL JA's including 2hrs, Self, 3s cast CANNOT BE RESISTED) }
     --         Traits { Regain 100/tick }
     --         DT { Earth -50%, Wind -95%, Light / Dark -0% }
     --         Aggro: {}
@@ -744,7 +746,7 @@ local walkData =
     --         Mechanics { }
     --         Proc { }
     --     Raidne, lvl { 93 }, Model { 0x0000130800000000000000000000000000000000 }, Size { ??? } HP { 35000 }, Ids {},  Amount { 1 }, Partied { 0 },
-    --         Patrols { True, walks } 
+    --         Patrols { Yes, walks, waits, travels between all areas, goes to small birds and follows them around a bit then waits by them too  } 
     --         Boss {  }, 
     --         Immune { Normal  }, 
     --         Spells { Aero IV, Aeroga III, Aeroja, Graviga, Silencega}, 

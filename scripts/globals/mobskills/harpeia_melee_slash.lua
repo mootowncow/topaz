@@ -1,8 +1,8 @@
 ---------------------------------------------------
--- Naraka Auto One
+-- Harpeia Melee Slash
 --
 -- Physical damage
--- Single target
+-- Conal
 ---------------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/mobs")
