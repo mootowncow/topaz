@@ -3077,6 +3077,18 @@ INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,999);
 
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,999);
 
+INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2711); -- naraka_auto_one
+INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2712); -- naraka_auto_two
+INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2713); -- naraka_auto_three
+
+INSERT INTO `mob_skill_lists` VALUES ('Harpeia_Autos',1264,2722); -- harpeia_melee_stomp
+INSERT INTO `mob_skill_lists` VALUES ('Harpeia_Autos',1264,2723); -- harpeia_melee_slash
+INSERT INTO `mob_skill_lists` VALUES ('Harpeia_Autos',1264,2724); -- harpeia_melee_fly
+
+INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2616); -- iron_giant_melee_vertical
+INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2617); -- iron_giant_melee_stomp
+INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2618); -- iron_giant_melee_lateral
+
 
 -- TODO: Rest
 
@@ -5318,6 +5330,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
 INSERT INTO `mob_skill_lists` VALUES ('Batteilant_Bhoot',6171,1794); -- perdition
 
--- Next available ID: 1263
+-- Next available ID: 1266
 -- Next custom ID: 6172
 
