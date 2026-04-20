@@ -354,8 +354,6 @@ function jobUtil.consumeFinishingMoves(player, movesToConsume)
     return actualConsumed
 end
 
-
-
 function jobUtil.isJAAbsorbedByShadows(target, ability)
     local shadowsToCheck = 1
     shadowsToCheck = utils.takeShadows(target, shadowsToCheck)

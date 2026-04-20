@@ -3,6 +3,7 @@
 -----------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/geo")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
@@ -16,16 +17,5 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local geo_skill = caster:getCharSkillLevel(tpz.skill.GEOMANCY)
-    local power = (geo_skill / 30.1) + 240
-
-    -- Ensure the attack speed doesn't exceed the maximum of +299
-    if power > 299 then
-        power = 299
-    end
-    -- TODO: An Indicolure spell cast on another party member with Entrust active will not factor in Geomancy+ equipment from the caster.
-
-    target:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_HASTE, power, tpz.auraTarget.ALLIES, tpz.effectFlag.AURA)
-    caster:delStatusEffectSilent(tpz.effect.ENTRUST)
-    return tpz.effect.COLURE_ACTIVE
+    return tpz.geo.doIndiSpell(caster, target, spell)
 end

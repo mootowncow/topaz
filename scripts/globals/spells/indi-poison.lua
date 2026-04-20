@@ -3,6 +3,7 @@
 -----------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/geo")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
@@ -16,13 +17,5 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local geo_skill = caster:getCharSkillLevel(tpz.skill.GEOMANCY)
-    local power = (geo_skill / 30) / 10
-    if power < 1 then
-        power = 1
-    end
-
-    target:addStatusEffectEx(tpz.effect.COLURE_ACTIVE, tpz.effect.COLURE_ACTIVE, 13, 3, 180, tpz.effect.GEO_POISON, power, tpz.auraTarget.ENEMIES, tpz.effectFlag.AURA)
-    caster:delStatusEffectSilent(tpz.effect.ENTRUST)
-    return tpz.effect.COLURE_ACTIVE
+    return tpz.geo.doIndiSpell(caster, target, spell)
 end
