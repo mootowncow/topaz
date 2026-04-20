@@ -2058,13 +2058,19 @@ void CStatusEffectContainer::HandleAura(CStatusEffect* PStatusEffect)
         return;
 
     AURATARGET auraTarget = static_cast<AURATARGET>(PStatusEffect->GetTier());
+    float aura_range = 6.25;
 
-    if (PEntity->objtype == TYPE_PET || PEntity->objtype == TYPE_TRUST)
+    if (PEntity)
+         aura_range += static_cast<float>(PEntity->getMod(Mod::AURA_RADIUS));
+
+    if (PEntity)
     {
-        PEntity = PEntity->PMaster;
+        if (PEntity->objtype == TYPE_PET || PEntity->objtype == TYPE_TRUST)
+            PEntity = PEntity->PMaster;
     }
 
-    float aura_range = 6.25 + static_cast<float>(PEntity->getMod(Mod::AURA_RADIUS));
+    if (!PEntity)
+        return;
 
     if (PEntity->objtype == TYPE_PC)
     {
