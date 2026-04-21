@@ -12441,7 +12441,7 @@ INSERT INTO `mob_groups` VALUES (36,5294,182,'Sanguine_Sapsucker',0,128,0,10000,
 INSERT INTO `mob_groups` VALUES (37,5295,182,'Malicious_Magpie',0,128,0,10000,0,79,79,0);
 INSERT INTO `mob_groups` VALUES (38,5296,182,'Barra_Edinazu',0,128,0,40000,0,82,82,0);
 INSERT INTO `mob_groups` VALUES (39,5297,182,'Coeurl_Mystic',0,128,0,10000,0,79,79,0);
-INSERT INTO `mob_groups` VALUES (40,5298,182,'Coeurl_prentice',0,128,0,10000,0,79,79,0);
+INSERT INTO `mob_groups` VALUES (40,5298,182,'Coeurl_Prentice',0,128,0,10000,0,79,79,0);
 INSERT INTO `mob_groups` VALUES (41,5299,182,'Coeurl_Tiro',0,128,0,10000,0,79,79,0);
 INSERT INTO `mob_groups` VALUES (42,5300,182,'Mingyi',0,128,0,80000,0,85,85,0);
 INSERT INTO `mob_groups` VALUES (43,5301,182,'Sitke',0,128,0,30000,0,85,85,0);

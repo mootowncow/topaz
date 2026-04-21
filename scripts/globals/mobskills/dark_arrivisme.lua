@@ -1,30 +1,27 @@
 ---------------------------------------------
---  Ecliptic Meteor
+--  Dark Arrivisme
 --
---  Description: Deals DARK damage to enemies within area of effect.
---  Type: Magical DARK (Element)
---
---
+--  Description: Magic Dark damage.
+-- Additional effect: Dispels 3 buffs, knockback, and gains a all Killer (intimidation) effect
 ---------------------------------------------
 require("scripts/globals/settings")
 require("scripts/globals/status")
 require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
-    if mob:getHPP() > 25 then
+    if mob:getHPP() > 50 then
         return 1
     end
-    
+
     return 0
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = 3.0
-    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.DARK, dmgmod, TP_NO_EFFECT)
+    local dmgmod = 5
+    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg() * 3, tpz.magic.ele.DARK, dmgmod, TP_NO_EFFECT, 1)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.DARK, MOBPARAM_WIPE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.DARK)
-    MobStatusEffectMove(mob, target, tpz.effect.BLINDNESS, 50, 0, 300)
-    MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 25, 0, 300)
-    MobStatusEffectMoveSub(mob, target, tpz.effect.BIO, 10, 3, 180, 0, 15, 3)
+    MobBuffMove(mob, tpz.effect.PROWESS_KILLER, 75, 0, 60)
+    MobMultipleDispelMove(mob, target, skill, 3, tpz.magic.ele.DARK, tpz.effectFlag.DISPELABLE)
     return dmg
 end

@@ -1,11 +1,10 @@
 ---------------------------------------------
--- Mortal Blast
---  Gaze Death
+-- Besieged Bane
+-- AOE Bio, Zombie, and Terror
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
 require("scripts/globals/status")
-require("scripts/globals/msg")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
@@ -17,16 +16,12 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local params = {}
-    params.ALWAYS_ENFEEBLE = true
-    if (target:isFacing(mob)) then
-		if target:hasStatusEffect(tpz.effect.BLINDNESS) then
-			skill:setMsg(tpz.msg.basic.SKILL_MISS)
-		else
-            MobDeathMove(mob, target, skill, params)
-        end
-    else
-        skill:setMsg(tpz.msg.basic.SKILL_MISS)
-    end
-    return 0
+    local typeEffect = tpz.effect.TERROR
+
+
+    MobStatusEffectMove(mob, target, tpz.effect.CURSE_II, 1, 0, 30)
+    MobStatusEffectMoveSub(mob, target, skill, tpz.effect.BIO, 56, 3, 180, 0, 15, 3)
+    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.TERROR, 1, 0, 15))
+
+    return typeEffect
 end

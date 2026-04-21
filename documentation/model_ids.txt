@@ -1,3 +1,7 @@
+to get costume, flip bits. i.e. 0x0000A40800000000000000000000000000000000 - > move 2nd bit to front - > 8A4 - > 2212
+0x part from mob_pools
+
+
 Costume IDs
 From DSP Wiki
 Jump to: navigation, search
@@ -2214,7 +2218,7 @@ ID Number	Costume Name
 2209	Defoliator
 2210	Kutharei(AbysNM)
 2211	Yaanei(AbysNM)
-2212	Slippoy(AbysNM)
+2212	Sippoy(AbysNM)
 2213	Titlacauan(AbysNM)
 2214	
 2215	Corpselight
@@ -2574,42 +2578,3 @@ ID Number	Costume Name
 3118	Trust: Ygnas
 3119	Trust: Cornelia
 Retrieved from "https://wiki.dspt.info/index.php?title=Costume_IDs&oldid=22706"
-Navigation menu
-Personal tools
-Log in
-Namespaces
-Page
-Discussion
-Variants
-Views
-Read
-View source
-View history
-More
-Search
-Search
-Navigation
-Main page
-Current events
-Recent changes
-Random page
-Help
-DSP Community
-Home Page
-Forums
-Discord
-Gist
-pastebin
-Tools
-What links here
-Related changes
-Special pages
-Printable version
-Permanent link
-Page information
-This page was last modified on 16 January 2019, at 22:51.
-This page has been accessed 44,526 times.
-Privacy policy
-About DSP Wiki
-Disclaimers
-Powered by MediaWiki

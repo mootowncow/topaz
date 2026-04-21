@@ -613,7 +613,7 @@ local walkData =
         GearDrops   = { item.ALRUNAS_GLOVES, item.CHINERS_BELT, item.FLUME_BELT, item.MOROS_CROSSBOW, item.SAEVUS_PENDANT, item.THEIAS_HAIRPIN },
         SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
         SetDrop     = { item.DENALI_JACKET },
-        MobDrops    = {  },
+        MobDrops    = { tpz.items.BONE_CHIP, tpz.items.REVIVAL_TREE_ROOT },
         Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
         Experience  = 1500  -- TODO
     },
@@ -807,7 +807,7 @@ local walkData =
     --         Immune { Normal  }, 
     --         Spells { Stone IV, Stonega III, Slowga }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Blink of Peril (Throat stab -95% (Reduced by PDT or MDT), Hate Reset, 2s cast), Charged Whisker (2s cast), Amnesic Blast (Knockback 7, 2s cast) }, 
+    --         TP Moves: { Blink of Peril (Throat stab -95% (Reduced by PDT or MDT), Hate Reset, 2s cast), Charged Whisker (2s cast) }, 
     --         Traits: { DA, 0 +MDB (100 total) }
     --         DT: {  }
     --         Aggro: {}
@@ -820,7 +820,7 @@ local walkData =
     --         Spells { Fire IV, Firaga III, Firaja, Bindga, Dispelga, Meteor (<= 50% HP, Rare) }, 
     --         Cast Timer { 45? }
     --         TP Moves: { Shockwave(Knockback 4, 1s cast), Howl(1s cast), Thunderbolt(1s cast), Flame Armor(Burn (-63 INT, 30/tick) + Attack Down Aura (-33%) for ~30s, 1s cast),  
-    --          Amnesic Blast (20-30s Amnesia, 7 Knockback, 3s cast), Kick Out (Behind, 1.5s cast), Ecliptic Meteor (<= 25% HP, 3s cast) }
+    --          Amnesic Blast (20-30s Amnesia, 7 Knockback, 3s cast), Kick Out (Behind, 4 Knockback, 1.5s cast), Ecliptic Meteor (<= 25% HP, 3s cast) }
     --         Traits { DA, Regain 100/tick }
     --         DT {  }
     --         Aggro: {}

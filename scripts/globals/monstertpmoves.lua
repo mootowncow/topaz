@@ -1363,7 +1363,7 @@ function MobPercentHealMove(mob, target, skill, heal)
     return heal
 end
 
--- Heals for the exact amount provided as an arg. Only used for Monberaux potions 
+-- Heals for the exact amount provided as an arg.
 function MobHealMoveExact(mob, target, skill, amount)
     local mobHP = target:getHP()
     local mobMaxHP = target:getMaxHP()
@@ -1453,6 +1453,8 @@ end
 
 function MobCharmMove(mob, target, skill, costume, duration)
 	-- 0 costume = none
+    -- to get costume, flip bits. i.e. 0x0000A40800000000000000000000000000000000 - > move 2nd bit to front - > 8A4 - > 2212
+    -- documentation/model_ids.txt
     local statmod = tpz.mod.CHR
     local dStat = mob:getStat(statmod)-target:getStat(statmod)
     local element = tpz.magic.ele.WATER
@@ -1487,7 +1489,8 @@ function MobCharmMove(mob, target, skill, costume, duration)
 	end
 end
 
-function MobDeathMove(mob, target, skill)
+function MobDeathMove(mob, target, skill, params)
+    params = params or {}
     local statmod = tpz.mod.INT
     local dStat = mob:getStat(statmod)-target:getStat(statmod)
     local effect = tpz.effect.KO
@@ -1500,10 +1503,9 @@ function MobDeathMove(mob, target, skill)
     resist = CheckPlayerStatusElementResist(mob, target, element, effect, resist, bonus)
 	--GetPlayerByID(6):PrintToPlayer(string.format("Resist: %u",resist))
 
-    -- This should work on pets?
-	-- if (not target:isPC()) then
-		-- return skill:setMsg(tpz.msg.basic.SKILL_MISS)
-	-- end
+    if params.ALWAYS_ENFEEBLE then
+        resist = 1
+    end
 
 	if (resist >= 0.5) then
 		if target:hasStatusEffect(tpz.effect.FEALTY) then

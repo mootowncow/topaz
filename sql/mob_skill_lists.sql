@@ -3053,17 +3053,32 @@ INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2726);
 INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2728);
 INSERT INTO `mob_skill_lists` VALUES ('Raidne',1250,2811);
 
-INSERT INTO `mob_skill_lists` VALUES ('Sanguine_Sapsucker',1251,999);
+INSERT INTO `mob_skill_lists` VALUES ('Sanguine_Sapsucker',1251,1577);
+INSERT INTO `mob_skill_lists` VALUES ('Sanguine_Sapsucker',1251,1579);
+INSERT INTO `mob_skill_lists` VALUES ('Sanguine_Sapsucker',1251,1580);
 
-INSERT INTO `mob_skill_lists` VALUES ('Malicious_Magpie',1252,999);
+INSERT INTO `mob_skill_lists` VALUES ('Malicious_Magpie',1252,1578);
+INSERT INTO `mob_skill_lists` VALUES ('Malicious_Magpie',1252,1576);
+INSERT INTO `mob_skill_lists` VALUES ('Malicious_Magpie',1252,1580);
 
-INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,999);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,629);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,630);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,631);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,632);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,633);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,2391);
+INSERT INTO `mob_skill_lists` VALUES ('Barra_Edinazu',1253,2586);
 
-INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Mystic',1254,999);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Mystic',1254,2407);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Mystic',1254,2760);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Mystic',1254,2209);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Mystic',1254,2602);
 
-INSERT INTO `mob_skill_lists` VALUES ('Coeurl_prentice',1255,999);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Prentice',1255,2209);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Prentice',1255,2407);
 
-INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Tiro',1256,999);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Tiro',1256,2209);
+INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Tiro',1256,2407);
 
 INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,999);
 
