@@ -32,7 +32,7 @@ function onSpellCast(caster, target, spell)
     params.effect = tpz.effect.SLEEP_I
     params.bonus = BlueHandleCorrelationMACC(caster, target, spell, params, 0)
     local resist = applyResistanceEffect(caster, target, spell, params)
-    local duration = math.random(90, 120)
+    local duration = 90
 
 	-- Can't overwrite any sleep
     if hasSleepT1Effect(target) then
