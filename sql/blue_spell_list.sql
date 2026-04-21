@@ -160,7 +160,9 @@ INSERT INTO `blue_spell_list` VALUES ('673','743','4','25','2','10','4'); -- Qua
 INSERT INTO `blue_spell_list` VALUES ('675','1817','3','8','1','0','0'); -- Thermal Pulse
 INSERT INTO `blue_spell_list` VALUES ('677','1230','3','24','1','2','4'); -- Empty Thrash
 INSERT INTO `blue_spell_list` VALUES ('677','1275','3','24','1','2','4'); -- Empty Thrash
--- INSERT INTO `blue_spell_list` VALUES ('678','301','3','6','1','0','0'); -- Dream Flower
+INSERT INTO `blue_spell_list` VALUES ('678','301','3','6','1','0','0'); -- Dream Flower
+INSERT INTO `blue_spell_list` VALUES ('678','1585','3','6','1','0','0'); -- Dream Flower
+INSERT INTO `blue_spell_list` VALUES ('678','3844','3','6','1','0','0'); -- Dream Flower
 INSERT INTO `blue_spell_list` VALUES ('679','1255','3','18','2','0','0'); -- Occultation
 INSERT INTO `blue_spell_list` VALUES ('680','483','4','28','1','0','0'); -- Charged Whisker
 -- INSERT INTO `blue_spell_list` VALUES ('681','1245','5','14','4','0','0'); -- Winds of Promyvion
