@@ -3080,17 +3080,66 @@ INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Prentice',1255,2407);
 INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Tiro',1256,2209);
 INSERT INTO `mob_skill_lists` VALUES ('Coeurl_Tiro',1256,2407);
 
-INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,999);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2635);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2700);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2637);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Mingyi',1257,2692); -- royal_decree
 
-INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,999);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2567);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2570);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2700); -- enthrall
 
-INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,999);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2567);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2570);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2573); -- shadow_wreck
 
-INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,999);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2567);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2570);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2636); -- banneret_charge
 
-INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,999);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2567);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2570);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2637); -- besiegers_bane
 
-INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,999);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2634);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2567);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2568);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2569);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2570);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2571);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2572);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2573);
+INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2635); -- dark_arrivisme
 
 INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2711); -- naraka_auto_one
 INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2712); -- naraka_auto_two
