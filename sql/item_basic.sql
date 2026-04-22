@@ -1351,7 +1351,7 @@ INSERT INTO `item_basic` VALUES (1461,0,'wootz_ingot','wootz_ingot',99,4,38,0,39
 INSERT INTO `item_basic` VALUES (1462,0,'piece_of_lancewood_lumber','lancewood_lbr.',99,4,43,0,1987);
 INSERT INTO `item_basic` VALUES (1463,0,'chronos_tooth','chronos_tooth',99,4,42,0,2703);
 INSERT INTO `item_basic` VALUES (1464,0,'lancewood_log','lancewood_log',99,4,43,0,265);
-INSERT INTO `item_basic` VALUES (1465,0,'granite','granite',99,4,39,0,265);
+INSERT INTO `item_basic` VALUES (1465,0,'granite','granite',99,4,39,0,2650);
 INSERT INTO `item_basic` VALUES (1466,0,'relic_iron','relic_iron',99,4,38,0,265);
 INSERT INTO `item_basic` VALUES (1467,0,'relic_steel','relic_steel',99,4,38,0,530);
 INSERT INTO `item_basic` VALUES (1468,0,'marksmans_oil','marksmans_oil',99,4,44,0,3300);
@@ -8281,7 +8281,7 @@ INSERT INTO `item_basic` VALUES (10928,0,'ganeshas_mala','ganeshas_mala',1,63572
 INSERT INTO `item_basic` VALUES (10929,0,'apathy_gorget','apathy_gorget',1,34820,22,0,0);
 INSERT INTO `item_basic` VALUES (10930,0,'veisa_collar','veisa_collar',1,34820,22,0,0);
 INSERT INTO `item_basic` VALUES (10931,0,'rancor_collar','rancor_collar',1,34820,22,0,6012);
-INSERT INTO `item_basic` VALUES (10932,0,'oneiros_torque','oneiros_torque',1,34820,22,0,6270);
+INSERT INTO `item_basic` VALUES (10932,0,'oneiros_torque','oneiros_torque',1,34820,22,0,6666);
 INSERT INTO `item_basic` VALUES (10933,0,'mujin_necklace','mujin_necklace',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (10934,0,'justiciars_torque','justiciars_torque',1,34820,22,0,0);
 INSERT INTO `item_basic` VALUES (10935,0,'phrenic_torque','phrenic_torque',1,34820,22,0,0);
@@ -8320,8 +8320,8 @@ INSERT INTO `item_basic` VALUES (10968,0,'vigilance_mantle','vigilance_mantle',1
 INSERT INTO `item_basic` VALUES (10969,0,'vigilance_mantle+1','vigilance_mantle+1',1,2048,26,0,0);
 INSERT INTO `item_basic` VALUES (10970,0,'scuta_cape','scuta_cape',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (10971,0,'strendu_mantle','strendu_mantle',1,63572,0,1,0);
-INSERT INTO `item_basic` VALUES (10972,0,'oneiros_cappa','oneiros_cappa',1,34820,26,0,0);
-INSERT INTO `item_basic` VALUES (10973,0,'oneiros_cape','oneiros_cape',1,34820,26,0,0);
+INSERT INTO `item_basic` VALUES (10972,0,'oneiros_cappa','oneiros_cappa',1,34820,26,0,6666);
+INSERT INTO `item_basic` VALUES (10973,0,'oneiros_cape','oneiros_cape',1,34820,26,0,6666);
 INSERT INTO `item_basic` VALUES (10974,0,'mujin_mantle','mujin_mantle',1,34820,26,0,6765);
 INSERT INTO `item_basic` VALUES (10975,0,'archon_cape','archon_cape',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (10976,0,'kaikias_cape','kaikias_cape',1,34820,26,0,0);
@@ -8378,7 +8378,7 @@ INSERT INTO `item_basic` VALUES (11027,0,'neptunes_pearl','neptunes_pearl',1,204
 INSERT INTO `item_basic` VALUES (11028,0,'apollos_pearl','apollos_pearl',1,2048,24,0,0);
 INSERT INTO `item_basic` VALUES (11029,0,'plutos_pearl','plutos_pearl',1,2048,24,0,0);
 INSERT INTO `item_basic` VALUES (11030,0,'oneiros_earring','oneiros_earring',1,34820,24,0,0);
-INSERT INTO `item_basic` VALUES (11031,0,'oneiros_pearl','oneiros_pearl',1,34820,24,0,0);
+INSERT INTO `item_basic` VALUES (11031,0,'oneiros_pearl','oneiros_pearl',1,34820,24,0,6666);
 INSERT INTO `item_basic` VALUES (11032,0,'mujin_stud','mujin_stud',1,34820,24,0,6748);
 INSERT INTO `item_basic` VALUES (11033,0,'bruisers_earring','bruisers_earring',1,34820,24,0,0);
 INSERT INTO `item_basic` VALUES (11034,0,'evergreen_earring','evergreen_earring',1,34820,24,0,0);
@@ -9117,7 +9117,7 @@ INSERT INTO `item_basic` VALUES (11769,0,'field_rope','field_rope',1,63572,0,1,0
 INSERT INTO `item_basic` VALUES (11770,0,'accursed_belt','accursed_belt',1,34820,23,0,0);
 INSERT INTO `item_basic` VALUES (11771,0,'pipilaka_belt','pipilaka_belt',1,34820,23,0,5850);
 INSERT INTO `item_basic` VALUES (11772,0,'oneiros_sash','oneiros_sash',1,34820,23,0,0);
-INSERT INTO `item_basic` VALUES (11773,0,'oneiros_belt','oneiros_belt',1,34820,23,0,6765);
+INSERT INTO `item_basic` VALUES (11773,0,'oneiros_belt','oneiros_belt',1,34820,23,0,6666);
 INSERT INTO `item_basic` VALUES (11774,0,'oneiros_cest','oneiros_cest',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (11775,0,'oneiros_rope','oneiros_rope',1,34820,23,0,0);
 INSERT INTO `item_basic` VALUES (11776,0,'mujin_obi','mujin_obi',1,34820,23,0,0);
@@ -14665,7 +14665,7 @@ INSERT INTO `item_basic` VALUES (17354,0,'harp','harp',1,2084,14,0,511);
 INSERT INTO `item_basic` VALUES (17355,0,'rose_harp','rose_harp',1,2084,14,0,2500);
 INSERT INTO `item_basic` VALUES (17356,0,'lamia_harp','lamia_harp',1,2052,14,0,3400);
 INSERT INTO `item_basic` VALUES (17357,0,'ebony_harp','ebony_harp',1,2084,14,0,4753);
-INSERT INTO `item_basic` VALUES (17358,0,'oneiros_harp','oneiros_harp',1,34820,14,0,6765);
+INSERT INTO `item_basic` VALUES (17358,0,'oneiros_harp','oneiros_harp',1,34820,14,0,6666);
 INSERT INTO `item_basic` VALUES (17359,0,'mythic_harp','mythic_harp',1,2084,14,0,7140);
 INSERT INTO `item_basic` VALUES (17360,0,'langeleik','langeleik',1,63572,0,1,0);
 INSERT INTO `item_basic` VALUES (17361,0,'crumhorn','crumhorn',1,2084,14,0,1789);
