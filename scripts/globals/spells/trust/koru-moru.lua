@@ -31,6 +31,7 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.SELF, ai.c.STATUS, tpz.effect.SILENCE, ai.r.ITEM, ai.s.SPECIFIC, tpz.items.FLASK_OF_ECHO_DROPS)
 
     mob:addSimpleGambit(ai.t.SELF, ai.c.MPP_LT, 10, ai.r.JA, ai.s.SPECIFIC, tpz.ja.CONVERT)
+    mob:addSimpleGambit(ai.t.SELF, ai.c.NOT_STATUS, tpz.effect.COMPOSURE, ai.r.JA, ai.s.SPECIFIC, tpz.ja.COMPOSURE)
 
     -- Raise master, highest priority
     mob:addSimpleGambit(ai.t.MASTER_DEAD, ai.c.ALWAYS, 0, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.RAISE)
@@ -76,10 +77,14 @@ function onMobSpawn(mob)
     mob:addSimpleGambit(ai.t.CASTS_SPELLS, ai.c.STATUS_CURE, tpz.effect.SILENCE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.SILENA)
     mob:addSimpleGambit(ai.t.PARTY, ai.c.STATUS_CURE, tpz.effect.PARALYSIS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.PARALYNA)
 
+    -- Dispel
     mob:addSimpleGambit(ai.t.TARGET, ai.c.STATUS_FLAG, tpz.effectFlag.DISPELABLE, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.DISPEL)
 
+    -- Enfeeble
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.PARALYSIS, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.PARALYZE)
     mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.SLOW, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.SLOW)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.ADDLE, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.ADDLE)
+    mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.INUNDATION, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.INUNDATION)
     -- mob:addSimpleGambit(ai.t.TARGET, ai.c.NOT_STATUS, tpz.effect.EVASION_DOWN, ai.r.MA, ai.s.HIGHEST, tpz.magic.spellFamily.DISTRACT, 60) -- NYI
     
     mob:addSimpleGambit(ai.t.MELEE, ai.c.STATUS_CURE, tpz.effect.BLINDNESS, ai.r.MA, ai.s.SPECIFIC, tpz.magic.spell.BLINDNA)

@@ -4118,6 +4118,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,75,255);        -- Flurry II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,135,66,255);       -- Reraise
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,@SPELL_INUNDATION,64,255);
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,@SPELL_ADDLE,65,255);
 
 
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Pieuje_UC',365,1,1,255);           -- Cure

@@ -157,7 +157,8 @@ local modByMobName =
     ['koru-moru'] = function(mob)
         mob:addMod(tpz.mod.HPP, 20)
         if mob:getMainLvl() >= 75 then
-            mob:addMod(tpz.mod.DMGAOE, -33)
+            mob:addMod(tpz.mod.FASTCAST, 2)
+            mob:addMod(tpz.mod.ENH_MAGIC_DURATION, 50)
         end
         AddRefreshGear(mob)
         AddEnfeebleGear(mob)
@@ -693,6 +694,10 @@ function AddArtifactGear(mob)
     local mobLevel = mob:getMainLvl()
     local master = mob:getMaster()
     local artifactGearData = {
+        { Job = tpz.job.RDM,        Lvl = 60,   Mod = tpz.mod.FASTCAST,                         Power = 10,     KI = false  },
+        { Job = tpz.job.RDM,        Lvl = 75,   Mod = tpz.mod.FASTCAST,                         Power = 10,     KI = false  },
+        { Job = tpz.job.RDM,        Lvl = 75,   Mod = tpz.mod.REFRESH,                          Power = 1,      KI = false  },
+        { Job = tpz.job.SAM,        Lvl = 60,   Mod = tpz.mod.MEDITATE_DURATION,                Power = 4,      KI = false  },
         { Job = tpz.job.PLD,        Lvl = 52,   Mod = tpz.mod.HOLY_CIRCLE_DURATION,             Power = 90,     KI = false  },
         { Job = tpz.job.DRK,        Lvl = 52,   Mod = tpz.mod.ARCANE_CIRCLE_DURATION,           Power = 90,     KI = false  },
         { Job = tpz.job.DRK,        Lvl = 60,   Mod = tpz.mod.SOULEATER_EFFECT,                 Power = 2,      KI = false  },
