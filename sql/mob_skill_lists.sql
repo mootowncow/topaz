@@ -2918,7 +2918,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1830);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1832);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1833);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1834);
-INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1834);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1835);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1836);
 
@@ -3098,7 +3097,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2569);
 INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2570);
 INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2571);
 INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2572);
-INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2573);
 INSERT INTO `mob_skill_lists` VALUES ('Sitke',1258,2700); -- enthrall
 
 INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2634);
@@ -3108,7 +3106,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2569);
 INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2570);
 INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2571);
 INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2572);
-INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2573);
 INSERT INTO `mob_skill_lists` VALUES ('Sin',1259,2573); -- shadow_wreck
 
 INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2634);
@@ -3118,7 +3115,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2569);
 INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2570);
 INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2571);
 INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2572);
-INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2573);
 INSERT INTO `mob_skill_lists` VALUES ('Myin',1260,2636); -- banneret_charge
 
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2634);
@@ -3128,7 +3124,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2569);
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2570);
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2571);
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2572);
-INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2573);
 INSERT INTO `mob_skill_lists` VALUES ('Yahhta',1261,2637); -- besiegers_bane
 
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2634);
@@ -3138,7 +3133,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2569);
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2570);
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2571);
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2572);
-INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2573);
 INSERT INTO `mob_skill_lists` VALUES ('Ne',1262,2635); -- dark_arrivisme
 
 INSERT INTO `mob_skill_lists` VALUES ('Naraka_Autos',1263,2711); -- naraka_auto_one
@@ -3153,8 +3147,6 @@ INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2616); -- iron_gian
 INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2617); -- iron_giant_melee_stomp
 INSERT INTO `mob_skill_lists` VALUES ('IronGiant_Autos',1265,2618); -- iron_giant_melee_lateral
 
-
--- TODO: Rest
 
 INSERT INTO `mob_skill_lists` VALUES ('Lamina-Hyakinthos', 767, 2210);
 INSERT INTO `mob_skill_lists` VALUES ('Corse_NM_staff',768,530);
