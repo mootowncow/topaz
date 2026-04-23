@@ -272,7 +272,7 @@ tpz.path =
 
     CheckIfStuck = function(npc)
         local stuckTimer = npc:getLocalVar("stuckTimer")
-        if not IsMobBusy(npc) and not npc:hasPreventActionEffect() then
+        if not IsMobBusy(npc) and not npc:hasPreventActionEffect() and npc:getSpeed() > 0 then
             if (stuckTimer == 0) then
                 npc:setLocalVar("stuckTimer", os.time() + 3)
             elseif (os.time() >= stuckTimer) then
