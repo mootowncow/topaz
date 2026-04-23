@@ -277,6 +277,7 @@ public:
 
     int32 canUseMisc(lua_State*);           // Check misc flags of current zone.
 
+    int32 getSpeed(lua_State*);             // gets entities (movement) speed
     int32 speed(lua_State*);                // скорость передвижения сущности
 
     int32 getPlaytime(lua_State*);
@@ -473,8 +474,6 @@ public:
     int32 setFomorHate(lua_State* L);
     int32 getPixieHate(lua_State* L);
     int32 setPixieHate(lua_State* L);
-
-
 
     int32 reloadParty(lua_State* L);
     int32 disableLevelSync(lua_State* L);

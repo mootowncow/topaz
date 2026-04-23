@@ -48,18 +48,16 @@ function onMobFight(mob, target)
     local behindX = target:getXPos() + math.sin(targetHeading) * distance
     local behindZ = target:getZPos() - math.cos(targetHeading) * distance
     local behindY = target:getYPos()
+    local speed = mob:getSpeed()
 
-    -- Bandaids until navmesh in Limbus is better
-    if tpz.path.CheckIfStuck(mob) then
-        if (mob:checkDistance(target) > 10) then
-            mob:setPos(behindX, behindY, behindZ)
-        end
+    if speed == 0 then
+        mob:setLocalVar("setPosTime", BattleTime + 10)
     end
 
     if (setPosTime == 0) then
 		mob:setLocalVar("setPosTime", BattleTime + 10)
 	elseif (BattleTime >= setPosTime) then
-        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+        if not IsMobBusy(mob) and not mob:hasPreventActionEffect() and speed > 0 then
             if (mob:checkDistance(target) >= 8) then
                 mob:setPos(behindX, behindY, behindZ)
                 mob:setLocalVar("setPosTime", BattleTime + 10)

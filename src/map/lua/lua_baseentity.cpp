@@ -6017,6 +6017,26 @@ inline int32 CLuaBaseEntity::canUseMisc(lua_State *L)
 }
 
 /************************************************************************
+ *  Function: getSpeed()
+ *  Purpose : Returns the entities (movement) speed
+ *  Example : if (player:getGMLevel() == 5) then -- kill pixies
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::getSpeed(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    uint8 speed = 0;
+
+    if (m_PBaseEntity)
+        speed = m_PBaseEntity->speed;
+
+    lua_pushnumber(L, speed);
+    return 1;
+}
+
+/************************************************************************
 *  Function: speed()
 *  Purpose : Sets a player's speed or returns their current speed
 *  Example : player:speed(40) -- Sets; player:speed() -- returns value
@@ -19008,6 +19028,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,canUseMisc),
 
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpeed),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,speed),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlaytime),
