@@ -17,10 +17,15 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- all caturae commented tp moves <= 50 or 25%?
+-- TODO: MDT / MDEF family bonuses for giants/caturae/harpea/narkara? or not valid inside of WOE?
+-- TODO: Some WOE mobs are here! Like iron giants / iron giant heads https://docs.google.com/spreadsheets/d/15XZqdCKa6FNX2FUKhlqxMkim7-KlXEHHrKBlc603taw/edit?gid=1367309866#gid=1367309866&range=264:264
+-- TODO: BLU spells, helixes and Geo spells added to procs
+-- TODO: Give turtles 5k defense
+-- TODO: Redo all ammo DATs, they're weapon DAT https://www.bg-wiki.com/ffxi/Walk_of_Echoes_Battlefield_Rewards
 -- TODO: Augur Smash shadow count
 -- TODO: Cast time on Naraka TP moves
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
--- TODO: Nerf Kalboron stone to +1 MACC and +10 MP
 -- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
 -- TODO: Fanatics blocks mob status effect moves too
 -- TODO: Naraka (Check spreadsheet also) Weakness Attributes : Hitting attribute (+12.5%), Fighting Attributes (+12.5%)
@@ -71,6 +76,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Magic cool on everything
 -- TODO: Magian trials for emp weapons
 -- TODO: Code emp weapon skill unlock events
+-- TODO: Empy WS added to BG wiki and shiyolibs gorget tables
 -- TODO: Temps drop from killing mobs (pretty often). Strange milk, strange juice, body boost, mana boost, healing salve I, clerics drink, lucid ether, clear salve, instant rr, berserkers drink, mana powder, healing mist, mana mist
 -- TODO: Use addon to capture models
 -- TODO: Misc items, new jewels like Fulmenite and new ore like Durium Ore? Or save for Abyssea?
@@ -949,7 +955,7 @@ local walkData =
     --         Cast Timer { 30 }
     --         TP Moves: { Hellish Crescendo (AOE (700 damage to no shell Valaineral),Self, 3s cast), Diabolic Claw ( Mdef Down, 1s cast), Afflicting Gaze (Gaze, Bind + ???, 3s cast), Interference (761 damage no shell), 
     --          Stygian Sphere (1936-1996 Heal + Full Erase + Absorb Shield -100% MDT/BDT until removed, all magic/breath damage removes Or only a certain element? Uriel Blade removed (light damage)?, Self, 2s cast),
-    --          Deathly Diminuendo (AOE, Self, 3s cast), Interference
+    --          Deathly Diminuendo (AOE, Self, 3s cast),
     --          <= 25% Beseigers Bane (Bio + Terror, Gaze, Self, AOE, 2s cast)}
     --         Traits {  DA, 150+/tick Regain }
     --         DT { -50% Earth / Water / Ice / Dark }
