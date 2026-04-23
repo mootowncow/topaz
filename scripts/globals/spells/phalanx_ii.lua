@@ -13,9 +13,15 @@ end
 function onSpellCast(caster, target, spell)
     local enhskill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC) + caster:getMod(tpz.mod.ENHANCE)
     local power = 0
-    local meritDuraBonus = (caster:getMerit(tpz.merit.PHALANX_II) * 10)
-    local meritPowerBonus = caster:getMerit(tpz.merit.PHALANX_II)
-    local baseDuration = 120 + (meritDuraBonus - 30)
+    local merits = caster:getMerit(tpz.merit.PHALANX_II)
+
+    -- Non-players have version is equal to a fully merited version
+    if not caster:isPC() then
+        merits = 15
+    end
+
+    local meritPowerBonus = merits - 3
+    local baseDuration = 120 + ((merits * 10) - 30)
     local finalDuration = calculateDuration(baseDuration, spell:getSkillType(), spell:getSpellGroup(), caster, target)
     finalDuration = calculateDurationForLvl(finalDuration, 75, target:getMainLvl())
 
@@ -26,7 +32,7 @@ function onSpellCast(caster, target, spell)
         -- add gear mod
         power = power + caster:getMod(tpz.mod.PHALANX_POTENCY)
     else
-        power = 13 + meritPowerBonus 
+        power = 13 + meritPowerBonus
         -- add merit bonus
         power = power + math.floor((enhskill - 300.5) / 28.5)
         -- add gear mod

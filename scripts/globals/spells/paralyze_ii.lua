@@ -13,7 +13,14 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-	local meritBonus = caster:getMerit(tpz.merit.PARALYZE_II)
+    local merits = caster:getMerit(tpz.merit.PARALYZE_II)
+
+    -- Non-players have version is equal to a fully merited version
+    if not caster:isPC() then
+        merits = 5
+    end
+
+	local meritBonus = merits
     -- Pull base stats
     local dMND = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
 
@@ -27,7 +34,7 @@ function onSpellCast(caster, target, spell)
     local params = {}
     params.diff = dMND
     params.skillType = tpz.skill.ENFEEBLING_MAGIC
-    params.bonus = meritBonus * 2
+    params.bonus = merits * 2
     params.effect = tpz.effect.PARALYSIS
     local resist = applyResistanceEffect(caster, target, spell, params)
 

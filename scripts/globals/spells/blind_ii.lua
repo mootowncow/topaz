@@ -12,7 +12,14 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-	local meritBonus = caster:getMerit(tpz.merit.BLIND_II)
+    local merits = caster:getMerit(tpz.merit.BLIND_II)
+
+    -- Non-players have version is equal to a fully merited version
+    if not caster:isPC() then
+        merits = 5
+    end
+
+	local meritBonus = merits
     -- Pull base stats.
     local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.MND) -- blind uses caster INT vs target MND
 
