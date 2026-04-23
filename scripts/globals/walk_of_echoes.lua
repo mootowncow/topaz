@@ -17,6 +17,7 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Mandragoras need 25% DA
 -- all caturae commented tp moves <= 50 or 25%?
 -- TODO: MDT / MDEF family bonuses for giants/caturae/harpea/narkara? or not valid inside of WOE?
 -- TODO: Some WOE mobs are here! Like iron giants / iron giant heads https://docs.google.com/spreadsheets/d/15XZqdCKa6FNX2FUKhlqxMkim7-KlXEHHrKBlc603taw/edit?gid=1367309866#gid=1367309866&range=264:264
