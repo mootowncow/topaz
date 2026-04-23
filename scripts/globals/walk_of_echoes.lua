@@ -1759,12 +1759,312 @@ local mixinByMobName =
                 BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
             end
         end)
-    end
+    end,
+
+    ['Cyanic_Crab'] = function(mob, target)
+    end,
+
+    ['Damask_Crab'] = function(mob, target)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target)
+    end,
+
+    ['Harpimaira'] = function(mob, target)
+    end,
+
+    ['Natrix'] = function(mob, target)
+    end,
+
+    ['Saltopus'] = function(mob, target)
+    end,
+
+    ['Jebutoise'] = function(mob, target)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target)
+    end,
+
+    ['Pardus'] = function(mob, target)
+    end,
+
+    ['Anguis'] = function(mob, target)
+    end,
+
+    ['Varanus'] = function(mob, target)
+    end,
+
+    ['Anhanguera'] = function(mob, target)
+    end,
+
+    ['Pteranodon'] = function(mob, target)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target)
+    end,
+
+    ['Tapana'] = function(mob, target)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target)
+    end,
+
+    ['Ligeia'] = function(mob, target)
+    end,
+
+    ['Leucosia'] = function(mob, target)
+    end,
+
+    ['Raidne'] = function(mob, target)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target)
+    end,
+
+    ['Mingyi'] = function(mob, target)
+    end,
+
+    ['Sitke'] = function(mob, target)
+    end,
+
+    ['Sin'] = function(mob, target)
+    end,
+
+    ['Myin'] = function(mob, target)
+    end,
+
+    ['Yahhta'] = function(mob, target)
+    end,
+
+    ['Ne'] = function(mob, target)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target)
+    end,
 }
 
 local mobEngagedByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+    end,
+
+    ['Cyanic_Crab'] = function(mob, target)
+    end,
+
+    ['Damask_Crab'] = function(mob, target)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target)
+    end,
+
+    ['Harpimaira'] = function(mob, target)
+    end,
+
+    ['Natrix'] = function(mob, target)
+    end,
+
+    ['Saltopus'] = function(mob, target)
+    end,
+
+    ['Jebutoise'] = function(mob, target)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target)
+    end,
+
+    ['Pardus'] = function(mob, target)
+    end,
+
+    ['Anguis'] = function(mob, target)
+    end,
+
+    ['Varanus'] = function(mob, target)
+    end,
+
+    ['Anhanguera'] = function(mob, target)
+    end,
+
+    ['Pteranodon'] = function(mob, target)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target)
+    end,
+
+    ['Tapana'] = function(mob, target)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target)
+    end,
+
+    ['Ligeia'] = function(mob, target)
+    end,
+
+    ['Leucosia'] = function(mob, target)
+    end,
+
+    ['Raidne'] = function(mob, target)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target)
+    end,
+
+    ['Mingyi'] = function(mob, target)
+    end,
+
+    ['Sitke'] = function(mob, target)
+    end,
+
+    ['Sin'] = function(mob, target)
+    end,
+
+    ['Myin'] = function(mob, target)
+    end,
+
+    ['Yahhta'] = function(mob, target)
+    end,
+
+    ['Ne'] = function(mob, target)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target)
     end,
 }
 
@@ -1772,11 +2072,311 @@ local mobFightByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
     end,
+
+    ['Cyanic_Crab'] = function(mob, target)
+    end,
+
+    ['Damask_Crab'] = function(mob, target)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target)
+    end,
+
+    ['Harpimaira'] = function(mob, target)
+    end,
+
+    ['Natrix'] = function(mob, target)
+    end,
+
+    ['Saltopus'] = function(mob, target)
+    end,
+
+    ['Jebutoise'] = function(mob, target)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target)
+    end,
+
+    ['Pardus'] = function(mob, target)
+    end,
+
+    ['Anguis'] = function(mob, target)
+    end,
+
+    ['Varanus'] = function(mob, target)
+    end,
+
+    ['Anhanguera'] = function(mob, target)
+    end,
+
+    ['Pteranodon'] = function(mob, target)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target)
+    end,
+
+    ['Tapana'] = function(mob, target)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target)
+    end,
+
+    ['Ligeia'] = function(mob, target)
+    end,
+
+    ['Leucosia'] = function(mob, target)
+    end,
+
+    ['Raidne'] = function(mob, target)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target)
+    end,
+
+    ['Mingyi'] = function(mob, target)
+    end,
+
+    ['Sitke'] = function(mob, target)
+    end,
+
+    ['Sin'] = function(mob, target)
+    end,
+
+    ['Myin'] = function(mob, target)
+    end,
+
+    ['Yahhta'] = function(mob, target)
+    end,
+
+    ['Ne'] = function(mob, target)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target)
+    end,
 }
 
 local onMobWeaponSkillPrepareByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+    end,
+
+    ['Cyanic_Crab'] = function(mob, target)
+    end,
+
+    ['Damask_Crab'] = function(mob, target)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target)
+    end,
+
+    ['Harpimaira'] = function(mob, target)
+    end,
+
+    ['Natrix'] = function(mob, target)
+    end,
+
+    ['Saltopus'] = function(mob, target)
+    end,
+
+    ['Jebutoise'] = function(mob, target)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target)
+    end,
+
+    ['Pardus'] = function(mob, target)
+    end,
+
+    ['Anguis'] = function(mob, target)
+    end,
+
+    ['Varanus'] = function(mob, target)
+    end,
+
+    ['Anhanguera'] = function(mob, target)
+    end,
+
+    ['Pteranodon'] = function(mob, target)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target)
+    end,
+
+    ['Tapana'] = function(mob, target)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target)
+    end,
+
+    ['Ligeia'] = function(mob, target)
+    end,
+
+    ['Leucosia'] = function(mob, target)
+    end,
+
+    ['Raidne'] = function(mob, target)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target)
+    end,
+
+    ['Mingyi'] = function(mob, target)
+    end,
+
+    ['Sitke'] = function(mob, target)
+    end,
+
+    ['Sin'] = function(mob, target)
+    end,
+
+    ['Myin'] = function(mob, target)
+    end,
+
+    ['Yahhta'] = function(mob, target)
+    end,
+
+    ['Ne'] = function(mob, target)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target)
     end,
 }
 
@@ -1784,11 +2384,311 @@ local mobAdditionalEffectByMobName =
 {
     ['Caldera_Crab'] = function(mob, target, damage)
     end,
+
+    ['Cyanic_Crab'] = function(mob, target, damage)
+    end,
+
+    ['Damask_Crab'] = function(mob, target, damage)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target, damage)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target, damage)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target, damage)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target, damage)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target, damage)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target, damage)
+    end,
+
+    ['Harpimaira'] = function(mob, target, damage)
+    end,
+
+    ['Natrix'] = function(mob, target, damage)
+    end,
+
+    ['Saltopus'] = function(mob, target, damage)
+    end,
+
+    ['Jebutoise'] = function(mob, target, damage)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target, damage)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target, damage)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target, damage)
+    end,
+
+    ['Pardus'] = function(mob, target, damage)
+    end,
+
+    ['Anguis'] = function(mob, target, damage)
+    end,
+
+    ['Varanus'] = function(mob, target, damage)
+    end,
+
+    ['Anhanguera'] = function(mob, target, damage)
+    end,
+
+    ['Pteranodon'] = function(mob, target, damage)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target, damage)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target, damage)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target, damage)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target, damage)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target, damage)
+    end,
+
+    ['Tapana'] = function(mob, target, damage)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target, damage)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target, damage)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target, damage)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target, damage)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target, damage)
+    end,
+
+    ['Ligeia'] = function(mob, target, damage)
+    end,
+
+    ['Leucosia'] = function(mob, target, damage)
+    end,
+
+    ['Raidne'] = function(mob, target, damage)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target, damage)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target, damage)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target, damage)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target, damage)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target, damage)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target, damage)
+    end,
+
+    ['Mingyi'] = function(mob, target, damage)
+    end,
+
+    ['Sitke'] = function(mob, target, damage)
+    end,
+
+    ['Sin'] = function(mob, target, damage)
+    end,
+
+    ['Myin'] = function(mob, target, damage)
+    end,
+
+    ['Yahhta'] = function(mob, target, damage)
+    end,
+
+    ['Ne'] = function(mob, target, damage)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target, damage)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target, damage)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target, damage)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target, damage)
+    end,
 }
 
 local mobDisengageByMobName =
 {
     ['Caldera_Crab'] = function(mob)
+    end,
+
+    ['Cyanic_Crab'] = function(mob)
+    end,
+
+    ['Damask_Crab'] = function(mob)
+    end,
+
+    ['Morbid_Molasses'] = function(mob)
+    end,
+
+    ['Grenade_Syrup'] = function(mob)
+    end,
+
+    ['Berry_Syrup'] = function(mob)
+    end,
+
+    ['Myrmeleontide'] = function(mob)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob)
+    end,
+
+    ['Albino_Antlion'] = function(mob)
+    end,
+
+    ['Harpimaira'] = function(mob)
+    end,
+
+    ['Natrix'] = function(mob)
+    end,
+
+    ['Saltopus'] = function(mob)
+    end,
+
+    ['Jebutoise'] = function(mob)
+    end,
+
+    ['Begrimed_Bale'] = function(mob)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob)
+    end,
+
+    ['Canis_Dirus'] = function(mob)
+    end,
+
+    ['Pardus'] = function(mob)
+    end,
+
+    ['Anguis'] = function(mob)
+    end,
+
+    ['Varanus'] = function(mob)
+    end,
+
+    ['Anhanguera'] = function(mob)
+    end,
+
+    ['Pteranodon'] = function(mob)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob)
+    end,
+
+    ['Killer_Korrigan'] = function(mob)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob)
+    end,
+
+    ['Tapana'] = function(mob)
+    end,
+
+    ['Tapanas_Minion'] = function(mob)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob)
+    end,
+
+    ['Ligeia'] = function(mob)
+    end,
+
+    ['Leucosia'] = function(mob)
+    end,
+
+    ['Raidne'] = function(mob)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob)
+    end,
+
+    ['Malicious_Magpie'] = function(mob)
+    end,
+
+    ['Barra_Edinazu'] = function(mob)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob)
+    end,
+
+    ['Mingyi'] = function(mob)
+    end,
+
+    ['Sitke'] = function(mob)
+    end,
+
+    ['Sin'] = function(mob)
+    end,
+
+    ['Myin'] = function(mob)
+    end,
+
+    ['Yahhta'] = function(mob)
+    end,
+
+    ['Ne'] = function(mob)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob)
     end,
 }
 
@@ -1796,11 +2696,310 @@ local mobDespawnByMobName =
 {
     ['Caldera_Crab'] = function(mob)
     end,
-}
 
+    ['Cyanic_Crab'] = function(mob)
+    end,
+
+    ['Damask_Crab'] = function(mob)
+    end,
+
+    ['Morbid_Molasses'] = function(mob)
+    end,
+
+    ['Grenade_Syrup'] = function(mob)
+    end,
+
+    ['Berry_Syrup'] = function(mob)
+    end,
+
+    ['Myrmeleontide'] = function(mob)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob)
+    end,
+
+    ['Albino_Antlion'] = function(mob)
+    end,
+
+    ['Harpimaira'] = function(mob)
+    end,
+
+    ['Natrix'] = function(mob)
+    end,
+
+    ['Saltopus'] = function(mob)
+    end,
+
+    ['Jebutoise'] = function(mob)
+    end,
+
+    ['Begrimed_Bale'] = function(mob)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob)
+    end,
+
+    ['Canis_Dirus'] = function(mob)
+    end,
+
+    ['Pardus'] = function(mob)
+    end,
+
+    ['Anguis'] = function(mob)
+    end,
+
+    ['Varanus'] = function(mob)
+    end,
+
+    ['Anhanguera'] = function(mob)
+    end,
+
+    ['Pteranodon'] = function(mob)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob)
+    end,
+
+    ['Killer_Korrigan'] = function(mob)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob)
+    end,
+
+    ['Tapana'] = function(mob)
+    end,
+
+    ['Tapanas_Minion'] = function(mob)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob)
+    end,
+
+    ['Ligeia'] = function(mob)
+    end,
+
+    ['Leucosia'] = function(mob)
+    end,
+
+    ['Raidne'] = function(mob)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob)
+    end,
+
+    ['Malicious_Magpie'] = function(mob)
+    end,
+
+    ['Barra_Edinazu'] = function(mob)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob)
+    end,
+
+    ['Mingyi'] = function(mob)
+    end,
+
+    ['Sitke'] = function(mob)
+    end,
+
+    ['Sin'] = function(mob)
+    end,
+
+    ['Myin'] = function(mob)
+    end,
+
+    ['Yahhta'] = function(mob)
+    end,
+
+    ['Ne'] = function(mob)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob)
+    end,
+}
 local mobDeathByMobName =
 {
     ['Caldera_Crab'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Cyanic_Crab'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Damask_Crab'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Berry_Syrup'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Myrmeleontide'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Albino_Antlion'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Harpimaira'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Natrix'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Saltopus'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Jebutoise'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Canis_Dirus'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Pardus'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Anguis'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Varanus'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Anhanguera'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Pteranodon'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Tapana'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Ligeia'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Leucosia'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Raidne'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Mingyi'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Sitke'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Sin'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Myin'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Yahhta'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Ne'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, player, isKiller, noKiller)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, player, isKiller, noKiller)
     end,
 }
 
