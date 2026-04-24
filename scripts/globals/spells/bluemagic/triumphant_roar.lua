@@ -25,7 +25,7 @@ end
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.ATTACK_BOOST
     local power = 15
-    local duration = 180
+    local duration = 90
     local tick = 0
     local subid = 0
     local subpower = 0
