@@ -17,8 +17,8 @@ function onMobFight(mob, target)
     tpz.woe.mob.onMobFight(mob, target)
 end
 
-function onMobWeaponSkillPrepare(mob, target)
-    tpz.woe.mob.onMobWeaponSkillPrepare(mob, target)
+function onMobWeaponSkillPrepare(mob, target, skill)
+    tpz.woe.mob.onMobWeaponSkill(mob, target, skill)
 end
 
 function onAdditionalEffect(mob, target, damage)

@@ -18,6 +18,7 @@ require("scripts/globals/weaponskillids")
 --------------------------------------
 
 -- TODO: Mandragoras need 25% DA
+-- TODO: Anhanguera stun AOE?
 -- all caturae commented tp moves <= 50 or 25%?
 -- TODO: MDT / MDEF family bonuses for giants/caturae/harpea/narkara? or not valid inside of WOE?
 -- TODO: Some WOE mobs are here! Like iron giants / iron giant heads https://docs.google.com/spreadsheets/d/15XZqdCKa6FNX2FUKhlqxMkim7-KlXEHHrKBlc603taw/edit?gid=1367309866#gid=1367309866&range=264:264
@@ -40,10 +41,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: inundation is light magic type
 -- TODO: Refund gil cost of boost spells and remove off shiyo and vendor
 -- TODO: Add All T4 -gas
--- TODO: Test spells from earlier walks, like 1-6. Can check ohafumis chat logs
--- TODO: Anhanguera stun AOE?
--- TODO: Oneiros Cappa sell price (Check all Oneiros items)
--- TODO: Nyzul set stats (Make all bodies super good, Denali sucks I think?)
 -- TODO: Add https://github.com/LandSandBoat/server/pull/9760
 -- TODO: Test -attributes clamping to 1 and see if attack is equal to w/e str is being removed by and works properly I guess?
 -- TODO: Make sure enums are correct for misc items where my comment is 
@@ -100,6 +97,7 @@ local title = tpz.title
 
 local exitWalkEvent = 1001
 local entryKI = tpz.ki.KUPOFRIEDS_MEDALLION
+local storeTPAmount = 300 -- Most bosses have greatly increased Store TP
 local walkData =
 {
     -- Self means goes off without targets in range
@@ -115,7 +113,7 @@ local walkData =
         -- Caldera Crab, lvl { 80 }, Model { 0x0000660100000000000000000000000000000000 }, Size { Small? } HP { 19750 }, Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Water IV, Waterga III }, 
             -- TP Moves: { Mega Scissors(Self), Venom Shower (Self?), Normal Crab Moves (Metallic Body ~500 SS, undispellable) }, Traits: { DA }
-            -- Cast Timer { :47 -> :14 - > :53 - > :34 - > 16 }
+            -- Cast Timer { 30 }
             -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
         -- Completion: All Caldera crabs dead
@@ -137,7 +135,8 @@ local walkData =
             -- TP Moves: { Mucus Spread}, Traits: { DA }
         -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Blindga, Dispelga, Sleepga II }, 
-            -- TP Moves: { Dissolve (did 681 dmg to no shell/prot targets) , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, Traits: { Store TP (300+), DA }
+            -- TP Moves: { Dissolve (did 681 dmg to no shell/prot targets) , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, 
+            -- Traits: { Store TP (300+), DA }
             -- Proc { Blizzard OR flash on Ice Day }
             -- Mechanics { Kills Grenade Syrups with it on death, they also drop temp items (KILL them dont despawn them, then) }
         -- 3-4 Grenade Syrups with a Morbid Molasses
@@ -1742,17 +1741,202 @@ end
 -- Mob functions
 tpz.woe.mob = tpz.woe.mob or {}
 
+local auraParams = {
+    ['Caldera_Crab'] =
+    {
+        radius = 10,
+        effect = tpz.effect.PLAGUE,
+        power = 5,
+        duration = 30,
+        auraNumber = 1
+    }
+}
+
 local modByMobName =
 {
     ['Caldera_Crab'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMobMod(tpz.mobMod.LINK_RADIUS, 50)
+    end,
+
+    ['Cyanic_Crab'] = function(mob)
+    end,
+
+    ['Damask_Crab'] = function(mob)
+    end,
+
+    ['Morbid_Molasses'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Grenade_Syrup'] = function(mob)
+    end,
+
+    ['Berry_Syrup'] = function(mob)
+    end,
+
+    ['Myrmeleontide'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob)
+    end,
+
+    ['Albino_Antlion'] = function(mob)
+    end,
+
+    ['Harpimaira'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Natrix'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Saltopus'] = function(mob)
+    end,
+
+    ['Jebutoise'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 200)
+    end,
+
+    ['Begrimed_Bale'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Canis_Dirus'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Pardus'] = function(mob)
+    end,
+
+    ['Anguis'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Varanus'] = function(mob)
+    end,
+
+    ['Anhanguera'] = function(mob)
+        mob:setMod(tpz.mod.STORETP, storeTPAmount)
+    end,
+
+    ['Pteranodon'] = function(mob)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob)
+    end,
+
+    ['Killer_Korrigan'] = function(mob)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob)
+    end,
+
+    ['Tapana'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Tapanas_Minion'] = function(mob)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob)
+    end,
+
+    ['Ligeia'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Leucosia'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Raidne'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob)
+    end,
+
+    ['Malicious_Magpie'] = function(mob)
+    end,
+
+    ['Barra_Edinazu'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 100)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob)
+    end,
+
+    ['Mingyi'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Sitke'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Sin'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Myin'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Yahhta'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Ne'] = function(mob)
+        mob:setMod(tpz.mod.REGAIN, 150)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob)
     end,
 }
 
 local mixinByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
-        -- TODO: Mega scissors x3
         mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, target, spell)
             if (spell:getID() == tpz.magic.spell.FLASH) then
                 local duration = 10
@@ -2071,6 +2255,7 @@ local mobEngagedByMobName =
 local mobFightByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
     end,
 
     ['Cyanic_Crab'] = function(mob, target)
@@ -2224,159 +2409,171 @@ local mobFightByMobName =
     end,
 }
 
-local onMobWeaponSkillPrepareByMobName =
+local onMobWeaponSkillByMobName =
 {
-    ['Caldera_Crab'] = function(mob, target)
+    ['Caldera_Crab'] = function(mob, target, skill)
+        -- Uses Mega Scissors 2-5 times in a row below 75% HP
+        if skill:getID() == tpz.mob.skills.MEGA_SCISSORS then
+            if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("doubleMegaScissors") then
+                UseMultipleTPMoves(mob, math.random(2, 5), tpz.mob.skills.MEGA_SCISSORS)
+                mob:setLocalVar("doubleMegaScissors", os.time() + 10) -- prevent infinite loop
+            end
+        end
+
+        -- 30s Plague Aura (50/tick) for ~30 seeconds after using Venom Shower
+        if skill:getID() == tpz.mob.skills.VENOM_SHOWER then
+            AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
+        end
     end,
 
-    ['Cyanic_Crab'] = function(mob, target)
+    ['Cyanic_Crab'] = function(mob, target, skill)
     end,
 
-    ['Damask_Crab'] = function(mob, target)
+    ['Damask_Crab'] = function(mob, target, skill)
     end,
 
-    ['Morbid_Molasses'] = function(mob, target)
+    ['Morbid_Molasses'] = function(mob, target, skill)
     end,
 
-    ['Grenade_Syrup'] = function(mob, target)
+    ['Grenade_Syrup'] = function(mob, target, skill)
     end,
 
-    ['Berry_Syrup'] = function(mob, target)
+    ['Berry_Syrup'] = function(mob, target, skill)
     end,
 
-    ['Myrmeleontide'] = function(mob, target)
+    ['Myrmeleontide'] = function(mob, target, skill)
     end,
 
-    ['Anthracite_Antlion'] = function(mob, target)
+    ['Anthracite_Antlion'] = function(mob, target, skill)
     end,
 
-    ['Albino_Antlion'] = function(mob, target)
+    ['Albino_Antlion'] = function(mob, target, skill)
     end,
 
-    ['Harpimaira'] = function(mob, target)
+    ['Harpimaira'] = function(mob, target, skill)
     end,
 
-    ['Natrix'] = function(mob, target)
+    ['Natrix'] = function(mob, target, skill)
     end,
 
-    ['Saltopus'] = function(mob, target)
+    ['Saltopus'] = function(mob, target, skill)
     end,
 
-    ['Jebutoise'] = function(mob, target)
+    ['Jebutoise'] = function(mob, target, skill)
     end,
 
-    ['Begrimed_Bale'] = function(mob, target)
+    ['Begrimed_Bale'] = function(mob, target, skill)
     end,
 
-    ['Bedraggled_Bale'] = function(mob, target)
+    ['Bedraggled_Bale'] = function(mob, target, skill)
     end,
 
-    ['Canis_Dirus'] = function(mob, target)
+    ['Canis_Dirus'] = function(mob, target, skill)
     end,
 
-    ['Pardus'] = function(mob, target)
+    ['Pardus'] = function(mob, target, skill)
     end,
 
-    ['Anguis'] = function(mob, target)
+    ['Anguis'] = function(mob, target, skill)
     end,
 
-    ['Varanus'] = function(mob, target)
+    ['Varanus'] = function(mob, target, skill)
     end,
 
-    ['Anhanguera'] = function(mob, target)
+    ['Anhanguera'] = function(mob, target, skill)
     end,
 
-    ['Pteranodon'] = function(mob, target)
+    ['Pteranodon'] = function(mob, target, skill)
     end,
 
-    ['Annihilative_Adenium'] = function(mob, target)
+    ['Annihilative_Adenium'] = function(mob, target, skill)
     end,
 
-    ['Pernicious_Pachypodium'] = function(mob, target)
+    ['Pernicious_Pachypodium'] = function(mob, target, skill)
     end,
 
-    ['Lunatic_Lycopodium'] = function(mob, target)
+    ['Lunatic_Lycopodium'] = function(mob, target, skill)
     end,
 
-    ['Killer_Korrigan'] = function(mob, target)
+    ['Killer_Korrigan'] = function(mob, target, skill)
     end,
 
-    ['Murderous_Mandragora'] = function(mob, target)
+    ['Murderous_Mandragora'] = function(mob, target, skill)
     end,
 
-    ['Tapana'] = function(mob, target)
+    ['Tapana'] = function(mob, target, skill)
     end,
 
-    ['Tapanas_Minion'] = function(mob, target)
+    ['Tapanas_Minion'] = function(mob, target, skill)
     end,
 
-    ['Ironclad_Harbinger'] = function(mob, target)
+    ['Ironclad_Harbinger'] = function(mob, target, skill)
     end,
 
-    ['Ironclad_Vaporizer'] = function(mob, target)
+    ['Ironclad_Vaporizer'] = function(mob, target, skill)
     end,
 
-    ['Iron_CraniumV1'] = function(mob, target)
+    ['Iron_CraniumV1'] = function(mob, target, skill)
     end,
 
-    ['Iron_CraniumV2'] = function(mob, target)
+    ['Iron_CraniumV2'] = function(mob, target, skill)
     end,
 
-    ['Ligeia'] = function(mob, target)
+    ['Ligeia'] = function(mob, target, skill)
     end,
 
-    ['Leucosia'] = function(mob, target)
+    ['Leucosia'] = function(mob, target, skill)
     end,
 
-    ['Raidne'] = function(mob, target)
+    ['Raidne'] = function(mob, target, skill)
     end,
 
-    ['Sanguine_Sapsucker'] = function(mob, target)
+    ['Sanguine_Sapsucker'] = function(mob, target, skill)
     end,
 
-    ['Malicious_Magpie'] = function(mob, target)
+    ['Malicious_Magpie'] = function(mob, target, skill)
     end,
 
-    ['Barra_Edinazu'] = function(mob, target)
+    ['Barra_Edinazu'] = function(mob, target, skill)
     end,
 
-    ['Coeurl_Mystic'] = function(mob, target)
+    ['Coeurl_Mystic'] = function(mob, target, skill)
     end,
 
-    ['Coeurl_Prentice'] = function(mob, target)
+    ['Coeurl_Prentice'] = function(mob, target, skill)
     end,
 
-    ['Coeurl_Tiro'] = function(mob, target)
+    ['Coeurl_Tiro'] = function(mob, target, skill)
     end,
 
-    ['Mingyi'] = function(mob, target)
+    ['Mingyi'] = function(mob, target, skill)
     end,
 
-    ['Sitke'] = function(mob, target)
+    ['Sitke'] = function(mob, target, skill)
     end,
 
-    ['Sin'] = function(mob, target)
+    ['Sin'] = function(mob, target, skill)
     end,
 
-    ['Myin'] = function(mob, target)
+    ['Myin'] = function(mob, target, skill)
     end,
 
-    ['Yahhta'] = function(mob, target)
+    ['Yahhta'] = function(mob, target, skill)
     end,
 
-    ['Ne'] = function(mob, target)
+    ['Ne'] = function(mob, target, skill)
     end,
 
-    ['Scorched_Yanthu'] = function(mob, target)
+    ['Scorched_Yanthu'] = function(mob, target, skill)
     end,
 
-    ['Glaciated_Yanthu'] = function(mob, target)
+    ['Glaciated_Yanthu'] = function(mob, target, skill)
     end,
 
-    ['Electrified_Yanthu'] = function(mob, target)
+    ['Electrified_Yanthu'] = function(mob, target, skill)
     end,
 
-    ['Entombed_Yanthu'] = function(mob, target)
+    ['Entombed_Yanthu'] = function(mob, target, skill)
     end,
 }
 
@@ -3083,12 +3280,12 @@ tpz.woe.mob.onMobFight = function(mob, target)
     end
 end
 
-tpz.woe.mob.onMobWeaponSkillPrepare = function(mob, target)
+tpz.woe.mob.onMobWeaponSkill = function(mob, target, skill)
     local mobName  = mob:getName()
-    local weaponSkillPrepare = onMobWeaponSkillPrepareByMobName[mobName]
+    local weaponSkill = onMobWeaponSkillByMobName[mobName]
 
-    if weaponSkillPrepare then
-        weaponSkillPrepare(mob, target)
+    if weaponSkill then
+        weaponSkill(mob, target, skill)
     end
 end
 
@@ -3173,6 +3370,10 @@ tpz.woe.mob.despawnWalkMobs = function(walk)
             DespawnMob(mobId)
         end
     end
+end
+
+tpz.woe.mob.getAuraParams = function(mob)
+    return auraParams[mob:getName()]
 end
 
 tpz.woe.mob.rollForTemps = function(mob, player, isKiller, noKiller)
