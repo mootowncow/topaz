@@ -17,14 +17,11 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: mob_family_mods for caturae, harpeia, iron giants, etc. check spreadsheet and bg wiki. they all have BDT/MDT 
 -- TODO: Nerf juku feather
 -- TODO: Cetl belt def halved
 -- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
--- TODO: MDT / MDEF family bonuses for giants/caturae/harpea/narkara? or not valid inside of WOE?
--- TODO: Some WOE mobs are here! Like iron giants / iron giant heads https://docs.google.com/spreadsheets/d/15XZqdCKa6FNX2FUKhlqxMkim7-KlXEHHrKBlc603taw/edit?gid=1367309866#gid=1367309866&range=264:264
 -- TODO: BLU spells, helixes and Geo spells added to procs
 -- TODO: Give turtles 5k defense
 -- TODO: Redo all ammo DATs, they're weapon DAT https://www.bg-wiki.com/ffxi/Walk_of_Echoes_Battlefield_Rewards
@@ -1880,6 +1877,8 @@ local modByMobName =
     end,
 
     ['Saltopus'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 42)
+        mob:setMod(tpz.mod.UDMGMAGIC, 0)
     end,
 
     ['Jebutoise'] = function(mob)
@@ -1904,6 +1903,8 @@ local modByMobName =
 
     ['Anguis'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.MDEF, 50)
+        mob:setMod(tpz.mod.UDMGMAGIC, 0)
     end,
 
     ['Varanus'] = function(mob)
@@ -1948,13 +1949,16 @@ local modByMobName =
     end,
 
     ['Ironclad_Vaporizer'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 60)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Iron_CraniumV1'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 20)
     end,
 
     ['Iron_CraniumV2'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 20)
     end,
 
     ['Ligeia'] = function(mob)
@@ -1989,26 +1993,32 @@ local modByMobName =
     end,
 
     ['Mingyi'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Sitke'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Sin'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Myin'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Yahhta'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
     ['Ne'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 

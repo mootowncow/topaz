@@ -298,15 +298,6 @@ INSERT INTO `mob_family_mods` VALUES (204,387,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (205,387,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (647,387,200,0);	-- Qutrub +200%(Bonus)
 
--- Breath Damage Taken(BDT)
-INSERT INTO `mob_family_mods` VALUES (203,388,200,0);	-- Qutrub +200%(Bonus)
-INSERT INTO `mob_family_mods` VALUES (204,388,200,0);	-- Qutrub +200%(Bonus)
-INSERT INTO `mob_family_mods` VALUES (205,388,200,0);	-- Qutrub +200%(Bonus)
-INSERT INTO `mob_family_mods` VALUES (647,388,200,0);	-- Qutrub +200%(Bonus)
-INSERT INTO `mob_family_mods` VALUES (62,388,25,0);		-- Cerberus +25%(Bonus)
-INSERT INTO `mob_family_mods` VALUES (252,388,-13,0); 	-- Vampyr(NM) -13%
-INSERT INTO `mob_family_mods` VALUES (284,388,-13,0); 	-- Vampyr(NM) -13%
-
 -- Ranged damage taken(RDT)
 INSERT INTO `mob_family_mods` VALUES (203,390,200,0);	-- Qutrub +200%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (204,390,200,0);	-- Qutrub +200%(Bonus)
@@ -388,6 +379,26 @@ INSERT INTO `mob_family_mods` VALUES (452,389,35,0);	-- Rockfin +35%(Bonus)
 INSERT INTO `mob_family_mods` VALUES (465,389,-10,0);	-- Yggdreant(Yumcax) -10%
 INSERT INTO `mob_family_mods` VALUES (628,389,-10,0);	-- Yggdreant -10%
 INSERT INTO `mob_family_mods` VALUES (464,389,-25,0);	-- Snapweed -25%
+
+INSERT INTO `mob_family_mods` VALUES (471,389,-13,0);	-- Harpeia -13%
+INSERT INTO `mob_family_mods` VALUES (518,389,-13,0);	-- Harpeia -13%
+INSERT INTO `mob_family_mods` VALUES (350,389,-13,0);	-- Iron Giant (Orange) -13%
+INSERT INTO `mob_family_mods` VALUES (661,389,-13,0);	-- Iron Giant (Blue) -13%
+INSERT INTO `mob_family_mods` VALUES (662,389,-13,0);	-- Iron Giant Head (Red) -13%
+INSERT INTO `mob_family_mods` VALUES (663,389,-13,0);	-- Iron Giant Head (Blue) -13%
+INSERT INTO `mob_family_mods` VALUES (450,389,-13,0);	-- Caturae -13%
+
+-- Breath Damage Taken(BDT)
+INSERT INTO `mob_family_mods` VALUES (203,388,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (204,388,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (205,388,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (647,388,200,0);	-- Qutrub +200%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (62,388,25,0);		-- Cerberus +25%(Bonus)
+INSERT INTO `mob_family_mods` VALUES (252,388,-13,0); 	-- Vampyr(NM) -13%
+INSERT INTO `mob_family_mods` VALUES (284,388,-13,0); 	-- Vampyr(NM) -13%
+INSERT INTO `mob_family_mods` VALUES (471,388,-25,0); 	-- Harpeia -25%
+INSERT INTO `mob_family_mods` VALUES (518,388,-25,0); 	-- Harpeia -25%
+INSERT INTO `mob_family_mods` VALUES (350,388,-13,0); 	-- Iron Giant (Orange) -13%
 
 -- MAB
 INSERT INTO `mob_family_mods` VALUES (122,28,20,0);     -- Ghrah +20 MAB
