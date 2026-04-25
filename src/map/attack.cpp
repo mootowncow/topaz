@@ -450,7 +450,7 @@ bool CAttack::CheckAnticipated()
     bool hasSeigan = m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_SEIGAN, 0);
 
     // Always anticipate the attack if TE is active
-    if (m_victim->PAI->IsEngaged() && facing(m_victim->loc.p, m_attacker->loc.p, 45) && !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
+    if (m_victim->PAI->IsEngaged() && !m_victim->StatusEffectContainer->HasPreventActionEffect(false))
     {
         m_anticipated = true;
 

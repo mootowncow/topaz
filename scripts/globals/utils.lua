@@ -269,11 +269,7 @@ function utils.thirdeye(attacker, target)
     local anticipates = thirdEye:getSubPower()
     -- printf("anticipateChance: %d", anticipateChance)
 
-    if
-        target:isEngaged() and
-        target:isFacing(attacker, 45) and
-        not target:hasPreventActionEffect()
-    then
+    if target:isEngaged() and not target:hasPreventActionEffect() then
         -- Always anticipate the attack if TE is active
         -- printf("Anticipated!")
         

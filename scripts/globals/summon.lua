@@ -232,29 +232,11 @@ function AvatarPhysicalFinalAdjustments(dmg, avatar, skill, target, attackType, 
     -- Shadows logic
     --printf("numhits %u", numberofhits)
     dmg = getAvatarShadowAbsorb(dmg, numberofhits, target, skill, params)
-    -- handle Third Eye using shadowbehav as a guide
-    local teye = target:getStatusEffect(tpz.effect.THIRD_EYE)
-    if teye ~= nil and attackType == tpz.attackType.PHYSICAL then -- T.Eye only procs when active with PHYSICAL stuff
-        if shadowbehav == MOBPARAM_WIPE_SHADOWS then -- e.g. aoe moves
-            target:delStatusEffect(tpz.effect.THIRD_EYE)
-        elseif shadowbehav ~= MOBPARAM_IGNORE_SHADOWS then -- it can be absorbed by shadows
-            -- third eye doesnt care how many shadows, so attempt to anticipate, but reduce
-            -- chance of anticipate based on previous successful anticipates.
-            prevAnt = teye:getPower()
-            if prevAnt == 0 then
-                -- 100% proc
-                teye:setPower(1)
-                skill:setMsg(tpz.msg.basic.JA_MISS_2)
-                return 0
-            end
-            if math.random() * 10 < 8 - prevAnt then
-                -- anticipated!
-                teye:setPower(prevAnt + 1)
-                skill:setMsg(tpz.msg.basic.JA_MISS_2)
-                return 0
-            end
-            target:delStatusEffect(tpz.effect.THIRD_EYE)
-        end
+
+    -- Handle Third Eye
+    if attackType == tpz.attackType.PHYSICAL and utils.thirdeye(avatar, target) then
+        skill:setMsg(tpz.msg.basic.JA_MISS_2)
+        return 0
     end
 
     if attackType == tpz.attackType.RANGED and target:hasStatusEffect(tpz.effect.ARROW_SHIELD) then
