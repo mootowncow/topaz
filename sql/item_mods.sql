@@ -27197,8 +27197,8 @@ INSERT INTO `item_mods` VALUES (21384,30,1); -- MACC 1
 INSERT INTO `item_mods` VALUES (21385,2,20);
 INSERT INTO `item_mods` VALUES (21385,8,5);
 INSERT INTO `item_mods` VALUES (21385,27,2);
-INSERT INTO `item_mods` VALUES (21386,9,4);
-INSERT INTO `item_mods` VALUES (21386,25,4);
+INSERT INTO `item_mods` VALUES (21386,9,1); -- DEX 1
+INSERT INTO `item_mods` VALUES (21386,25,4); -- ACC 4
 INSERT INTO `item_mods` VALUES (21389,25,15);
 INSERT INTO `item_mods` VALUES (21394,357,6);     -- sancus_sachet Blood Pact Delay-6
 INSERT INTO `item_mods` VALUES (21395,357,7);     -- sancus_sachet_+1 Blood Pact Delay-7
@@ -52076,9 +52076,9 @@ INSERT INTO `item_mods` VALUES (28459,8,7);
 INSERT INTO `item_mods` VALUES (28459,10,5);
 INSERT INTO `item_mods` VALUES (28459,375,5);
 INSERT INTO `item_mods` VALUES (28459,384,500);
-INSERT INTO `item_mods` VALUES (28460,1,14);        -- Celt Belt
-INSERT INTO `item_mods` VALUES (28460,288,2);       -- Double Attack +2%
-INSERT INTO `item_mods` VALUES (28460,384,400);     -- Haste+4%
+INSERT INTO `item_mods` VALUES (28460,1,6); -- DEF 6
+INSERT INTO `item_mods` VALUES (28460,288,2); -- DOUBLE_ATTACK 2
+INSERT INTO `item_mods` VALUES (28460,384,400); -- HASTE_GEAR 400
 INSERT INTO `item_mods` VALUES (28461,1,10); -- DEF 10
 INSERT INTO `item_mods` VALUES (28461,296,3); -- CONSERVE_MP 3
 INSERT INTO `item_mods` VALUES (28461,311,7); -- MAGIC_DAMAGE 7
