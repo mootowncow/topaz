@@ -17,6 +17,10 @@ function onMobFight(mob, target)
     tpz.woe.mob.onMobFight(mob, target)
 end
 
+function onSpellPrecast(mob, spell)
+    tpz.woe.mob.onSpellPrecast(mob, spell)
+end
+
 function onMobWeaponSkillPrepare(mob, target, skill)
     tpz.woe.mob.onMobWeaponSkill(mob, target, skill)
 end

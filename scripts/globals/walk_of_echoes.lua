@@ -17,9 +17,12 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: Mandragoras need 25% DA
+-- TODO: mob_family_mods for caturae, harpeia, iron giants, etc. check spreadsheet and bg wiki. they all have BDT/MDT 
+-- TODO: Nerf juku feather
+-- TODO: Cetl belt def halved
+-- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
--- all caturae commented tp moves <= 50 or 25%?
+-- TODO: all caturae commented tp moves <= 50 or 25%?
 -- TODO: MDT / MDEF family bonuses for giants/caturae/harpea/narkara? or not valid inside of WOE?
 -- TODO: Some WOE mobs are here! Like iron giants / iron giant heads https://docs.google.com/spreadsheets/d/15XZqdCKa6FNX2FUKhlqxMkim7-KlXEHHrKBlc603taw/edit?gid=1367309866#gid=1367309866&range=264:264
 -- TODO: BLU spells, helixes and Geo spells added to procs
@@ -176,10 +179,11 @@ local walkData =
             -- Spells { Bindga (Resets hate, even if spell is interrupted or resisted), Slowga, Stonega III, Breakga (<= 25% HP) }, 
             -- Cast Timer { 25 }
             -- TP Moves: { Quake Blast (Self, 3s cast), Gravitic Horn (Self, 2s cast, Hate Reset), Mandibular Bite (Conal) }, Traits: { DA, High Store TP }
-            -- Mechanics { Gravity aura after Gravitic Horn (~50%?) -50% earth damage taken }
+            -- DT { -50% Earth }
+            -- Mechanics { Gravity aura after Gravitic Horn (~50%?) }
         -- Zone Mechanics: Killed 3 Albino antlions (patrols ), then I see "The Fiend thrists for blood! msg" x2, then 2 Anthracite Antlions come
         -- Completion: All Myrmeleontide dead
-        -- TEST: Sandpit resets hate if it lands ???
+        -- TODO: Sandpit resets hate if it lands ???
         Mobs        = { IdStart = 17522734, IdEnd = 17522752, Lvl = 82 },
         Boss        = {'Myrmeleontide'},
         Progress    = 3,
@@ -207,7 +211,6 @@ local walkData =
             -- insane store TP, like 300+ 
         -- Zone Mechanics: When the one upstairs (From entrance) gets to 25-10% HP, another one comes (from above?). When the one downstairs (from entrance) gets to 25-10% HP, one comes from deeper inside (upstairs)
         -- Doesn't seem to always work? Unsure what causes it?
-        -- When 17522755
         -- Completion: All Harpimaira dead
         Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 82 },
         Boss        = {'Harpimaira'},
@@ -581,7 +584,7 @@ local walkData =
     --         Immune { Normal }, 
     --         Spells { Absorb-STR/DEX/TP }, 
     --         Cast Timer { 30 }
-    --         TP Moves: { Black Cloud, Blood Saber, Horror Cloud, Crepuscule Blade (Curse -50%, Bio 48/tick 2s cast), Malediction (<= 50% HP) CURSE CANNOT BE REMOVED }, 
+    --         TP Moves: { Black Cloud, Blood Saber, Horror Cloud, Crepuscule Blade (Curse -50%, Bio 48/tick 2s cast CURSE CANNOT BE REMOVED), Malediction (<= 50% HP) }, 
     --         Traits: { DA (Zanshin?) }
     --         DT: { }
     --         Aggro: {}
@@ -620,7 +623,7 @@ local walkData =
         SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
         SetDrop     = { item.DENALI_JACKET },
         MobDrops    = { tpz.items.BONE_CHIP, tpz.items.REVIVAL_TREE_ROOT },
-        Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },  -- TODO
+        Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },
         Experience  = 1500  -- TODO
     },
     [12] =
@@ -1741,6 +1744,16 @@ end
 -- Mob functions
 tpz.woe.mob = tpz.woe.mob or {}
 
+local partiedMobsData =
+{
+    ['Morbid_Molasses'] = {
+        [17522710] = { 17522714, 17522715, 17522716, 17522717 },
+        [17522711] = { 17522718, 17522719, 17522720, 17522721 },
+        [17522712] = { 17522722, 17522723, 17522724, 17522725 },
+        [17522713] = { 17522726, 17522727, 17522728, 17522729 }
+    }
+}
+
 local auraParams = {
     ['Caldera_Crab'] =
     {
@@ -1749,7 +1762,80 @@ local auraParams = {
         power = 5,
         duration = 30,
         auraNumber = 1
-    }
+    },
+
+    ['Myrmeleontide'] =
+    {
+        radius = 10,
+        effect = tpz.effect.WEIGHT,
+        power = 50,
+        duration = 30,
+        auraNumber = 1
+    },
+
+    ['Canis_Dirus'] =
+    {
+        radius = 10,
+        effect = tpz.effect.AMNESIA,
+        power = 1,
+        duration = 30,
+        auraNumber = 1
+    },
+
+    ['Varanus_1'] =
+    {
+        radius = 3,
+        effect = tpz.effect.SILENCE,
+        power = 1,
+        duration = 30,
+        auraNumber = 1
+    },
+
+    ['Varanus_2'] =
+    {
+        radius = 3,
+        effect = tpz.effect.AMNESIA,
+        power = 1,
+        duration = 30,
+        auraNumber = 2
+    },
+
+    ['Varanus_3'] =
+    {
+        radius = 3,
+        effect = tpz.effect.POISON,
+        power = 50,
+        duration = 30,
+        auraNumber = 3
+    },
+
+    ['Jebutoise'] =
+    {
+        radius = 10,
+        effect = tpz.effect.SILENCE,
+        power = 1,
+        duration = 30,
+        auraNumber = 1
+    },
+
+    ['Barra_Edinazu_1'] =
+    {
+        radius = 10,
+        effect = tpz.effect.BURN,
+        power = 30,
+        duration = 30,
+        subPower = 63,
+        auraNumber = 1
+    },
+
+    ['Barra_Edinazu_2'] =
+    {
+        radius = 10,
+        effect = tpz.effect.ATTACK_DOWN,
+        power = 33,
+        duration = 30,
+        auraNumber = 2
+    },
 }
 
 local modByMobName =
@@ -1813,6 +1899,7 @@ local modByMobName =
     end,
 
     ['Pardus'] = function(mob)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 100)
     end,
 
     ['Anguis'] = function(mob)
@@ -1834,15 +1921,19 @@ local modByMobName =
     end,
 
     ['Pernicious_Pachypodium'] = function(mob)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Lunatic_Lycopodium'] = function(mob)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Killer_Korrigan'] = function(mob)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Murderous_Mandragora'] = function(mob)
+        mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Tapana'] = function(mob)
@@ -2066,6 +2157,12 @@ local mixinByMobName =
     end,
 
     ['Mingyi'] = function(mob, target)
+        mob:addListener("MAGIC_START", "MINGYI_MAGIC_START", function(mob, spell)
+            -- Meteor is Instant Cast
+            if spell:getID() == tpz.magic.spell.METEOR then
+                spell:castTime(0)
+            end
+        end)
     end,
 
     ['Sitke'] = function(mob, target)
@@ -2108,6 +2205,18 @@ local mobEngagedByMobName =
     end,
 
     ['Morbid_Molasses'] = function(mob, target)
+        local mobData = partiedMobsData[mob:getName()]
+        if not mobData then return end
+
+        local currentParty = mobData[mob:getID()]
+        if not currentParty then return end
+
+        for _, mobId in pairs(currentParty) do
+            local partyMob = GetMobByID(mobId)
+            if partyMob and partyMob:isAlive() then
+                partyMob:updateEnmity(target)
+            end
+        end
     end,
 
     ['Grenade_Syrup'] = function(mob, target)
@@ -2274,24 +2383,56 @@ local mobFightByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target)
+        -- Gains access to Breakga below 25%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.BREAKGA }, 25)
+
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
     end,
 
     ['Anthracite_Antlion'] = function(mob, target)
     end,
 
     ['Albino_Antlion'] = function(mob, target)
+        -- Gains access to Break below 25%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.BREAK }, 25)
     end,
 
     ['Harpimaira'] = function(mob, target)
+        -- 50% chance when below 25% for a nearby Harpimaira to assist him
+        tpz.woe.mob.callNearbyMobForHelp(mob, target, 50, 25)
     end,
 
     ['Natrix'] = function(mob, target)
+        -- Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer)
+        local spellData =
+        {
+            { Effect = tpz.effect.PROTECT_IV,   Id = tpz.magic.spell.PROTECT  },
+            { Effect = tpz.effect.SHELL_IV,     Id = tpz.magic.spell.SHELL    },
+            { Effect = tpz.effect.PHALANX,      Id = tpz.magic.spell.PHALANX  },
+            { Effect = tpz.effect.HASTE,        Id = tpz.magic.spell.HASTE    },
+            { Effect = tpz.effect.STONESKIN,    Id = tpz.magic.spell.STONESKIN},
+            { Effect = tpz.effect.BLINK,        Id = tpz.magic.spell.BLINK    },
+            { Effect = tpz.effect.AQUAVEIL,     Id = tpz.magic.spell.AQUAVEIL },
+        }
+
+        if mob:getHPP() > 10 or IsMobBusy(mob) or mob:hasPreventActionEffect() then
+            return
+        end
+
+        for _, spell in ipairs(spellData) do
+            if not mob:hasStatusEffect(spell.Effect) then
+                mob:castSpell(spell.Id, mob)
+                break
+            end
+        end
     end,
 
     ['Saltopus'] = function(mob, target)
     end,
 
     ['Jebutoise'] = function(mob, target)
+        -- Gains access to Breakga below 25%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.BREAKGA }, 25)
     end,
 
     ['Begrimed_Bale'] = function(mob, target)
@@ -2307,6 +2448,11 @@ local mobFightByMobName =
     end,
 
     ['Anguis'] = function(mob, target)
+        -- Gains access to Drain below 60% (AOE)
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.DRAIN }, 60)
+
+        -- Gains access to Meteor below 30%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.METEOR }, 30)
     end,
 
     ['Varanus'] = function(mob, target)
@@ -2337,6 +2483,8 @@ local mobFightByMobName =
     end,
 
     ['Tapanas_Minion'] = function(mob, target)
+        -- Only uses Malediction below 50%
+        AddSkillListEntryHPP(mob, { tpz.mob.skills.MALEDICTION }, 50)
     end,
 
     ['Ironclad_Harbinger'] = function(mob, target)
@@ -2367,6 +2515,8 @@ local mobFightByMobName =
     end,
 
     ['Barra_Edinazu'] = function(mob, target)
+        -- Gains access to Meteor below 50%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.METEOR }, 50)
     end,
 
     ['Coeurl_Mystic'] = function(mob, target)
@@ -2379,6 +2529,8 @@ local mobFightByMobName =
     end,
 
     ['Mingyi'] = function(mob, target)
+        -- Gains access to Meteor below 25%
+        AddSpellListEntryHPP(mob, { tpz.magic.spell.METEOR }, 25)
     end,
 
     ['Sitke'] = function(mob, target)
@@ -2409,6 +2561,33 @@ local mobFightByMobName =
     end,
 }
 
+local onSpellPrecastByMobName =
+{
+    ['Anguis'] = function(mob, spell)
+        -- AOE drain (15 yards)
+        if spell:getID() == tpz.magic.spell.DRAIN then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setRadius(15)
+        elseif spell:getID() == tpz.magic.spell.METEOR then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(50)
+            spell:setAnimation(280)
+            spell:setMPCost(1)
+        end
+    end,
+
+    ['Mingyi'] = function(mob, spell)
+        if spell:getID() == tpz.magic.spell.METEOR then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(50)
+            spell:setAnimation(280)
+            spell:setMPCost(1)
+        end
+    end,
+}
+
 local onMobWeaponSkillByMobName =
 {
     ['Caldera_Crab'] = function(mob, target, skill)
@@ -2416,7 +2595,7 @@ local onMobWeaponSkillByMobName =
         if skill:getID() == tpz.mob.skills.MEGA_SCISSORS then
             if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("doubleMegaScissors") then
                 UseMultipleTPMoves(mob, math.random(2, 5), tpz.mob.skills.MEGA_SCISSORS)
-                mob:setLocalVar("doubleMegaScissors", os.time() + 10) -- prevent infinite loop
+                mob:setLocalVar("doubleMegaScissors", os.time() + 30) -- prevent infinite loop
             end
         end
 
@@ -2442,6 +2621,15 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target, skill)
+        -- 30s Weight Aura (-50%) for ~30 seeconds after using Gravitic Horn
+        if skill:getID() == tpz.mob.skills.GRAVITIC_HORN then
+            AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
+        end
+
+        -- Sandpit resets enmity on the mobs target, even if it doesn't go off
+        if skill:getID() == tpz.mob.skills.SAND_PIT then
+            mob:resetEnmity(target)
+        end
     end,
 
     ['Anthracite_Antlion'] = function(mob, target, skill)
@@ -2451,15 +2639,30 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Harpimaira'] = function(mob, target, skill)
+        -- Uses Thunderstrike 4 times in a row below 25% HP
+        if skill:getID() == tpz.mob.skills.THUNDERSTRIKE then
+            if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("multipleThunderStrike") then
+                UseMultipleTPMoves(mob, 4, tpz.mob.skills.THUNDERSTRIKE)
+                mob:setLocalVar("multipleThunderStrike", os.time() + 30) -- prevent infinite loop
+            end
+        end
     end,
 
     ['Natrix'] = function(mob, target, skill)
+        -- Uses Barofield 2-4x in a row below 25% HP
+        if skill:getID() == tpz.mob.skills.BAROFIELD then
+            if mob:getHPP() <= 25 and os.time() >= mob:getLocalVar("multipleBarofield") then
+                UseMultipleTPMoves(mob, math.random(2, 4), tpz.mob.skills.BAROFIELD)
+                mob:setLocalVar("multipleBarofield", os.time() + 30) -- prevent infinite loop
+            end
+        end
     end,
 
     ['Saltopus'] = function(mob, target, skill)
     end,
 
     ['Jebutoise'] = function(mob, target, skill)
+    
     end,
 
     ['Begrimed_Bale'] = function(mob, target, skill)
@@ -3056,6 +3259,19 @@ local mobDeathByMobName =
     end,
 
     ['Morbid_Molasses'] = function(mob, player, isKiller, noKiller)
+        local mobData = partiedMobsData[mob:getName()]
+        if not mobData then return end
+
+        local currentParty = mobData[mob:getID()]
+        if not currentParty then return end
+
+        for _, mobId in pairs(currentParty) do
+            local partyMob = GetMobByID(mobId)
+            if partyMob and partyMob:isAlive() then
+                partyMob:setLocalVar("NoTemps", 1)
+                partyMob:setHP(0)
+            end
+        end
     end,
 
     ['Grenade_Syrup'] = function(mob, player, isKiller, noKiller)
@@ -3280,6 +3496,15 @@ tpz.woe.mob.onMobFight = function(mob, target)
     end
 end
 
+tpz.woe.mob.onSpellPrecast = function(mob, spell)
+    local mobName  = mob:getName()
+    local spellPrecast = onSpellPrecastByMobName[mobName]
+
+    if spellPrecast then
+        spellPrecast(mob, spell)
+    end
+end
+
 tpz.woe.mob.onMobWeaponSkill = function(mob, target, skill)
     local mobName  = mob:getName()
     local weaponSkill = onMobWeaponSkillByMobName[mobName]
@@ -3322,8 +3547,10 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
         if boss then
             tpz.woe.incrementProgress(zone, walk)
         else
-            tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
-            tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
+            if mob:getLocalVar("NoTemps") < 1 then
+                tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
+                tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
+            end
         end
     end
 
@@ -3367,8 +3594,43 @@ tpz.woe.mob.despawnWalkMobs = function(walk)
         local mob = GetMobByID(mobId)
 
         if mob and mob:isSpawned() then
-            DespawnMob(mobId)
+            mob:setLocalVar("NoTemps", 1)
+            mob:setHP(0)
         end
+    end
+end
+
+tpz.woe.mob.callNearbyMobForHelp = function(mob, target, chance, hpp, silent)
+    local calledForHelp = mob:getLocalVar("calledForHelp")
+
+    if mob:getHPP() <= hpp and calledForHelp < 1 then
+        if math.random(100) <= chance then
+
+            local selectedMob = nil
+            local NearbyEntities = mob:getNearbyEntities(100)
+
+            if NearbyEntities == nil then return end
+
+            if NearbyEntities then
+                for _, entity in pairs(NearbyEntities) do
+                    if entity:getAllegiance() == mob:getAllegiance() and entity:isAlive() then
+                        selectedMob = entity
+                    end
+                end
+            end
+
+            if selectedMob then
+                local ID = zones[mob:getZoneID()]
+
+                selectedMob:updateEnmity(target)
+
+                if not silent then
+                    utils.MessageSpecialParty(target, ID.text.FIEND_THIRSTS_FOR_BLOOD)
+                end
+            end
+        end
+
+        mob:getLocalVar("calledForHelp", 1)
     end
 end
 

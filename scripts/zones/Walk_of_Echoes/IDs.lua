@@ -40,6 +40,7 @@ zones[tpz.zone.WALK_OF_ECHOES] =
         EXITING_IN              = 7245, -- Exiting in (minute/minutes)
         OBTAINS_TEMP_ITEM       = 7250,
         OBTAINS_MULTIPLE_TEMPS  = 7251, -- <player> obtains <amount> temporary items!
+        FIEND_THIRSTS_FOR_BLOOD = 7253, --The fiend thirsts for blood!
         WALK_NOW_ENDOWED        = 7277,
         RAGING_HOWL_BLASTS      = 7278,
         VANQUISHED_ALL_FOES     = 7281,
