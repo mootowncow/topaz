@@ -2482,18 +2482,18 @@ INSERT INTO `mob_skills` VALUES (2515,2072,'phason_beam',1,18.0,2000,1000,4,0,0,
 INSERT INTO `mob_skills` VALUES (2516,1780,'gravitic_horn',4,10.0,2000,2000,8193,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (2517,1779,'quake_blast',1,15.0,2000,3000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2518,1777,'norn_arrows',2,15.0,2000,1500,4,0,0,7,0,0,0);
-INSERT INTO `mob_skills` VALUES (2519,1756,'dexter_wing',1,15.0,2000,1000,4,0,0,2,0,0,0);
-INSERT INTO `mob_skills` VALUES (2520,1757,'sinister_wing',1,15.0,2000,1000,4,0,0,2,0,0,0);
-INSERT INTO `mob_skills` VALUES (2521,1758,'chaos_blast',1,18.0,2000,1000,4,0,0,2,0,0,0);
-INSERT INTO `mob_skills` VALUES (2522,1759,'abyssic_buster',4,30.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2523,1760,'dancing_tail',3,10.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2524,1761,'dancing_tailv2',3,10.0,2000,1000,4,0,0,0,0,0,0);  -- diff animation depending on where you stand?
-INSERT INTO `mob_skills` VALUES (2525,1762,'chilling_roar',1,15.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2526,1763,'chilling_roarv2',1,15.0,2000,1000,4,0,0,0,0,0,0); -- diff animation depending on where you stand?
-INSERT INTO `mob_skills` VALUES (2527,1764,'soul_douse',4,30.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2528,1765,'soul_dousev2',4,30.0,2000,1000,4,0,0,0,0,0,0);  -- diff animation depending on where you stand?
-INSERT INTO `mob_skills` VALUES (2529,1766,'dark_star',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2530,1767,'dark_starv2',1,18.0,2000,1000,4,0,0,0,0,0,0);  -- diff animation depending on where you stand?
+INSERT INTO `mob_skills` VALUES (2519,1756,'dexter_wing',1,10.0,2000,2000,8193,0,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2520,1757,'sinister_wing',1,10.0,2000,2000,8193,0,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2521,1758,'chaos_blast',1,15.0,2000,3000,8193,0,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2522,1759,'abyssic_buster',2,10.0,2000,2000,8193,0,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2523,1760,'dancing_tail',3,10.0,2000,1000,8193,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2524,1761,'dancing_tailv2',3,10.0,2000,1000,8193,0,0,0,0,0,0);  -- Used during "Wings Up" animationsub. More powerful, longer range(?), more enfeebles
+INSERT INTO `mob_skills` VALUES (2525,1762,'chilling_roar',1,15.0,2000,1000,8193,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2526,1763,'chilling_roarv2',1,15.0,2000,1000,8193,0,0,0,0,0,0); -- Used during "Wings Up" animationsub. More powerful, longer range(?), more enfeebles
+INSERT INTO `mob_skills` VALUES (2527,1764,'soul_douse',4,10.0,2000,3000,8193,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2528,1765,'soul_dousev2',4,10.0,2000,3000,8193,0,0,0,0,0,0);  -- Used during "Wings Up" animationsub. More powerful, longer range(?), more enfeebles
+INSERT INTO `mob_skills` VALUES (2529,1766,'dark_star',1,20.0,2000,3000,8193,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2530,1767,'dark_starv2',1,20.0,2000,3000,8193,0,0,0,0,0,0);  -- Used during "Wings Up" animationsub. More powerful, longer range(?), more enfeebles
 -- INSERT INTO `mob_skills` VALUES (2531,2275,'altair_bullet',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2532,2276,'savage_swordhand',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2533,1776,'lithic_ray',4,10.0,2000,2000,4,0,0,0,0,0,0); -- Animation ID was 1776

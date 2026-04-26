@@ -14,12 +14,12 @@ g_mixins.families.naraka = function(mob)
     end)
 
     mob:addListener("COMBAT_TICK", "NARAKA_CTICK", function(mob, target)
-        if mob:getLocalVar("Stance") == tpz.mob.NarakaStance.PDT then
+        if mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].PDT then
             utils.DelDynamicMod(mob, tpz.mod.UDMGMAGIC)
             utils.DelDynamicMod(mob, tpz.mod.UDMGBREATH)
             utils.AddDynamicMod(mob, tpz.mod.UDMGPHYS, -50)
             utils.AddDynamicMod(mob, tpz.mod.UDMGRANGE, -50)
-        elseif mob:getLocalVar("Stance") == tpz.mob.NarakaStance.MDT then
+        elseif mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].MDT then
             utils.DelDynamicMod(mob, tpz.mod.UDMGPHYS)
             utils.DelDynamicMod(mob, tpz.mod.UDMGRANGE)
             utils.AddDynamicMod(mob, tpz.mod.UDMGMAGIC, -50)

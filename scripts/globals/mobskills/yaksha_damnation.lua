@@ -9,7 +9,7 @@ require("scripts/globals/mobs")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:getLocalVar("Stance" == tpz.mob.NarakaStance.PDT) then
+    if mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].PDT then
         return 0
     end
 

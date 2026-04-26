@@ -16,7 +16,7 @@ function onMobSkillCheck(target, mob, skill)
         return 1
     elseif target:isBeside(mob, 45) then
         return 1
-    elseif mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_UP or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA_WINGS_UP then
+    elseif mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_DOWN or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA then
         return 1
     end
     

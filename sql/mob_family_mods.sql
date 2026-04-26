@@ -358,8 +358,8 @@ INSERT INTO `mob_family_mods` VALUES (117,389,-13,0);	-- Gargouille  -13%
 INSERT INTO `mob_family_mods` VALUES (118,389,-13,0);	-- Gargoyle  -13%
 INSERT INTO `mob_family_mods` VALUES (6,389,-25,0);		-- Amphiptere  -25%
 INSERT INTO `mob_family_mods` VALUES (195,389,-25,0);	-- Pixie  -25%
-INSERT INTO `mob_family_mods` VALUES (62,389,-50,0);	-- Cerberus  -63%
-INSERT INTO `mob_family_mods` VALUES (314,389,-50,0);	-- Cerberus  -63%
+INSERT INTO `mob_family_mods` VALUES (62,389,-50,0);	-- Cerberus  -50%
+INSERT INTO `mob_family_mods` VALUES (314,389,-50,0);	-- Cerberus  -50%
 INSERT INTO `mob_family_mods` VALUES (163,389,-63,0);	-- Hydra  -63%
 INSERT INTO `mob_family_mods` VALUES (164,389,-63,0);	-- Hydra  -63%
 INSERT INTO `mob_family_mods` VALUES (168,389,-63,0);	-- Khimaira  -63%

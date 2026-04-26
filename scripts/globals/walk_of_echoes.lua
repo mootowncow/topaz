@@ -17,8 +17,17 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: Nerf juku feather
--- TODO: Cetl belt def halved
+-- TODO: Zilant TP moves based on phase, for v2. edit those files to require wings up OR aura and wings up. will then work with ALL zilant mobs
+-- TODO: Soul Douse enmity reset without wings being down?
+-- TODO: Soul Douse doom always land with wings up?
+-- TODO: Chilling Roar hate reset only when wings are up? Terror always?
+-- TODO: What else changes with the TP moves when wings up? Are all additional effects locked behind wings being up?
+-- TODO: Anguis 4 Bio Aura attk down / dmg ranges, and add it to his onMobFight
+-- TODO: Anguis VERY big hit box, can melee at 9 yards
+-- TODO: Chaos Blast overwrites and removes max hp/mp boost) 
+-- TODO: Specific immunities
+-- TODO: Specific cast timers
+-- TODO: "No Turn"
 -- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
@@ -30,14 +39,16 @@ require("scripts/globals/weaponskillids")
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
 -- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
 -- TODO: Fanatics blocks mob status effect moves too
--- TODO: Naraka (Check spreadsheet also) Weakness Attributes : Hitting attribute (+12.5%), Fighting Attributes (+12.5%)
--- Resistant attributes : dark (-85%), ice (-60%), soil (-40%), water (-30%), wind (-30%), lightning (-30%), gust attribute (-50%), slash attribute (-12.5%)
--- https://www.bg-wiki.com/ffxi/Category:Naraka wep/magic resistances
--- TODO: Harpeia, iconclads, and Carturaes too. They all have weird weapon / magic resistances
 -- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
+-- TODO: Add craft mats to misc drops that make Abyssea crafted gear. Make them SU1. 
+-- TODO: https://ffxiclopedia.fandom.com/wiki/Gules_Harness_Set | https://www.bg-wiki.com/ffxi/Lore_Attire_Set | https://www.bg-wiki.com/ffxi/Versa_Armor_Set 
+-- TODO: https://www.bg-wiki.com/ffxi/Kacura_Armor_Set | https://www.bg-wiki.com/ffxi/Nemus_Attire_Set | https://www.bg-wiki.com/ffxi/Sweven_Attire_Set | https://www.bg-wiki.com/ffxi/Avant_Armor_Set
+-- TODO: https://www.bg-wiki.com/ffxi/Alcide%27s_Armor_Set
+-- TODO: https://www.bg-wiki.com/ffxi/Asura_Samue
+-- TODO: https://ffxiclopedia.fandom.com/wiki/Yhel_Jacket WEAPONS TOO
+-- TODO: https://ffxiclopedia.fandom.com/wiki/Auster%27s_Ring +6 stat rings etc  http://www.playonline.com/pcd/verup/ff11us/detail/5571/detail.html
 -- TODO: in spawnPetInBattle and any place a mob spawns a pet set their pets before spawning them to have mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30) somehow. Can it be added in  that util after spawning mob? Prob not...
 -- TODO: Dia / Bio no effect (and thus don't apply dia/bio) if target has magic shield and power of 1
--- TODO: Almost all mobs WAR/BLM
 -- TODO: inundation is light magic type
 -- TODO: Refund gil cost of boost spells and remove off shiyo and vendor
 -- TODO: Add All T4 -gas
@@ -315,21 +326,40 @@ local walkData =
                     -- Left Add Sinister Wing (Self 7 knockback , 2s cast, < 10 yard range, conal ON TARGET to the left of mob)
                     -- Right Add Dexter Wing (Self Defense down? 7 knockback , 2s cast, < 10 yard range, conal ON TARGET to the right of mob)
                 -- <= 65%
-                    -- Any: Chaos Blast (Self) (TP (1k max), HP (-50%), MP (-50%) down and MDEF down 60-90s duration, AOE 3s cast, 11+ yard range, additional effects CANNOT BE RESISTED, ~253 dmg to valaineral without shell
+                    -- Any: Chaos Blast (Self) (TP (1k max), HP (-50%), MP (-50%) down and MDEF down 60-90s duration, AOE Knock 7, 3s cast, 11+ yard range, additional effects CANNOT BE RESISTED, ~253 dmg to valaineral without shell
                         -- overwrites and removes max hp/mp boost) 
-                    -- Right (Any?) Abyssic Buster (Dark Damage + Weakness, 3s cast, 10 yard range)
+                    -- Right (Any?) Abyssic Buster (Dark Damage + Weakness (When wings are up?), Knockback 7, 3s cast, 10 yard range)
                 -- <= 50%
                     -- Left (Any?) Chilling Roar (Hate reset, 15s terror, 1s cast, <16 yard range, aoe, CANNOT BE RESISTED, summons a Varanus (Max: 3)), 
                  -- any new tp moves at 80%/79%? whens comet x5? stronger bio aura
-                 -- <= ~15%? Abyssic Buster, (60s silence, 2s cast, 20 yard)
+                 -- <= ~15%? Abyssic Buster, (60s silence, Knockback 7, 2s cast, 20 yard(when wings are up?))
             -- Traits { Store TP (300+), DA }
             -- DT { -50% Stone / Water / Ice, -90%ish Dark }
             -- No Turn { True }
             -- Mechanics { 
                 -- Randomly gains/loses an aura that makes him cast Comet 2-5 times in a row as well as a Bio Aura (Gains power as HP decreases.). (animationsub) 
-                    -- WSing him caused him to gain aura
-                    -- His 2nd use of Comet x5 made him lose Aura
-                    -- Bio Aura 51-100% (10/tick -15% attack down)  
+
+
+                    -- New Test:
+                    -- Comet x5 WITHOUT aura, wings down, at 100% HP
+                    -- Starts with no Aura, Wings Down
+                    -- 89% Aura turned ON. Still used Comet x5
+                    -- 79% Aura turned OFF, Wings are now Up
+                    -- 69% Aura turned ON, Wings are now Down
+                    -- 59% Aura turned OFF, Wings still Down
+                    -- 49% Aura turned ON, Wings are now Up
+                    -- 39% Aura turned OFF, Wings are now up
+                    -- 29% Aura turned ON, Wings are now Down
+                    -- 19% Aura turned OFF, Wings are now Up
+                    -- 9% Aura turned ON, Wings are still Up
+
+                    -- Uses V2 versions of his mobskills when wings are up (Different effects, more damage,  longer range, maybe longer cast time?)
+                    -- Uses Chilling Roar x2 in a row <= 20% - 11%
+                    -- Uses Chilling Roar x3 in a row <= 10%
+
+
+
+                    -- Bio Aura 51-100% (10/tick -15% attack down), 9 yard range
                     -- <= 50% 15/tick -20% attack down 
                     -- <= 10%(maybe 25%) 25/tick, -30% attack down
                     -- (self testing) 822 base attk
@@ -1779,6 +1809,55 @@ local auraParams = {
         auraNumber = 1
     },
 
+    -- Bio Aura 51-100% (10/tick -15% attack down), 9 yard range
+    -- <= 50% 15/tick -20% attack down 
+    -- <= 10%(maybe 25%) 25/tick, -30% attack down
+
+    -- 69% Aura turned ON, Wings are now Down
+    -- 49% Aura still ON, Wings are now Up
+    -- 29% Aura turned ON, Wings are now Down
+    -- 9% Aura turned ON, Wings are still Up
+
+    ['Anguis_1'] =
+    {
+        radius = 10,
+        effect = tpz.effect.BIO,
+        power = 1,
+        duration = 30,
+        subPower = 15,
+        auraNumber = 1
+    },
+    
+    ['Anguis_2'] =
+    {
+        radius = 10,
+        effect = tpz.effect.BIO,
+        power = 1,
+        duration = 30,
+        subPower = 15,
+        auraNumber = 1
+    },
+
+    ['Anguis_3'] =
+    {
+        radius = 10,
+        effect = tpz.effect.BIO,
+        power = 1,
+        duration = 30,
+        subPower = 15,
+        auraNumber = 1
+    },
+
+    ['Anguis_4'] =
+    {
+        radius = 10,
+        effect = tpz.effect.BIO,
+        power = 1,
+        duration = 30,
+        subPower = 15,
+        auraNumber = 1
+    },
+
     ['Varanus_1'] =
     {
         radius = 3,
@@ -1873,6 +1952,7 @@ local modByMobName =
     end,
 
     ['Natrix'] = function(mob)
+        mob:setMod(tpz.mod.REGEN, 70)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
     end,
 
@@ -1882,18 +1962,22 @@ local modByMobName =
     end,
 
     ['Jebutoise'] = function(mob)
+        mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.REGAIN, 200)
     end,
 
     ['Begrimed_Bale'] = function(mob)
+        mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
     end,
 
     ['Bedraggled_Bale'] = function(mob)
+        mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
     end,
 
     ['Canis_Dirus'] = function(mob)
+        mob:setMod(tpz.mod.REGEN, 40)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
     end,
 
@@ -1905,6 +1989,7 @@ local modByMobName =
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MDEF, 50)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:AnimationSub(2)
     end,
 
     ['Varanus'] = function(mob)
@@ -2452,12 +2537,61 @@ local mobFightByMobName =
     end,
 
     ['Canis_Dirus'] = function(mob, target)
+        tpz.woe.mob.callNearbyMobForHelp(mob, target, 50, { 65, 25 })
+
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
     end,
 
     ['Pardus'] = function(mob, target)
     end,
 
     ['Anguis'] = function(mob, target)
+        local animation = tpz.mob.animationSubs['Zilant']
+
+        local phaseData =
+        {
+            { Hpp = 9,  Animation = animation.AURA_WINGS_UP,    Aura = tpz.woe.mob.getAuraParams(mob, 5) },
+            { Hpp = 19, Animation = animation.WINGS_UP,         Aura = nil },
+            { Hpp = 29, Animation = animation.AURA,             Aura = tpz.woe.mob.getAuraParams(mob, 4) },
+            { Hpp = 39, Animation = animation.WINGS_UP,         Aura = nil },
+            { Hpp = 49, Animation = animation.AURA,             Aura = tpz.woe.mob.getAuraParams(mob, 3) },
+            { Hpp = 59, Animation = animation.WINGS_DOWN,       Aura = nil },
+            { Hpp = 69, Animation = animation.AURA,             Aura = tpz.woe.mob.getAuraParams(mob, 2) },
+            { Hpp = 79, Animation = animation.WINGS_UP,         Aura = nil, },
+            { Hpp = 89, Animation = animation.AURA,             Aura = tpz.woe.mob.getAuraParams(mob, 1) },
+        }
+
+        -- TODO: Test:
+        -- Bio Aura 51-100% (10/tick -15% attack down), 9 yard range
+        -- <= 50% 15/tick -20% attack down 
+        -- <= 10%(maybe 25%) 25/tick, -30% attack down
+
+        -- 69% Aura turned ON, Wings are now Down
+        -- 49% Aura still ON, Wings are now Up
+        -- 29% Aura turned ON, Wings are now Down
+        -- 9% Aura turned ON, Wings are still Up
+
+        -- Changes "Phase" (animation sub) every 10% HP starting at 89%
+        local hpp = mob:getHPP()
+        local auraParams = nil
+
+        for _, phase in ipairs(phaseData) do
+            if hpp <= phase.Hpp then
+                
+                if mob:AnimationSub() ~= phase.Animation then
+                    mob:AnimationSub(phase.Animation)
+                end
+                auraParams = phase.Aura
+                break
+            end
+        end
+
+        if mob:AnimationSub() == animation.AURA or mob:AnimationSub() == animation.AURA_WINGS_UP then
+            if auraParams then
+                TickMobAura(mob, target, auraParams)
+            end
+        end
+
         -- Gains access to Drain below 60% (AOE)
         AddSpellListEntryHPP(mob, { tpz.magic.spell.DRAIN }, 60)
 
@@ -2631,7 +2765,7 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target, skill)
-        -- 30s Weight Aura (-50%) for ~30 seeconds after using Gravitic Horn
+        -- Weight Aura (-50%) for 30 seconds after using Gravitic Horn
         if skill:getID() == tpz.mob.skills.GRAVITIC_HORN then
             AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
         end
@@ -2682,6 +2816,10 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Canis_Dirus'] = function(mob, target, skill)
+        -- Amnesia aura for 30 seeconds after using "Howl"
+        if skill:getID() == tpz.mob.skills.CERBERUS_HOWL then
+            AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
+        end
     end,
 
     ['Pardus'] = function(mob, target, skill)
@@ -3610,41 +3748,58 @@ tpz.woe.mob.despawnWalkMobs = function(walk)
     end
 end
 
+
+-- Supports single hpp arg or a table. Iterates through the table in order so start with highest HP value first going downwards. i.e. { 66, 33, 11, 1 }
 tpz.woe.mob.callNearbyMobForHelp = function(mob, target, chance, hpp, silent)
     local calledForHelp = mob:getLocalVar("calledForHelp")
 
-    if mob:getHPP() <= hpp and calledForHelp < 1 then
+    local hppChecks = {}
+
+    if type(hpp) == "number" then
+        hppChecks = {hpp}
+    elseif type(hpp) == "table" then
+        hppChecks = hpp
+    end
+
+    local nextCall = calledForHelp + 1
+    local hp = hppChecks[nextCall]
+
+    if hp and mob:getHPP() <= hp then
         if math.random(100) <= chance then
 
-            local selectedMob = nil
-            local NearbyEntities = mob:getNearbyEntities(100)
+            local selectedMob
+            local nearby = mob:getNearbyEntities(100)
 
-            if NearbyEntities == nil then return end
-
-            if NearbyEntities then
-                for _, entity in pairs(NearbyEntities) do
-                    if entity:getAllegiance() == mob:getAllegiance() and entity:isAlive() then
+            if nearby then
+                for _, entity in pairs(nearby) do
+                    if entity:getAllegiance() == mob:getAllegiance()
+                    and entity:isAlive() then
                         selectedMob = entity
+                        break
                     end
                 end
             end
 
             if selectedMob then
-                local ID = zones[mob:getZoneID()]
-
                 selectedMob:updateEnmity(target)
 
                 if not silent then
-                    utils.MessageSpecialParty(target, ID.text.FIEND_THIRSTS_FOR_BLOOD)
+                    local ID = zones[mob:getZoneID()]
+                    utils.MessageSpecialParty( target, ID.text.FIEND_THIRSTS_FOR_BLOOD)
                 end
             end
         end
 
-        mob:getLocalVar("calledForHelp", 1)
+        mob:setLocalVar("calledForHelp", nextCall)
     end
 end
 
-tpz.woe.mob.getAuraParams = function(mob)
+tpz.woe.mob.getAuraParams = function(mob, auraNumber)
+
+    if auraNumber then
+        return auraParams[mob:getName() .. "_" .. auraNumber]
+    end
+
     return auraParams[mob:getName()]
 end
 

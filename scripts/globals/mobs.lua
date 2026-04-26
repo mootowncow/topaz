@@ -21,6 +21,23 @@ require("scripts/globals/magian")
 tpz = tpz or {}
 tpz.mob = tpz.mob or {}
 
+tpz.mob.animationSubs =
+{
+    ['Naraka'] =
+    {
+        PDT = 1,
+        MDT = 2
+    },
+
+    ['Zilant'] =
+    {
+        WINGS_UP        = 0,
+        AURA_WINGS_UP   = 1,
+        WINGS_DOWN      = 2,
+        AURA            = 3,
+    },
+}
+
 -- onMobDeathEx is called from the core
 function onMobDeathEx(mob, player, isKiller, isWeaponSkillKill, killer)
     -- Things that happen only to the person who landed killing blow
@@ -671,6 +688,13 @@ tpz.mob.onAddEffect = function(mob, target, damage, effect, params)
             return 
         end
 
+        -- Check for magic immunity
+        if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) then
+            if target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+                return
+            end
+        end
+
         -- target:PrintToPlayer(string.format("Chance: %i", chance)) -- DEBUG
 
         if math.random(100) <= chance then 
@@ -865,20 +889,25 @@ function UseMultipleTPMoves(mob, uses, skillID)
     end
 end
 
-function AddMobAura(mob, target, auraParams)
+    --                                      -- Mob Auras Params --
+    --
     --                                      Auras last 6 seconds and tick every 3 seconds (default)
     -- radius = 10,                         How large the radius of the aura is
     -- effect = tpz.effect.WEIGHT,          Auras status effect
     -- power = 20,                          Auras status effect power
     -- duration = 30,                       Duration of the aura
     -- auraTickRate = 3,                    How often to tick the aura
+    -- subId    = 0,                        Aura subId
+    -- subPower = 3,                        Aura subpower
+    -- tier     = 1,                        Aura tier
     -- auraNumber = 1                       Aura number, used for multiple auras ticking at once
+function AddMobAura(mob, target, auraParams)
     if auraParams.auraNumber == nil then
         auraParams.auraNumber = 1
     end
 
-    if auraParams.subpower == nil then
-        auraParams.subpower = 0
+    if auraParams.subPower == nil then
+        auraParams.subPower = 0
     end
 
     local auraTickRate = auraParams.auraTickRate or 3
@@ -917,8 +946,16 @@ function TickMobAura(mob, target, auraParams)
         auraParams.auraNumber = 1
     end
 
-    if (auraParams.subpower == nil) then
-        auraParams.subpower = 0
+    if (auraParams.subId == nil) then
+        auraParams.subId = 0
+    end
+
+    if (auraParams.subPower == nil) then
+        auraParams.subPower = 0
+    end
+
+    if (auraParams.tier == nil) then
+        auraParams.tier = 1
     end
 
     local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
@@ -938,10 +975,12 @@ function TickMobAura(mob, target, auraParams)
                         else
                             if auraParams.effect then
                                 enemy:delStatusEffectSilent(auraParams.effect)
-                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, 6, 0, auraParams.subpower, 0)
+                                enemy:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, 6, auraParams.subId, auraParams.subPower, auraParams.tier)
                                 local buffEffect = enemy:getStatusEffect(auraParams.effect)
-                                buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
-                                buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                                if buffEffect then
+                                    buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
+                                    buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
+                                end
                             end
                         end
                     end
@@ -966,8 +1005,8 @@ function TickMobBuffAura(mob, target, auraParams)
         auraParams.auraNumber = 1
     end
 
-    if (auraParams.subpower == nil) then
-        auraParams.subpower = 0
+    if (auraParams.subPower == nil) then
+        auraParams.subPower = 0
     end
 
     local auraDuration = mob:getLocalVar("auraDuration" .. auraParams.auraNumber)
@@ -978,13 +1017,13 @@ function TickMobBuffAura(mob, target, auraParams)
         local auraTick = mob:getLocalVar("auraTick" .. auraParams.auraNumber)
         if os.time() >= auraTick then
             mob:setLocalVar("auraTick" .. auraParams.auraNumber, os.time() + 3)
-            local nearbyAllies = mob:getNearbyEntities(10)
+            local nearbyAllies = mob:getNearbyEntities(auraParams.radius)
             if (nearbyAllies ~= nil) then 
                 for _, ally in pairs(nearbyAllies) do
                     if not ally:isNPC() and (ally:getAllegiance() == mob:getAllegiance()) then
                         if auraParams.effect then
                             ally:delStatusEffectSilent(auraParams.effect)
-                            ally:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subpower, 0)
+                            ally:addStatusEffectEx(auraParams.effect, auraParams.effect, auraParams.power, tick, duration, 0, auraParams.subPower, 0)
                             local buffEffect = ally:getStatusEffect(auraParams.effect)
                             buffEffect:setFlag(tpz.effectFlag.HIDE_TIMER)
                             buffEffect:unsetFlag(tpz.effectFlag.DISPELABLE)
@@ -1039,7 +1078,7 @@ function TickDamageAura(mob, target, radius, dmg, attackType, damageType, tick, 
     end
 end
 
-function BreakMob(mob, target, power, duration, proc)
+function BreakMob(mob, target, power, duration, proc, silent)
     -- proc: 0 = blue(amnesia) 1 = yellow(silence) 2 = red(terror) 3 = white(terror)
     -- power (used for increased damage taken mod)
     -- 1 = All normal damage(not sc/mb/spirits)
@@ -1051,8 +1090,8 @@ function BreakMob(mob, target, power, duration, proc)
     -- 7 = Magic Burst
     -- 8 = Spirits
     local BreakDuration = mob:getLocalVar("BreakDuration")
-    local mobName = mob:getName()
-    mobName = string.gsub(mobName, '_', ' ');
+    local proccerName = target:getName()
+    proccerName = string.gsub(proccerName, '_', ' ');
 
     if os.time() >= BreakDuration then
         local party = target:getParty()
@@ -1072,12 +1111,16 @@ function BreakMob(mob, target, power, duration, proc)
             mob:addStatusEffect(tpz.effect.TERROR, 0, 0, duration)
         end
 
-        if party then
-            for _, players in pairs(party) do
-                players:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
+        if not silent then
+            if party then
+                for _, char in pairs(party) do
+                    char:PrintToPlayer(proccerName .. "attack staggers the fiend!", 0xD, none)
+                    char:PrintToPlayer("The fiend is frozen in its tracks.", 0xD, none)
+                end
+            else
+                target:PrintToPlayer(proccerName .. "attack staggers the fiend!", 0xD, none)
+                target:PrintToPlayer("The fiend is frozen in its tracks.", 0xD, none)
             end
-        else
-            target:PrintToPlayer("Your attack devastates the " .. mobName .. "!", 0xD, none)
         end
 
         mob:addStatusEffectEx(tpz.effect.INCREASED_DAMAGE_TAKEN, tpz.effect.INCREASED_DAMAGE_TAKEN, power, 0, duration)
@@ -1516,6 +1559,42 @@ function ChooseRandomSpawn(mob, spawns)
         if poolMob then
             DisallowRespawn(poolMob:getID(), id ~= selected)
             GetMobByID(poolMob:getID()):setRespawnTime(30)
+        end
+    end
+end
+
+function AddAnimationState(mob, state)
+    mob:AnimationSub(bit.bor(mob:AnimationSub(), state))
+end
+
+function RemoveAnimationState(mob, state)
+    mob:AnimationSub(bit.band(mob:AnimationSub(), bit.bnot(state)))
+end
+
+function HasAnimationState(mob, state)
+    return bit.band(mob:AnimationSub(), state) ~= 0
+end
+
+function AddSpellListEntryHPP(mob, spellList, hpp)
+    local currentHPP = mob:getHPP()
+
+    for _, spell in pairs (spellList) do
+        if currentHPP <= hpp then
+            mob:addSpellListEntry(spell)
+        else
+            mob:delSpelllistEntry(spell)
+        end
+    end
+end
+
+function AddSkillListEntryHPP(mob, skillList, hpp)
+    local currentHPP = mob:getHPP()
+
+    for _, mobSkill in pairs(skillList) do
+        if (currentHPP <= hpp) then
+            mob:addSkillListEntry(mobSkill)
+        else
+            mob:delSkillListEntry(mobSkill)
         end
     end
 end

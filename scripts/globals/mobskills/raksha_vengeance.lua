@@ -8,7 +8,7 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:getLocalVar("Stance" == tpz.mob.NarakaStance.MDT) then
+    if mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].MDT then
         return 0
     end
 

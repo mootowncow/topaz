@@ -15,6 +15,8 @@ require("scripts/globals/monstertpmoves")
 function onMobSkillCheck(target, mob, skill)
     if not target:isToLeft(mob, 45) then
         return 1
+    elseif (mob:getHPP() > 90) then
+        return 1
     end
     return 0
 end

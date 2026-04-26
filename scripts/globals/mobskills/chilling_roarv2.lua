@@ -10,7 +10,7 @@ require("scripts/globals/status")
 function onMobSkillCheck(target, mob, skill)
     if (mob:getHPP() > 50) then
         return 1
-    elseif mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_UP or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA_WINGS_UP then
+    elseif mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_DOWN or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA then
         return 1
     end
 

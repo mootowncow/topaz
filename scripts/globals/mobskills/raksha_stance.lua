@@ -9,7 +9,7 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if mob:getLocalVar("Stance" == tpz.mob.NarakaStance.MDT) then
+    if mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].MDT then
         return 1
     end
 
@@ -17,6 +17,6 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    mob:setLocalVar("Stance", tpz.mob.NarakaStance.MDT)
+    mob:setLocalVar("Stance", tpz.mob.animationSubs['Naraka'].MDT)
     return skill:setMsg(MobMultipleDispelMove(mob, target, skill, 3, tpz.magic.ele.DARK, tpz.effectFlag.DISPELABLE))
 end
