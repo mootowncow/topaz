@@ -17,7 +17,10 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Ne / Tapana immunities
+-- TODO: Anguis meteor HPP, spell ranges (20 yards, 10-15 drain) and drain being AOE
 -- TODO: Zilant TP moves based on phase, for v2. edit those files to require wings up OR aura and wings up. will then work with ALL zilant mobs
+-- TODO: Wings up Soul Douse might be 5 countdown doom
 -- TODO: Soul Douse enmity reset without wings being down?
 -- TODO: Soul Douse doom always land with wings up?
 -- TODO: Chilling Roar hate reset only when wings are up? Terror always?
@@ -25,9 +28,10 @@ require("scripts/globals/weaponskillids")
 -- TODO: Anguis 4 Bio Aura attk down / dmg ranges, and add it to his onMobFight
 -- TODO: Anguis VERY big hit box, can melee at 9 yards
 -- TODO: Chaos Blast overwrites and removes max hp/mp boost) 
--- TODO: Specific immunities
 -- TODO: Specific cast timers
 -- TODO: "No Turn"
+-- TODO: DT's (specific elements only I think, SDT/BDT is handled in their family mods)
+-- TODO: Caturae additional effects on autoattack
 -- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
@@ -620,7 +624,7 @@ local walkData =
     --     Tapana, lvl { 90 }, Model { 0x00003F0800000000000000000000000000000000 }, Size { Large } HP { 105000 }, Ids {},  Amount { 1 }, Partied { 0 },
     --         Patrols { } 
     --         Boss { True }, 
-    --         Immune {   }, 
+    --         Immune { Normal  }, 
     --         Spells { Blizzaga IV, Paralyga (15), Blindga (15), Dispelga (15), Sleepga II (15) Kaustra (below 25% HP) }, 
     --         Cast Timer { 45 }
     --         TP Moves: { 
@@ -1820,7 +1824,7 @@ local auraParams = {
 
     ['Anguis_1'] =
     {
-        radius = 10,
+        radius = 9,
         effect = tpz.effect.BIO,
         power = 1,
         duration = 30,
@@ -1830,7 +1834,7 @@ local auraParams = {
     
     ['Anguis_2'] =
     {
-        radius = 10,
+        radius = 9,
         effect = tpz.effect.BIO,
         power = 1,
         duration = 30,
@@ -1840,7 +1844,7 @@ local auraParams = {
 
     ['Anguis_3'] =
     {
-        radius = 10,
+        radius = 9,
         effect = tpz.effect.BIO,
         power = 1,
         duration = 30,
@@ -1850,7 +1854,7 @@ local auraParams = {
 
     ['Anguis_4'] =
     {
-        radius = 10,
+        radius = 9,
         effect = tpz.effect.BIO,
         power = 1,
         duration = 30,
@@ -1939,64 +1943,102 @@ local modByMobName =
 
     ['Myrmeleontide'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Anthracite_Antlion'] = function(mob)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Albino_Antlion'] = function(mob)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
+        mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Harpimaira'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:addImmunity(tpz.immunity.PARALYZE)
     end,
 
     ['Natrix'] = function(mob)
         mob:setMod(tpz.mod.REGEN, 70)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
+        mob:addImmunity(tpz.immunity.PARALYZE)
     end,
 
     ['Saltopus'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 42)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 35)
     end,
 
     ['Jebutoise'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.REGAIN, 200)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.STUN)
+        mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Begrimed_Bale'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.STUN)
+        mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Bedraggled_Bale'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.STUN)
+        mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Canis_Dirus'] = function(mob)
         mob:setMod(tpz.mod.REGEN, 40)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:addImmunity(tpz.immunity.PARALYZE)
     end,
 
     ['Pardus'] = function(mob)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 100)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     end,
 
     ['Anguis'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MDEF, 50)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:addImmunity(tpz.immunity.PARALYZE)
         mob:AnimationSub(2)
     end,
 
     ['Varanus'] = function(mob)
+        mob:delImmunity(tpz.immunity.SLEEP)
+        mob:delImmunity(tpz.immunity.GRAVITY)
+        mob:delImmunity(tpz.immunity.BIND)
+        mob:delImmunity(tpz.immunity.SILENCE)
+        mob:delImmunity(tpz.immunity.PETRIFY)
     end,
 
     ['Anhanguera'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:addImmunity(tpz.immunity.SLOW)
     end,
 
     ['Pteranodon'] = function(mob)
@@ -2066,6 +2108,7 @@ local modByMobName =
 
     ['Barra_Edinazu'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.EEM_STUN, 5)
     end,
 
     ['Coeurl_Mystic'] = function(mob)
@@ -2111,12 +2154,17 @@ local modByMobName =
     end,
 
     ['Glaciated_Yanthu'] = function(mob)
+        mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Electrified_Yanthu'] = function(mob)
+        mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Entombed_Yanthu'] = function(mob)
+        mob:addImmunity(tpz.immunity.SLOW)
+        mob:addImmunity(tpz.immunity.BLIND)
     end,
 }
 

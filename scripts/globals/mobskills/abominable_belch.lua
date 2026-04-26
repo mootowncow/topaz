@@ -19,7 +19,7 @@ end
 function onMobWeaponSkill(target, mob, skill)
     skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.PLAGUE, 10, 3, 300))
     skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.SILENCE, 1, 0, 300))
-    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 25, 0, 300))
+    skill:setMsg(MobStatusEffectMove(mob, target, tpz.effect.PARALYSIS, 33, 0, 300))
 
     return tpz.effect.PLAGUE
 end

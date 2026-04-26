@@ -31,7 +31,7 @@ function onMobWeaponSkill(target, mob, skill)
     if target:hasStatusEffect(tpz.effect.FEALTY) then
         skill:setMsg(tpz.msg.basic.SKILL_MISS)
     else
-		skill:setMsg(MobCharmMove(mob, target, skill, 0, 60))
+		skill:setMsg(MobCharmMove(mob, target, skill, 0, 30))
     end
    
    return tpz.effect.CHARM

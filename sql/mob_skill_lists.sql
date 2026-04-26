@@ -2260,18 +2260,6 @@ INSERT INTO `mob_skill_lists` VALUES ('Macan_Gadangan',469,653); -- chaotic_eye
 INSERT INTO `mob_skill_lists` VALUES ('Macan_Gadangan',469,480); -- petrifactive_breath
 INSERT INTO `mob_skill_lists` VALUES ('Macan_Gadangan',469,483); -- charged_whisker
 INSERT INTO `mob_skill_lists` VALUES ('Macan_Gadangan',469,481); -- frenzied_rage
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2519);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2520);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2521);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2522);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2523);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2524);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2525);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2526);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2527);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2528);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2529);
-INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',470,2530);
 INSERT INTO `mob_skill_lists` VALUES ('Harpeia',471,2725);
 INSERT INTO `mob_skill_lists` VALUES ('Harpeia',471,2726);
 INSERT INTO `mob_skill_lists` VALUES ('Harpeia',471,2727);
@@ -2959,9 +2947,13 @@ INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2520);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2521);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2522);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2523);
+INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2524);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2525);
+INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2526);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2527);
+INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2528);
 INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2529);
+INSERT INTO `mob_skill_lists` VALUES ('Anguis',1233,2530);
 
 INSERT INTO `mob_skill_lists` VALUES ('Varanus',1234,999);
 
@@ -4455,8 +4447,11 @@ INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2519); -- dexter_wing
 INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2520); -- sinister_wing
 INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2521); -- chaos_blast
 INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2523); -- dancing_tail
+INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2524); -- dancing_tail (wings up)
 INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2527); -- soul_douse
+INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2528); -- soul_douse (wings up)
 INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2529); -- dark_star
+INSERT INTO `mob_skill_lists` VALUES ('Yilbegan',1188,2530); -- dark_star (wings up)
 
 -- Custom Content
 
@@ -5386,6 +5381,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Buarainech',6170,120); -- impulse_drive
 
 INSERT INTO `mob_skill_lists` VALUES ('Batteilant_Bhoot',6171,1794); -- perdition
 
+-- 470 free
 -- Next available ID: 1266
 -- Next custom ID: 6172
 
