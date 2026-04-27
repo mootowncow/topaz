@@ -872,16 +872,18 @@ int16 CBattleEntity::addTP(int16 tp)
 
         tp = (int16)(tp * TPMulti);
     }
+
     if (tp != 0)
     {
         updatemask |= UPDATE_HP;
     }
+
     // Check for TP down effect
     CStatusEffect* PEffect = this->StatusEffectContainer->GetStatusEffect(EFFECT_MAX_TP_DOWN);
     if (PEffect)
     {
-        int32 mod = std::clamp<int32>(100 - PEffect->GetPower(), 0, 100);
-        int32 max = (3000 * mod) / 100;
+        int32 max = 1000;
+
         if (health.tp > max)
         {
             tp -= (health.tp - max);
