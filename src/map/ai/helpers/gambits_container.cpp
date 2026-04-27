@@ -299,12 +299,19 @@ void CGambitsContainer::Tick(time_point tick)
 
             auto isValidMember = [this](CBattleEntity* PSettableTarget, CBattleEntity* PPartyTarget)
             {
-                return !PSettableTarget && PPartyTarget->isAlive() && POwner->loc.zone == PPartyTarget->loc.zone && distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
+                return !PSettableTarget && PPartyTarget->isAlive() &&
+                        POwner->allegiance == PPartyTarget->allegiance &&
+                        POwner->loc.zone == PPartyTarget->loc.zone &&
+                        distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
             };
 
             auto isValidDeadMember = [this](CBattleEntity* PSettableTarget, CBattleEntity* PPartyTarget)
             {
-                return !PSettableTarget && PPartyTarget->isDead() && POwner->loc.zone == PPartyTarget->loc.zone && distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
+                return !PSettableTarget &&
+                    PPartyTarget->isDead() &&
+                    POwner->allegiance == PPartyTarget->allegiance &&
+                    POwner->loc.zone == PPartyTarget->loc.zone &&
+                    distance(POwner->loc.p, PPartyTarget->loc.p) <= 20.0f;
             };
 
             // TODO: This whole section is messy and bonkers
