@@ -18,7 +18,7 @@ function onTrigger(player, npc)
         --4745,  2325,    -- Scroll of Sneak
         --4746,  1204,    -- Scroll of Deodorize
         tpz.items.SCROLL_OF_FLURRY, 30360,       -- Scroll of Flurry
-        tpz.items.SCROLL_OF_FLURRY_II, 72560,    -- Scroll of Flurry II
+        -- tpz.items.SCROLL_OF_FLURRY_II, 72560,    -- Scroll of Flurry II
     }
 
     player:showText(npc, ID.text.FALGIMA_SHOP_DIALOG)

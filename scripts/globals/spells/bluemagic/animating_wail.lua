@@ -25,7 +25,7 @@ end
 
 function onSpellCast(caster, target, spell)
     local effect = tpz.effect.HASTE
-    local power = 2500 -- 256/1024 25%
+    local power = 1500
     local tick = 0
     local duration = 300
     local subid = 0

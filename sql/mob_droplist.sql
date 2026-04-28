@@ -8913,8 +8913,7 @@ INSERT INTO `mob_droplist` VALUES (1712,2,0,1000,748,0);        -- Gold Beastcoi
 INSERT INTO `mob_droplist` VALUES (1712,0,0,1000,1638,100);
 INSERT INTO `mob_droplist` VALUES (1712,0,0,1000,1861,100);
 INSERT INTO `mob_droplist` VALUES (1712,0,0,1000,2221,1000);    -- Halvung Shakudo Key
-INSERT INTO `mob_droplist` VALUES (1712,1,1,100,4692,500);      -- Haste II
-INSERT INTO `mob_droplist` VALUES (1712,1,1,100,4849,500);      -- Addle
+INSERT INTO `mob_droplist` VALUES (1712,0,0,1000,4849,100);      -- Addle
 INSERT INTO `mob_droplist` VALUES (1713,2,0,1000,750,0);
 INSERT INTO `mob_droplist` VALUES (1713,0,0,1000,1625,40);
 INSERT INTO `mob_droplist` VALUES (1713,0,0,1000,1631,50);

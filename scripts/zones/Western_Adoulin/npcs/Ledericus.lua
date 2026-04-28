@@ -29,8 +29,8 @@ function onTrigger(player, npc)
         4926, 21000,  -- Scroll of Watera
         4927, 530265, -- Scroll of Watera II
         5102, 83160,  -- Scroll of Foil
-        4692, 396825, -- Scroll of Haste II
-        5105, 396825, -- Scroll of Flurry II
+        --4692, 396825, -- Scroll of Haste II
+        --5105, 396825, -- Scroll of Flurry II
     }
     tpz.shop.general(player, stock, ADOULIN)
 end
