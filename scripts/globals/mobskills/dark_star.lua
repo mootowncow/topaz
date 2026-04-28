@@ -1,6 +1,6 @@
 ---------------------------------------------------
 -- Dark Star
--- Deals dark elemental damage to enemies in a '18 radius. Additional effect: Defense Down and Magic Defense Down.
+-- Deals dark elemental damage to enemies in a '18 radius.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")

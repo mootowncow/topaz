@@ -25,7 +25,7 @@ function onMobWeaponSkill(target, mob, skill)
     dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.DARK)
-    MobStatusEffectMove(mob, target, tpz.effect.DOOM, 1, 3, 30)
+    MobStatusEffectMove(mob, target, tpz.effect.DOOM, 1, 3, 15)
     mob:resetEnmity(target)
     return dmg
 end

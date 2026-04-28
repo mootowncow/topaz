@@ -17,26 +17,22 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: Ne / Tapana immunities
--- TODO: Anguis meteor HPP, spell ranges (20 yards, 10-15 drain) and drain being AOE
--- TODO: Zilant TP moves based on phase, for v2. edit those files to require wings up OR aura and wings up. will then work with ALL zilant mobs
--- TODO: Wings up Soul Douse might be 5 countdown doom
+-- TODO: Global BDT % (Natrix probably -100%)
+-- TODO: Anguis hit box might be 5 and NOT 6, he moves to 7.8 to melee on retail
+-- TODO: Model size hit boxes
+-- TODO: Anhanguera (And trash?) aura mechanics. What does it do?
+-- TODO: Ne immunities
 -- TODO: Soul Douse enmity reset without wings being down?
 -- TODO: Soul Douse doom always land with wings up?
 -- TODO: Chilling Roar hate reset only when wings are up? Terror always?
 -- TODO: What else changes with the TP moves when wings up? Are all additional effects locked behind wings being up?
--- TODO: Anguis 4 Bio Aura attk down / dmg ranges, and add it to his onMobFight
--- TODO: Anguis VERY big hit box, can melee at 9 yards
 -- TODO: Chaos Blast overwrites and removes max hp/mp boost) 
--- TODO: Specific cast timers
--- TODO: "No Turn"
 -- TODO: DT's (specific elements only I think, SDT/BDT is handled in their family mods)
 -- TODO: Caturae additional effects on autoattack
 -- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
 -- TODO: BLU spells, helixes and Geo spells added to procs
--- TODO: Give turtles 5k defense
 -- TODO: Redo all ammo DATs, they're weapon DAT https://www.bg-wiki.com/ffxi/Walk_of_Echoes_Battlefield_Rewards
 -- TODO: Augur Smash shadow count
 -- TODO: Cast time on Naraka TP moves
@@ -65,7 +61,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Endowed gives ALL starter temps back
 -- TODO: Get temp drop rate from walkData.TempRate
 -- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
--- TODO: Anhanguera model
 -- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: All walks have this randomly happen on normal mobs too, its randomly assigned to a mob and then it randomly calls a mob within 100 yards. ADd it like random proc and only low chance on a mob (like 5%) to be applied
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
@@ -1813,22 +1808,13 @@ local auraParams = {
         auraNumber = 1
     },
 
-    -- Bio Aura 51-100% (10/tick -15% attack down), 9 yard range
-    -- <= 50% 15/tick -20% attack down 
-    -- <= 10%(maybe 25%) 25/tick, -30% attack down
-
-    -- 69% Aura turned ON, Wings are now Down
-    -- 49% Aura still ON, Wings are now Up
-    -- 29% Aura turned ON, Wings are now Down
-    -- 9% Aura turned ON, Wings are still Up
-
     ['Anguis_1'] =
     {
         radius = 9,
         effect = tpz.effect.BIO,
-        power = 1,
-        duration = 30,
-        subPower = 15,
+        power = 5,
+        duration = 10,
+        subPower = 10,
         auraNumber = 1
     },
     
@@ -1836,8 +1822,8 @@ local auraParams = {
     {
         radius = 9,
         effect = tpz.effect.BIO,
-        power = 1,
-        duration = 30,
+        power = 10,
+        duration = 10,
         subPower = 15,
         auraNumber = 1
     },
@@ -1846,9 +1832,9 @@ local auraParams = {
     {
         radius = 9,
         effect = tpz.effect.BIO,
-        power = 1,
-        duration = 30,
-        subPower = 15,
+        power = 15,
+        duration = 10,
+        subPower = 20,
         auraNumber = 1
     },
 
@@ -1856,9 +1842,19 @@ local auraParams = {
     {
         radius = 9,
         effect = tpz.effect.BIO,
-        power = 1,
-        duration = 30,
-        subPower = 15,
+        power = 20,
+        duration = 10,
+        subPower = 25,
+        auraNumber = 1
+    },
+
+    ['Anguis_5'] =
+    {
+        radius = 9,
+        effect = tpz.effect.BIO,
+        power = 25,
+        duration = 10,
+        subPower = 30,
         auraNumber = 1
     },
 
@@ -1867,7 +1863,7 @@ local auraParams = {
         radius = 3,
         effect = tpz.effect.SILENCE,
         power = 1,
-        duration = 30,
+        duration = 6,
         auraNumber = 1
     },
 
@@ -1876,7 +1872,7 @@ local auraParams = {
         radius = 3,
         effect = tpz.effect.AMNESIA,
         power = 1,
-        duration = 30,
+        duration = 6,
         auraNumber = 2
     },
 
@@ -1885,7 +1881,7 @@ local auraParams = {
         radius = 3,
         effect = tpz.effect.POISON,
         power = 50,
-        duration = 30,
+        duration = 6,
         auraNumber = 3
     },
 
@@ -1976,6 +1972,7 @@ local modByMobName =
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
         mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Saltopus'] = function(mob)
@@ -1990,6 +1987,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Begrimed_Bale'] = function(mob)
@@ -2013,6 +2011,7 @@ local modByMobName =
         mob:setMod(tpz.mod.REGEN, 40)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Pardus'] = function(mob)
@@ -2025,6 +2024,8 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 50)
         mob:setMod(tpz.mod.UDMGMAGIC, 0)
         mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
+        mob:setModelSize(5)
         mob:AnimationSub(2)
     end,
 
@@ -2039,33 +2040,41 @@ local modByMobName =
     ['Anhanguera'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:addImmunity(tpz.immunity.SLOW)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Pteranodon'] = function(mob)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 50)
     end,
 
     ['Annihilative_Adenium'] = function(mob)
+        mob:setDamage(60)
         mob:setMod(tpz.mod.REGAIN, 100)
     end,
 
     ['Pernicious_Pachypodium'] = function(mob)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Lunatic_Lycopodium'] = function(mob)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Killer_Korrigan'] = function(mob)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Murderous_Mandragora'] = function(mob)
+        mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
     end,
 
     ['Tapana'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
     end,
 
     ['Tapanas_Minion'] = function(mob)
@@ -2109,9 +2118,12 @@ local modByMobName =
     ['Barra_Edinazu'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMod(tpz.mod.EEM_STUN, 5)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
+        mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Coeurl_Mystic'] = function(mob)
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 40)
     end,
 
     ['Coeurl_Prentice'] = function(mob)
@@ -2213,6 +2225,14 @@ local mixinByMobName =
     end,
 
     ['Jebutoise'] = function(mob, target)
+        -- Uses Invincible EXACTLY every 150 seconds (2 minutes and 30 seconds)
+        tpz.mix.jobSpecial.config(mob, {
+            between = 180,
+            specials =
+            {
+                {id = tpz.jsa.INVINCIBLE, hpp = 95},
+            },
+        })
     end,
 
     ['Begrimed_Bale'] = function(mob, target)
@@ -2228,6 +2248,33 @@ local mixinByMobName =
     end,
 
     ['Anguis'] = function(mob, target)
+        -- Uses Comet 5x in a row, the 4 extra are cast instantly
+        mob:addListener("MAGIC_HIT", "ANGUIS_MAGIC_HIT", function(caster, mob, spell, dmg)
+            if spell:getID() == tpz.magic.spell.COMET then
+                if os.time() >= mob:getLocalVar("multipleComets") then
+                    mob:setLocalVar("cometCount", 4)
+                    mob:setLocalVar("multipleComets", os.time() + 45) -- prevent infinite loop
+                end
+            end
+        end)
+
+        -- Additional comets after the first in the chain are cast instantly
+        mob:addListener("MAGIC_START", "ANGUIS_MAGIC_START", function(mob, spell)
+            local cometCount = mob:getLocalVar("cometCount")
+
+            if spell:getID() == tpz.magic.spell.COMET and cometCount > 0 then
+                spell:castTime(0)
+            end
+        end)
+
+        mob:addListener("MAGIC_STATE_EXIT", "ANGUIS_MAGIC_STATE_EXIT", function(mob, spell)
+            local cometCount = mob:getLocalVar("cometCount")
+
+            if cometCount > 0 then
+                mob:castSpell(tpz.magic.spell.COMET)
+                mob:setLocalVar("cometCount", cometCount - 1)
+            end
+        end)
     end,
 
     ['Varanus'] = function(mob, target)
@@ -2609,15 +2656,12 @@ local mobFightByMobName =
             { Hpp = 89, Animation = animation.AURA,             Aura = tpz.woe.mob.getAuraParams(mob, 1) },
         }
 
-        -- TODO: Test:
-        -- Bio Aura 51-100% (10/tick -15% attack down), 9 yard range
-        -- <= 50% 15/tick -20% attack down 
-        -- <= 10%(maybe 25%) 25/tick, -30% attack down
-
-        -- 69% Aura turned ON, Wings are now Down
-        -- 49% Aura still ON, Wings are now Up
-        -- 29% Aura turned ON, Wings are now Down
-        -- 9% Aura turned ON, Wings are still Up
+        -- Bio Aura
+        -- 90% 5/tick, -10% Attack Down
+        -- 69% 10/tick, -15% Attack Down 
+        -- 49% 15/tick, -20% Attack Down
+        -- 29% 20/tick, -25% Attack Down
+        -- 9% 25/tick, -30% Attack Down
 
         -- Changes "Phase" (animation sub) every 10% HP starting at 89%
         local hpp = mob:getHPP()
@@ -2769,6 +2813,14 @@ local onSpellPrecastByMobName =
         end
     end,
 
+    ['Anhanguera'] = function(mob, spell)
+        if spell:getID() == tpz.magic.spell.STUN then
+            spell:setAoE(tpz.magic.aoe.RADIAL)
+            spell:setFlag(tpz.magic.spellFlag.HIT_ALL)
+            spell:setRadius(15)
+        end
+    end,
+
     ['Mingyi'] = function(mob, spell)
         if spell:getID() == tpz.magic.spell.METEOR then
             spell:setAoE(tpz.magic.aoe.RADIAL)
@@ -2791,7 +2843,7 @@ local onMobWeaponSkillByMobName =
             end
         end
 
-        -- 30s Plague Aura (50/tick) for ~30 seeconds after using Venom Shower
+        -- 30s Plague Aura (50/tick) after using Venom Shower
         if skill:getID() == tpz.mob.skills.VENOM_SHOWER then
             AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
         end
@@ -2854,7 +2906,21 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Jebutoise'] = function(mob, target, skill)
-    
+        -- 30s Silence Aura after using Tortoise Song
+        if skill:getID() == tpz.mob.skills.TORTOISE_SONG_DISPEL then
+            AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
+        end
+
+        -- Tetsudo Tremor calls for help, summoning a random turtle to assist the Jebutoise
+        if skill:getID() == tpz.mob.skills.TESTUDO_TREMOR then
+            tpz.woe.mob.callNearbyMobForHelp(mob, target, 100, 100, false, true)
+        end
+
+        -- Below 75%, sometimes uses two TP moves in a row
+        if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("multipleTPMoves") then
+            mob:useMobAbility(skill:getID()) 
+            mob:setLocalVar("multipleTPMoves", os.time() + 10) -- prevent infinite loop
+        end
     end,
 
     ['Begrimed_Bale'] = function(mob, target, skill)
@@ -2886,6 +2952,19 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Annihilative_Adenium'] = function(mob, target, skill)
+        local tpMoves = { 1588, 2210, 2600, 2601, 2387 }
+
+        -- Always follows up any TP move with another random TP move 
+        if os.time() >= mob:getLocalVar("randomTPMove") then
+
+            -- Does not use the same TP move twice in a row
+            local nextMove
+            repeat
+                nextMove = tpMoves[math.random(#tpMoves)]
+            until nextMove ~= skill:getID()
+            mob:useMobAbility(nextMove) 
+            mob:setLocalVar("randomTPMove", os.time() + 10) -- prevent infinite loop
+        end
     end,
 
     ['Pernicious_Pachypodium'] = function(mob, target, skill)
@@ -2978,157 +3057,47 @@ local onMobWeaponSkillByMobName =
 
 local mobAdditionalEffectByMobName =
 {
-    ['Caldera_Crab'] = function(mob, target, damage)
-    end,
-
-    ['Cyanic_Crab'] = function(mob, target, damage)
-    end,
-
-    ['Damask_Crab'] = function(mob, target, damage)
-    end,
-
-    ['Morbid_Molasses'] = function(mob, target, damage)
-    end,
-
-    ['Grenade_Syrup'] = function(mob, target, damage)
-    end,
-
-    ['Berry_Syrup'] = function(mob, target, damage)
-    end,
-
-    ['Myrmeleontide'] = function(mob, target, damage)
-    end,
-
-    ['Anthracite_Antlion'] = function(mob, target, damage)
-    end,
-
-    ['Albino_Antlion'] = function(mob, target, damage)
-    end,
-
-    ['Harpimaira'] = function(mob, target, damage)
-    end,
-
-    ['Natrix'] = function(mob, target, damage)
-    end,
-
-    ['Saltopus'] = function(mob, target, damage)
-    end,
-
-    ['Jebutoise'] = function(mob, target, damage)
-    end,
-
-    ['Begrimed_Bale'] = function(mob, target, damage)
-    end,
-
-    ['Bedraggled_Bale'] = function(mob, target, damage)
-    end,
-
-    ['Canis_Dirus'] = function(mob, target, damage)
-    end,
-
-    ['Pardus'] = function(mob, target, damage)
-    end,
-
-    ['Anguis'] = function(mob, target, damage)
-    end,
-
-    ['Varanus'] = function(mob, target, damage)
-    end,
-
-    ['Anhanguera'] = function(mob, target, damage)
-    end,
-
-    ['Pteranodon'] = function(mob, target, damage)
-    end,
-
-    ['Annihilative_Adenium'] = function(mob, target, damage)
-    end,
-
-    ['Pernicious_Pachypodium'] = function(mob, target, damage)
-    end,
-
-    ['Lunatic_Lycopodium'] = function(mob, target, damage)
-    end,
-
-    ['Killer_Korrigan'] = function(mob, target, damage)
-    end,
-
-    ['Murderous_Mandragora'] = function(mob, target, damage)
-    end,
-
-    ['Tapana'] = function(mob, target, damage)
-    end,
-
-    ['Tapanas_Minion'] = function(mob, target, damage)
-    end,
-
-    ['Ironclad_Harbinger'] = function(mob, target, damage)
-    end,
-
-    ['Ironclad_Vaporizer'] = function(mob, target, damage)
-    end,
-
-    ['Iron_CraniumV1'] = function(mob, target, damage)
-    end,
-
-    ['Iron_CraniumV2'] = function(mob, target, damage)
-    end,
-
-    ['Ligeia'] = function(mob, target, damage)
-    end,
-
-    ['Leucosia'] = function(mob, target, damage)
-    end,
-
-    ['Raidne'] = function(mob, target, damage)
-    end,
-
-    ['Sanguine_Sapsucker'] = function(mob, target, damage)
-    end,
-
-    ['Malicious_Magpie'] = function(mob, target, damage)
-    end,
-
-    ['Barra_Edinazu'] = function(mob, target, damage)
-    end,
-
-    ['Coeurl_Mystic'] = function(mob, target, damage)
-    end,
-
-    ['Coeurl_Prentice'] = function(mob, target, damage)
-    end,
-
-    ['Coeurl_Tiro'] = function(mob, target, damage)
-    end,
-
     ['Mingyi'] = function(mob, target, damage)
     end,
 
     ['Sitke'] = function(mob, target, damage)
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.AMNESIA, {chance = 100, duration = 30})
     end,
 
     ['Sin'] = function(mob, target, damage)
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.PARALYSIS, {power = 75, chance = 100, duration = 45})
     end,
 
     ['Myin'] = function(mob, target, damage)
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.SLOW, {power = 5000, tier = 3, chance = 100, duration = 45})
     end,
 
     ['Yahhta'] = function(mob, target, damage)
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.SILENCE, {chance = 100, duration = 45})
     end,
 
     ['Ne'] = function(mob, target, damage)
+        return tpz.mob.onAddEffect(mob, target, damage, tpz.mob.ae.CURSE, {power = 25, chance = 100, duration = 45})
     end,
 
     ['Scorched_Yanthu'] = function(mob, target, damage)
+        local eneffects = { tpz.mob.ae.ENFIRE, tpz.mob.ae.ENLIGHT }
+        return tpz.mob.onAddEffect(mob, target, damage, eneffects[math.random(#eneffects)], {chance = 100, power = math.random(75, 100)})
     end,
 
     ['Glaciated_Yanthu'] = function(mob, target, damage)
+        local eneffects = { tpz.mob.ae.ENWATER, tpz.mob.ae.ENBLIZZARD }
+        return tpz.mob.onAddEffect(mob, target, damage, eneffects[math.random(#eneffects)] {chance = 100, power = math.random(75, 100)})
     end,
 
     ['Electrified_Yanthu'] = function(mob, target, damage)
+        local eneffects = { tpz.mob.ae.ENAERO, tpz.mob.ae.ENTHUNDER }
+        return tpz.mob.onAddEffect(mob, target, damage, eneffects[math.random(#eneffects)] {chance = 100, power = math.random(75, 100)})
     end,
 
     ['Entombed_Yanthu'] = function(mob, target, damage)
+        local eneffects = { tpz.mob.ae.ENSTONE, tpz.mob.ae.ENDARK }
+        return tpz.mob.onAddEffect(mob, target, damage, eneffects[math.random(#eneffects)] {chance = 100, power = math.random(75, 100)})
     end,
 }
 
@@ -3798,7 +3767,8 @@ end
 
 
 -- Supports single hpp arg or a table. Iterates through the table in order so start with highest HP value first going downwards. i.e. { 66, 33, 11, 1 }
-tpz.woe.mob.callNearbyMobForHelp = function(mob, target, chance, hpp, silent)
+-- forced arg calls for help regardless of HPP checks or vars
+tpz.woe.mob.callNearbyMobForHelp = function(mob, target, chance, hpp, silent, forced)
     local calledForHelp = mob:getLocalVar("calledForHelp")
 
     local hppChecks = {}
@@ -3812,7 +3782,7 @@ tpz.woe.mob.callNearbyMobForHelp = function(mob, target, chance, hpp, silent)
     local nextCall = calledForHelp + 1
     local hp = hppChecks[nextCall]
 
-    if hp and mob:getHPP() <= hp then
+    if hp and mob:getHPP() <= hp or forced then
         if math.random(100) <= chance then
 
             local selectedMob
