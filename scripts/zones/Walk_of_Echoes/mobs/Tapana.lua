@@ -4,7 +4,6 @@
 -----------------------------------
 local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/walk_of_echoes")
-mixins = {require("scripts/mixins/families/naraka")}
 -----------------------------------
 function onMobSpawn(mob)
     tpz.woe.mob.onMobSpawn(mob)

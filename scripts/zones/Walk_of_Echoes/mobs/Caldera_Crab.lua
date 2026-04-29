@@ -9,6 +9,10 @@ function onMobSpawn(mob)
     tpz.woe.mob.onMobSpawn(mob)
 end
 
+function onMobRoam(mob)
+    tpz.woe.mob.onMobRoam(mob)
+end
+
 function onMobEngaged(mob, target)
     tpz.woe.mob.onMobEngaged(mob, target)
 end

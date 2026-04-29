@@ -17,6 +17,7 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Test what causes Tapana to change stances (HP based?)
 -- TODO: Global BDT % (Natrix probably -100%)
 -- TODO: Anguis hit box might be 5 and NOT 6, he moves to 7.8 to melee on retail
 -- TODO: Model size hit boxes
@@ -26,7 +27,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Soul Douse doom always land with wings up?
 -- TODO: Chilling Roar hate reset only when wings are up? Terror always?
 -- TODO: What else changes with the TP moves when wings up? Are all additional effects locked behind wings being up?
--- TODO: Chaos Blast overwrites and removes max hp/mp boost) 
+-- TODO: Chaos Blast overwrites and removes max hp/mp boost). Think max HP/MP boost and max HP/MP down overwrite eachother (fix in status_effects.sql)
 -- TODO: DT's (specific elements only I think, SDT/BDT is handled in their family mods)
 -- TODO: Caturae additional effects on autoattack
 -- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
@@ -635,9 +636,18 @@ local walkData =
     --         Aggro: {}
     --         No Turn {  }
     --         Move Speed { }     
-    --         Mechanics { Occasionally -> Fiend thrists for blood!. Random Tapanas minion within ~100 yards came. Did it twice in a row once
-    --          Raksha stance: 
-    --           Stance change seems to be based on HP }
+    --         Mechanics { Occasionally -> Fiend thrists for blood!. Random Tapanas minion within ~100 yards came. Did it twice in a row once (Timer or HP based? Did it at 20% HP) 32:00 - > 34:00 -> 39:00
+    --          every few minutes below ~25% or 20%?
+    --          Started in Raksha stance (No PDT / MDT)
+    --          Used Yaksha Stance at 75% (No PDT / MDT)
+    --          Used Raksha stance at 20% (No PDT / MDT)
+    --          Used Raksha Stance at 10% at 38:36 (No PDT/MDT) 
+    --          Randomly changes stance on a timer at lower HP? Or only below 75%? 
+    --          Pretty sure it's COMPLETELY timer based under a certain HP %, maybe 90%
+    --          2m last time between stance changes < 70%
+    --          95% changed to Yaksha Stance after ~2:30m
+    --          Calledd for blood after like 5m at 85%+
+    --          }
     --         Proc { }
     --     Zone Mechanics: {}
     --     Completion: Tapana dead
@@ -1939,6 +1949,7 @@ local modByMobName =
 
     ['Myrmeleontide'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.SDT_EARTH, 50)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:addImmunity(tpz.immunity.SLOW)
@@ -1968,8 +1979,12 @@ local modByMobName =
     end,
 
     ['Natrix'] = function(mob)
-        mob:setMod(tpz.mod.REGEN, 70)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.UDMGBREATH, -100)
+        mob:setMod(tpz.mod.SDT_FIRE, 50)
+        mob:setMod(tpz.mod.SDT_ICE, 50)
+        mob:setMod(tpz.mod.SDT_WIND, 50)
+        mob:setMod(tpz.mod.REGEN, 70)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
@@ -1977,7 +1992,7 @@ local modByMobName =
 
     ['Saltopus'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 42)
-        mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 35)
     end,
 
@@ -2022,7 +2037,7 @@ local modByMobName =
     ['Anguis'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MDEF, 50)
-        mob:setMod(tpz.mod.UDMGMAGIC, 0)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
         mob:setModelSize(5)
@@ -2030,31 +2045,46 @@ local modByMobName =
     end,
 
     ['Varanus'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:delImmunity(tpz.immunity.SLEEP)
         mob:delImmunity(tpz.immunity.GRAVITY)
         mob:delImmunity(tpz.immunity.BIND)
         mob:delImmunity(tpz.immunity.SILENCE)
         mob:delImmunity(tpz.immunity.PETRIFY)
+        mob:SetAutoAttackEnabled(false)
+        mob:SetMagicCastingEnabled(false)
+        mob:SetMobAbilityEnabled(false)
     end,
 
     ['Anhanguera'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.SDT_FIRE, 50)
+        mob:setMod(tpz.mod.SDT_THUNDER, 50)
+        mob:setMod(tpz.mod.SDT_WATER, 50)
+        mob:setMod(tpz.mod.SDT_WIND, 5)
+        mob:setMod(tpz.mod.SDT_EARTH, 5)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Pteranodon'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MDEF, 50)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 50)
     end,
 
     ['Annihilative_Adenium'] = function(mob)
         mob:setDamage(60)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.SDT_EARTH, 50)
+        mob:setMod(tpz.mod.SDT_WATER, 50)
     end,
 
     ['Pernicious_Pachypodium'] = function(mob)
         mob:setDamage(40)
         mob:setMod(tpz.mod.DOUBLE_ATTACK, 25)
+        mob:setMod(tpz.mod.SDT_EARTH, 50)
+        mob:setMod(tpz.mod.SDT_WATER, 50)
     end,
 
     ['Lunatic_Lycopodium'] = function(mob)
@@ -2073,6 +2103,7 @@ local modByMobName =
     end,
 
     ['Tapana'] = function(mob)
+        mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
     end,
@@ -2095,6 +2126,7 @@ local modByMobName =
 
     ['Iron_CraniumV2'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
     end,
 
     ['Ligeia'] = function(mob)
@@ -2123,17 +2155,22 @@ local modByMobName =
     end,
 
     ['Coeurl_Mystic'] = function(mob)
+        mob:setMod(tpz.mod.SDT_THUNDER, 50)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 40)
     end,
 
     ['Coeurl_Prentice'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
     end,
 
     ['Coeurl_Tiro'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
     end,
 
     ['Mingyi'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMod(tpz.mod.REGAIN, 150)
     end,
 
@@ -2163,18 +2200,22 @@ local modByMobName =
     end,
 
     ['Scorched_Yanthu'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
     end,
 
     ['Glaciated_Yanthu'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Electrified_Yanthu'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Entombed_Yanthu'] = function(mob)
+        mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
     end,
@@ -2353,6 +2394,162 @@ local mixinByMobName =
                 spell:castTime(0)
             end
         end)
+    end,
+
+    ['Sitke'] = function(mob, target)
+    end,
+
+    ['Sin'] = function(mob, target)
+    end,
+
+    ['Myin'] = function(mob, target)
+    end,
+
+    ['Yahhta'] = function(mob, target)
+    end,
+
+    ['Ne'] = function(mob, target)
+    end,
+
+    ['Scorched_Yanthu'] = function(mob, target)
+    end,
+
+    ['Glaciated_Yanthu'] = function(mob, target)
+    end,
+
+    ['Electrified_Yanthu'] = function(mob, target)
+    end,
+
+    ['Entombed_Yanthu'] = function(mob, target)
+    end,
+}
+
+local mobRoamByMobName =
+{
+    ['Caldera_Crab'] = function(mob, target)
+    end,
+
+    ['Cyanic_Crab'] = function(mob, target)
+    end,
+
+    ['Damask_Crab'] = function(mob, target)
+    end,
+
+    ['Morbid_Molasses'] = function(mob, target)
+    end,
+
+    ['Grenade_Syrup'] = function(mob, target)
+    end,
+
+    ['Berry_Syrup'] = function(mob, target)
+    end,
+
+    ['Myrmeleontide'] = function(mob, target)
+    end,
+
+    ['Anthracite_Antlion'] = function(mob, target)
+    end,
+
+    ['Albino_Antlion'] = function(mob, target)
+    end,
+
+    ['Harpimaira'] = function(mob, target)
+    end,
+
+    ['Natrix'] = function(mob, target)
+    end,
+
+    ['Saltopus'] = function(mob, target)
+    end,
+
+    ['Jebutoise'] = function(mob, target)
+    end,
+
+    ['Begrimed_Bale'] = function(mob, target)
+    end,
+
+    ['Bedraggled_Bale'] = function(mob, target)
+    end,
+
+    ['Canis_Dirus'] = function(mob, target)
+    end,
+
+    ['Pardus'] = function(mob, target)
+    end,
+
+    ['Anguis'] = function(mob, target)
+    end,
+
+    ['Varanus'] = function(mob, target)
+    end,
+
+    ['Anhanguera'] = function(mob, target)
+    end,
+
+    ['Pteranodon'] = function(mob, target)
+    end,
+
+    ['Annihilative_Adenium'] = function(mob, target)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob, target)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob, target)
+    end,
+
+    ['Killer_Korrigan'] = function(mob, target)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob, target)
+    end,
+
+    ['Tapana'] = function(mob, target)
+    end,
+
+    ['Tapanas_Minion'] = function(mob, target)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob, target)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob, target)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob, target)
+    end,
+
+    ['Ligeia'] = function(mob, target)
+    end,
+
+    ['Leucosia'] = function(mob, target)
+    end,
+
+    ['Raidne'] = function(mob, target)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob, target)
+    end,
+
+    ['Malicious_Magpie'] = function(mob, target)
+    end,
+
+    ['Barra_Edinazu'] = function(mob, target)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob, target)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob, target)
+    end,
+
+    ['Coeurl_Tiro'] = function(mob, target)
+    end,
+
+    ['Mingyi'] = function(mob, target)
     end,
 
     ['Sitke'] = function(mob, target)
@@ -2680,6 +2877,7 @@ local mobFightByMobName =
 
         if mob:AnimationSub() == animation.AURA or mob:AnimationSub() == animation.AURA_WINGS_UP then
             if auraParams then
+                AddMobAura(mob, target, auraParams)
                 TickMobAura(mob, target, auraParams)
             end
         end
@@ -2692,6 +2890,18 @@ local mobFightByMobName =
     end,
 
     ['Varanus'] = function(mob, target)
+        -- Despawn after two minutes
+        if mob:getBattleTime() >= 120 then
+            mob:setHP(0)
+        end
+
+        AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 1))
+        AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 2))
+        AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 3))
+
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 1))
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 2))
+        TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 3))
     end,
 
     ['Anhanguera'] = function(mob, target)
@@ -2716,6 +2926,24 @@ local mobFightByMobName =
     end,
 
     ['Tapana'] = function(mob, target)
+        local battleTime = mob:getBattleTime()
+        local stanceTimer = mob:getLocalVar("stanceTimer")
+
+        -- Changes stance every 2-4m below 95% HP
+        if mob:getHPP() <= 95 then
+            if stanceTimer == 0 then
+                mob:setLocalVar("stanceTimer", battleTime + math.random(120, 240))
+            end
+
+            if battleTime >= stanceTimer and not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+                if mob:getLocalVar("Stance") == tpz.mob.animationSubs['Naraka'].PDT then
+                    mob:useMobAbility(tpz.mob.skills.RAKSHA_STANCE) 
+                else
+                    mob:useMobAbility(tpz.mob.skills.YAKSHA_STANCE) 
+                end
+                mob:setLocalVar("stanceTimer", battleTime + math.random(120, 240))
+            end
+        end
     end,
 
     ['Tapanas_Minion'] = function(mob, target)
@@ -2940,6 +3168,35 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Anguis'] = function(mob, target, skill)
+        local varanusIds = { 17522797, 17522798, 17522799 }
+        local hpp = mob:getHPP()
+
+        if skill:getID() == tpz.mob.skills.CHILLING_ROAR or skill:getID() == tpz.mob.skills.CHILLING_ROARV2 then
+            -- Summons a Varnus after using Chilling Roar (10s ICD)
+            if hpp <= 75 and os.time() >= mob:getLocalVar("summonVaranus") then
+                local bestVaranus = GetBestAvailableMob(mob, varanusIds)
+                local walk = mob:getLocalVar("CurrentWalk")
+                
+                if bestVaranus then
+                    bestVaranus:spawn()
+                    bestVaranus:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
+                    bestVaranus:setLocalVar("CurrentWalk", walk)
+                    bestVaranus:updateEnmity(target)
+                    mob:setLocalVar("summonVaranus", os.time() + 10)
+                end
+            end
+
+            -- Uses Chilling Roar x2 in a row <= 20% - 11% and x3 in a row <= 10%
+            if os.time() >= mob:getLocalVar("multipleChillingRoar") then
+                if hpp <= 10 then
+                    UseMultipleTPMoves(mob, 2, skill:getID())
+                    mob:setLocalVar("multipleChillingRoar", os.time() + 20) -- prevent infinite loop
+                elseif hpp <= 20 then
+                    mob:useMobAbility(skill:getID()) 
+                    mob:setLocalVar("multipleChillingRoar", os.time() + 20) -- prevent infinite loop
+                end
+            end
+        end
     end,
 
     ['Varanus'] = function(mob, target, skill)
@@ -3182,6 +3439,7 @@ local mobDisengageByMobName =
     end,
 
     ['Tapana'] = function(mob)
+        mob:setLocalVar("stanceTimer", 0)
     end,
 
     ['Tapanas_Minion'] = function(mob)
@@ -3628,6 +3886,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:addMod(tpz.mod.EVA, 25)
     mob:addMod(tpz.mod.MATT, 50)
     mob:addMod(tpz.mod.MDEF, 50)
+    mob:addMod(tpz.mod.DMGMAGIC, -30)
     mob:addMod(tpz.mod.REFRESH, 400)
 
     local mobName = mob:getName()
@@ -3635,6 +3894,15 @@ tpz.woe.mob.onMobSpawn = function(mob)
 
     if mods then
         mods(mob)
+    end
+end
+
+tpz.woe.mob.onMobRoam = function(mob)
+    local mobName  = mob:getName()
+    local mobRoam = mobRoamByMobName[mobName]
+
+    if mobRoam then
+        mobRoam(mob)
     end
 end
 
@@ -3847,7 +4115,7 @@ tpz.woe.mob.applyEndowed = function(player, zone, walk)
         currentMob:addMod(tpz.mod.ACC, -12)
         currentMob:addMod(tpz.mod.EVA, -12)
         currentMob:addMod(tpz.mod.MATT, -25)
-        currentMob:addMod(tpz.mod.UDMGMAGIC, 13)
+        currentMob:addMod(tpz.mod.DMGMAGIC, 13)
     end
 end
 
