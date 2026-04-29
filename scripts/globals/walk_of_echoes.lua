@@ -17,7 +17,6 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
--- TODO: Test what causes Tapana to change stances (HP based?)
 -- TODO: Global BDT % (Natrix probably -100%)
 -- TODO: Anguis hit box might be 5 and NOT 6, he moves to 7.8 to melee on retail
 -- TODO: Model size hit boxes
@@ -2122,11 +2121,13 @@ local modByMobName =
 
     ['Iron_CraniumV1'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Iron_CraniumV2'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Ligeia'] = function(mob)
@@ -2150,6 +2151,7 @@ local modByMobName =
     ['Barra_Edinazu'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMod(tpz.mod.EEM_STUN, 5)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
@@ -2201,21 +2203,25 @@ local modByMobName =
 
     ['Scorched_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Glaciated_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Electrified_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Entombed_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
     end,
@@ -2970,6 +2976,9 @@ local mobFightByMobName =
     end,
 
     ['Raidne'] = function(mob, target)
+        -- Casts spells faster as HP is lowered. Nearly instant at <= 25%
+        local UFastCast = 100 - mob:getHPP()  -- 1% for every 1% missing HP
+        utils.AddDynamicMod(mob, tpz.mod.UFASTCAST, UFastCast)
     end,
 
     ['Sanguine_Sapsucker'] = function(mob, target)

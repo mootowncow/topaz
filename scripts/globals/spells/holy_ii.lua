@@ -16,7 +16,7 @@ function onSpellCast(caster, target, spell)
     params.diff = caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND)
     params.skillType = tpz.skill.DIVINE_MAGIC
     params.effect = tpz.effect.NONE
-    params.dmg = 700
+    params.dmg = 250
     params.multiplier = 2
     params.hasMultipleTargetReduction = false
     params.resistBonus = 0
