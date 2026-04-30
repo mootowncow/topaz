@@ -2213,7 +2213,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
     }
 
     bool validZone = ((Pzone > 0 && Pzone < 31) || (Pzone > 44 && Pzone < 55) || (Pzone > 56 && Pzone < 63) || (Pzone > 64 && Pzone < 66) || (Pzone > 66 && Pzone < 69) ||
-         (Pzone > 69 && Pzone < 73) || (Pzone > 78 && Pzone < 134) || (Pzone > 135 && Pzone < 185) || (Pzone > 188 && Pzone < 294));
+         (Pzone > 69 && Pzone < 73) || (Pzone > 78 && Pzone < 134) || (Pzone > 135 && Pzone < 185 && Pzone != 182) || (Pzone > 188 && Pzone < 294));
 
     if (validZone && charutils::CheckMob(m_HiPCLvl, GetMLevel()) > EMobDifficulty::TooWeak)
     {
