@@ -17,6 +17,8 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: WOTG BCNM music on entry, remove it on leaving. Add it back on DC safety logic (afterZoneIn)
+-- TODO: All bosses / big mobs model size (Hit box)
 -- TODO: Global BDT % (Natrix probably -100%)
 -- TODO: Anguis hit box might be 5 and NOT 6, he moves to 7.8 to melee on retail
 -- TODO: Model size hit boxes
@@ -27,9 +29,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Chilling Roar hate reset only when wings are up? Terror always?
 -- TODO: What else changes with the TP moves when wings up? Are all additional effects locked behind wings being up?
 -- TODO: Chaos Blast overwrites and removes max hp/mp boost). Think max HP/MP boost and max HP/MP down overwrite eachother (fix in status_effects.sql)
--- TODO: DT's (specific elements only I think, SDT/BDT is handled in their family mods)
--- TODO: Caturae additional effects on autoattack
--- TODO: Test NoTemps properly making all mobs fall to the floor on failing/completing a walk and not giving temps or endowed
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
 -- TODO: BLU spells, helixes and Geo spells added to procs
@@ -38,7 +37,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Cast time on Naraka TP moves
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
 -- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
--- TODO: Fanatics blocks mob status effect moves too
 -- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
 -- TODO: Add craft mats to misc drops that make Abyssea crafted gear. Make them SU1. 
 -- TODO: https://ffxiclopedia.fandom.com/wiki/Gules_Harness_Set | https://www.bg-wiki.com/ffxi/Lore_Attire_Set | https://www.bg-wiki.com/ffxi/Versa_Armor_Set 
@@ -60,7 +58,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Kozumi picture, eventually way to skip CS and just buy KI zoning from Xarcabard[S]
 -- TODO: Endowed gives ALL starter temps back
 -- TODO: Get temp drop rate from walkData.TempRate
--- TODO: JA Auto's just say "hits for x damage" like a normal autoattack
 -- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
 -- TODO: All walks have this randomly happen on normal mobs too, its randomly assigned to a mob and then it randomly calls a mob within 100 yards. ADd it like random proc and only low chance on a mob (like 5%) to be applied
 -- TODO: Check old wiki and bg wiki the pages for the walks AND the mobs inside the walks and see if they have info I need to test
@@ -1938,6 +1935,7 @@ local modByMobName =
 
     ['Morbid_Molasses'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setModelSize(4)
     end,
 
     ['Grenade_Syrup'] = function(mob)
@@ -2934,6 +2932,7 @@ local mobFightByMobName =
     ['Tapana'] = function(mob, target)
         local battleTime = mob:getBattleTime()
         local stanceTimer = mob:getLocalVar("stanceTimer")
+        local callForHelpTimer = mob:getLocalVar("callForHelpTimer")
 
         -- Changes stance every 2-4m below 95% HP
         if mob:getHPP() <= 95 then
@@ -2949,6 +2948,12 @@ local mobFightByMobName =
                 end
                 mob:setLocalVar("stanceTimer", battleTime + math.random(120, 240))
             end
+        end
+
+        -- Calls for a Tapana's Minion to come help him every 2 minutes below 50%
+        if os.time() >= callForHelpTimer and mob:getHPP() <= 50 then
+            tpz.woe.mob.callNearbyMobForHelp(mob, target, 100, 100, false, true)
+            mob:setLocalVar("callForHelpTimer", os.time() + 120)
         end
     end,
 
@@ -3002,6 +3007,23 @@ local mobFightByMobName =
     end,
 
     ['Mingyi'] = function(mob, target)
+        local callForHelpTimer = mob:getLocalVar("callForHelpTimer")
+
+        -- Calls for a Caturae to come help him every 2 minutes below 50%
+        if os.time() >= callForHelpTimer and mob:getHPP() <= 50 then
+            local caturae = { 17522918, 17522919, 17522920, 17522921, 17522922}
+
+            local selectedCaturae = GetBestAvailableSpawnedMob(mob, caturae)
+
+            if selectedCaturae then
+                local ID = zones[mob:getZoneID()]
+
+                selectedCaturae:updateEnmity(target)
+                utils.MessageSpecialParty( target, ID.text.FIEND_THIRSTS_FOR_BLOOD)
+                mob:setLocalVar("callForHelpTimer", os.time() + 120)
+            end
+        end
+        
         -- Gains access to Meteor below 25%
         AddSpellListEntryHPP(mob, { tpz.magic.spell.METEOR }, 25)
     end,
@@ -3992,6 +4014,7 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
             if mob:getLocalVar("NoTemps") < 1 then
                 tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
                 tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
+                tpz.woe.mob.callNearbyMobForHelp(mob, target, 5, 20)
             end
         end
     end
@@ -4233,6 +4256,12 @@ tpz.woe.mob.IsBoss = function(mob, walk)
     return false
 end
 
+local function addWalkTimer(player, zone)
+    local walk = player:getCharVar("[WoE]CurrentWalk")
+    local timer = zone:getLocalVar("WalkTimer_" .. walk)
+    player:countdown(timer - os.time())
+end
+
 local function startWalk(player, walk)
     local ID = zones[player:getZoneID()]
     local zone = player:getZone()
@@ -4258,10 +4287,8 @@ local function startWalk(player, walk)
         addRandomTempItem(player, true)
     end
 
-    local timer = zone:getLocalVar("WalkTimer_" .. walk)
-
+    addWalkTimer(player, zone)
     player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
-    player:countdown(timer - os.time())
     player:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
 end
 
@@ -4364,6 +4391,7 @@ tpz.woe.afterZoneIn = function(player)
 
         -- Disconnect safety logic while inside a Walk
         if player:hasStatusEffect(tpz.effect.BATTLEFIELD) then
+            addWalkTimer(player, zone)
             addTempItems(player, walkData.Temps.Starter, false)
             player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
         end
