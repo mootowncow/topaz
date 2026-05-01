@@ -164,7 +164,7 @@ tpz.path =
 
             -- Wait before next movement
             if npc:getLocalVar("pathwait") >= os.time() then
-                printf("%s [%d] waiting", npc:getName(), npc:getID())
+                -- printf("%s [%d] waiting", npc:getName(), npc:getID())
                 return
             end
 
