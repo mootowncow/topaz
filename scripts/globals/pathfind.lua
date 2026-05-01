@@ -147,25 +147,78 @@ tpz.path =
     end,
 
     -- Loops back and forth from point 1 > 2 > 3 > 4 > 3 > 2 > 1 etc.
+    -- can add waits between pathing wait can be a table of 2 times (randomized timer betwen them) or a single time
+    -- wait can also not be guaranteed and simply be a chance of running
+    -- example:
+    -- local path1 = {
+    --     {x = 312, y = 0, z = 58, wait = {30, 40}},
+    --     {x = 189, y = 0, z = 115},
+    --     {x = 281, y = 0, z = -16},
+    --     {x = 313, y = 0, z = -105, wait = {20, 30, chance = 50 }},
+    --     {x = 380, y = 0, z = -270},
+    --     {x = 224, y = 0, z = -194},
+    --     {x = 146, y = 0, z = -180, wait = 20},
+    -- }
     loop = function(npc, points, flags)
         if not npc:isFollowingPath() then
-            local path = npc:getLocalVar("path")
-            local step = (npc:getLocalVar("pathstep") == 2) and -1 or 1;
-            path = path + step;
-            if (path > #points) then
-                path = #points - 1;
-                npc:setLocalVar("pathstep", 2);
-            elseif (path < 1) then
-                path = 2;
-                npc:setLocalVar("pathstep", 1);
+
+            -- Wait before next movement
+            if npc:getLocalVar("pathwait") >= os.time() then
+                printf("%s [%d] waiting", npc:getName(), npc:getID())
+                return
             end
-        
-            npc:setLocalVar("path", path);
-            local currentPath = points[path];
-            -- print(string.format('%.2f,%.2f,%.2f [%u] - %s', currentPath.x, currentPath.y, currentPath.z, path, (step == 1) and 'Forward' or 'Reverse'));
-            npc:pathTo(currentPath.x, currentPath.y, currentPath.z, flags);
-            -- TODO: Change to capital X Y Z and change files using this function to use X Y Z for tables
-            -- TODO: Use pathThrough ?
+
+            local path = npc:getLocalVar("path")
+            if path == 0 then path = 1 end
+
+            -- Do not wait on first path
+            if npc:getLocalVar("initialized") == 0 then
+                npc:setLocalVar("initialized", 1)
+            else
+                -- Only apply wait once
+                if npc:getLocalVar("isWaitingToPath") == 0 then
+                    local lastPoint = points[path]
+                    if lastPoint and lastPoint.wait then
+                        local wait = lastPoint.wait
+                        local chance = wait.chance or 100
+
+                        if math.random(100) <= chance then
+                            if type(wait) == "table" then
+                                npc:setLocalVar("pathwait", os.time() + math.random(wait[1], wait[2]))
+                            else
+                                npc:setLocalVar("pathwait", os.time() + wait)
+                            end
+                        end
+
+                        npc:setLocalVar("isWaitingToPath", 1)
+                        return
+                    end
+                end
+            end
+
+            -- Reset wait var when moving again
+            npc:setLocalVar("isWaitingToPath", 0)
+
+            local step = (npc:getLocalVar("pathstep") == 2) and -1 or 1
+            path = path + step
+
+            if path > #points then
+                path = #points - 1
+                npc:setLocalVar("pathstep", 2)
+            elseif path < 1 then
+                path = 2
+                npc:setLocalVar("pathstep", 1)
+            end
+
+            npc:setLocalVar("path", path)
+
+            local currentPath = points[path]
+            local x = currentPath.x or currentPath.X
+            local y = currentPath.y or currentPath.Y
+            local z = currentPath.z or currentPath.Z
+
+            -- print(string.format('%.2f,%.2f,%.2f [%u] - %s', x, y, z, path, (step == 1) and 'Forward' or 'Reverse'));
+            npc:pathTo(x, y, z, flags)
         end
     end,
 

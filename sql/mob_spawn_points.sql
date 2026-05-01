@@ -55818,11 +55818,12 @@ INSERT INTO `mob_spawn_points` VALUES (17522730,'Berry_Syrup','Berry Syrup',6,-2
 INSERT INTO `mob_spawn_points` VALUES (17522731,'Berry_Syrup','Berry Syrup',6,-291.1,-0.5,581,67);
 INSERT INTO `mob_spawn_points` VALUES (17522732,'Berry_Syrup','Berry Syrup',6,-319.2,-0.5,519.7,67);
 INSERT INTO `mob_spawn_points` VALUES (17522733,'Berry_Syrup','Berry Syrup',6,-277.119,17.5,714.572,67);
-INSERT INTO `mob_spawn_points` VALUES (17522734,'Myrmeleontide','Myrmeleontide',7,362.989,35.5,603.969,159);
-INSERT INTO `mob_spawn_points` VALUES (17522735,'Myrmeleontide','Myrmeleontide',7,282.97,19.235,580.395,127);
-INSERT INTO `mob_spawn_points` VALUES (17522736,'Myrmeleontide','Myrmeleontide',7,337.894,35.505,659.067,28);
+INSERT INTO `mob_spawn_points` VALUES (17522734,'Myrmeleontide','Myrmeleontide',7,358.37,36,605.62,159);
+INSERT INTO `mob_spawn_points` VALUES (17522735,'Myrmeleontide','Myrmeleontide',7,241.55,54,673.52,127);
+INSERT INTO `mob_spawn_points` VALUES (17522736,'Myrmeleontide','Myrmeleontide',7,363.98,72,719.58,28);
 INSERT INTO `mob_spawn_points` VALUES (17522737,'Anthracite_Antlion','Anthracite Antlion',8,313.82,33.666,579.570,127);
 INSERT INTO `mob_spawn_points` VALUES (17522738,'Anthracite_Antlion','Anthracite Antlion',8,294.79,24.933,579.137,211);
+-- missing?
 INSERT INTO `mob_spawn_points` VALUES (17522740,'Anthracite_Antlion','Anthracite Antlion',8,299.601,43.991,658.521,184);
 INSERT INTO `mob_spawn_points` VALUES (17522741,'Anthracite_Antlion','Anthracite Antlion',8,263.097,53.5,700.447,14);
 INSERT INTO `mob_spawn_points` VALUES (17522742,'Anthracite_Antlion','Anthracite Antlion',8,292.399,59.328,697.906,0);
@@ -55830,6 +55831,7 @@ INSERT INTO `mob_spawn_points` VALUES (17522743,'Anthracite_Antlion','Anthracite
 INSERT INTO `mob_spawn_points` VALUES (17522744,'Anthracite_Antlion','Anthracite Antlion',8,272.79,17.614,578.304,127);
 INSERT INTO `mob_spawn_points` VALUES (17522745,'Albino_Antlion','Albino Antlion',9,280.34,18.061,578.218,130);
 INSERT INTO `mob_spawn_points` VALUES (17522746,'Albino_Antlion','Albino Antlion',9,228.05,17.5,579.669,165);
+-- missing?
 INSERT INTO `mob_spawn_points` VALUES (17522748,'Albino_Antlion','Albino Antlion',9,326.753,35.5,658.774,125);
 INSERT INTO `mob_spawn_points` VALUES (17522749,'Albino_Antlion','Albino Antlion',9,358.595,35.5,644.799,152);
 INSERT INTO `mob_spawn_points` VALUES (17522750,'Albino_Antlion','Albino Antlion',9,322.92,70.781,699.187,127);

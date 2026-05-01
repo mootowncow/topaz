@@ -3,6 +3,7 @@
 --  Walk of Echoes utilities
 --
 -----------------------------------
+require("scripts/globals/pathfind")
 require("scripts/globals/items")
 require("scripts/globals/keyitems")
 require("scripts/globals/mobs")
@@ -17,6 +18,7 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Test if mob:getLocalVar("NoTemps") < 1 then onMobDeath for boss to properly increment and temps to work properly (dont give if no temps > 0 but give if no temps = 0)
 -- TODO: WOTG BCNM music on entry, remove it on leaving. Add it back on DC safety logic (afterZoneIn)
 -- TODO: All bosses / big mobs model size (Hit box)
 -- TODO: Global BDT % (Natrix probably -100%)
@@ -32,7 +34,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
 -- TODO: BLU spells, helixes and Geo spells added to procs
--- TODO: Redo all ammo DATs, they're weapon DAT https://www.bg-wiki.com/ffxi/Walk_of_Echoes_Battlefield_Rewards
 -- TODO: Augur Smash shadow count
 -- TODO: Cast time on Naraka TP moves
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
@@ -1467,6 +1468,32 @@ local confluxWalkExit =
     [17523267] = 15,
 }
 
+local pathNodes = 
+{
+    -- Walk 3
+    [17522734] = 
+    {
+        { X=198.660614, Y=18.000000, Z=545.926392, wait = { 60, 300, chance = 50 } },
+        { X=358.376312, Y=36.000000, Z=605.625916, wait = { 60, 300, chance = 50 } },
+        { X=241.557037, Y=54.000000, Z=673.521484, wait = { 60, 300, chance = 50 } },
+        { X=363.988647, Y=72.000000, Z=719.580750, wait = { 60, 300, chance = 50 } }
+    },
+    [17522735] = 
+    {
+        { X=189.177292, Y=54.000000, Z=680.515198, wait = { 60, 300, chance = 50 } },
+        { X=362.657806, Y=72.000000, Z=726.286804, wait = { 60, 300, chance = 50 } },
+        { X=226.295883, Y=54.000000, Z=657.318359, wait = { 60, 300, chance = 50 } },
+        { X=365.588287, Y=36.000000, Z=640.157776, wait = { 60, 300, chance = 50 } },
+        { X=219.215149, Y=18.000000, Z=537.589539, wait = { 60, 300, chance = 50 } }
+    },
+    [17522736] = 
+    {
+        { X=244.145844, Y=54.000000, Z=689.131104, wait = { 60, 300, chance = 50 } },
+        { X=353.586273, Y=36.000000, Z=624.668457, wait = { 60, 300, chance = 50 } },
+        { X=206.922501, Y=18.000000, Z=560.487976, wait = { 60, 300, chance = 50 } }
+    },
+}
+
 local failState =
 {
     Time = 1,
@@ -1645,6 +1672,7 @@ local function createWalk(player, walk)
     -- Check if Walk is already active
     if zone:getLocalVar("WalkTimer_" .. walk) > os.time() then return end
 
+    resetWalkVars(zone, walk)
     tpz.woe.mob.spawnWalkMobs(walk)
     tpz.woe.mob.rollForEndowed(nil, player)
 
@@ -1960,6 +1988,8 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.STUN)
+        mob:AnimationSub(1)
+        mob:setLocalVar("pathNodeIndex", math.random(17522734, 17522736))
     end,
 
     ['Albino_Antlion'] = function(mob)
@@ -1968,6 +1998,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.STUN)
+        mob:setLocalVar("pathNodeIndex", math.random(17522734, 17522736))
     end,
 
     ['Harpimaira'] = function(mob)
@@ -2449,12 +2480,15 @@ local mobRoamByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
     ['Anthracite_Antlion'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Albino_Antlion'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Harpimaira'] = function(mob, target)
@@ -4008,10 +4042,10 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
         local walk = mob:getLocalVar("CurrentWalk")
         local boss = tpz.woe.mob.IsBoss(mob, walk)
 
-        if boss then
-            tpz.woe.incrementProgress(zone, walk)
-        else
-            if mob:getLocalVar("NoTemps") < 1 then
+        if mob:getLocalVar("NoTemps") < 1 then
+            if boss then
+                tpz.woe.incrementProgress(zone, walk)
+            else
                 tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
                 tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
                 tpz.woe.mob.callNearbyMobForHelp(mob, target, 5, 20)
@@ -4142,12 +4176,14 @@ tpz.woe.mob.applyEndowed = function(player, zone, walk)
     for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
         local currentMob = GetMobByID(mobId)
 
-        currentMob:addMod(tpz.mod.ATTP, -25)
-        currentMob:addMod(tpz.mod.DEFP, -25)
-        currentMob:addMod(tpz.mod.ACC, -12)
-        currentMob:addMod(tpz.mod.EVA, -12)
-        currentMob:addMod(tpz.mod.MATT, -25)
-        currentMob:addMod(tpz.mod.DMGMAGIC, 13)
+        if currentMob then
+            currentMob:addMod(tpz.mod.ATTP, -25)
+            currentMob:addMod(tpz.mod.DEFP, -25)
+            currentMob:addMod(tpz.mod.ACC, -12)
+            currentMob:addMod(tpz.mod.EVA, -12)
+            currentMob:addMod(tpz.mod.MATT, -25)
+            currentMob:addMod(tpz.mod.DMGMAGIC, 13)
+        end
     end
 end
 
@@ -4186,11 +4222,13 @@ tpz.woe.mob.applySurgeMods = function(walk)
     for mobId = data.Mobs.IdStart, data.Mobs.IdEnd do
         local mob = GetMobByID(mobId)
 
-        mob:setMobLevel(mob:getMainLvl() +3)
-        mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
-        mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
-        mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
-        AddAllAttributes(mob, 20)
+        if mob then
+            mob:setMobLevel(mob:getMainLvl() +3)
+            mob:setMobMod(tpz.mobMod.WEAPON_BONUS, 25)
+            mob:addStatusEffect(tpz.effect.MAX_HP_BOOST, 50, 0, 0)
+            mob:setEffectUndispellable(tpz.effect.MAX_HP_BOOST)
+            AddAllAttributes(mob, 20)
+        end
     end
 end
 
@@ -4244,6 +4282,8 @@ tpz.woe.mob.IsBoss = function(mob, walk)
     if not data or not data.Boss then
         return false
     end
+
+    if not mob then return false end
 
     local mobName = mob:getName()
 
