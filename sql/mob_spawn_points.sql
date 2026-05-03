@@ -55823,7 +55823,7 @@ INSERT INTO `mob_spawn_points` VALUES (17522735,'Myrmeleontide','Myrmeleontide',
 INSERT INTO `mob_spawn_points` VALUES (17522736,'Myrmeleontide','Myrmeleontide',7,363.98,72,719.58,28);
 INSERT INTO `mob_spawn_points` VALUES (17522737,'Anthracite_Antlion','Anthracite Antlion',8,313.82,33.666,579.570,127);
 INSERT INTO `mob_spawn_points` VALUES (17522738,'Anthracite_Antlion','Anthracite Antlion',8,294.79,24.933,579.137,211);
--- missing?
+INSERT INTO `mob_spawn_points` VALUES (17522739,'Anthracite_Antlion','Anthracite Antlion',8,294.79,24.933,579.137,211);
 INSERT INTO `mob_spawn_points` VALUES (17522740,'Anthracite_Antlion','Anthracite Antlion',8,299.601,43.991,658.521,184);
 INSERT INTO `mob_spawn_points` VALUES (17522741,'Anthracite_Antlion','Anthracite Antlion',8,263.097,53.5,700.447,14);
 INSERT INTO `mob_spawn_points` VALUES (17522742,'Anthracite_Antlion','Anthracite Antlion',8,292.399,59.328,697.906,0);
@@ -55831,7 +55831,7 @@ INSERT INTO `mob_spawn_points` VALUES (17522743,'Anthracite_Antlion','Anthracite
 INSERT INTO `mob_spawn_points` VALUES (17522744,'Anthracite_Antlion','Anthracite Antlion',8,272.79,17.614,578.304,127);
 INSERT INTO `mob_spawn_points` VALUES (17522745,'Albino_Antlion','Albino Antlion',9,280.34,18.061,578.218,130);
 INSERT INTO `mob_spawn_points` VALUES (17522746,'Albino_Antlion','Albino Antlion',9,228.05,17.5,579.669,165);
--- missing?
+INSERT INTO `mob_spawn_points` VALUES (17522747,'Albino_Antlion','Albino Antlion',9,228.05,17.5,579.669,165);
 INSERT INTO `mob_spawn_points` VALUES (17522748,'Albino_Antlion','Albino Antlion',9,326.753,35.5,658.774,125);
 INSERT INTO `mob_spawn_points` VALUES (17522749,'Albino_Antlion','Albino Antlion',9,358.595,35.5,644.799,152);
 INSERT INTO `mob_spawn_points` VALUES (17522750,'Albino_Antlion','Albino Antlion',9,322.92,70.781,699.187,127);
@@ -55842,7 +55842,7 @@ INSERT INTO `mob_spawn_points` VALUES (17522754,'Harpimaira','Harpimaira',10,720
 INSERT INTO `mob_spawn_points` VALUES (17522755,'Harpimaira','Harpimaira',10,668,17.5,572,64);
 INSERT INTO `mob_spawn_points` VALUES (17522756,'Harpimaira','Harpimaira',10,695.16,17.5,575.08,111);
 INSERT INTO `mob_spawn_points` VALUES (17522757,'Harpimaira','Harpimaira',10,707.65,17.5,606.596,70);
-INSERT INTO `mob_spawn_points` VALUES (17522758,'Natrix','Natrix',11,-660.8,17.5,259.503,217);
+INSERT INTO `mob_spawn_points` VALUES (17522758,'Natrix','Natrix',11,-659.05,18,183.27,217);
 INSERT INTO `mob_spawn_points` VALUES (17522759,'Saltopus','Saltopus',12,-675.4,17.5,299.864,191);
 INSERT INTO `mob_spawn_points` VALUES (17522760,'Saltopus','Saltopus',12,-706.3,17.5,285.175,249);
 INSERT INTO `mob_spawn_points` VALUES (17522761,'Saltopus','Saltopus',12,-652.4,17.5,292.583,192);

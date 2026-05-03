@@ -26,3 +26,4 @@ function onSpellCast(caster, target, spell)
 
     return doElementalNuke(caster, spell, target, spellParams)
 end
+

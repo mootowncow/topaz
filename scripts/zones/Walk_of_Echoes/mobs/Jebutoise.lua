@@ -6,3 +6,42 @@ local ID = require("scripts/zones/Walk_of_Echoes/IDs")
 require("scripts/globals/walk_of_echoes")
 mixins ={require("scripts/mixins/job_special")}
 -----------------------------------
+function onMobSpawn(mob)
+    tpz.woe.mob.onMobSpawn(mob)
+end
+
+function onMobRoam(mob)
+    tpz.woe.mob.onMobRoam(mob)
+end
+
+function onMobEngaged(mob, target)
+    tpz.woe.mob.onMobEngaged(mob, target)
+end
+
+function onMobFight(mob, target)
+    tpz.woe.mob.onMobFight(mob, target)
+end
+
+function onSpellPrecast(mob, spell)
+    tpz.woe.mob.onSpellPrecast(mob, spell)
+end
+
+function onMobWeaponSkillPrepare(mob, target, skill)
+    tpz.woe.mob.onMobWeaponSkill(mob, target, skill)
+end
+
+function onAdditionalEffect(mob, target, damage)
+    tpz.woe.mob.onAdditionalEffect(mob, target, damage)
+end
+
+function onMobDisengage(mob)
+    tpz.woe.mob.onMobDisengage(mob)
+end
+
+function onMobDeath(mob, player, isKiller, noKiller)
+    tpz.woe.mob.onMobDeath(mob, player, isKiller, noKiller)
+end
+
+function onMobDespawn(mob)
+    tpz.woe.onMobDespawn(mob)
+end

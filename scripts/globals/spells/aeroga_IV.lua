@@ -1,6 +1,6 @@
 -----------------------------------------
--- Spell: Firaga IV
--- Deals fire damage to enemies within area of effect.
+-- Spell: Aeroga IV
+-- Deals wind damage to enemies within area of effect.
 -----------------------------------------
 require("scripts/globals/status")
 require("scripts/globals/magic")
@@ -14,14 +14,14 @@ function onSpellCast(caster, target, spell)
     local spellParams = {}
     spellParams.hasMultipleTargetReduction = true
     spellParams.resistBonus = 0
-    spellParams.V0 = 930
-    spellParams.V50 = 1200
-    spellParams.V100 = 1400
-    spellParams.V200 = 1800
+    spellParams.V0 = 850
+    spellParams.V50 = 1110
+    spellParams.V100 = 1335
+    spellParams.V200 = 1725
     spellParams.M0 = 5.2
-    spellParams.M50 = 4.7
-    spellParams.M100 = 3.85
-    spellParams.M200 = 3
+    spellParams.M50 = 4.5
+    spellParams.M100 = 3.9
+    spellParams.M200 = 2.96
 
     return doElementalNuke(caster, spell, target, spellParams)
 end

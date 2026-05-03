@@ -8,9 +8,14 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-if (mob:getHPP() > 65) then
+    if target:isBehind(mob, 90) then
         return 1
     end
+
+    if (mob:getHPP() > 65) then
+        return 1
+    end
+    
     return 0
 end
 

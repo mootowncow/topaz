@@ -22,7 +22,7 @@ function onSpellCast(caster, target, spell)
     spellParams.M0 = 4
     spellParams.M50 = 3.75
     spellParams.M100 = 3.75
-    spellParams.M200 = 3
+    spellParams.M200 = 2.9
 
     return doElementalNuke(caster, spell, target, spellParams)
 end

@@ -1,6 +1,7 @@
 ---------------------------------------------------
 -- Dark Star
--- Deals dark elemental damage to enemies in a '18 radius. Additional effect: Defense Down and Magic Defense Down.
+-- Deals dark elemental damage to enemies in a '20 radius. 
+-- Additional effect: Defense Down and Magic Defense Down.
 ---------------------------------------------
 require("scripts/globals/monstertpmoves")
 require("scripts/globals/settings")
@@ -8,6 +9,10 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
+    if target:isBehind(mob, 90) then
+        return 1
+    end
+    
     if mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_DOWN or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA then
         return 1
     end
