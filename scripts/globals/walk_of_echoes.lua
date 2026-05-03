@@ -18,6 +18,9 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Ga-IV cast times / recast times from DAT
+-- TODO: Max HP / MP boost removed on zoning
+-- TODO: Tortoise song dispel food?
 -- TODO: Test if mob:getLocalVar("NoTemps") < 1 then onMobDeath for boss to properly increment and temps to work properly (dont give if no temps > 0 but give if no temps = 0)
 -- TODO: WOTG BCNM music on entry, remove it on leaving. Add it back on DC safety logic (afterZoneIn)
 -- TODO: All bosses / big mobs model size (Hit box)
@@ -39,6 +42,7 @@ require("scripts/globals/weaponskillids")
 -- TODO: Check naraka shadow logic for magic moves via jp wiki
 -- TODO: Rename MobAllStatDownMove and MobAllStatDownMovePhysical to ATTRIBUTE down
 -- TODO: Make sure all mobs (esp ToAU HNMs) can use all TP moves and none are returning 1
+-- TODO: T4 -gas and Ja's
 -- TODO: Add craft mats to misc drops that make Abyssea crafted gear. Make them SU1. 
 -- TODO: https://ffxiclopedia.fandom.com/wiki/Gules_Harness_Set | https://www.bg-wiki.com/ffxi/Lore_Attire_Set | https://www.bg-wiki.com/ffxi/Versa_Armor_Set 
 -- TODO: https://www.bg-wiki.com/ffxi/Kacura_Armor_Set | https://www.bg-wiki.com/ffxi/Nemus_Attire_Set | https://www.bg-wiki.com/ffxi/Sweven_Attire_Set | https://www.bg-wiki.com/ffxi/Avant_Armor_Set
@@ -237,7 +241,7 @@ local walkData =
             -- Spells { Aero III, Aeroga II, Silence, Haste }, 
             -- Cast Timer { 35 }
             -- TP Moves: { Dread Shriek, Dispelling Wind, Hurricane Breath (Conal, Knockback 3, Encumbers 1 item) }, 
-            -- Traits: { DA }
+            -- Traits: { DA, very fast speed 50%+? }
             -- DT: { -50% fire  }
             -- Mechnaics: 
         -- Natrix, lvl { 83 }, Model { 0x0000040700000000000000000000000000000000 }, Size { Large } HP { 70000 }, Ids {},  Amount { 1 }, Partied { 0 },
@@ -753,7 +757,7 @@ local walkData =
     --         Spells { }, 
     --         Cast Timer {  }
     --         TP Moves: { Broadside Barrage (2s cast), Helldive, Damnation Dive }, 
-    --         Traits: { DA, TA (THF?),  No +MDB (100 total) }
+    --         Traits: { DA, TA THF/WAR,  No +MDB (100 total) }
     --         DT: { None }
     --         Aggro: {}
     --         Move Speed { }    
@@ -1492,6 +1496,16 @@ local pathNodes =
         { X=353.586273, Y=36.000000, Z=624.668457, wait = { 60, 300, chance = 50 } },
         { X=206.922501, Y=18.000000, Z=560.487976, wait = { 60, 300, chance = 50 } }
     },
+
+    -- Walk 5
+    ['Saltopus'] =
+    {
+        { X=-666.788269, Y=18.000000, Z=302.868805, wait = { 60, 300, chance = 50 } },
+        { X=-711.282898, Y=18.000000, Z=288.318756, wait = { 60, 300, chance = 50 } },
+        { X=-715.277832, Y=18.000000, Z=227.430252, wait = { 60, 300, chance = 50 } },
+        { X=-640.857178, Y=18.000000, Z=203.129272, wait = { 60, 300, chance = 50 } },
+        { X=-518.985596, Y=36.000000, Z=234.174744, wait = { 60, 300, chance = 50 } },
+    };
 }
 
 local failState =
@@ -1952,6 +1966,7 @@ local modByMobName =
 {
     ['Caldera_Crab'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:setMobMod(tpz.mobMod.LINK_RADIUS, 50)
     end,
 
@@ -1963,6 +1978,7 @@ local modByMobName =
 
     ['Morbid_Molasses'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:setModelSize(4)
     end,
 
@@ -2003,6 +2019,7 @@ local modByMobName =
 
     ['Harpimaira'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
         mob:addImmunity(tpz.immunity.PARALYZE)
     end,
 
@@ -2013,7 +2030,9 @@ local modByMobName =
         mob:setMod(tpz.mod.SDT_ICE, 50)
         mob:setMod(tpz.mod.SDT_WIND, 50)
         mob:setMod(tpz.mod.REGEN, 70)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -20)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
@@ -2021,12 +2040,15 @@ local modByMobName =
     ['Saltopus'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 42)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.UDMGBREATH, -100)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 87)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 35)
     end,
 
     ['Jebutoise'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.REGAIN, 200)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2036,6 +2058,7 @@ local modByMobName =
     ['Begrimed_Bale'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2045,6 +2068,7 @@ local modByMobName =
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2053,12 +2077,13 @@ local modByMobName =
     ['Canis_Dirus'] = function(mob)
         mob:setMod(tpz.mod.REGEN, 40)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 80) -- 7.2
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
     ['Pardus'] = function(mob)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 100)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 70) -- 6.8
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 25)
     end,
 
@@ -2150,25 +2175,26 @@ local modByMobName =
 
     ['Iron_CraniumV1'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Iron_CraniumV2'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Ligeia'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Leucosia'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Raidne'] = function(mob)
         mob:setMod(tpz.mod.REGAIN, 100)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Sanguine_Sapsucker'] = function(mob)
@@ -2189,14 +2215,17 @@ local modByMobName =
         mob:setMod(tpz.mod.SDT_THUNDER, 50)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 40)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Coeurl_Prentice'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Coeurl_Tiro'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
     end,
 
     ['Mingyi'] = function(mob)
@@ -2232,25 +2261,21 @@ local modByMobName =
 
     ['Scorched_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
     end,
 
     ['Glaciated_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:addImmunity(tpz.immunity.POISON)
     end,
 
     ['Electrified_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.STUN)
     end,
 
     ['Entombed_Yanthu'] = function(mob)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
-        mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
     end,
@@ -2488,7 +2513,7 @@ local mobRoamByMobName =
     end,
 
     ['Albino_Antlion'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
+        tpz.path.loop(mob, pathNodes['Saltopus'], tpz.path.flag.RUN)
     end,
 
     ['Harpimaira'] = function(mob, target)
@@ -2498,6 +2523,7 @@ local mobRoamByMobName =
     end,
 
     ['Saltopus'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Jebutoise'] = function(mob, target)
@@ -3919,7 +3945,6 @@ tpz.woe.mob.onMobSpawn = function(mob)
         end
     end
 
-    mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 20)
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
