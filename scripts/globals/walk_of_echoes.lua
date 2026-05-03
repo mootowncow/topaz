@@ -552,7 +552,7 @@ local walkData =
     --         Patrols { }, 
     --         Boss {  }, 
     --         Immune { Normal }, 
-    --         Spells { Aero IV, Aeroga III, Silencega }, 
+    --         Spells { Aero IV, Aeroga III, Silencega },   
     --         Cast Timer { 30 }
     --         TP Moves: { Petalback spin (13/tick poison), Petal Pirouette }, 
     --         Traits: { Counter, KA, DA }
@@ -1497,7 +1497,6 @@ local pathNodes =
         { X=206.922501, Y=18.000000, Z=560.487976, wait = { 60, 300, chance = 50 } }
     },
 
-    -- Walk 5
     ['Saltopus'] =
     {
         { X=-666.788269, Y=18.000000, Z=302.868805, wait = { 60, 300, chance = 50 } },
@@ -1505,7 +1504,48 @@ local pathNodes =
         { X=-715.277832, Y=18.000000, Z=227.430252, wait = { 60, 300, chance = 50 } },
         { X=-640.857178, Y=18.000000, Z=203.129272, wait = { 60, 300, chance = 50 } },
         { X=-518.985596, Y=36.000000, Z=234.174744, wait = { 60, 300, chance = 50 } },
-    };
+    },
+
+    ['Pardus'] =
+    {
+    },
+
+    -- Walk 10
+    [17522806] =
+    {
+    },
+
+    [17522807] =
+    {
+    },
+
+    [17522808] =
+    {
+    },
+
+    ['Ironclad_Harbinger'] =
+    {
+    },
+
+    ['Ironclad_Vaporizer'] =
+    {
+    },
+
+    ['Ligeia'] =
+    {
+    },
+
+    ['Leucosia'] =
+    {
+    },
+
+    ['Raidne'] =
+    {
+    },
+
+    ['Coeurl_Prentice'] =
+    {
+    },
 }
 
 local failState =
@@ -2513,7 +2553,7 @@ local mobRoamByMobName =
     end,
 
     ['Albino_Antlion'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes['Saltopus'], tpz.path.flag.RUN)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Harpimaira'] = function(mob, target)
@@ -2539,6 +2579,7 @@ local mobRoamByMobName =
     end,
 
     ['Pardus'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Anguis'] = function(mob, target)
@@ -2554,18 +2595,23 @@ local mobRoamByMobName =
     end,
 
     ['Annihilative_Adenium'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
     ['Pernicious_Pachypodium'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Lunatic_Lycopodium'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Killer_Korrigan'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Murderous_Mandragora'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
     ['Tapana'] = function(mob, target)
@@ -2575,9 +2621,11 @@ local mobRoamByMobName =
     end,
 
     ['Ironclad_Harbinger'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Ironclad_Vaporizer'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Iron_CraniumV1'] = function(mob, target)
@@ -2587,12 +2635,15 @@ local mobRoamByMobName =
     end,
 
     ['Ligeia'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Leucosia'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Raidne'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
     ['Sanguine_Sapsucker'] = function(mob, target)
@@ -2608,6 +2659,7 @@ local mobRoamByMobName =
     end,
 
     ['Coeurl_Prentice'] = function(mob, target)
+        tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
     ['Coeurl_Tiro'] = function(mob, target)
@@ -4769,7 +4821,7 @@ tpz.woe.veridicalConflux.onEventFinish = function(player, csid, option)
     local npc = player:getEventTarget()
     local npcId = npc:getID()
     local npcName = npc:getName()
-    local walkIndex = npcId - 17523237
+    local walkIndex = confluxWalk[npcId]
     local veridicalConfluxBF = 17523253
     local isExit = false
     local eventFinish = onEventFinishConfluxByName[npcName]
