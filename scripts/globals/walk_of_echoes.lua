@@ -18,6 +18,10 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- TODO: Make sure all DAT entries accounted for and add missing mob entries for each Walk. (Enter then see if it says mobid doesnt exist)
+-- TODO: Make mobs that don't cast WAR/WAR (besides the birds that triple attack)
+-- TODO: Test new disconnect logic
+-- TODO: If you log in and the walk you're in isn't active, play CS to teleport player to lobby
 -- TODO: Ga-IV cast times / recast times from DAT
 -- TODO: Max HP / MP boost removed on zoning
 -- TODO: Tortoise song dispel food?
@@ -1508,45 +1512,100 @@ local pathNodes =
 
     ['Pardus'] =
     {
+        { X=243.915298, Y=36.000000, Z=199.820282, wait = { 60, 300, chance = 50 } },
+        { X=271.793793, Y=42.000000, Z=149.032516, wait = { 60, 300, chance = 50 } },
+        { X=208.336594, Y=30.000000, Z=238.178513, wait = { 60, 300, chance = 50 } },
+        { X=238.733795, Y=24.000000, Z=270.826874, wait = { 60, 300, chance = 50 } },
+        { X=205.655457, Y=18.000000, Z=331.887817, wait = { 60, 300, chance = 50 } },
     },
 
     -- Walk 10
-    [17522806] =
+    ['Annihilative_Adenium'] =
     {
+        { X=152.077530, Y=90.000000, Z=-156.565857, wait = { 60, 300, chance = 50 } },
+        { X=332.979614, Y=72.000000, Z=-200.142319, wait = { 60, 300, chance = 50 } },
+        { X=199.964386, Y=54.000000, Z=-243.345459, wait = { 60, 300, chance = 50 } },
+        { X=334.868652, Y=36.000000, Z=-285.833282, wait = { 60, 300, chance = 50 } },
+        { X=148.097168, Y=18.000000, Z=-305.993958, wait = { 60, 300, chance = 50 } },
+        { X=318.146362, Y=0.000000, Z=-355.473328,  wait = { 60, 300, chance = 50 } }
     },
 
-    [17522807] =
-    {
-    },
+    -- [17522807] =
+    -- {
+    -- },
 
-    [17522808] =
-    {
-    },
+    -- [17522808] =
+    -- {
+    -- },
 
     ['Ironclad_Harbinger'] =
     {
+        { X=-552.453369, Y=5.160884, Z=-656.328735,  wait = { 60, 120, chance = 100 } },
+        { X=-540.771729, Y=5.999996, Z=-698.701660,  wait = { 60, 120, chance = 100 } },
+        { X=-482.165771, Y=-0.000004, Z=-658.490295, wait = { 60, 120, chance = 100 } },
     },
 
     ['Ironclad_Vaporizer'] =
     {
+        { X=-535.619629, Y=4.966923, Z=-672.399231,  wait = { 60, 120, chance = 100 } },
+        { X=-577.782654, Y=5.999996, Z=-710.822693,  wait = { 60, 120, chance = 100 } },
+        { X=-467.063293, Y=-0.000004, Z=-636.570374, wait = { 60, 120, chance = 100 } },
     },
 
     ['Ligeia'] =
     {
+        { X=-275.91, Y=0.00, Z=-466.01, wait = { 60, 120, chance = 100 } },
+        { X=-286.79, Y=-0.35, Z=-482.87, wait = { 60, 120, chance = 100 } },
+        { X=-276.43, Y=0.00, Z=-495.67, wait = { 60, 120, chance = 100 } },
+        { X=-218.36, Y=0.00, Z=-497.72, wait = { 60, 120, chance = 100 } },
+        { X=-218.20, Y=0.00, Z=-462.92, wait = { 60, 120, chance = 100 } },
+        { X=-186.77, Y=0.00, Z=-462.66, wait = { 60, 120, chance = 100 } },
+        { X=-134.89, Y=0.00, Z=-459.68, wait = { 60, 120, chance = 100 } },
+        { X=-130.81, Y=0.00, Z=-487.25, wait = { 60, 120, chance = 100 } },
+        { X=-103.72, Y=0.00, Z=-490.61, wait = { 60, 120, chance = 100 } },
+        { X=-101.54, Y=0.00, Z=-467.18, wait = { 60, 120, chance = 100 } },
+        { X=-99.87, Y=-0.02, Z=-544.05, wait = { 60, 120, chance = 100 } },
+        { X=-116.60, Y=0.00, Z=-544.00, wait = { 60, 120, chance = 100 } },
+        { X=-120.66, Y=0.00, Z=-563.63, wait = { 60, 120, chance = 100 } },
+        { X=-102.70, Y=0.00, Z=-566.89, wait = { 60, 120, chance = 100 } },
+        { X=-99.33, Y=0.00, Z=-620.12, wait = { 60, 120, chance = 100 } },
+        { X=-100.89, Y=0.00, Z=-655.87, wait = { 60, 120, chance = 100 } },
+        { X=-133.11, Y=0.00, Z=-657.49, wait = { 60, 120, chance = 100 } },
+        { X=-133.90, Y=0.00, Z=-623.39, wait = { 60, 120, chance = 100 } },
+        { X=-181.14, Y=0.00, Z=-621.00, wait = { 60, 120, chance = 100 } },
+        { X=-177.19, Y=0.00, Z=-638.65, wait = { 60, 120, chance = 100 } },
+        { X=-214.57, Y=0.00, Z=-646.16, wait = { 60, 120, chance = 100 } },
+        { X=-219.69, Y=0.00, Z=-619.73, wait = { 60, 120, chance = 100 } },
+        { X=-220.05, Y=0.00, Z=-577.37, wait = { 60, 120, chance = 100 } },
+        { X=-184.92, Y=0.00, Z=-579.54, wait = { 60, 120, chance = 100 } },
+        { X=-183.75, Y=0.00, Z=-544.17, wait = { 60, 120, chance = 100 } },
+        { X=-213.83, Y=0.00, Z=-541.19, wait = { 60, 120, chance = 100 } },
     },
 
-    ['Leucosia'] =
-    {
-    },
+    -- Reversed table via utils.ReverseTable(pathNodes['Ligeia']
+    -- ['Leucosia'] =
+    -- {
+    -- },
 
     ['Raidne'] =
     {
+        { X=-213.91, Y=0.00, Z=-659.47, wait = { 60, 120, chance = 100 } },
+        { X=-204.90, Y=0.00, Z=-562.28, wait = { 60, 120, chance = 100 } },
+        { X=-99.04, Y=0.00, Z=-574.63, wait = { 60, 120, chance = 100 } },
+        { X=-101.01, Y=0.00, Z=-464.10, wait = { 60, 120, chance = 100 } },
+        { X=-181.74, Y=0.00, Z=-459.63, wait = { 60, 120, chance = 100 } },
+        { X=-183.15, Y=0.00, Z=-540.50, wait = { 60, 120, chance = 100 } },
+        { X=-219.23, Y=0.00, Z=-659.78, wait = { 60, 120, chance = 100 } },
     },
 
     ['Coeurl_Prentice'] =
     {
     },
 }
+
+-- Reversed tables
+pathNodes['Leucosia'] = utils.ReverseTable(pathNodes['Ligeia'])
+
 
 local failState =
 {
@@ -2007,7 +2066,6 @@ local modByMobName =
     ['Caldera_Crab'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
-        mob:setMobMod(tpz.mobMod.LINK_RADIUS, 50)
     end,
 
     ['Cyanic_Crab'] = function(mob)
@@ -2118,6 +2176,7 @@ local modByMobName =
         mob:setMod(tpz.mod.REGEN, 40)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 80) -- 7.2
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
@@ -2215,11 +2274,13 @@ local modByMobName =
 
     ['Iron_CraniumV1'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
+        mob:AnimationSub(1)
     end,
 
     ['Iron_CraniumV2'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:AnimationSub(1)
     end,
 
     ['Ligeia'] = function(mob)
@@ -2526,179 +2587,188 @@ local mixinByMobName =
 
 local mobRoamByMobName =
 {
-    ['Caldera_Crab'] = function(mob, target)
+    ['Caldera_Crab'] = function(mob)
     end,
 
-    ['Cyanic_Crab'] = function(mob, target)
+    ['Cyanic_Crab'] = function(mob)
     end,
 
-    ['Damask_Crab'] = function(mob, target)
+    ['Damask_Crab'] = function(mob)
     end,
 
-    ['Morbid_Molasses'] = function(mob, target)
+    ['Morbid_Molasses'] = function(mob)
     end,
 
-    ['Grenade_Syrup'] = function(mob, target)
+    ['Grenade_Syrup'] = function(mob)
     end,
 
-    ['Berry_Syrup'] = function(mob, target)
+    ['Berry_Syrup'] = function(mob)
     end,
 
-    ['Myrmeleontide'] = function(mob, target)
+    ['Myrmeleontide'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
-    ['Anthracite_Antlion'] = function(mob, target)
+    ['Anthracite_Antlion'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
-    ['Albino_Antlion'] = function(mob, target)
+    ['Albino_Antlion'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
     end,
 
-    ['Harpimaira'] = function(mob, target)
+    ['Harpimaira'] = function(mob)
     end,
 
-    ['Natrix'] = function(mob, target)
+    ['Natrix'] = function(mob)
     end,
 
-    ['Saltopus'] = function(mob, target)
+    ['Saltopus'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
-    ['Jebutoise'] = function(mob, target)
+    ['Jebutoise'] = function(mob)
     end,
 
-    ['Begrimed_Bale'] = function(mob, target)
+    ['Begrimed_Bale'] = function(mob)
     end,
 
-    ['Bedraggled_Bale'] = function(mob, target)
+    ['Bedraggled_Bale'] = function(mob)
     end,
 
-    ['Canis_Dirus'] = function(mob, target)
+    ['Canis_Dirus'] = function(mob)
     end,
 
-    ['Pardus'] = function(mob, target)
+    ['Pardus'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
     end,
 
-    ['Anguis'] = function(mob, target)
+    ['Anguis'] = function(mob)
     end,
 
-    ['Varanus'] = function(mob, target)
+    ['Varanus'] = function(mob)
     end,
 
-    ['Anhanguera'] = function(mob, target)
+    ['Anhanguera'] = function(mob)
     end,
 
-    ['Pteranodon'] = function(mob, target)
+    ['Pteranodon'] = function(mob)
     end,
 
-    ['Annihilative_Adenium'] = function(mob, target)
+    ['Annihilative_Adenium'] = function(mob)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
+    end,
+
+    ['Pernicious_Pachypodium'] = function(mob)
+        tpz.path.loop(mob, pathNodes['Annihilative_Adenium'], tpz.path.flag.RUN)
+    end,
+
+    ['Lunatic_Lycopodium'] = function(mob)
+        tpz.path.loop(mob, pathNodes['Annihilative_Adenium'], tpz.path.flag.RUN)
+    end,
+
+    ['Killer_Korrigan'] = function(mob)
+        tpz.path.loop(mob, pathNodes['Annihilative_Adenium'], tpz.path.flag.RUN)
+    end,
+
+    ['Murderous_Mandragora'] = function(mob)
+        tpz.path.loop(mob, pathNodes['Annihilative_Adenium'], tpz.path.flag.RUN)
+    end,
+
+    ['Tapana'] = function(mob)
+    end,
+
+    ['Tapanas_Minion'] = function(mob)
+    end,
+
+    ['Ironclad_Harbinger'] = function(mob)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
+    end,
+
+    ['Ironclad_Vaporizer'] = function(mob)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
+    end,
+
+    ['Iron_CraniumV1'] = function(mob)
+    end,
+
+    ['Iron_CraniumV2'] = function(mob)
+    end,
+
+    ['Ligeia'] = function(mob)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.NONE)
+    end,
+
+    ['Leucosia'] = function(mob)
+        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.NONE)
+    end,
+
+    ['Raidne'] = function(mob)
+       tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.NONE)
+    end,
+
+    ['Sanguine_Sapsucker'] = function(mob)
+    end,
+
+    ['Malicious_Magpie'] = function(mob)
+    end,
+
+    ['Barra_Edinazu'] = function(mob)
+    end,
+
+    ['Coeurl_Mystic'] = function(mob)
+    end,
+
+    ['Coeurl_Prentice'] = function(mob)
         tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
-    ['Pernicious_Pachypodium'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
+    ['Coeurl_Tiro'] = function(mob)
     end,
 
-    ['Lunatic_Lycopodium'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
+    ['Mingyi'] = function(mob)
     end,
 
-    ['Killer_Korrigan'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
+    ['Sitke'] = function(mob)
     end,
 
-    ['Murderous_Mandragora'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getLocalVar("pathNodeIndex")], tpz.path.flag.RUN)
+    ['Sin'] = function(mob)
     end,
 
-    ['Tapana'] = function(mob, target)
+    ['Myin'] = function(mob)
     end,
 
-    ['Tapanas_Minion'] = function(mob, target)
+    ['Yahhta'] = function(mob)
     end,
 
-    ['Ironclad_Harbinger'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
+    ['Ne'] = function(mob)
     end,
 
-    ['Ironclad_Vaporizer'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
+    ['Scorched_Yanthu'] = function(mob)
     end,
 
-    ['Iron_CraniumV1'] = function(mob, target)
+    ['Glaciated_Yanthu'] = function(mob)
     end,
 
-    ['Iron_CraniumV2'] = function(mob, target)
+    ['Electrified_Yanthu'] = function(mob)
     end,
 
-    ['Ligeia'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
-    end,
-
-    ['Leucosia'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
-    end,
-
-    ['Raidne'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getName()], tpz.path.flag.RUN)
-    end,
-
-    ['Sanguine_Sapsucker'] = function(mob, target)
-    end,
-
-    ['Malicious_Magpie'] = function(mob, target)
-    end,
-
-    ['Barra_Edinazu'] = function(mob, target)
-    end,
-
-    ['Coeurl_Mystic'] = function(mob, target)
-    end,
-
-    ['Coeurl_Prentice'] = function(mob, target)
-        tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
-    end,
-
-    ['Coeurl_Tiro'] = function(mob, target)
-    end,
-
-    ['Mingyi'] = function(mob, target)
-    end,
-
-    ['Sitke'] = function(mob, target)
-    end,
-
-    ['Sin'] = function(mob, target)
-    end,
-
-    ['Myin'] = function(mob, target)
-    end,
-
-    ['Yahhta'] = function(mob, target)
-    end,
-
-    ['Ne'] = function(mob, target)
-    end,
-
-    ['Scorched_Yanthu'] = function(mob, target)
-    end,
-
-    ['Glaciated_Yanthu'] = function(mob, target)
-    end,
-
-    ['Electrified_Yanthu'] = function(mob, target)
-    end,
-
-    ['Entombed_Yanthu'] = function(mob, target)
+    ['Entombed_Yanthu'] = function(mob)
     end,
 }
 
 local mobEngagedByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+        -- Force link all other Caldera Crabs on engage
+        for calderaCrab = 17522689, 17522691 do
+            if calderaCrab ~= mob:getID() then
+                local ally = GetMobByID(calderaCrab)
+                if ally and ally:isAlive() then
+                    ally:updateEnmity(target)
+                end
+            end
+        end
     end,
 
     ['Cyanic_Crab'] = function(mob, target)
@@ -4375,8 +4445,15 @@ end
 
 local function addWalkTimer(player, zone)
     local walk = player:getCharVar("[WoE]CurrentWalk")
-    local timer = zone:getLocalVar("WalkTimer_" .. walk)
-    player:countdown(timer - os.time())
+    local walkTimerVar = zone:getLocalVar("WalkTimer_" .. walk)
+    local timer = walkTimerVar - os.time()
+
+    if timer > 0 then
+        player:countdown(timer)
+        return true
+    end
+
+    return false
 end
 
 local function startWalk(player, walk)
@@ -4507,10 +4584,12 @@ tpz.woe.afterZoneIn = function(player)
         end
 
         -- Disconnect safety logic while inside a Walk
-        if player:hasStatusEffect(tpz.effect.BATTLEFIELD) then
-            addWalkTimer(player, zone)
+        if player:hasStatusEffect(tpz.effect.BATTLEFIELD) and addWalkTimer(player, zone) then
             addTempItems(player, walkData.Temps.Starter, false)
             player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
+        else
+            player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
+            exitWalk(player)
         end
     end
 end

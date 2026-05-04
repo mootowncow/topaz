@@ -1663,3 +1663,11 @@ function utils.DespawnAllMobsEngagedToPlayer(player)
         end
     end
 end
+
+function utils.ReverseTable(t)
+    local reversed = {}
+    for i = #t, 1, -1 do
+        table.insert(reversed, t[i])
+    end
+    return reversed
+end

@@ -4101,8 +4101,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,49,37,56);          
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,50,57,67);          -- Shell III
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,51,68,86);          -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,52,87,255);         -- Shell V
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,74);          -- Haste
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,75,255);        -- Haste II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,57,48,75);          -- Haste (Make 74 MAX once adding Haste II access)
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,511,76,255);        -- Haste II (Make level 75 MIN once adding Haste II access)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,56,13,74);          -- Slow
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,79,75,255);         -- Slow II
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,58,6,74);           -- Paralyze
@@ -4114,8 +4114,8 @@ INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,473,75,255);        
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,260,32,255);        -- Dispel
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,841,35,255);        -- Distract
 -- INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,842,85,255);        -- Distract II
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,255);        -- Flurry
-INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,75,255);        -- Flurry II
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,845,48,75);        -- Flurry (Make 74 MAX once adding Flurry II access)
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,846,76,255);        -- Flurry II (Make level 75 MIN once adding Flurry II access)
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,12,38,255);        -- Raise
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,135,66,255);       -- Reraise
 INSERT INTO `mob_spell_lists` VALUES ('TRUST_Koru-Moru',364,@SPELL_INUNDATION,64,255);
