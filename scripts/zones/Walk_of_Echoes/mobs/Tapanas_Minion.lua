@@ -24,7 +24,7 @@ function onSpellPrecast(mob, spell)
     tpz.woe.mob.onSpellPrecast(mob, spell)
 end
 
-function onMobWeaponSkillPrepare(mob, target, skill)
+function onMobWeaponSkill(target, mob, skill)
     tpz.woe.mob.onMobWeaponSkill(mob, target, skill)
 end
 
