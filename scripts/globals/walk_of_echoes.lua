@@ -38,7 +38,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Chilling Roar hate reset only when wings are up? Terror always?
 -- TODO: What else changes with the TP moves when wings up? Are all additional effects locked behind wings being up?
 -- TODO: Chaos Blast overwrites and removes max hp/mp boost). Think max HP/MP boost and max HP/MP down overwrite eachother (fix in status_effects.sql)
--- TODO: Anhanguera stun AOE?
 -- TODO: all caturae commented tp moves <= 50 or 25%?
 -- TODO: BLU spells, helixes and Geo spells added to procs
 -- TODO: Augur Smash shadow count
@@ -1597,10 +1596,6 @@ local pathNodes =
         { X=-183.15, Y=0.00, Z=-540.50, wait = { 15, 30, chance = 100 } },
         { X=-219.23, Y=0.00, Z=-659.78, wait = { 15, 30, chance = 100 } },
     },
-
-    ['Coeurl_Prentice'] =
-    {
-    },
 }
 
 -- Reversed tables
@@ -2215,6 +2210,7 @@ local modByMobName =
         mob:setMod(tpz.mod.SDT_WATER, 50)
         mob:setMod(tpz.mod.SDT_WIND, 5)
         mob:setMod(tpz.mod.SDT_EARTH, 5)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
@@ -2309,6 +2305,7 @@ local modByMobName =
         mob:setMod(tpz.mod.EEM_STUN, 5)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 25)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
     end,
 
@@ -2409,6 +2406,12 @@ local mixinByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target)
+        -- Bindga resets hate, even if spell is interrupted or resisted
+        mob:addListener("MAGIC_START", "MYRME_MAGIC_START", function(caster, target, spell)
+            if (spell:getID() == tpz.magic.spell.BINDGA) then
+                ResetEnmityList(mob)
+            end
+        end)
     end,
 
     ['Anthracite_Antlion'] = function(mob, target)
@@ -2720,7 +2723,6 @@ local mobRoamByMobName =
     end,
 
     ['Coeurl_Prentice'] = function(mob)
-        tpz.path.loop(mob, pathNodes[mob:getID()], tpz.path.flag.RUN)
     end,
 
     ['Coeurl_Tiro'] = function(mob)
@@ -4072,6 +4074,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.MUG_GIL, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 1)
     mob:setMobMod(tpz.mobMod.AGGRO_SIGHT, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_HP, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_MAGIC, 0)
