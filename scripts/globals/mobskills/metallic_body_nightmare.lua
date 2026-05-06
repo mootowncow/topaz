@@ -21,7 +21,7 @@ function onMobWeaponSkill(target, mob, skill)
     local duration = 300
 
     if (mob:isNM()) then
-        power = math.floor((25 + (mob:getMainLvl() / 1)) * 2)
+        power = math.floor(300 + mob:getMainLvl() * 20) -- ~1900 on caldera crab
     end
 
     skill:setMsg(MobBuffMove(mob, typeEffect, power, 0, duration))

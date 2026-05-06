@@ -57,13 +57,9 @@ require("scripts/globals/weaponskillids")
 -- TODO: Dia / Bio no effect (and thus don't apply dia/bio) if target has magic shield and power of 1
 -- TODO: inundation is light magic type
 -- TODO: Refund gil cost of boost spells and remove off shiyo and vendor
--- TODO: Add All T4 -gas
 -- TODO: Add https://github.com/LandSandBoat/server/pull/9760
 -- TODO: Test -attributes clamping to 1 and see if attack is equal to w/e str is being removed by and works properly I guess?
 -- TODO: Make sure enums are correct for misc items where my comment is 
--- TODO: what happens if you log off / dc mid walk, do you come back with a timer?
--- TODO: All bosses no roam?
--- TODO: Kozumi picture, eventually way to skip CS and just buy KI zoning from Xarcabard[S]
 -- TODO: Endowed gives ALL starter temps back
 -- TODO: Get temp drop rate from walkData.TempRate
 -- TODO: ALL walks "Fiend thrists for blood" message  then a random mob in the walk within ~100 yards will run at the tank (doesn't link any other mobs when doing this, apparently). Triggers at health intervals (%)
@@ -131,6 +127,8 @@ local walkData =
             -- Cast Timer { 30 }
             -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
+            -- TODO: Doesn't cast spells
+            -- TODO: Metallic body should be ~1900 Stoneskin
         -- Completion: All Caldera crabs dead
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 82 },
         Boss        = {'Caldera_Crab'},
@@ -140,7 +138,7 @@ local walkData =
         SurgedDrops = { item.THRIFT_GLOVES_HQ, item.BELISAMAS_ROPE_HQ, item.ARDOR_PENDANT_HQ, item.KARAGOZ_MANTLE_HQ },
         SetDrop     = { item.ASKAR_GAMBIERAS },
         MobDrops    = { item.CRAB_SHELL, item.HIGH_QUALITY_CRAB_SHELL },
-        Title       = { title.TORCHBEARER_OF_THE_1ST_WALK },
+        Title       = title.TORCHBEARER_OF_THE_1ST_WALK,
         Experience  = 1500
     },
     [2] =
@@ -165,7 +163,7 @@ local walkData =
         SurgedDrops = { item.SASUKE_TEKKO_HQ, item.AUSTERITY_BELT_HQ, item.FELICITAS_CAPE_HQ, item.EIDOLON_PENDANT_HQ },
         SetDrop     = { item.DENALI_GAMASHES },
         MobDrops    = { item.VIAL_OF_SLIME_OIL, item.VIAL_OF_SLIME_JUICE, item.HANDFUL_OF_CLOT_PLASMA },
-        Title       = { title.TORCHBEARER_OF_THE_2ND_WALK },
+        Title       = title.TORCHBEARER_OF_THE_2ND_WALK,
         Experience  = 1500
     },
     [3] =
@@ -204,7 +202,7 @@ local walkData =
         SurgedDrops = { item.ACERBIC_SASH_HQ, item.ACESOS_CHOKER_HQ, item.FUGACITY_BERET_HQ, item.RAGER_LEDELSENS_HQ },
         SetDrop     = { item.GOLIARD_CLOGS },
         MobDrops    = { item.ANTLION_JAW },
-        Title       = { title.TORCHBEARER_OF_THE_3RD_WALK },
+        Title       = title.TORCHBEARER_OF_THE_3RD_WALK,
         Experience  = 1500
     },
     [4] =
@@ -232,7 +230,7 @@ local walkData =
         SurgedDrops = { item.PIXIE_HAIRPIN_HQ, item.VATES_CAPE_HQ, item.SVELTESSE_GOURIZ_HQ, item.WUKONGS_HAKAMA_HQ },
         SetDrop     = { item.ASKAR_MANOPOLAS },
         MobDrops    = { },
-        Title       = { title.TORCHBEARER_OF_THE_4TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_4TH_WALK,
         Experience  = 1500
     },
     [5] =
@@ -269,7 +267,7 @@ local walkData =
         SurgedDrops = { item.ADAPAS_SLACKS_HQ, item.AENOTHERUS_MANTLE_HQ, item.FORBAN_CAPE_HQ, item.SERAPH_MITTENS_HQ, item.SLITHER_GLOVES_HQ },
         SetDrop     = { item.DENALI_WRISTBANDS },
         MobDrops    = { item.WYVERN_WING, item.WYVERN_SKIN, item.HANDFUL_OF_WYVERN_SCALES },
-        Title       = { title.TORCHBEARER_OF_THE_5TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_5TH_WALK,
         Experience  = 1500
     },
     [6] =
@@ -307,7 +305,7 @@ local walkData =
         SurgedDrops = { item.ACCORD_HAT_HQ, item.FUGACITY_MANTLE_HQ, item.KATIPO_CHARM_HQ, item.SHIFTING_NECKLACE_HQ, item.QUARTZ_TATHLUM_HQ },
         SetDrop     = { item.GOLIARD_CUFFS },
         MobDrops    = { item.SMILODON_HIDE, item.SMILODON_LIVER },
-        Title       = { title.TORCHBEARER_OF_THE_6TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_6TH_WALK,
         Experience  = 1500
     },
     [7] = -- "T1" final boss?
@@ -412,7 +410,7 @@ local walkData =
         SurgedDrops = { item.CONDUIT_SHOES_HQ, item.LEISURE_MUSK_HQ, item.MEDBS_GAUNTLETS_HQ, item.VELLAUNUS_MANTLE_HQ, item.LACONO_NECKLACE_HQ },
         SetDrop     = { item.ASKAR_KORAZIN },
         MobDrops    = {  },
-        Title       = { title.TORCHBEARER_OF_THE_7TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_7TH_WALK,
         Experience  = 1500
     },
     -- T2 start?
@@ -469,7 +467,7 @@ local walkData =
         SurgedDrops = { item.ESPER_STONE_HQ, item.GIGANTES_BOOTS_HQ, item.OMBRE_TATHLUM_HQ, item.MOONDOE_MANTLE_HQ },
         SetDrop     = { item.ASKAR_DIRS },
         MobDrops    = {  },
-        Title       = { title.TORCHBEARER_OF_THE_8TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_8TH_WALK,
         Experience  = 1500
     },
     [9] =
@@ -519,7 +517,7 @@ local walkData =
         SurgedDrops = { item.DUALISM_COLLAR_HQ, item.MIRADOR_TROUSERS_HQ, item.ORETANIAS_CAPE_HQ, item.WAYLAYERS_SCARF_HQ },
         SetDrop     = { item.DENALI_KECKS },
         MobDrops    = {  },
-        Title       = { title.TORCHBEARER_OF_THE_9TH_WALK },
+        Title       = title.TORCHBEARER_OF_THE_9TH_WALK,
         Experience  = 1500
     },
     [10] =
@@ -603,8 +601,8 @@ local walkData =
         SurgedDrops = { item.COATL_GORGET_HQ, item.CHERSOS_HELM_HQ, item.MEANAGH_CAPE_HQ, item.ENCHANTERS_EARRING_HQ },
         SetDrop     = { item.GOLIARD_TREWS },
         MobDrops    = { item.LYCOPODIUM_FLOWER },
-        Title       = { title.TORCHBEARER_OF_THE_10TH_WALK },  -- TODO
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_10TH_WALK,
+        Experience  = 1500
     },
     [11] =
     {
@@ -663,8 +661,8 @@ local walkData =
         SurgedDrops = { item.ALRUNAS_GLOVES_HQ, item.CHINERS_BELT_HQ, item.FLUME_BELT_HQ, item.MOROS_CROSSBOW_HQ, item.SAEVUS_PENDANT_HQ, item.THEIAS_HAIRPIN_HQ },
         SetDrop     = { item.DENALI_JACKET },
         MobDrops    = { tpz.items.BONE_CHIP, tpz.items.REVIVAL_TREE_ROOT },
-        Title       = { title.TORCHBEARER_OF_THE_11TH_WALK },
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_11TH_WALK,
+        Experience  = 1500
     },
     [12] =
     {
@@ -734,8 +732,8 @@ local walkData =
         SurgedDrops = { item.WEATHERING_SHIELD_HQ, item.PROSILIO_BELT_HQ, item.TEMPERED_CAPE_HQ, item.ARVINA_RINGLE_HQ},
         SetDrop     = { item.ASKAR_ZUCCHETTO },
         MobDrops    = {  },
-        Title       = { title.TORCHBEARER_OF_THE_12TH_WALK },  -- TODO
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_12TH_WALK,
+        Experience  = 1500
     },
     [13] =
     {
@@ -818,8 +816,8 @@ local walkData =
         SurgedDrops = { item.WINDBUFFET_BELT_HQ, item.THUELLAIC_ECU_HQ, item.SCOPULI_NAILS_HQ, item.HASTY_PINION_HQ },
         SetDrop     = { item.DENALI_BONNET },
         MobDrops    = { item.BIRD_FEATHER, item.BIRD_EGG },
-        Title       = { title.TORCHBEARER_OF_THE_13TH_WALK },  -- TODO
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_13TH_WALK,
+        Experience  = 1500
     },
     [14] =
     {
@@ -887,8 +885,8 @@ local walkData =
         SurgedDrops = { item.DILETTANTES_GRIP_HQ, item.SMILODON_MASK_HQ, item.GALLIAN_HELM_HQ, item.HIDALGO_SLOPS_HQ },
         SetDrop     = { item.GOLIARD_CHAPEAU },
         MobDrops    = { item.COEURL_HIDE, item.COEURL_WHISKER, item.HIGH_QUALITY_COEURL_HIDE, item.SLICE_OF_COEURL_MEAT, item.LYNX_HIDE, item.SLICE_OF_LYNX_MEAT },
-        Title       = { title.TORCHBEARER_OF_THE_14TH_WALK },  -- TODO
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_14TH_WALK,
+        Experience  = 1500
     },
     [15] =
     {
@@ -1050,8 +1048,8 @@ local walkData =
         SurgedDrops = { item.LUNETTE_RING_HQ, item.ENGULFER_CAPE_HQ, item.NEFARIOUS_COLLAR_HQ, item.ELDERS_GRIP_HQ, item.NOMKAHPA_MITTENS_HQ },
         SetDrop     = { item.GOLIARD_SAIO },
         MobDrops    = { item.FIRE_CLUSTER, item.ICE_CLUSTER, item.WIND_CLUSTER, item.EARTH_CLUSTER, item.LIGHTNING_CLUSTER, item.WATER_CLUSTER, item.LIGHT_CLUSTER, item.DARK_CLUSTER },
-        Title       = { title.TORCHBEARER_OF_THE_15TH_WALK },
-        Experience  = 1500  -- TODO
+        Title       = title.TORCHBEARER_OF_THE_15TH_WALK,
+        Experience  = 1500
     },
 
     Temps =
@@ -2064,9 +2062,11 @@ local modByMobName =
     end,
 
     ['Cyanic_Crab'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Damask_Crab'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Morbid_Molasses'] = function(mob)
@@ -3282,7 +3282,7 @@ local onMobWeaponSkillByMobName =
         if skill:getID() == tpz.mob.skills.MEGA_SCISSORS then
             if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("doubleMegaScissors") then
                 UseMultipleTPMoves(mob, math.random(2, 5), tpz.mob.skills.MEGA_SCISSORS)
-                mob:setLocalVar("doubleMegaScissors", os.time() + 30) -- prevent infinite loop
+                mob:setLocalVar("doubleMegaScissors", os.time() + 25) -- prevent infinite loop
             end
         end
 
@@ -3330,7 +3330,7 @@ local onMobWeaponSkillByMobName =
         if skill:getID() == tpz.mob.skills.THUNDERSTRIKE then
             if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("multipleThunderStrike") then
                 UseMultipleTPMoves(mob, 4, tpz.mob.skills.THUNDERSTRIKE)
-                mob:setLocalVar("multipleThunderStrike", os.time() + 30) -- prevent infinite loop
+                mob:setLocalVar("multipleThunderStrike", os.time() + 25) -- prevent infinite loop
             end
         end
     end,
@@ -3340,7 +3340,7 @@ local onMobWeaponSkillByMobName =
         if skill:getID() == tpz.mob.skills.BAROFIELD then
             if mob:getHPP() <= 25 and os.time() >= mob:getLocalVar("multipleBarofield") then
                 UseMultipleTPMoves(mob, math.random(2, 4), tpz.mob.skills.BAROFIELD)
-                mob:setLocalVar("multipleBarofield", os.time() + 30) -- prevent infinite loop
+                mob:setLocalVar("multipleBarofield", os.time() + 25) -- prevent infinite loop
             end
         end
     end,
@@ -3362,7 +3362,7 @@ local onMobWeaponSkillByMobName =
         -- Below 75%, sometimes uses two TP moves in a row
         if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("multipleTPMoves") then
             mob:useMobAbility(skill:getID()) 
-            mob:setLocalVar("multipleTPMoves", os.time() + 10) -- prevent infinite loop
+            mob:setLocalVar("multipleTPMoves", os.time() + 5) -- prevent infinite loop
         end
     end,
 
@@ -3405,10 +3405,10 @@ local onMobWeaponSkillByMobName =
             if os.time() >= mob:getLocalVar("multipleChillingRoar") then
                 if hpp <= 10 then
                     UseMultipleTPMoves(mob, 2, skill:getID())
-                    mob:setLocalVar("multipleChillingRoar", os.time() + 20) -- prevent infinite loop
+                    mob:setLocalVar("multipleChillingRoar", os.time() + 15) -- prevent infinite loop
                 elseif hpp <= 20 then
                     mob:useMobAbility(skill:getID()) 
-                    mob:setLocalVar("multipleChillingRoar", os.time() + 20) -- prevent infinite loop
+                    mob:setLocalVar("multipleChillingRoar", os.time() + 15) -- prevent infinite loop
                 end
             end
         end
@@ -3435,7 +3435,7 @@ local onMobWeaponSkillByMobName =
                 nextMove = tpMoves[math.random(#tpMoves)]
             until nextMove ~= skill:getID()
             mob:useMobAbility(nextMove) 
-            mob:setLocalVar("randomTPMove", os.time() + 10) -- prevent infinite loop
+            mob:setLocalVar("randomTPMove", os.time() + 5) -- prevent infinite loop
         end
     end,
 
@@ -4074,7 +4074,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.GIL_MAX, -1)
     mob:setMobMod(tpz.mobMod.MUG_GIL, -1)
     mob:setMobMod(tpz.mobMod.EXP_BONUS, -100)
-    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 1)
+    mob:setMobMod(tpz.mobMod.SOUND_RANGE, 15)
     mob:setMobMod(tpz.mobMod.AGGRO_SIGHT, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_HP, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_MAGIC, 0)
@@ -4531,7 +4531,11 @@ end
 local function completeWalk(player)
     local ID = zones[player:getZoneID()]
     local walk = player:getCharVar("[WoE]CurrentWalk")
+    local data = walkData[walk]
 
+    if not data then return end
+
+    player:addTitle(data.Title)
     player:messageSpecial(ID.text.VANQUISHED_ALL_FOES)
     player:messageSpecial(ID.text.OBTAIN_COFFER_REWARDS)
     player:startEvent(1003, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)

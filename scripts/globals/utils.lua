@@ -1273,6 +1273,11 @@ function utils.CapHealAmount(target, healamount)
 
     return healamount
 end
+    
+function utils.getMaxHPPercent(target, percent)
+    local hpp = target:getMaxHP() * (percent / 100)
+    return hpp
+end
 
 function utils.ApplyStoneskinBonuses(caster, power)
     -- Apply gear Mod

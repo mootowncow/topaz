@@ -7416,8 +7416,8 @@ INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_POISONGA_II, 1
 INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_WATERGA_II, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Damask_Crab', 1029, @SPELL_WATER_IV, 1, 255);
 
-INSERT INTO `mob_spell_lists` VALUES ('Caldera_crab', 1030, @SPELL_WATER_IV, 1, 255);
-INSERT INTO `mob_spell_lists` VALUES ('Caldera_crab', 1030, @SPELL_WATERGA_III, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Caldera_Crab', 1030, @SPELL_WATER_IV, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Caldera_Crab', 1030, @SPELL_WATERGA_III, 1, 255);
 
 INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BLIND, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BIO_III, 1, 255);
