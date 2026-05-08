@@ -18,6 +18,17 @@ require("scripts/globals/titles")
 require("scripts/globals/weaponskillids")
 --------------------------------------
 
+-- Testing
+-- Walk 1: Put spawns in correct places like retail? I think they don't roam?
+-- Walk2: Grenade Syrup: TP moves. 
+
+-- TODO: Rot (rotation) for all NMs that are set to NO_ROAM
+-- TODO: barnacle crabs SDT/EEM
+-- TODO:harpies can patroll past conduit
+-- TODO: typhoen rage muddle mute encumb  amnesia exactly 60s 
+-- TODO: shrieking gale dispel? multiple a lot 
+-- TODO: harpeia sleep nightmare sleep 30s dura 
+-- TODO: Test tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20) on mob dying
 -- TODO: Make sure all DAT entries accounted for and add missing mob entries for each Walk. (Enter then see if it says mobid doesnt exist)
 -- TODO: Make mobs that don't cast WAR/WAR (besides the birds that triple attack)
 -- TODO: Test new disconnect logic
@@ -72,8 +83,6 @@ require("scripts/globals/weaponskillids")
 -- TODO: Code pouches, scrolls, drops
 -- TODO: Can you pet pull on retail? (No linking)
 -- TODO: No party hate on normal mobs? Just bosses?
--- TODO: slimes slow overwrites haste
--- TODO: big slime aoe long cast time
 -- TODO: Higher level weapon dmg on bosses or the higher level confluxes 
 -- TODO: I think in TODO.txt I have WOE weather fix?
 -- TODO: On completion/timer running out all mobs should "fall to the ground" (die) then instantly despawn, and not give temps (add arg for forceKill or soemthing)
@@ -127,8 +136,6 @@ local walkData =
             -- Cast Timer { 30 }
             -- Mechanics { Uses Mega Scissors 3-5 in a row <= 75% HP, High Store TP. Plague Aura after using Venom Shower for (50/tick) ~20 seconds } 
             -- Proc { Flash Red Terror, 15, then 10s, then 5s (DR) ? Or always 10-15? Sometimes not active..( No proc during Endowed walk?) }
-            -- TODO: Doesn't cast spells
-            -- TODO: Metallic body should be ~1900 Stoneskin
         -- Completion: All Caldera crabs dead
         Mobs        = { IdStart = 17522689, IdEnd = 17522709, Lvl = 82 },
         Boss        = {'Caldera_Crab'},
@@ -148,7 +155,7 @@ local walkData =
             -- TP Moves: { Mucus Spread}, Traits: { DA }
         -- Morbid Molasses, lvl { 80 }, Model { 0x0000250100000000000000000000000000000000 }, Size { Large } Ids {},  Amount { 3 }, Partied { 3 }, Boss { True }, Immune { Normal }, 
             -- Spells { Blindga, Dispelga, Sleepga II }, 
-            -- TP Moves: { Dissolve (did 681 dmg to no shell/prot targets) , Cytokinesis (7 knockback + 50-75% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, 
+            -- TP Moves: { Dissolve (did 681 dmg to no shell/prot targets) Self, Conal, Cytokinesis (7 knockback + -84% gravity, 1.5-2s cast Self), Mucus Spread (Self), Fluid Toss, Fluid Spread, Epoxy Spread }, 
             -- Traits: { Store TP (300+), DA }
             -- Proc { Blizzard OR flash on Ice Day }
             -- Mechanics { Kills Grenade Syrups with it on death, they also drop temp items (KILL them dont despawn them, then) }
@@ -2076,9 +2083,11 @@ local modByMobName =
     end,
 
     ['Grenade_Syrup'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Berry_Syrup'] = function(mob)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Myrmeleontide'] = function(mob)
@@ -2113,6 +2122,7 @@ local modByMobName =
     ['Harpimaira'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
     end,
 
@@ -2142,6 +2152,7 @@ local modByMobName =
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.REGAIN, 200)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2152,6 +2163,7 @@ local modByMobName =
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2160,8 +2172,9 @@ local modByMobName =
     ['Bedraggled_Bale'] = function(mob)
         mob:setMod(tpz.mod.DEF, 4000)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
-        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, -32) -- 2.7
+        mob:setMobMod(tpz.mobMod.MAGIC_COOL, 20)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.STUN)
         mob:addImmunity(tpz.immunity.POISON)
@@ -2185,6 +2198,7 @@ local modByMobName =
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMod(tpz.mod.MDEF, 50)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
         mob:setModelSize(5)
@@ -2254,6 +2268,7 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 100)
         mob:setMobMod(tpz.mobMod.MAGIC_COOL, 45)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Tapanas_Minion'] = function(mob)
@@ -2270,12 +2285,14 @@ local modByMobName =
 
     ['Iron_CraniumV1'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:AnimationSub(1)
     end,
 
     ['Iron_CraniumV2'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 20)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:AnimationSub(1)
     end,
 
@@ -2330,31 +2347,37 @@ local modByMobName =
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Sitke'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Sin'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Myin'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Yahhta'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Ne'] = function(mob)
         mob:setMod(tpz.mod.MDEF, 70)
         mob:setMod(tpz.mod.REGAIN, 150)
+        mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
     end,
 
     ['Scorched_Yanthu'] = function(mob)
@@ -2965,11 +2988,14 @@ local mobFightByMobName =
     end,
 
     ['Anthracite_Antlion'] = function(mob, target)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Albino_Antlion'] = function(mob, target)
         -- Gains access to Break below 25%
         AddSpellListEntryHPP(mob, { tpz.magic.spell.BREAK }, 25)
+
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Harpimaira'] = function(mob, target)
@@ -3906,7 +3932,6 @@ local mobDeathByMobName =
         for _, mobId in pairs(currentParty) do
             local partyMob = GetMobByID(mobId)
             if partyMob and partyMob:isAlive() then
-                partyMob:setLocalVar("NoTemps", 1)
                 partyMob:setHP(0)
             end
         end
@@ -4198,7 +4223,6 @@ tpz.woe.mob.onMobDeath = function(mob, player, isKiller, noKiller)
             else
                 tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller)
                 tpz.woe.mob.rollForEndowed(mob, player, isKiller, noKiller)
-                tpz.woe.mob.callNearbyMobForHelp(mob, target, 5, 20)
             end
         end
     end
@@ -4591,12 +4615,16 @@ tpz.woe.afterZoneIn = function(player)
         end
 
         -- Disconnect safety logic while inside a Walk
-        if player:hasStatusEffect(tpz.effect.BATTLEFIELD) and addWalkTimer(player, zone) then
-            addTempItems(player, walkData.Temps.Starter, false)
-            player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
-        else
-            player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
-            exitWalk(player)
+        if player:hasStatusEffect(tpz.effect.BATTLEFIELD) then
+
+            -- Check if the Walk is currently active, if so, give player temps and exp retain mod back
+            if addWalkTimer(player, zone) then
+                addTempItems(player, walkData.Temps.Starter, false)
+                player:setMod(tpz.mod.EXPERIENCE_RETAINED, 100)
+            else -- Walk isn't active, send player back to lobby and exit the walk
+                player:startEvent(1002, 4294547296, 13500, 4294935296, 3072, 0, 0, 0, 0)
+                exitWalk(player)
+            end
         end
     end
 end

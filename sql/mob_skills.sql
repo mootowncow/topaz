@@ -2477,7 +2477,7 @@ INSERT INTO `mob_skills` VALUES (2499, 3326, 'deconstruction', 0, 25.0, 2000, 10
 INSERT INTO `mob_skills` VALUES (2511,1775,'corpse_breath',4,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2512,1778,'venom_shower',1,15.0,2000,1500,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2513,1781,'mega_scissors',4,10.0,2000,1500,8193,0,0,0,9,4,0); 
-INSERT INTO `mob_skills` VALUES (2514,1773,'cytokinesis',0,15.0,2000,1500,8193,2,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2514,1773,'cytokinesis',0,15.0,2000,2000,8193,2,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2515,2072,'phason_beam',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2516,1780,'gravitic_horn',4,10.0,2000,2000,8193,0,0,4,0,0,0);
 INSERT INTO `mob_skills` VALUES (2517,1779,'quake_blast',1,15.0,2000,3000,8193,0,0,0,0,0,0);
@@ -2514,7 +2514,7 @@ INSERT INTO `mob_skills` VALUES (2545,1755,'doom_arc',1,18.0,2000,1000,4,0,0,0,0
 -- INSERT INTO `mob_skills` VALUES (2547,2291,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2548,1768,'fluid_spread_big_slime',1,10.0,2000,1500,4,0,0,0,12,1,0);
 INSERT INTO `mob_skills` VALUES (2549,1769,'fluid_toss_big_slime',0,15,2000,1500,4,0,0,0,5,0,0);
-INSERT INTO `mob_skills` VALUES (2550,1770,'dissolve',4,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2550,1770,'dissolve',4,10.0,2000,2000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2551,1771,'mucus_spread',1,10.0,2000,1500,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2552,1772,'epoxy_spread',1,10.0,2000,1500,8193,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (2553,2297,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);

@@ -7422,7 +7422,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Caldera_Crab', 1030, @SPELL_WATERGA_III, 
 INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BLIND, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Grenade_Syrup', 1031, @SPELL_BIO_III, 1, 255);
 
-INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_BINDGA, 1, 255);
+INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_BLINDGA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_DISPELGA, 1, 255);
 INSERT INTO `mob_spell_lists` VALUES ('Morbid_Molasses', 1032, @SPELL_SLEEPGA_II, 1, 255);
 
