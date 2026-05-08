@@ -111,6 +111,8 @@ void CAttackState::UpdateTarget(uint16 targid)
             newTargid = 0;
 
             CCharEntity* PChar = dynamic_cast<CCharEntity*>(m_PEntity);
+
+            //Autotarget logic
             if (PChar && PChar->m_hasAutoTarget) // /autotarget on
             {
                 CBattleEntity* PClosestTarget = nullptr;
@@ -142,6 +144,7 @@ void CAttackState::UpdateTarget(uint16 targid)
                     PChar->pushPacket(new CLockOnPacket(PChar, PClosestTarget));
                 }
 
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PClosestTarget, 0, 0, MSGBASIC_AUTOTARGETING));
                 m_PEntity->PAI->ChangeTarget(newTargid);
             }
         }

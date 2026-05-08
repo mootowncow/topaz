@@ -79,6 +79,7 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_REQUIRES_SHIELD		= 199, // That action requires a shield.
     MSGBASIC_REQUIRES_COMBAT        = 525, // .. can only be performed during battle.
     MSGBASIC_JA_MISS                = 158, // <user> uses <ability>, but misses. (no name included)
+    MSGBASIC_AUTOTARGETING          = 234, // Auto-targeting <target>.
     MSGBASIC_STATUS_PREVENTS_USING  = 569, // Your current status prevents you from using that ability.
 
     // Enspell
