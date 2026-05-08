@@ -1324,7 +1324,6 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             actionTarget.speceffect = SPECEFFECT_BLOOD;
             this->PAI->EventHandler.triggerListener("WEAPONSKILL_STATE_INTERRUPTED", this, PSkill->getID());
-
             return;
         }
     }
@@ -1339,10 +1338,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         // Should be impossible for self to not be in target list, but just in case
 
         if (targets > 0)
-
-        {
             targets -= 1;
-        }
 
         skipSelf = true;
     }
@@ -1365,21 +1361,17 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             // action.actiontype unchanged
 
             actionTarget.animation = PSkill->getAnimationID();
-
             actionTarget.reaction = REACTION_HIT;
-
             actionTarget.speceffect = SELFAOE_MISS;
+            actionTarget.messageID = MSGBASIC_NO_TARGETS_IN_RANGE;
 
             HandleMobskillExtra(skillId);
         }
         else
         {
             action.actiontype = ACTION_MOBABILITY_INTERRUPT;
-
             action.actionid = 28787; // Some hardcoded magic for interrupts
-
             actionTarget.animation = 0x1FC; // Hardcoded magic sent from the server
-
             actionTarget.reaction = REACTION_HIT;
         }
 

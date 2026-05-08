@@ -125,7 +125,8 @@ enum MSGBASIC_ID : uint16
     // Distance 
 	MSGBASIC_TARG_OUT_OF_RANGE		= 4, // <target> is out of range. 
 	MSGBASIC_UNABLE_TO_SEE_TARG		= 5, // Unable to see <target>. 
-	MSGBASIC_LOSE_SIGHT				= 36, // You lose sight of <target>. 
+	MSGBASIC_LOSE_SIGHT				= 36, // You lose sight of <target>.
+    MSGBASIC_NO_TARGETS_IN_RANGE    = 76, // No targets within range. Used for self targete TP moves (8193) when no one gets hit by it.
 	MSGBASIC_TOO_FAR_AWAY			= 78, // <target> is too far away. 
     MSGASIC_CANNOT_SEE_TARGET       = 217,// <You cannot see <target>. 
     MSGASIC_CANNOT_SEE_TARGET2      = 219,// <You cannot see <target>. 
