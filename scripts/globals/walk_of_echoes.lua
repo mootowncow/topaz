@@ -22,13 +22,15 @@ require("scripts/globals/weaponskillids")
 -- Walk 1: Put spawns in correct places like retail? I think they don't roam?
 -- Walk2: Grenade Syrup: TP moves. 
 
+-- TODO: UseMultipleTPMoves() and telling mob to use TP moves multiple times in general needs to be a way to get mobs CURRENT target and not TELLING it its target...
+-- TODO: i.e. i tell it to use mega scissors 2-5 times, but it uses it on the SAME target despite resetting hate on that target. maybe just do a custom fucky tihng with vars inside listeners for this specifically
+-- TODO: Add tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20) to specific mobs onMobFight
 -- TODO: Rot (rotation) for all NMs that are set to NO_ROAM
 -- TODO: barnacle crabs SDT/EEM
 -- TODO:harpies can patroll past conduit
 -- TODO: typhoen rage muddle mute encumb  amnesia exactly 60s 
 -- TODO: shrieking gale dispel? multiple a lot 
 -- TODO: harpeia sleep nightmare sleep 30s dura 
--- TODO: Test tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20) on mob dying
 -- TODO: Make sure all DAT entries accounted for and add missing mob entries for each Walk. (Enter then see if it says mobid doesnt exist)
 -- TODO: Make mobs that don't cast WAR/WAR (besides the birds that triple attack)
 -- TODO: Test new disconnect logic
@@ -2405,12 +2407,6 @@ local modByMobName =
 local mixinByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
-        mob:addListener("MAGIC_HIT", "CALDERA_CRAB_MAGIC_HIT", function(caster, target, spell)
-            if (spell:getID() == tpz.magic.spell.FLASH) then
-                local duration = 10
-                BreakMob(target, caster, tpz.procEffect.NONE, duration, tpz.procType.TERROR, true)
-            end
-        end)
     end,
 
     ['Cyanic_Crab'] = function(mob, target)
@@ -3106,6 +3102,7 @@ local mobFightByMobName =
     ['Varanus'] = function(mob, target)
         -- Despawn after two minutes
         if mob:getBattleTime() >= 120 then
+            mob:setLocalVar("NoTemps", 1)
             mob:setHP(0)
         end
 
@@ -3932,6 +3929,8 @@ local mobDeathByMobName =
         for _, mobId in pairs(currentParty) do
             local partyMob = GetMobByID(mobId)
             if partyMob and partyMob:isAlive() then
+                tpz.woe.mob.rollForTemps(mob, player, isKiller, noKiller) -- Roll for temps for each Grenade Syrup killed
+                partyMob:setLocalVar("NoTemps", 1)
                 partyMob:setHP(0)
             end
         end
