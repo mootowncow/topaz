@@ -2426,7 +2426,7 @@ local mixinByMobName =
 
     ['Myrmeleontide'] = function(mob, target)
         -- Bindga resets hate, even if spell is interrupted or resisted
-        mob:addListener("MAGIC_START", "MYRME_MAGIC_START", function(caster, target, spell)
+        mob:addListener("MAGIC_START", "MYRME_MAGIC_START", function(mob, spell)
             if (spell:getID() == tpz.magic.spell.BINDGA) then
                 ResetEnmityList(mob)
             end
@@ -2958,6 +2958,17 @@ local mobEngagedByMobName =
 local mobFightByMobName =
 {
     ['Caldera_Crab'] = function(mob, target)
+        if mob:getLocalVar("multipleMegaScissors") > 0 then
+            -- Try to use every 3 seconds, as Mega Scissors resets hate and target will be switched after every using
+            if os.time() >= mob:getLocalVar("nextMegaScissors") then
+                if not IsMobBusy(mob) or mob:hasPreventActionEffect() then
+                    mob:useMobAbility(tpz.mob.skills.MEGA_SCISSORS, target) 
+                    mob:setLocalVar("multipleMegaScissors", mob:getLocalVar("multipleMegaScissors") - 1)
+                    mob:setLocalVar("nextMegaScissors", os.time() + 3) 
+                end
+            end
+        end
+
         TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
     end,
 
@@ -3301,10 +3312,11 @@ local onSpellPrecastByMobName =
 local onMobWeaponSkillByMobName =
 {
     ['Caldera_Crab'] = function(mob, target, skill)
-        -- Uses Mega Scissors 2-5 times in a row below 75% HP
+        -- Uses Mega Scissors 3-5 times in a row below 75% HP
         if skill:getID() == tpz.mob.skills.MEGA_SCISSORS then
+            -- Handled in onMobFight because Mega Scissors resets enmity and Mega Scissors would be used 2-5 times against the same target which isn't retail accurate and too strong
             if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("doubleMegaScissors") then
-                UseMultipleTPMoves(mob, math.random(2, 5), tpz.mob.skills.MEGA_SCISSORS)
+                mob:setLocalVar("multipleMegaScissors", math.random(2, 5))
                 mob:setLocalVar("doubleMegaScissors", os.time() + 25) -- prevent infinite loop
             end
         end
