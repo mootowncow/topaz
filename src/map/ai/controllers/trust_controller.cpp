@@ -160,10 +160,15 @@ void CTrustController::DoCombatTick(time_point tick)
     TracyZoneScoped;
 
     CCharEntity* PMaster = static_cast<CCharEntity*>(POwner->PMaster);
+
+    if (!PMaster)
+        return;
+
     auto masterLastAttackTime = static_cast<CPlayerController*>(PMaster->PAI->GetController())->getLastAttackTime();
     bool masterMeleeSwing = masterLastAttackTime > server_clock::now() - 1s;
     auto mastersLastTargetHit = PMaster->GetLocalVar("LastTargetHit");
-    bool trustEngageCondition = PMaster->GetBattleTarget() && masterMeleeSwing && mastersLastTargetHit == PMaster->GetBattleTarget()->id;
+    auto masterBattleTarget = PMaster->GetBattleTarget();
+    bool trustEngageCondition = masterBattleTarget && masterMeleeSwing && mastersLastTargetHit == masterBattleTarget->id;
     bool masterWeakened = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS);
     bool masterCharmed = PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_CHARM) || PMaster->StatusEffectContainer->HasStatusEffect(EFFECT_CHARM_II);
 
@@ -178,8 +183,9 @@ void CTrustController::DoCombatTick(time_point tick)
     }
 
     if (PMaster &&
-        PMaster->GetBattleTargetID() != POwner->GetBattleTargetID()
-        && trustEngageCondition &&
+        PMaster->GetBattleTargetID() != POwner->GetBattleTargetID() &&
+        trustEngageCondition &&
+        distance(POwner->loc.p, masterBattleTarget->loc.p) + static_cast<float>(masterBattleTarget->m_ModelSize) < CombatDistance &&
         !masterCharmed)
     {
         POwner->PAI->Internal_ChangeTarget(PMaster->GetBattleTargetID());

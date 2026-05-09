@@ -896,7 +896,8 @@ void CGambitsContainer::Tick(time_point tick)
 
                 if (action.select == G_SELECT::SPECIFIC)
                 {
-                    controller->Ability(target->targid, PAbility->getID());
+                    if (target->targid)
+                        controller->Ability(target->targid, PAbility->getID());
                 }
 
                 if (action.select == G_SELECT::BEST_SAMBA)
