@@ -142,9 +142,9 @@ void CAttackState::UpdateTarget(uint16 targid)
                 {
                     newTargid = PClosestTarget->targid;
                     PChar->pushPacket(new CLockOnPacket(PChar, PClosestTarget));
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PClosestTarget, 0, 0, MSGBASIC_AUTOTARGETING));
                 }
 
-                PChar->pushPacket(new CMessageBasicPacket(PChar, PClosestTarget, 0, 0, MSGBASIC_AUTOTARGETING));
                 m_PEntity->PAI->ChangeTarget(newTargid);
             }
         }
