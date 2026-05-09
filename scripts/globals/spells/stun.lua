@@ -30,6 +30,15 @@ function onSpellCast(caster, target, spell)
         return params.effect
     end
 
+    if target:hasImmunity(tpz.immunity.STUN) then
+        if target:getID() == spell:getPrimaryTargetID() then
+            spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
+        else
+            spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE_2)
+        end
+        return params.effect
+    end
+
     if (resist >= 0.5) then
 		if (target:hasStatusEffect(params.effect)) then
 			-- no effect
