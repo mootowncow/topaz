@@ -13,9 +13,8 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = 5
-    local baseDamage = mob:getWeaponDmg()*3
-    local info = MobMagicalMove(mob, target, skill, baseDamage, tpz.magic.ele.EARTH, dmgmod, TP_NO_EFFECT)
+    local dmgmod = 1
+    local info = MobMagicalMove(mob, target, skill, mob:getWeaponDmg()*3, tpz.magic.ele.EARTH, dmgmod, TP_NO_EFFECT)
     local dmg = MobFinalAdjustments(info.dmg, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.EARTH, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.EARTH)
     MobEncumberMove(mob, target, 16, 20)

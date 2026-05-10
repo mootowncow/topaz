@@ -1943,7 +1943,7 @@ local auraParams = {
     {
         radius = 10,
         effect = tpz.effect.WEIGHT,
-        power = 50,
+        power = 62,
         duration = 30,
         auraNumber = 1
     },
@@ -2100,6 +2100,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.STUN)
+        mob:setModelSize(4)
     end,
 
     ['Anthracite_Antlion'] = function(mob)
@@ -2991,6 +2992,7 @@ local mobFightByMobName =
         -- Gains access to Breakga below 25%
         AddSpellListEntryHPP(mob, { tpz.magic.spell.BREAKGA }, 25)
 
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
         TickMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
     end,
 
@@ -3343,7 +3345,7 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Myrmeleontide'] = function(mob, target, skill)
-        -- Weight Aura (-50%) for 30 seconds after using Gravitic Horn
+        -- Weight Aura (-62%) for 30 seconds after using Gravitic Horn
         if skill:getID() == tpz.mob.skills.GRAVITIC_HORN then
             AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
         end
@@ -3402,9 +3404,11 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Begrimed_Bale'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Bedraggled_Bale'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Canis_Dirus'] = function(mob, target, skill)
@@ -3415,6 +3419,7 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Pardus'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Anguis'] = function(mob, target, skill)
@@ -3475,15 +3480,19 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Pernicious_Pachypodium'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Lunatic_Lycopodium'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Killer_Korrigan'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Murderous_Mandragora'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Tapana'] = function(mob, target, skill)
@@ -3523,12 +3532,15 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Coeurl_Mystic'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Coeurl_Prentice'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Coeurl_Tiro'] = function(mob, target, skill)
+        tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20)
     end,
 
     ['Mingyi'] = function(mob, target, skill)
