@@ -2084,7 +2084,6 @@ local modByMobName =
     ['Morbid_Molasses'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
-        mob:setModelSize(4)
     end,
 
     ['Grenade_Syrup'] = function(mob)
@@ -2103,7 +2102,6 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.SLOW)
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.STUN)
-        mob:setModelSize(4)
     end,
 
     ['Anthracite_Antlion'] = function(mob)
@@ -2113,6 +2111,7 @@ local modByMobName =
         mob:addImmunity(tpz.immunity.BLIND)
         mob:addImmunity(tpz.immunity.STUN)
         mob:AnimationSub(1)
+        mob:setModelSize(1)
         mob:setLocalVar("pathNodeIndex", math.random(17522734, 17522736))
     end,
 
@@ -2130,7 +2129,6 @@ local modByMobName =
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
-        mob:setModelSize(4)
     end,
 
     ['Natrix'] = function(mob)
@@ -2208,7 +2206,6 @@ local modByMobName =
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
         mob:setBehaviour(bit.bor(mob:getBehaviour(), tpz.behavior.NO_TURN))
-        mob:setModelSize(5)
         mob:AnimationSub(2)
     end,
 
