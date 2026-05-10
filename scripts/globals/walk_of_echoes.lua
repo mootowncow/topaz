@@ -22,6 +22,7 @@ require("scripts/globals/weaponskillids")
 -- Walk 1: Put spawns in correct places like retail? I think they don't roam?
 -- Walk2: Grenade Syrup: TP moves. 
 
+-- TODO: Spell ranges for Silencega Paralyga etc. Some seem to be 20
 -- TODO: UseMultipleTPMoves() and telling mob to use TP moves multiple times in general needs to be a way to get mobs CURRENT target and not TELLING it its target...
 -- TODO: i.e. i tell it to use mega scissors 2-5 times, but it uses it on the SAME target despite resetting hate on that target. maybe just do a custom fucky tihng with vars inside listeners for this specifically
 -- TODO: Add tpz.woe.mob.callNearbyMobForHelp(mob, player, 5, 20) to specific mobs onMobFight
@@ -224,12 +225,13 @@ local walkData =
             -- Cast Timer {  }
             -- TP Moves: { Tourbillion (2s cast), Dreadstorm (2.5s), Fulmination (3s cast), Tenebrous Mist (2s cast), Thunderstrike (1-1.5s cast), Fossilizing Breath (Resets hate 1.5-2s cast) }
             -- Traits: { ??? } -- TODO: TA?
-            -- Mechanics { Thunderstrike 4x in a row below 25%. 
+            -- Mechanics { thunderstrike 2x below 75%, 3x below 50%, 4x below 25% HP
             -- Proc { Flash procced (Terror) ! for 15s, then 10s. Then 5s. Then no proc Do crab work same way? Flash procced Red ! 15s Terror and endowed walk }
             -- -50% earth / wind / fire / thunder damage taken
             -- insane store TP, like 300+ 
         -- Zone Mechanics: When the one upstairs (From entrance) gets to 25-10% HP, another one comes (from above?). When the one downstairs (from entrance) gets to 25-10% HP, one comes from deeper inside (upstairs)
-        -- Doesn't seem to always work? Unsure what causes it?
+        -- 6.5 melee range
+        -- 
         -- Completion: All Harpimaira dead
         Mobs        = { IdStart = 17522753, IdEnd = 17522757, Lvl = 82 },
         Boss        = {'Harpimaira'},
@@ -266,6 +268,7 @@ local walkData =
             -- No Turn { True}
             -- Mechanics { Cannot lose heads. Barofield 2-4 times in a row below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
             -- Proc { }
+            -- 7.9 melee range
         -- Zone Mechanics: 
         -- Completion: Natrix dead
         Mobs        = { IdStart = 17522758, IdEnd = 17522766, Lvl = 82 },
@@ -2127,6 +2130,7 @@ local modByMobName =
         mob:setMod(tpz.mod.MOVE_SPEED_STACKABLE, 50) -- 6.0
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
         mob:addImmunity(tpz.immunity.PARALYZE)
+        mob:setModelSize(4)
     end,
 
     ['Natrix'] = function(mob)
@@ -3278,6 +3282,13 @@ local mobFightByMobName =
 
 local onSpellPrecastByMobName =
 {
+    ['Natrix'] = function(mob, spell)
+        -- 20 yard radius Silencega
+        if spell:getID() == tpz.magic.spell.SILENCEGA then
+            spell:setRadius(20)
+        end
+    end,
+
     ['Anguis'] = function(mob, spell)
         -- AOE drain (15 yards)
         if spell:getID() == tpz.magic.spell.DRAIN then
@@ -3349,34 +3360,64 @@ local onMobWeaponSkillByMobName =
         if skill:getID() == tpz.mob.skills.GRAVITIC_HORN then
             AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))
         end
+    end,
 
+    ['Anthracite_Antlion'] = function(mob, target, skill)
         -- Sandpit resets enmity on the mobs target, even if it doesn't go off
         if skill:getID() == tpz.mob.skills.SAND_PIT then
             mob:resetEnmity(target)
         end
     end,
 
-    ['Anthracite_Antlion'] = function(mob, target, skill)
-    end,
-
     ['Albino_Antlion'] = function(mob, target, skill)
-    end,
-
-    ['Harpimaira'] = function(mob, target, skill)
-        -- Uses Thunderstrike 4 times in a row below 25% HP
-        if skill:getID() == tpz.mob.skills.THUNDERSTRIKE then
-            if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("multipleThunderStrike") then
-                UseMultipleTPMoves(mob, 4, tpz.mob.skills.THUNDERSTRIKE)
-                mob:setLocalVar("multipleThunderStrike", os.time() + 25) -- prevent infinite loop
-            end
+        -- Sandpit resets enmity on the mobs target, even if it doesn't go off
+        if skill:getID() == tpz.mob.skills.SAND_PIT then
+            mob:resetEnmity(target)
         end
     end,
 
+    ['Harpimaira'] = function(mob, target, skill)
+        -- Uses Thunderstrike 2 times in a row below 75%, 3 times below 50% and 4 times below 25% HP
+        if skill:getID() == tpz.mob.skills.THUNDERSTRIKE then
+            if os.time() >= mob:getLocalVar("multipleThunderStrike") then
+                local hpp = mob:getHPP()
+                local uses = 0
+
+                if hpp <= 25 then
+                    uses = 3
+                elseif hpp <= 50 then
+                    uses = 2
+                elseif hpp <= 75 then
+                    uses = 1
+                end
+
+                UseMultipleTPMoves(mob, uses, tpz.mob.skills.THUNDERSTRIKE)
+                mob:setLocalVar("multipleThunderStrike", os.time() + 25) -- prevent infinite loop
+            end
+        end
+
+        -- Fossizizing Breath resets hate on targets hit
+        if skill:getID() == tpz.mob.skills.FOSSILIZING_BREATH then
+            mob:resetEnmity(target)
+        end 
+    end,
+
     ['Natrix'] = function(mob, target, skill)
-        -- Uses Barofield 2-4x in a row below 25% HP
+        -- Uses Barofield 2 times in a row below 75%, 3 times below 50% and 4 times below 25% HP
         if skill:getID() == tpz.mob.skills.BAROFIELD then
-            if mob:getHPP() <= 25 and os.time() >= mob:getLocalVar("multipleBarofield") then
-                UseMultipleTPMoves(mob, math.random(2, 4), tpz.mob.skills.BAROFIELD)
+            if os.time() >= mob:getLocalVar("multipleBarofield") then
+                local hpp = mob:getHPP()
+                local uses = 0
+
+                if hpp <= 25 then
+                    uses = 3
+                elseif hpp <= 50 then
+                    uses = 2
+                elseif hpp <= 75 then
+                    uses = 1
+                end
+
+                UseMultipleTPMoves(mob, uses, tpz.mob.skills.BAROFIELD)
                 mob:setLocalVar("multipleBarofield", os.time() + 25) -- prevent infinite loop
             end
         end

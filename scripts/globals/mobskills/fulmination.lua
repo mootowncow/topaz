@@ -21,11 +21,16 @@ function onMobSkillCheck(target, mob, skill)
             return 1
         end
     end
+
+    if mob:getName() == "Harpimaira" then
+        return 0
+    end
+    
     local family = mob:getFamily()
     local mobhp = mob:getHPP()
     local result = 1
 
-    if (family == 168 and mobhp <= 37) then -- Khimaira < 35%
+    if (family == 168 and mobhp < 35) then -- Khimaira < 35%
         result = 0
     elseif (family == 315 and mobhp < 50) then -- Tyger < 50%
         result = 0

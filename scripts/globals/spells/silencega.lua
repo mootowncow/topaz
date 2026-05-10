@@ -13,7 +13,7 @@ end
 function onSpellCast(caster, target, spell)
     local dMND = (caster:getStat(tpz.mod.MND) - target:getStat(tpz.mod.MND))
 
-    local duration = 90
+    local duration = math.random(30, 120)
 
     --Resist
     local params = {}
