@@ -4103,19 +4103,29 @@ local mobDeathByMobName =
 }
 
 tpz.woe.mob.onMobSpawn = function(mob)
-    if mob:getMainLvl() >= 83 then
+    if mob:getMainLvl() >= 83 then -- Bosses
         if mob:getMainJob() ~= tpz.job.MNK then
             mob:setDamage(150)
         else
             mob:setDamage(75)
         end
-    else
+
+        mob:addMod(tpz.mod.ATTP, 50)
+        mob:addMod(tpz.mod.DEFP, 50)
+        mob:addMod(tpz.mod.ACC, 40)
+        mob:addMod(tpz.mod.EVA, 40)
+        mob:addMod(tpz.mod.MATT, 50)
+    else -- Trash mobs
         if mob:getMainJob() ~= tpz.job.MNK then
-            mob:setDamage(125)
+            mob:setDamage(100)
         else
-            mob:setDamage(60)
+            mob:setDamage(50)
         end
     end
+
+    mob:addMod(tpz.mod.MDEF, 50)
+    mob:addMod(tpz.mod.DMGMAGIC, -30)
+    mob:addMod(tpz.mod.REFRESH, 400)
 
     mob:setMobMod(tpz.mobMod.ADD_EFFECT, 1)
     mob:setMobMod(tpz.mobMod.NO_DESPAWN, 1)
@@ -4130,7 +4140,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:setMobMod(tpz.mobMod.AGGRO_JA, 0)
     mob:setMobMod(tpz.mobMod.AGGRO_SOUND, 1)
     mob:setMobMod(tpz.mobMod.TRUE_SOUND, 1)
-    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30) -- Adjusted per mob
+    mob:setMobMod(tpz.mobMod.MAGIC_COOL, 30)
     mob:setMobMod(tpz.mobMod.MAGIC_DELAY, 30)
     mob:setMobMod(tpz.mobMod.CHECK_AS_NM, 1)
     mob:setMobMod(tpz.mobMod.NO_DROPS, 1)
@@ -4142,15 +4152,6 @@ tpz.woe.mob.onMobSpawn = function(mob)
     mob:addImmunity(tpz.immunity.BIND)
     mob:addImmunity(tpz.immunity.SILENCE)
     mob:addImmunity(tpz.immunity.PETRIFY)
-
-    mob:addMod(tpz.mod.ATTP, 50)
-    mob:addMod(tpz.mod.DEFP, 50)
-    mob:addMod(tpz.mod.ACC, 25)
-    mob:addMod(tpz.mod.EVA, 25)
-    mob:addMod(tpz.mod.MATT, 50)
-    mob:addMod(tpz.mod.MDEF, 50)
-    mob:addMod(tpz.mod.DMGMAGIC, -30)
-    mob:addMod(tpz.mod.REFRESH, 400)
 
     local mobName = mob:getName()
     local mods = modByMobName[mobName]
