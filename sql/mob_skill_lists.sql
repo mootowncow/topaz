@@ -2900,9 +2900,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Harpimaira',1225,2026);
 INSERT INTO `mob_skill_lists` VALUES ('Harpimaira',1225,2027);
 INSERT INTO `mob_skill_lists` VALUES ('Harpimaira',1225,2028);
 
-INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1828);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1829);
-INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1830);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1832);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1833);
 INSERT INTO `mob_skill_lists` VALUES ('Natrix',1226,1834);
