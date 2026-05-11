@@ -1015,16 +1015,24 @@ namespace spell
     {
         float total = spell->getRadius(); // Default 10 for most spells
 
-        // -Ga Enfeebles are 15 yalms
-        if (spell->getID() >= SpellID::Paralyga && spell->getID() <= SpellID::Graviga)
+        // Only adjust these spells if they have not been edited via luautils::OnSpellPrecast(this, PSpell) call
+        if (total <= 10.0)
         {
-            total = 15.0f;
+            // -Ga Enfeebles are 15 yalms
+            if (spell->getID() >= SpellID::Paralyga && spell->getID() <= SpellID::Graviga)
+            {
+                total = 15.0f;
+            }
         }
 
-        // Horde Lullaby AOE is small
-        if (spell->getID() == SpellID::Horde_Lullaby || spell->getID() == SpellID::Horde_Lullaby_II)
+        // Only adjust these spells if they have not been edited via luautils::OnSpellPrecast(this, PSpell) call
+        if (total <= 9.0)
         {
-            total = 9.0f;
+            // Horde Lullaby AOE is small
+            if (spell->getID() == SpellID::Horde_Lullaby || spell->getID() == SpellID::Horde_Lullaby_II)
+            {
+                total = 9.0f;
+            }
         }
 
         // brd gets bonus radius from string skill
