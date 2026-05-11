@@ -25,6 +25,12 @@ function onMobWeaponSkill(target, mob, skill)
         return effect
     end
 
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        skill:setMsg(tpz.msg.basic.SKILL_MISS)
+        return effect
+    end
+
     -- print(string.format("Trying to dispel Element: %d, Skilltype: %d, Bonus: %d, Resist: %f", element, skillType, bonus, resist))
     if resist >= 0.5 then
         effect = target:dispelStatusEffect()

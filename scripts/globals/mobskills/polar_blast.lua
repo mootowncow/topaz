@@ -12,6 +12,10 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/utils")
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
+    if not target:isInfront(mob, 90) then
+        return 1
+    end
+
     if(mob:getFamily() == 316) then
         local mobSkin = mob:getModelId()
 

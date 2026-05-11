@@ -25,6 +25,12 @@ function onSpellCast(caster, target, spell)
         return effect
     end
 
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        return effect
+    end
+
     if (resist >= 0.50) then
         spell:setMsg(tpz.msg.basic.MAGIC_ERASE)
         -- TODO: tpz.msg.basic.EFFECTS_DISAPPEAR_2 for more than 1 effect dispelled, and return # of effects not effect

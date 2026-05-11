@@ -50,7 +50,22 @@ function onSpellCast(caster, target, spell)
     damage = BlueMagicalSpell(caster, target, spell, params, INT_BASED)
     damage = BlueFinalAdjustments(caster, target, spell, damage, params)
 
-    target:dispelAllStatusEffect(bit.bor(tpz.effectFlag.DISPELABLE))
+    -- Dispel logic
+    local dispel = true
+    
+    -- Check for dispel resistance trait
+	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
+        dispel = false
+    end
+
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        dispel = false
+    end
+
+    if dispel then
+        target:dispelAllStatusEffect(bit.bor(tpz.effectFlag.DISPELABLE))
+    end
 
     return damage
 end

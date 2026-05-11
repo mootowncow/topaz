@@ -131,11 +131,9 @@ function AutoPhysicalWeaponSkill(auto, target, skill, attackType, numberOfHits, 
     local mainhandHits, offhandHits = battleUtils.getMultiAttacks(auto, target, skill, numberOfHits, isRanged, params)
 
     numberOfHits = mainhandHits + offhandHits
-    printf("getMultiattacks mainhandHits %d, offhandHits %d, numberOfHits %d", mainhandHits, offhandHits, numberOfHits)
 
     -- Generate multi hits
     dmg, hitsLanded, hitsDone = battleUtils.generateMultiHits(auto, target, skill, multiHitDmg, dmg, hitsLanded, hitsDone, bonusAttPercent, flatAttackBonus, ignoredDef, numberOfHits, hitRate, critRate, isRanged, params)
-    printf("Multi hit calcs: dmg %d, hitsLanded %d, hitsDone %d", dmg, hitsLanded, hitsDone)
 
     -- Handle Truesights bonus to ranged attacks
     local truesightBonus = 1 + (auto:getLocalVar("truesights_manuevers") / 100)

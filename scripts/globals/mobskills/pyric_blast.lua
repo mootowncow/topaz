@@ -2,6 +2,7 @@
 --  Pyric Blast
 --
 --  Description: Deals Fire damage to enemies within a fan-shaped area. Additional effect: Plague
+-- Frontal only
 --  Type: Breath
 --  Ignores Shadows
 --  Range: Unknown Cone
@@ -12,6 +13,10 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/utils")
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
+    if not target:isInfront(mob, 90) then
+        return 1
+    end
+
     if(mob:getFamily() == 316) then
         local mobSkin = mob:getModelId()
 

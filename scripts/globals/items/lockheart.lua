@@ -17,6 +17,11 @@ function onAdditionalEffect(player, target, damage)
         return 0, 0, 0
     end
 
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        return 0, 0, 0
+    end
+
     if (math.random(0, 95) >= chance or resist < 0.5) then 
         return 0, 0, 0
     else

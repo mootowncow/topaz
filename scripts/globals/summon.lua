@@ -600,7 +600,7 @@ function AvatarDrainMultipleAttributes(avatar, target, power, count, duration, p
 end
 
 function AvatarDispelMove(avatar, target, skill, element, param1, param2)
-    -- No dispel messag eon retail...
+    -- No dispel message on retail...
     local statmod = tpz.mod.INT
     local dStat = avatar:getStat(statmod)-target:getStat(statmod)
     local effect = tpz.effect.NONE
@@ -610,6 +610,11 @@ function AvatarDispelMove(avatar, target, skill, element, param1, param2)
 
     -- Check for dispel resistance trait
 	if math.random(100) < target:getMod(tpz.mod.DISPELRESTRAIT) then
+        return tpz.effect.NONE
+    end
+
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
         return tpz.effect.NONE
     end
 

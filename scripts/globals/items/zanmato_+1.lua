@@ -15,6 +15,11 @@ function onAdditionalEffect(player, target, damage)
         return 0, 0, 0
     end
 
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        return 0, 0, 0
+    end
+
     if math.random(100) <= chance then
         local effect = target:dispelStatusEffect()
         if effect ~= tpz.effect.NONE then

@@ -30,7 +30,7 @@ function onPetAbility(target, pet, skill)
     if (dispel_1 == tpz.effect.NONE) then
         skill:setMsg(tpz.msg.basic.NO_EFFECT)
     else
-        skill:setMsg(tpz.msg.basic.NONE)
+        skill:setMsg(tpz.msg.basic.NONE) -- No message on retail
     end
 
     return 0

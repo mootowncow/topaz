@@ -30,6 +30,13 @@ function onSpellCast(caster, target, spell)
         return params.effect
     end
 
+    -- Handle Magic Shield
+    if target:hasStatusEffect(tpz.effect.MAGIC_SHIELD, 0) and target:getStatusEffect(tpz.effect.MAGIC_SHIELD):getPower() < 2 then
+        spell:setMsg(tpz.msg.basic.MAGIC_RESIST)
+        return params.effect
+    end
+
+    -- Handle Immunity
     if target:hasImmunity(tpz.immunity.STUN) then
         if target:getID() == spell:getPrimaryTargetID() then
             spell:setMsg(tpz.msg.basic.MAGIC_IMMUNE)
