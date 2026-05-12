@@ -1737,9 +1737,9 @@ INSERT INTO `mob_skills` VALUES (1781,1208,'hex_palm',4,7.0,2000,1500,4,0,0,0,0,
 INSERT INTO `mob_skills` VALUES (1782,1209,'animating_wail',1,15.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1783,1210,'fortifying_wail',1,15.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1784,1211,'unblest_jambiya',1,15.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1785,1223,'lava_spit',1,10.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1785,1223,'lava_spit',2,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1786,1224,'sulfurous_breath',0,7.0,2000,3000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1787,1225,'scorching_lash',1,50.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1787,1225,'scorching_lash',4,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1788,1226,'ululation',1,20.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1789,1227,'magma_hoplon',0,7.0,2000,1500,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1790,1228,'gates_of_hades',1,20.0,2000,3000,4,0,0,0,0,0,0);
@@ -1844,7 +1844,7 @@ INSERT INTO `mob_skills` VALUES (1888,171,'tremors',1,10.0,2000,1500,4,0,0,0,0,0
 -- INSERT INTO `mob_skills` VALUES (1889,1633,'spirit_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1890,1634,'sound_vacuum',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1891,1218,'provoke',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1892,1229,'cerberus_howl',0,7.0,2000,0,1,2,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1892,1229,'cerberus_howl',0,7.0,2000,0,1,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1893,438,'spirit_surge',0,7.0,2000,0,1,2,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1894,1241,'potent_lunge',0,7.0,2000,1500,4,0,0,4,0,0,0); -- Armored Troll
 INSERT INTO `mob_skills` VALUES (1895,1242,'overthrow',0,7.0,2000,1500,4,0,0,3,0,0,0); 

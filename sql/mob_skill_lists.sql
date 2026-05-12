@@ -2933,6 +2933,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Canis_Dirus',1231,1787);
 INSERT INTO `mob_skill_lists` VALUES ('Canis_Dirus',1231,1788);
 INSERT INTO `mob_skill_lists` VALUES ('Canis_Dirus',1231,1789);
 INSERT INTO `mob_skill_lists` VALUES ('Canis_Dirus',1231,1790);
+INSERT INTO `mob_skill_lists` VALUES ('Canis_Dirus',1231,1892);
 
 INSERT INTO `mob_skill_lists` VALUES ('Pardus',1232,1677);
 INSERT INTO `mob_skill_lists` VALUES ('Pardus',1232,1678);

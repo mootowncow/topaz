@@ -16,23 +16,27 @@ require("scripts/globals/monstertpmoves")
 
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
-    if mob:getPool() == 5890 then -- Custom Marquis Naberius Castle Baileys
-        return 1
-    end
-    if(mob:getFamily() == 316) then
-    local mobSkin = mob:getModelId()
-
-    if (mobSkin == 1793) then
+    if mob:getName() == 'Marquis_Naberius' or mob:getName() == 'Canis_Dirus' then
         return 0
-    else
-        return 1
     end
+
+    local family = mob:getFamily()
+    if (family == 316) then
+        local mobSkin = mob:getModelId()
+
+        if (mobSkin == 1793) then
+            return 0
+        else
+            return 1
+        end
     end
+
     local result = 1
     local mobhp = mob:getHPP()
     if (family == 315 and mobhp < 50) then -- Tyger < 50%
         result = 0
     end
+
     if (mobhp <= 25) then
         result = 0
     end
@@ -42,10 +46,17 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.BURN
-    local power = 40
+    local dot = 40
+    local intDown = 69
     local dmgmod = mob:getMainLvl() * 12.5 + getMobDStat(INT_BASED, mob, target)
+
+    if mob:getName() == 'Canis_Dirus' then
+        dot = 20
+        intDown = 43
+    end 
+    
     local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.MAGICAL, tpz.damageType.FIRE, MOBPARAM_WIPE_SHADOWS)
     target:takeDamage(dmg, mob, tpz.attackType.MAGICAL, tpz.damageType.FIRE)
-    MobStatusEffectMoveSub(mob, target, typeEffect, power, 3, 60, 0, 69, 0)
+    MobStatusEffectMoveSub(mob, target, typeEffect, dot, 3, 60, 0, intDown, 0)
     return dmg
 end

@@ -266,7 +266,7 @@ local walkData =
             -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
             -- DT { -100% breath, -50% wind / fire / ice }
             -- No Turn { True}
-            -- Mechanics { Cannot lose heads. Barofield 2-4 times in a row below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
+            -- Mechanics { Cannot lose heads. Uses Barofield 2 times below 75% HP, 3 times below 50% HP, 4 times below 25% HP, Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer) }
             -- Proc { }
             -- 7.9 melee range
         -- Zone Mechanics: 
@@ -300,13 +300,14 @@ local walkData =
             -- Immune { Normal + Paralyze  }, 
             -- Spells { Paralyga, Graviga, Firaga III }, 
             -- Cast Timer { 30s }
-            -- TP Moves: { Gates of Hades (3s cast), Sulfurous Breath (3s cast), Ululation (1s cast), Lava Spit (1.5s cast)  }
+            -- TP Moves: { Gates of Hades (3s cast), Sulfurous Breath (3s cast), Ululation (1s cast), Lava Spit (1.5s cast), Magma Hoplon, "Cerberus Howl" (Costs TP)  }
             -- Traits { Store TP (300+), DA , Auto Regen (1% every 30s or so)}
             -- DT { -50% MDT (ADDITIONAL on top of global -30%) }
             -- No Turn { True }
             -- Mechanics { At 65%/25% zone meessage "The fiend thrists for blood!". Nothing happened? mobskill 1892 animation 1229 "Howl" - > 30s amnesia aura}
             -- Proc { }
             -- 2053 HP 1020 TP 256 spirits within | 2287 HP 1020 TP 284 spirits within
+            -- Uses Sulfuruous 2 times below 75% HP
         -- Zone Mechanics: 
         -- Completion: All Canis Dirus dead
         Mobs        = { IdStart = 17522785, IdEnd = 17522795, Lvl = 82 },
@@ -3017,13 +3018,13 @@ local mobFightByMobName =
         -- Below 10% keeps up protect IV, shell IV, aquaveil haste, blink, stoneskin, phalanx (reapplying if they are removed, no cast timer)
         local spellData =
         {
-            { Effect = tpz.effect.PROTECT_IV,   Id = tpz.magic.spell.PROTECT  },
-            { Effect = tpz.effect.SHELL_IV,     Id = tpz.magic.spell.SHELL    },
-            { Effect = tpz.effect.PHALANX,      Id = tpz.magic.spell.PHALANX  },
-            { Effect = tpz.effect.HASTE,        Id = tpz.magic.spell.HASTE    },
-            { Effect = tpz.effect.STONESKIN,    Id = tpz.magic.spell.STONESKIN},
-            { Effect = tpz.effect.BLINK,        Id = tpz.magic.spell.BLINK    },
-            { Effect = tpz.effect.AQUAVEIL,     Id = tpz.magic.spell.AQUAVEIL },
+            { Effect = tpz.effect.PROTECT,      Id = tpz.magic.spell.PROTECT_IV  },
+            { Effect = tpz.effect.SHELL,        Id = tpz.magic.spell.SHELL_IV    },
+            { Effect = tpz.effect.PHALANX,      Id = tpz.magic.spell.PHALANX     },
+            { Effect = tpz.effect.HASTE,        Id = tpz.magic.spell.HASTE       },
+            { Effect = tpz.effect.STONESKIN,    Id = tpz.magic.spell.STONESKIN   },
+            { Effect = tpz.effect.BLINK,        Id = tpz.magic.spell.BLINK       },
+            { Effect = tpz.effect.AQUAVEIL,     Id = tpz.magic.spell.AQUAVEIL    },
         }
 
         if mob:getHPP() > 10 or IsMobBusy(mob) or mob:hasPreventActionEffect() then
@@ -3450,6 +3451,21 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Canis_Dirus'] = function(mob, target, skill)
+        -- Uses Sulfurous Breath 2 times in a row below 75%
+        if skill:getID() == tpz.mob.skills.SULFUROUS_BREATH then
+            if os.time() >= mob:getLocalVar("multipleSulfBreath") then
+                local hpp = mob:getHPP()
+                local uses = 0
+                
+                if hpp <= 75 then
+                    uses = 1
+                end
+
+                UseMultipleTPMoves(mob, uses, tpz.mob.skills.SULFUROUS_BREATH)
+                mob:setLocalVar("multipleSulfBreath", os.time() + 10) -- prevent infinite loop
+            end
+        end
+
         -- Amnesia aura for 30 seeconds after using "Howl"
         if skill:getID() == tpz.mob.skills.CERBERUS_HOWL then
             AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob))

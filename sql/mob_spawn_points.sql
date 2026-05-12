@@ -55869,7 +55869,7 @@ INSERT INTO `mob_spawn_points` VALUES (17523028,'Bedraggled_Bale','Bedraggled Ba
 INSERT INTO `mob_spawn_points` VALUES (17523029,'Bedraggled_Bale','Bedraggled Bale',15,-224.000,-0.500,316.000,160);
 INSERT INTO `mob_spawn_points` VALUES (17523030,'Bedraggled_Bale','Bedraggled Bale',15,-236.000,-0.500,304.000,160);
 INSERT INTO `mob_spawn_points` VALUES (17522785,'Canis_Dirus','Canis Dirus',16,152,59.5,168,64);
-INSERT INTO `mob_spawn_points` VALUES (17522786,'Canis_Dirus','Canis Dirus',16,328,-0.5,312,64);
+INSERT INTO `mob_spawn_points` VALUES (17522786,'Canis_Dirus','Canis Dirus',16,328,-0.5,312,188);
 INSERT INTO `mob_spawn_points` VALUES (17522787,'Pardus','Pardus',17,217.05,30.996,225.781,31);
 INSERT INTO `mob_spawn_points` VALUES (17522788,'Pardus','Pardus',17,228.06,33.844,222.975,31);
 INSERT INTO `mob_spawn_points` VALUES (17522789,'Pardus','Pardus',17,227.41,33.720,223.621,31);
