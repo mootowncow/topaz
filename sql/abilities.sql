@@ -515,7 +515,7 @@ INSERT INTO `abilities` VALUES (598,'predator_claws',15,70,4,60,173,0,0,86,2000,
 INSERT INTO `abilities` VALUES (599,'wind_blade',15,75,4,60,173,0,0,87,2000,0,6,10.0,0,1,60,2948,1,'TOAU',0,182,0,0,0,1);
 INSERT INTO `abilities` VALUES (600,'aerial_blast',15,1,4,60,173,0,0,88,2000,0,6,15.0,1,1,60,0,2,NULL,0,0,0,0,0,3);
 INSERT INTO `abilities` VALUES (601,'fleet_wind',15,62,1,60,174,0,0,89,2000,0,6,20.0,1,1,60,0,0,NULL,0,114,0,0,0,1);
-INSERT INTO `abilities` VALUES (602,'hastega_ii',15,75,1,60,174,0,0,90,2000,0,6,20.0,1,1,60,0,0,NULL,0,248,0,0,0,1);
+INSERT INTO `abilities` VALUES (602,'hastega_ii',15,76,1,60,174,0,0,90,2000,0,6,20.0,1,1,60,0,0,NULL,0,248,0,0,0,1);
 INSERT INTO `abilities` VALUES (608,'axe_kick',15,1,4,60,173,0,0,96,2000,0,6,5.0,0,1,60,0,0,NULL,0,10,7,0,0,1);
 INSERT INTO `abilities` VALUES (609,'blizzard_ii',15,10,4,60,173,0,0,97,2000,0,6,10.0,0,1,60,0,0,NULL,0,24,0,0,0,1);
 INSERT INTO `abilities` VALUES (610,'frost_armor',15,41,1,60,174,0,0,98,2000,0,6,20.0,1,1,60,0,0,NULL,0,63,0,0,0,1);
