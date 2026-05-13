@@ -324,7 +324,6 @@ local walkData =
     },
     [7] = -- "T1" final boss?
     {
-        -- Soul douse does dmg? Check HP not just msg, msg might just say no effect/doom
         -- Anguis, lvl { 85 }, Model { 0x00007E0800000000000000000000000000000000 }, Size { Large } HP { 80000 }, Ids {},  Amount { 1 }, Partied { 0 },
             -- Patrols { } 
             -- Boss { True }, 
@@ -415,6 +414,8 @@ local walkData =
                 -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
                 -- Varanus despawn after ~2m and don't come back
                 -- }
+        -- Soul douse does dmg? Check HP not just msg, msg might just say no effect/doom
+        -- Abyssic Buster damage, is it 2k? Is it a breath? Reduced by being away / on side? Always weakness? etc
         -- Zone Mechanics: Have to wait for Varanus to despawn fully after Anguis dies for the Walk to complete and show the msg / start cutscene to por tout
         -- Completion: Anguis dead
         Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 85 },
