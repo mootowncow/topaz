@@ -22,6 +22,7 @@ require("scripts/globals/weaponskillids")
 -- Walk 1: Put spawns in correct places like retail? I think they don't roam?
 -- Walk2: Grenade Syrup: TP moves. 
 
+-- TODO: "Clean up time" after a walk is deleted before allowing another to spawn. Just 30s or so.
 -- TODO: Spell ranges for Silencega Paralyga etc. Some seem to be 20
 -- TODO: UseMultipleTPMoves() and telling mob to use TP moves multiple times in general needs to be a way to get mobs CURRENT target and not TELLING it its target...
 -- TODO: i.e. i tell it to use mega scissors 2-5 times, but it uses it on the SAME target despite resetting hate on that target. maybe just do a custom fucky tihng with vars inside listeners for this specifically
@@ -323,6 +324,7 @@ local walkData =
     },
     [7] = -- "T1" final boss?
     {
+        -- Soul douse does dmg? Check HP not just msg, msg might just say no effect/doom
         -- Anguis, lvl { 85 }, Model { 0x00007E0800000000000000000000000000000000 }, Size { Large } HP { 80000 }, Ids {},  Amount { 1 }, Partied { 0 },
             -- Patrols { } 
             -- Boss { True }, 
@@ -2013,7 +2015,7 @@ local auraParams = {
 
     ['Varanus_1'] =
     {
-        radius = 3,
+        radius = 3.5,
         effect = tpz.effect.SILENCE,
         power = 1,
         duration = 6,
@@ -2022,7 +2024,7 @@ local auraParams = {
 
     ['Varanus_2'] =
     {
-        radius = 3,
+        radius = 3.5,
         effect = tpz.effect.AMNESIA,
         power = 1,
         duration = 6,
@@ -2031,7 +2033,7 @@ local auraParams = {
 
     ['Varanus_3'] =
     {
-        radius = 3,
+        radius = 3.5,
         effect = tpz.effect.POISON,
         power = 50,
         duration = 6,
@@ -2211,6 +2213,8 @@ local modByMobName =
     end,
 
     ['Varanus'] = function(mob)
+        mob:setMod(tpz.mod.DEFP, 0)
+        mob:delMod(tpz.mod.EVA, 40)
         mob:setMobMod(tpz.mobMod.NO_MOVE, 1)
         mob:delImmunity(tpz.immunity.SLEEP)
         mob:delImmunity(tpz.immunity.GRAVITY)
@@ -2220,6 +2224,7 @@ local modByMobName =
         mob:SetAutoAttackEnabled(false)
         mob:SetMagicCastingEnabled(false)
         mob:SetMobAbilityEnabled(false)
+        mob:setModelSize(1)
     end,
 
     ['Anhanguera'] = function(mob)
@@ -3118,7 +3123,7 @@ local mobFightByMobName =
         -- Despawn after two minutes
         if mob:getBattleTime() >= 120 then
             mob:setLocalVar("NoTemps", 1)
-            mob:setHP(0)
+            DespawnMob(mob:getID())
         end
 
         AddMobAura(mob, target, tpz.woe.mob.getAuraParams(mob, 1))
@@ -3487,6 +3492,7 @@ local onMobWeaponSkillByMobName =
                 local walk = mob:getLocalVar("CurrentWalk")
                 
                 if bestVaranus then
+                    bestVaranus:setSpawn(target:getXPos(), target:getYPos(), target:getZPos())
                     bestVaranus:spawn()
                     bestVaranus:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
                     bestVaranus:setLocalVar("CurrentWalk", walk)

@@ -1,7 +1,6 @@
 ---------------------------------------------
 -- Soul Douse
--- Description: Breat damage.
--- Additional effect: Inflicts Doom upon an enemy. This is not a gaze attack. Turing away will not prevent doom.
+-- Description: Inflicts Doom upon an enemy. This is not a gaze attack. Turing away will not prevent doom.
 -- Range: 30' Frontal Cone
 -- Type: Magical (Dark)
 ---------------------------------------------
@@ -20,11 +19,8 @@ function onMobSkillCheck(target, mob, skill)
 end
 
 function onMobWeaponSkill(target, mob, skill)
-    local dmgmod = MobHPBasedMove(mob, target, skill, 0.10, 1, tpz.magic.ele.DARK, 2000)
-    dmgmod = utils.conalDamageAdjustment(mob, target, skill, dmgmod, 0.50)
-    local dmg = MobFinalAdjustments(dmgmod, mob, skill, target, tpz.attackType.BREATH, tpz.damageType.DARK, MOBPARAM_IGNORE_SHADOWS)
-    target:takeDamage(dmg, mob, tpz.attackType.BREATH, tpz.damageType.DARK)
-    MobStatusEffectMove(mob, target, tpz.effect.DOOM, 1, 3, 30)
+    local typeEffect = tpz.effect.DOOM
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 3, 30))
     mob:resetEnmity(target)
-    return dmg
+    return typeEffect
 end

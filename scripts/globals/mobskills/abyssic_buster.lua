@@ -28,7 +28,7 @@ function onMobWeaponSkill(target, mob, skill)
     MobStatusEffectMove(mob, target, tpz.effect.SILENCE, 1, 0, 60)
     MobStatusEffectMove(mob, target, tpz.effect.SLOW, 2550, 0, 60)
     MobStatusEffectMove(mob, target, tpz.effect.AMNESIA, 1, 0, 60)
-    MobStatusEffectMove(mob, target, tpz.effect.WEAKNESS, 1, 0, 30) -- TODO: Wings up only?
+    MobStatusEffectMove(mob, target, tpz.effect.WEAKNESS, 1, 0, 30)
 
     return dmg
 end
