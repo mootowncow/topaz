@@ -2485,7 +2485,7 @@ INSERT INTO `mob_skills` VALUES (2518,1777,'norn_arrows',2,15.0,2000,1500,4,0,0,
 INSERT INTO `mob_skills` VALUES (2519,1756,'dexter_wing',1,10.0,2000,2000,8193,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2520,1757,'sinister_wing',1,10.0,2000,2000,8193,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2521,1758,'chaos_blast',1,15.0,2000,3000,8193,0,0,7,0,0,0);
-INSERT INTO `mob_skills` VALUES (2522,1759,'abyssic_buster',2,10.0,2000,2000,8193,0,0,7,0,0,0);
+INSERT INTO `mob_skills` VALUES (2522,1759,'abyssic_buster',4,10.0,2000,2000,8193,0,0,7,0,0,0);
 INSERT INTO `mob_skills` VALUES (2523,1760,'dancing_tail',3,10.0,2000,1000,8193,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2524,1761,'dancing_tailv2',3,10.0,2000,1000,8193,0,0,0,0,0,0);  -- Used during "Wings Up" animationsub. More powerful, longer range(?), more enfeebles
 INSERT INTO `mob_skills` VALUES (2525,1762,'chilling_roar',1,15.0,2000,1000,8193,0,0,0,0,0,0);

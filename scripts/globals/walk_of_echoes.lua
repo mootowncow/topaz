@@ -22,7 +22,10 @@ require("scripts/globals/weaponskillids")
 -- Walk 1: Put spawns in correct places like retail? I think they don't roam?
 -- Walk2: Grenade Syrup: TP moves. 
 
--- TODO: "Clean up time" after a walk is deleted before allowing another to spawn. Just 30s or so.
+
+-- TODO: Anguis V2 TP moves, TP moves based on HP %, frontal TP moves, all TP moves effects / dmg. Dancing Tail from behind
+-- TODO: Global Fast Cast? Like 25%? On bosses only maybe?
+-- TODO: Comet seems to do bananas damage? It doesn't do anywhere near that much on retail I think. Or Anguis just does reduced Comet damage? dunno
 -- TODO: Spell ranges for Silencega Paralyga etc. Some seem to be 20
 -- TODO: UseMultipleTPMoves() and telling mob to use TP moves multiple times in general needs to be a way to get mobs CURRENT target and not TELLING it its target...
 -- TODO: i.e. i tell it to use mega scissors 2-5 times, but it uses it on the SAME target despite resetting hate on that target. maybe just do a custom fucky tihng with vars inside listeners for this specifically
@@ -413,9 +416,15 @@ local walkData =
                 --  Have 3 auras: silence, amnesia, poison (50/tick).
                 -- They also change animation sub (open?) when a targets in range of them to aura them. Like 10 yard or less range. Or they just constantly do that animation.
                 -- Varanus despawn after ~2m and don't come back
+                -- Shellra ~400 damage with Shellra V
+                -- Immunobreak Slow
+                -- Resisted stun, lowish EEM to stun then? 50 or lower
                 -- }
-        -- Soul douse does dmg? Check HP not just msg, msg might just say no effect/doom
         -- Abyssic Buster damage, is it 2k? Is it a breath? Reduced by being away / on side? Always weakness? etc
+        -- Varanus summon has 7s delay after chilling roar
+        -- Abyssic Buster 1313 dmg to Valaineral, so ~1400 ignoring his 8% DT
+        -- Chilling roar x3 in a row below 20% or 15%
+        -- multi chilling roars in a row have a 7s delay between each use
         -- Zone Mechanics: Have to wait for Varanus to despawn fully after Anguis dies for the Walk to complete and show the msg / start cutscene to por tout
         -- Completion: Anguis dead
         Mobs        = { IdStart = 17522796, IdEnd = 17522796, Lvl = 85 },
@@ -2205,6 +2214,7 @@ local modByMobName =
 
     ['Anguis'] = function(mob)
         mob:setMod(tpz.mod.STORETP, storeTPAmount)
+        mob:setMod(tpz.mod.MATT, 32)
         mob:setMod(tpz.mod.MDEF, 50)
         mob:setMod(tpz.mod.DMGMAGIC, 0)
         mob:setMobMod(tpz.mobMod.NO_ROAM, 1)
@@ -2481,31 +2491,69 @@ local mixinByMobName =
     end,
 
     ['Anguis'] = function(mob, target)
-        -- Uses Comet 5x in a row, the 4 extra are cast instantly
-        mob:addListener("MAGIC_HIT", "ANGUIS_MAGIC_HIT", function(caster, mob, spell, dmg)
-            if spell:getID() == tpz.magic.spell.COMET then
-                if os.time() >= mob:getLocalVar("multipleComets") then
-                    mob:setLocalVar("cometCount", 4)
-                    mob:setLocalVar("multipleComets", os.time() + 45) -- prevent infinite loop
-                end
-            end
-        end)
-
         -- Additional comets after the first in the chain are cast instantly
         mob:addListener("MAGIC_START", "ANGUIS_MAGIC_START", function(mob, spell)
-            local cometCount = mob:getLocalVar("cometCount")
-
-            if spell:getID() == tpz.magic.spell.COMET and cometCount > 0 then
+            local instantComets = mob:getLocalVar("instantComets")
+            if spell:getID() == tpz.magic.spell.COMET and instantComets > 0 then
+                printf("Current Comet is instant, %s remaining instant Comets", instantComets)
                 spell:castTime(0)
             end
         end)
 
+        -- Uses Comet 5x in a row, the 4 extra are cast instantly
         mob:addListener("MAGIC_STATE_EXIT", "ANGUIS_MAGIC_STATE_EXIT", function(mob, spell)
-            local cometCount = mob:getLocalVar("cometCount")
 
-            if cometCount > 0 then
-                mob:castSpell(tpz.magic.spell.COMET)
-                mob:setLocalVar("cometCount", cometCount - 1)
+            if spell:getID() == tpz.magic.spell.COMET then
+                printf("Magic hit is Comet, checking for multiple comets variable")
+                if os.time() >= mob:getLocalVar("multipleComets") then
+                    mob:setLocalVar("cometCount", 4)
+                    mob:setLocalVar("instantComets", 5)
+                    mob:setLocalVar("multipleComets", os.time() + 20) -- prevent infinite loop
+                end
+            end
+
+            local instantComets = mob:getLocalVar("instantComets")
+            if instantComets > 0 then
+                printf("Current comet is instant, reducing instantComets by 1. instantComets is currently %s", instantComets)
+                mob:setLocalVar("instantComets", instantComets - 1)
+            end
+        end)
+
+        -- Uses Chilling Roar 2x in a row at <= 30% HP and 3x in a row at <= 20% HP, the additional roars are cast with a delay after the first roar
+        -- The first Roar summons a Varnus minion after 7 seconds
+        mob:addListener("WEAPONSKILL_STATE_EXIT", "ANGUIS_WS_STATE_EXIT", function(mob, skillID)
+            if skillID == tpz.mob.skills.CHILLING_ROAR or skillID == tpz.mob.skills.CHILLING_ROARV2 then
+
+                -- Uses 2x in a row at <= 30% HP and 3x in a row at <= 20% HP
+                if mob:getLocalVar("multipleRoars") == 0 then
+
+                    printf("Multiple Roars is currently %s, checking HP for additional roars", mob:getLocalVar("multipleRoars"))
+
+                    -- Summons a Varnus after using the initial Chilling Roar, 7s delay after using Chilling Roar
+                    if mob:getLocalVar("summonVaranus") == 0 then
+                        mob:setLocalVar("summonVaranus", 1)
+                        mob:setLocalVar("summonDelay", os.time() + 7) 
+                        printf("Summon Varanus after initial Chilling Roar, setting summonDelay to %s", os.date("%X", mob:getLocalVar("summonDelay")))
+                    end
+
+                    local hpp = mob:getHPP()
+                    local uses = 0
+                    if hpp <= 20 then
+                        uses = 2
+                    elseif hpp <= 30 then
+                        uses = 1
+                    end
+
+                    printf("HP is at %s%%, setting additional Chilling Roars to %s", hpp, uses)
+                    if uses > 0 then
+                        mob:setLocalVar("multipleRoars", uses)
+                        mob:setLocalVar("nextRoar", os.time() + 9) -- 9s delay between each Chilling Roar
+                        mob:setLocalVar("currentRoar", skillID)
+                    end
+                else
+                    printf("Multiple Roars is currently %s, not checking HP for additional roars", mob:getLocalVar("multipleRoars"))
+                    mob:setLocalVar("multipleRoars", mob:getLocalVar("multipleRoars") - 1)
+                end
             end
         end)
     end,
@@ -2970,7 +3018,7 @@ local mobFightByMobName =
         if mob:getLocalVar("multipleMegaScissors") > 0 then
             -- Try to use every 3 seconds, as Mega Scissors resets hate and target will be switched after every using
             if os.time() >= mob:getLocalVar("nextMegaScissors") then
-                if not IsMobBusy(mob) or mob:hasPreventActionEffect() then
+                if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
                     mob:useMobAbility(tpz.mob.skills.MEGA_SCISSORS, target) 
                     mob:setLocalVar("multipleMegaScissors", mob:getLocalVar("multipleMegaScissors") - 1)
                     mob:setLocalVar("nextMegaScissors", os.time() + 3) 
@@ -3085,11 +3133,11 @@ local mobFightByMobName =
         }
 
         -- Bio Aura
-        -- 90% 5/tick, -10% Attack Down
+        -- 89% 5/tick, -10% Attack Down
         -- 69% 10/tick, -15% Attack Down 
         -- 49% 15/tick, -20% Attack Down
         -- 29% 20/tick, -25% Attack Down
-        -- 9% 25/tick, -30% Attack Down
+        -- 9%  25/tick, -30% Attack Down
 
         -- Changes "Phase" (animation sub) every 10% HP starting at 89%
         local hpp = mob:getHPP()
@@ -3103,6 +3151,8 @@ local mobFightByMobName =
                 end
                 auraParams = phase.Aura
                 break
+            else -- >= 90% HP
+                mob:AnimationSub(animation.WINGS_DOWN)
             end
         end
 
@@ -3110,6 +3160,52 @@ local mobFightByMobName =
             if auraParams then
                 AddMobAura(mob, target, auraParams)
                 TickMobAura(mob, target, auraParams)
+            end
+        end
+
+        -- Uses Comet 5x in a row
+        local cometCount = mob:getLocalVar("cometCount")
+        if cometCount > 0 then
+            mob:castSpell(tpz.magic.spell.COMET)
+            mob:setLocalVar("cometCount", cometCount - 1)
+        end
+
+        -- 9s delay between each Chilling Roar use when using multiple in a row
+        if mob:getLocalVar("multipleRoars") > 0 then
+            local nextRoar = mob:getLocalVar("nextRoar") - os.time()
+            if nextRoar > 0 then
+                printf("Next roar in %s seconds", nextRoar)
+            end
+            if os.time() >= mob:getLocalVar("nextRoar") then
+                if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
+                    printf("Using roar, adding delay for next roar")
+                    mob:useMobAbility(mob:getLocalVar("currentRoar")) 
+                    mob:setLocalVar("nextRoar", os.time() + 9) 
+                end
+            end
+        end
+
+        -- Summons a Varanus after using Chilling Roar (7s delay after using Chilling Roar). 3 max.
+        local nextSummon = mob:getLocalVar("summonDelay") - os.time()
+        if nextSummon > 0 then
+            printf("Varanus be summoned in %s seconds", nextSummon)
+        end
+
+        if mob:getLocalVar("summonVaranus") > 0 and  os.time() >= mob:getLocalVar("summonDelay") then
+            local varanusIds = { 17522797, 17522798, 17522799 }
+            local bestVaranus = GetBestAvailableMob(mob, varanusIds)
+            local walk = mob:getLocalVar("CurrentWalk")
+            
+            if bestVaranus then
+                printf("Spawning Varanus %d", bestVaranus:getID())
+                bestVaranus:setSpawn(target:getXPos(), target:getYPos(), target:getZPos())
+                bestVaranus:spawn()
+                bestVaranus:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
+                bestVaranus:setLocalVar("CurrentWalk", walk)
+                bestVaranus:updateEnmity(target)
+                mob:setLocalVar("summonVaranus", 0)
+            else
+                printf("No available Varanus to summon")
             end
         end
 
@@ -3332,9 +3428,9 @@ local onMobWeaponSkillByMobName =
         -- Uses Mega Scissors 3-5 times in a row below 75% HP
         if skill:getID() == tpz.mob.skills.MEGA_SCISSORS then
             -- Handled in onMobFight because Mega Scissors resets enmity and Mega Scissors would be used 2-5 times against the same target which isn't retail accurate and too strong
-            if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("doubleMegaScissors") then
+            if mob:getHPP() <= 75 and os.time() >= mob:getLocalVar("megaScissors") then
                 mob:setLocalVar("multipleMegaScissors", math.random(2, 5))
-                mob:setLocalVar("doubleMegaScissors", os.time() + 25) -- prevent infinite loop
+                mob:setLocalVar("megaScissors", os.time() + 25) -- prevent infinite loop
             end
         end
 
@@ -3483,36 +3579,6 @@ local onMobWeaponSkillByMobName =
     end,
 
     ['Anguis'] = function(mob, target, skill)
-        local varanusIds = { 17522797, 17522798, 17522799 }
-        local hpp = mob:getHPP()
-
-        if skill:getID() == tpz.mob.skills.CHILLING_ROAR or skill:getID() == tpz.mob.skills.CHILLING_ROARV2 then
-            -- Summons a Varnus after using Chilling Roar (10s ICD)
-            if hpp <= 75 and os.time() >= mob:getLocalVar("summonVaranus") then
-                local bestVaranus = GetBestAvailableMob(mob, varanusIds)
-                local walk = mob:getLocalVar("CurrentWalk")
-                
-                if bestVaranus then
-                    bestVaranus:setSpawn(target:getXPos(), target:getYPos(), target:getZPos())
-                    bestVaranus:spawn()
-                    bestVaranus:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
-                    bestVaranus:setLocalVar("CurrentWalk", walk)
-                    bestVaranus:updateEnmity(target)
-                    mob:setLocalVar("summonVaranus", os.time() + 10)
-                end
-            end
-
-            -- Uses Chilling Roar x2 in a row <= 20% - 11% and x3 in a row <= 10%
-            if os.time() >= mob:getLocalVar("multipleChillingRoar") then
-                if hpp <= 10 then
-                    UseMultipleTPMoves(mob, 2, skill:getID())
-                    mob:setLocalVar("multipleChillingRoar", os.time() + 15) -- prevent infinite loop
-                elseif hpp <= 20 then
-                    mob:useMobAbility(skill:getID()) 
-                    mob:setLocalVar("multipleChillingRoar", os.time() + 15) -- prevent infinite loop
-                end
-            end
-        end
     end,
 
     ['Varanus'] = function(mob, target, skill)

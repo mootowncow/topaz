@@ -13,6 +13,7 @@ end
 function onItemUse(target)
     local duration = 900
     local party = target:getPartyWithTrusts()
+    -- TODO: No effect if target:hasStatusEffect(tpz.effect.MAX_MP_DOWN)
     for _, member in ipairs(party) do
         if member:isTrust() then
             member:delStatusEffectSilent(tpz.effect.MAX_MP_BOOST)

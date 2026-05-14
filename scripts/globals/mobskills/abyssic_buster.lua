@@ -1,7 +1,7 @@
 ---------------------------------------------
 -- Abyssic Buster
 -- Description: Breath damage.
--- Additional effect: Inflicts Doom upon an enemy. This is not a gaze attack. Turing away will not prevent doom.
+-- Additional effect: Paralysis, SIlence, Slow, Amnesia, Weakness
 -- Range: 30' Frontal Cone
 -- Type: Magical (Dark)
 ---------------------------------------------
@@ -10,11 +10,14 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if not target:isInfront(mob, 90) then
-        return 1
-    elseif (mob:getHPP() > 50) then
+    if target:isBehind(mob, 90) then
         return 1
     end
+    
+    if (mob:getHPP() > 20) then
+        return 1
+    end
+
     return 0
 end
 

@@ -23,10 +23,11 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = tpz.effect.TERROR
-    local duration = 15
+    local duration = 8
 
     local params = {}
     params.ALWAYS_ENFEEBLE = true
+    params.STATIC_DURATION = true
     skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, duration, false, params))
     mob:lowerEnmity(target, 70)
 

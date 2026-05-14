@@ -24,7 +24,7 @@ MAGIC_MID - Entity, Target, Spell
 MAGIC_USE - Entity, Target, Spell, action
 MAGIC_STATE_EXIT - Entity, Spell
 SPELL_DMG_TAKEN - Target, Entity, Spell, amount, message
-MAGIC_HIT - caster, target, spell, dmg -- Hit and was not absorbed by a shadow
+MAGIC_HIT - caster, target, spell (Does not run on shadow absorbed hits. Only used for hits ON the target. i.e. flashing a mob) 
 MAGIC_PARALYZED - Entity, Spell
 MAGIC_INTIMIDATED - Entity, Spell
 EN_SPIKES_HIT - attacker, target, enspellID (enum ENSPELL in battleutils.h)
