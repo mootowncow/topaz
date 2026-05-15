@@ -13,7 +13,8 @@ require("scripts/globals/monstertpmoves")
 
 ---------------------------------------------
 function onMobSkillCheck(target, mob, skill)
-    if not target:isToLeft(mob, 45) then
+    local currentTarget = mob:getTarget()
+    if currentTarget and not currentTarget:isToLeft(mob, 45) then
         return 1
     elseif (mob:getHPP() > 90) then
         return 1

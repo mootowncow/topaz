@@ -8,7 +8,8 @@ require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if target:isBehind(mob, 90) then
+    local currentTarget = mob:getTarget()
+    if currentTarget and currentTarget:isBehind(mob, 90) then
         return 1
     end
 
@@ -16,6 +17,7 @@ function onMobSkillCheck(target, mob, skill)
         return 1
     end
 
+    printf("?")
     return 0
 end
 

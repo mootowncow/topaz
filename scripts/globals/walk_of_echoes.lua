@@ -2526,14 +2526,10 @@ local mixinByMobName =
 
                 -- Uses 2x in a row at <= 30% HP and 3x in a row at <= 20% HP
                 if mob:getLocalVar("multipleRoars") == 0 then
-
-                    printf("Multiple Roars is currently %s, checking HP for additional roars", mob:getLocalVar("multipleRoars"))
-
                     -- Summons a Varnus after using the initial Chilling Roar, 7s delay after using Chilling Roar
                     if mob:getLocalVar("summonVaranus") == 0 then
                         mob:setLocalVar("summonVaranus", 1)
                         mob:setLocalVar("summonDelay", os.time() + 7) 
-                        printf("Summon Varanus after initial Chilling Roar, setting summonDelay to %s", os.date("%X", mob:getLocalVar("summonDelay")))
                     end
 
                     local hpp = mob:getHPP()
@@ -2544,14 +2540,12 @@ local mixinByMobName =
                         uses = 1
                     end
 
-                    printf("HP is at %s%%, setting additional Chilling Roars to %s", hpp, uses)
                     if uses > 0 then
                         mob:setLocalVar("multipleRoars", uses)
                         mob:setLocalVar("nextRoar", os.time() + 9) -- 9s delay between each Chilling Roar
                         mob:setLocalVar("currentRoar", skillID)
                     end
                 else
-                    printf("Multiple Roars is currently %s, not checking HP for additional roars", mob:getLocalVar("multipleRoars"))
                     mob:setLocalVar("multipleRoars", mob:getLocalVar("multipleRoars") - 1)
                 end
             end
@@ -3174,11 +3168,9 @@ local mobFightByMobName =
         if mob:getLocalVar("multipleRoars") > 0 then
             local nextRoar = mob:getLocalVar("nextRoar") - os.time()
             if nextRoar > 0 then
-                printf("Next roar in %s seconds", nextRoar)
             end
             if os.time() >= mob:getLocalVar("nextRoar") then
                 if not IsMobBusy(mob) and not mob:hasPreventActionEffect() then
-                    printf("Using roar, adding delay for next roar")
                     mob:useMobAbility(mob:getLocalVar("currentRoar")) 
                     mob:setLocalVar("nextRoar", os.time() + 9) 
                 end
@@ -3186,26 +3178,18 @@ local mobFightByMobName =
         end
 
         -- Summons a Varanus after using Chilling Roar (7s delay after using Chilling Roar). 3 max.
-        local nextSummon = mob:getLocalVar("summonDelay") - os.time()
-        if nextSummon > 0 then
-            printf("Varanus be summoned in %s seconds", nextSummon)
-        end
-
         if mob:getLocalVar("summonVaranus") > 0 and  os.time() >= mob:getLocalVar("summonDelay") then
             local varanusIds = { 17522797, 17522798, 17522799 }
             local bestVaranus = GetBestAvailableMob(mob, varanusIds)
             local walk = mob:getLocalVar("CurrentWalk")
             
             if bestVaranus then
-                printf("Spawning Varanus %d", bestVaranus:getID())
                 bestVaranus:setSpawn(target:getXPos(), target:getYPos(), target:getZPos())
                 bestVaranus:spawn()
                 bestVaranus:addStatusEffect(tpz.effect.BATTLEFIELD, walk, 0, 0)
                 bestVaranus:setLocalVar("CurrentWalk", walk)
                 bestVaranus:updateEnmity(target)
                 mob:setLocalVar("summonVaranus", 0)
-            else
-                printf("No available Varanus to summon")
             end
         end
 
@@ -4242,6 +4226,7 @@ tpz.woe.mob.onMobSpawn = function(mob)
         mob:addMod(tpz.mod.ACC, 40)
         mob:addMod(tpz.mod.EVA, 40)
         mob:addMod(tpz.mod.MATT, 50)
+        mob:addMod(tpz.mod.FASTCAST, 25)
     else -- Trash mobs
         if mob:getMainJob() ~= tpz.job.MNK then
             mob:setDamage(100)

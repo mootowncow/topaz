@@ -12,9 +12,11 @@ require("scripts/globals/monstertpmoves")
 ---------------------------------------------------
 
 function onMobSkillCheck(target, mob, skill)
-    if target:isInfront(mob, 90) then
+    local currentTarget = mob:getTarget()
+    
+    if currentTarget and currentTarget:isInfront(mob, 90) then
         return 1
-    elseif target:isBeside(mob, 45) then
+    elseif currentTarget and currentTarget:isBeside(mob, 45) then
         return 1
     elseif mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].WINGS_DOWN or mob:AnimationSub() == tpz.mob.animationSubs['Zilant'].AURA then
         return 1
