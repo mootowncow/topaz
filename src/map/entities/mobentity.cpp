@@ -1525,10 +1525,10 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
                 !PSkill->isJobAbility() &&
                 !PSkill->isMagicAttack())
             {
-                int16 delay = this->GetWeaponDelay(true);
+                int32 delay = this->GetWeaponDelay(true);
                 float ratio = 1.0f;
                 int16 baseTp = 0;
-                baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+                baseTp = battleutils::CalculateBaseTP((int32)(delay * 60.0f / 1000.0f / ratio));
                 if (PTargetFound->id == PSkill->getPrimaryTargetID())
                     this->addTP((int16)(1 * (baseTp * (1.0f + 0.01f * (float)((this->getMod(Mod::STORETP)))))));
             }

@@ -17,7 +17,6 @@ function onMobSkillCheck(target, mob, skill)
         return 1
     end
 
-    printf("?")
     return 0
 end
 

@@ -2018,7 +2018,8 @@ function addBonuses(caster, spell, target, dmg, params)
             end
         end
 
-        mabbonus = (100 + mab) / (100 + target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele))
+        local mdb = utils.clamp(target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele), 0)
+        mabbonus = (100 + mab) / (100 + mdb)
     end
 
     if (mabbonus < 0) then
@@ -2120,12 +2121,12 @@ function addBonusesAbility(caster, ele, target, dmg, params)
     dmg = math.floor(dmg * dayWeatherBonus)
 
     local mab = 1
-    local mdefBarBonus = getBarspellElementalMDB(caster, target, ele)
+    local mdb = utils.clamp(target:getMod(tpz.mod.MDEF) + getBarspellElementalMDB(caster, target, ele), 0)
 
     if (params ~= nil and params.bonusmab ~= nil and params.includemab == true) then
-        mab = (100 + caster:getMod(tpz.mod.MATT) + params.bonusmab) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mab = (100 + caster:getMod(tpz.mod.MATT) + params.bonusmab) / (100 + mdb)
     elseif (params == nil or (params ~= nil and params.includemab == true)) then
-        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + target:getMod(tpz.mod.MDEF) + mdefBarBonus)
+        mab = (100 + caster:getMod(tpz.mod.MATT)) / (100 + mdb)
     end
 
     if (mab < 0) then
@@ -2760,6 +2761,10 @@ function GetCharmFamilyReduction(player, target)
 end
 
 function doElementalNuke(caster, spell, target, spellParams)
+    if caster:hasStatusEffect(tpz.effect.WEAKNESS) and caster:getStatusEffect(tpz.effect.WEAKNESS):getPower() >= 2 then
+        return 0
+    end
+
     local DMG = 0
     local DMGMod = CalculateMagicDamageMod(caster)
     local skillType = spellParams.skillType
@@ -2916,6 +2921,10 @@ function doNinjutsuNuke(caster, target, spell, params)
 end
 
 function doNuke(caster, target, spell, params)
+    if caster:hasStatusEffect(tpz.effect.WEAKNESS) and caster:getStatusEffect(tpz.effect.WEAKNESS):getPower() >= 2 then
+        return 0
+    end
+
     --calculate raw damage
     params.dStatAccSoftCap = 10
     local dmg = calculateMagicDamage(caster, target, spell, params)
@@ -2984,6 +2993,10 @@ function doNuke(caster, target, spell, params)
 end
 
 function doDivineBanishNuke(caster, target, spell, params)
+    if caster:hasStatusEffect(tpz.effect.WEAKNESS) and caster:getStatusEffect(tpz.effect.WEAKNESS):getPower() >= 2 then
+        return 0
+    end
+    
     params.skillType = tpz.skill.DIVINE_MAGIC
     params.attribute = tpz.mod.MND
     params.dStatAccSoftCap = 10

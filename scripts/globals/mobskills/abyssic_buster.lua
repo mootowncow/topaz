@@ -11,10 +11,10 @@ require("scripts/globals/status")
 
 function onMobSkillCheck(target, mob, skill)
     local currentTarget = mob:getTarget()
-    if currentTarget and currentTarget:isBehind(mob, 90) then
-        return 1
+    if currentTarget then
+        mob:faceTarget(currentTarget)
     end
-    
+
     if (mob:getHPP() > 20) then
         return 1
     end

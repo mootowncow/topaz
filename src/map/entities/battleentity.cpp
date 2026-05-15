@@ -229,10 +229,24 @@ bool CBattleEntity::isSitting()
 
 void CBattleEntity::UpdateHealth()
 {
-    int32 dif = (getMod(Mod::CONVMPTOHP) - getMod(Mod::CONVHPTOMP));
+    int32 dif = getMod(Mod::CONVMPTOHP) - getMod(Mod::CONVHPTOMP);
 
-    health.modmp = std::max(0, ((health.maxmp) * (100 + getMod(Mod::MPP)) / 100) + std::min<int16>((health.maxmp * m_modStat[Mod::FOOD_MPP] / 100), m_modStat[Mod::FOOD_MP_CAP]) + getMod(Mod::MP));
-    health.modhp = std::max(1, ((health.maxhp) * (100 + getMod(Mod::HPP)) / 100) + std::min<int16>((health.maxhp * m_modStat[Mod::FOOD_HPP] / 100), m_modStat[Mod::FOOD_HP_CAP]) + getMod(Mod::HP));
+    int32 baseHP = health.maxhp;
+    int32 baseMP = health.maxmp;
+
+    // Apply weakness first
+    if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+    {
+        baseHP = baseHP * 25 / 100;
+        baseMP = baseMP * 25 / 100;
+    }
+
+    // Apply HPP / MPP mods
+    health.modmp = std::max(0, (baseMP * (100 + getMod(Mod::MPP)) / 100) +
+                                   std::min<int16>((baseMP * m_modStat[Mod::FOOD_MPP] / 100), m_modStat[Mod::FOOD_MP_CAP]) + getMod(Mod::MP));
+
+    health.modhp = std::max(1, (baseHP * (100 + getMod(Mod::HPP)) / 100) +
+                                   std::min<int16>((baseHP * m_modStat[Mod::FOOD_HPP] / 100), m_modStat[Mod::FOOD_HP_CAP]) + getMod(Mod::HP));
 
     dif = (health.modmp - 0) < dif ? (health.modmp - 0) : dif;
     dif = (health.modhp - 1) < -dif ? -(health.modhp - 1) : dif;
@@ -383,7 +397,7 @@ bool CBattleEntity::Rest(float rate)
     return didRest;
 }
 
-int16 CBattleEntity::GetWeaponDelay(bool tp)
+int32 CBattleEntity::GetWeaponDelay(bool tp)
 {
     if (StatusEffectContainer->HasStatusEffect(EFFECT_HUNDRED_FISTS) && !tp)
     {
@@ -396,10 +410,10 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
         return 1700;
     }
 
-    uint16 WeaponDelay = 9999;
+    uint32 WeaponDelay = 9999;
     if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]))
     {
-        uint16 MinimumDelay = weapon->getDelay(); // Track base delay.  We will need this later.  Mod::DELAY is ignored for now.
+        uint32 MinimumDelay = weapon->getDelay(); // Track base delay.  We will need this later.  Mod::DELAY is ignored for now.
         WeaponDelay = weapon->getDelay() - getMod(Mod::DELAY);
         if (weapon->isHandToHand())
         {
@@ -431,14 +445,14 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
                     dualWieldMods += PChar->PMeritPoints->GetMeritValue(MERIT_SUBTLE_BLOW_EFFECT, PChar);
                 }
 
-                WeaponDelay = (uint16)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
+                WeaponDelay = (uint32)(WeaponDelay * ((100.0f - dualWieldMods) / 100.0f));
             }
         }
         else // (Mobs / Allies / Trusts)
         {
             if (m_dualWield)
             {
-                WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::DUAL_WIELD)) / 100.0f));
+                WeaponDelay = (uint32)(WeaponDelay * ((100.0f - getMod(Mod::DUAL_WIELD)) / 100.0f));
             }
         }
 
@@ -453,7 +467,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
                 {
                     if (!m_dualWield)
                     {
-                        WeaponDelay = (uint16)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
+                        WeaponDelay = (uint32)(WeaponDelay * ((100.0f - getMod(Mod::FENCER_JA_HASTE)) / 100.0f));
                     }
                 }
             }
@@ -497,12 +511,16 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
                 WeaponDelay -= (int16)(WeaponDelay * (hasteMagic + hasteAbility + hasteGear) / 10000.f);
             }
         }
-        WeaponDelay = (uint16)(WeaponDelay * ((100.0f + getMod(Mod::DELAYP)) / 100.0f));
+        WeaponDelay = (uint32)(WeaponDelay * ((100.0f + getMod(Mod::DELAYP)) / 100.0f));
+
+        // Apply Weakness delay reduction (Capped at 9999 delay
+        if (StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+            WeaponDelay *= 2;
 
         // Global delay reduction cap of "about 80%" being enforced
         // This should be enforced on -delay equipment, martial arts, dual wield, and haste, hence MinimumDelay * 0.2.
         // TODO: Could be converted to value/1024 if the exact cap is ever determined.
-        MinimumDelay -= (uint16)(MinimumDelay * 0.8);
+        MinimumDelay -= (uint32)(MinimumDelay * 0.8);
 
         WeaponDelay = (WeaponDelay < MinimumDelay) ? MinimumDelay : WeaponDelay;
         //ShowDebug("[GetWeaponDelay] %s weapon delay is... %i \n", this->name, WeaponDelay);

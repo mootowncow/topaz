@@ -1,4 +1,5 @@
 require("scripts/globals/status")
+require("scripts/globals/msg")
 require("scripts/globals/spell_data")
 require("scripts/globals/world")
 

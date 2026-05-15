@@ -2,6 +2,7 @@
 -- Item Utils
 -----------------------------------
 require('scripts/globals/utils')
+require('scripts/globals/items')
 -----------------------------------
 tpz = tpz or {}
 tpz.itemUtils = {}
@@ -431,5 +432,91 @@ function tpz.itemUtils.ApplyAugmentsToItem(item, augmentTable)
         else
             printf("[itemUtils] Skipped invalid augment entry: %s", tostring(aug))
         end
+    end
+end
+
+tpz.itemUtils.temps = {}
+
+tpz.itemUtils.temps.HPBoost = function(target, itemId, power, duration)
+    local oldPower = 0
+    local party = target:getPartyWithTrusts()
+
+    -- Apply effect to Trusts
+    for _, member in ipairs(party) do
+        if member:isTrust() and not member:hasStatusEffect(tpz.effect.MAX_HP_DOWN) then
+
+            local oldPowerTrust = 0
+
+            if member:hasStatusEffect(tpz.effect.MAX_HP_BOOST) then
+                oldPowerTrust = member:getStatusEffect(tpz.effect.MAX_HP_BOOST):getPower()
+            end
+
+            -- Don't overwrite a stronger HP boost with a weaker one
+            if power > oldPowerTrust then
+                member:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
+                member:addStatusEffect(tpz.effect.MAX_HP_BOOST, power, 0, duration)
+            end
+        end
+    end
+
+    -- If the target has Max HP Down, the item has no effect on them
+    if target:hasStatusEffect(tpz.effect.MAX_HP_DOWN) then
+        -- TODO: Doesn't work on simple log
+        return target:messagePublic(tpz.msg.basic.ITEM_NO_EFFECT, target, itemId)
+    end
+
+    if target:hasStatusEffect(tpz.effect.MAX_HP_BOOST) then
+        oldPower = target:getStatusEffect(tpz.effect.MAX_HP_BOOST):getPower()
+    end
+
+    -- Don't overwrite a stronger HP boost with a weaker one
+    if power >= oldPower then
+        target:delStatusEffectSilent(tpz.effect.MAX_HP_BOOST)
+        target:addStatusEffect(tpz.effect.MAX_HP_BOOST, power, 0, duration)
+    else
+        -- TODO: Doesn't work on simple log
+        return target:messagePublic(tpz.msg.basic.ITEM_NO_EFFECT, target, itemId)
+    end
+end
+
+tpz.itemUtils.temps.MPBoost = function(target, itemId, power, duration)
+    local oldPower = 0
+    local party = target:getPartyWithTrusts()
+
+    -- Apply effect to Trusts
+    for _, member in ipairs(party) do
+        if member:isTrust() and not member:hasStatusEffect(tpz.effect.MAX_MP_DOWN) then
+
+            local oldPowerTrust = 0
+
+            if member:hasStatusEffect(tpz.effect.MAX_MP_BOOST) then
+                oldPowerTrust = member:getStatusEffect(tpz.effect.MAX_MP_BOOST):getPower()
+            end
+
+            -- Don't overwrite a stronger MP boost with a weaker one
+            if power > oldPowerTrust then
+                member:delStatusEffectSilent(tpz.effect.MAX_MP_BOOST)
+                member:addStatusEffect(tpz.effect.MAX_MP_BOOST, power, 0, duration)
+            end
+        end
+    end
+
+    -- If the target has Max MP Down, the item has no effect on them
+    if target:hasStatusEffect(tpz.effect.MAX_MP_DOWN) then
+        -- TODO: Doesn't work on simple log
+        return target:messagePublic(tpz.msg.basic.ITEM_NO_EFFECT, target, itemId)
+    end
+
+    if target:hasStatusEffect(tpz.effect.MAX_MP_BOOST) then
+        oldPower = target:getStatusEffect(tpz.effect.MAX_MP_BOOST):getPower()
+    end
+
+    -- Don't overwrite a stronger MP boost with a weaker one
+    if power >= oldPower then
+        target:delStatusEffectSilent(tpz.effect.MAX_MP_BOOST)
+        target:addStatusEffect(tpz.effect.MAX_MP_BOOST, power, 0, duration)
+    else
+        -- TODO: Doesn't work on simple log
+        return target:messagePublic(tpz.msg.basic.ITEM_NO_EFFECT, target, itemId)
     end
 end

@@ -24,5 +24,16 @@ function onSpellCast(caster, target, spell)
     spellParams.M100 = 3.5
     spellParams.M200 = 3
 
+    if caster:isMob() then
+        spellParams.V0 = 964
+        spellParams.V50 = 964
+        spellParams.V100 = 964
+        spellParams.V200 = 964
+        spellParams.M0 = 2.3
+        spellParams.M50 = 2.3
+        spellParams.M100 = 2.3
+        spellParams.M200 = 2.3
+    end
+
     return doElementalNuke(caster, spell, target, spellParams)
 end

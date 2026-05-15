@@ -582,10 +582,10 @@ void CPetEntity::OnPlayerPetSkillFinished(CMobSkillState& state, action_t& actio
             // Don't add TP if the TP move is a two hour, buff, heal, or enfeeble.
             if (excludedMsgs.find(msg) == excludedMsgs.end() && !PSkill->isTwoHour() && !PSkill->isMagicAttack())
             {
-                int16 delay = this->GetWeaponDelay(true);
+                int32 delay = this->GetWeaponDelay(true);
                 float ratio = 1.0f;
                 int16 baseTp = 0;
-                baseTp = battleutils::CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+                baseTp = battleutils::CalculateBaseTP((int32)(delay * 60.0f / 1000.0f / ratio));
                 if (PTarget->id == PSkill->getPrimaryTargetID())
                     this->addTP((int16)(1 * (baseTp * (1.0f + 0.01f * (float)((this->getMod(Mod::STORETP)))))));
             }

@@ -2495,7 +2495,6 @@ local mixinByMobName =
         mob:addListener("MAGIC_START", "ANGUIS_MAGIC_START", function(mob, spell)
             local instantComets = mob:getLocalVar("instantComets")
             if spell:getID() == tpz.magic.spell.COMET and instantComets > 0 then
-                printf("Current Comet is instant, %s remaining instant Comets", instantComets)
                 spell:castTime(0)
             end
         end)
@@ -2504,7 +2503,6 @@ local mixinByMobName =
         mob:addListener("MAGIC_STATE_EXIT", "ANGUIS_MAGIC_STATE_EXIT", function(mob, spell)
 
             if spell:getID() == tpz.magic.spell.COMET then
-                printf("Magic hit is Comet, checking for multiple comets variable")
                 if os.time() >= mob:getLocalVar("multipleComets") then
                     mob:setLocalVar("cometCount", 4)
                     mob:setLocalVar("instantComets", 5)
@@ -2514,7 +2512,6 @@ local mixinByMobName =
 
             local instantComets = mob:getLocalVar("instantComets")
             if instantComets > 0 then
-                printf("Current comet is instant, reducing instantComets by 1. instantComets is currently %s", instantComets)
                 mob:setLocalVar("instantComets", instantComets - 1)
             end
         end)

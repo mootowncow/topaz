@@ -2878,6 +2878,16 @@ namespace battleutils
         int acc = 0;
         int hitrate = 75;
 
+        // Check for Double Weakness (Floored Accuracy)
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+        {
+            CStatusEffect* weakness = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_WEAKNESS, 0);
+            uint16 weaknessPower = weakness->GetPower();
+
+            if (weaknessPower >= 2)
+                return 20;
+        }
+
         // Check to see if distance is greater than 25 and force hitrate to be 0
         if (distance(PAttacker->loc.p, PDefender->loc.p) > 25 && !isBluSpell)
         {
@@ -3102,6 +3112,16 @@ namespace battleutils
         
         // Get Ranged Attack Value
         uint16 rAttack = 1;
+
+        // Check for Double Weakness (Sets Ranged Attack to 1)
+        if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_WEAKNESS))
+        {
+            CStatusEffect* weakness = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_WEAKNESS, 0);
+            uint16 weaknessPower = weakness->GetPower();
+
+            if (weaknessPower >= 2)
+                return rAttack;
+        }
 
         if (isBluSpell)
         {
@@ -3398,7 +3418,7 @@ namespace battleutils
         }
         else
         {
-            int16 delay = PAttacker->GetWeaponDelay(true);
+            int32 delay = PAttacker->GetWeaponDelay(true);
             float ratio = 1.0f;
 
             if (PAttacker->objtype == TYPE_PC) // Players
@@ -3413,7 +3433,7 @@ namespace battleutils
             {
                 if (PAttacker->m_dualWield)
                 {
-                    delay = (uint16)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
+                    delay = (int32)(delay * ((100.0f - PAttacker->getMod(Mod::DUAL_WIELD)) / 100.0f));
                 }
             }
 
@@ -3422,7 +3442,7 @@ namespace battleutils
                 ratio = 2.0f;
             }
 
-            baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
+            baseTp = CalculateBaseTP((int32)(delay * 60.0f / 1000.0f / ratio));
         }
 
         return baseTp;

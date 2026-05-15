@@ -5,6 +5,8 @@
 -- Works on paralysis, silence, blindness, poison, and disease.
 -----------------------------------------
 require("scripts/globals/status")
+require("scripts/globals/msg")
+require("scripts/globals/items")
 -----------------------------------------
 
 function onItemCheck(target)
@@ -12,12 +14,14 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
+    local removed = false
 
     if (target:hasStatusEffect(tpz.effect.SILENCE) == true) then
         local effect = target:getStatusEffect(tpz.effect.SILENCE)
         local effectFlags = effect:getFlag()
         if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
             target:delStatusEffect(tpz.effect.SILENCE)
+            removed = true
         end
     end
 
@@ -26,6 +30,7 @@ function onItemUse(target)
         local effectFlags = effect:getFlag()
         if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
             target:delStatusEffect(tpz.effect.BLINDNESS)
+            removed = true
         end
     end
 
@@ -34,6 +39,7 @@ function onItemUse(target)
         local effectFlags = effect:getFlag()
         if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
             target:delStatusEffect(tpz.effect.POISON)
+            removed = true
         end
     end
 
@@ -42,6 +48,7 @@ function onItemUse(target)
         local effectFlags = effect:getFlag()
         if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
             target:delStatusEffect(tpz.effect.PARALYSIS)
+            removed = true
         end
     end
 
@@ -52,6 +59,7 @@ function onItemUse(target)
             local effectFlags = effect:getFlag()
             if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
                 target:delStatusEffect(tpz.effect.DISEASE)
+                removed = true
             end
         end
 
@@ -60,8 +68,16 @@ function onItemUse(target)
             local effectFlags = effect:getFlag()
             if (bit.band(effectFlags, tpz.effectFlag.WALTZABLE) ~= 0) then
                 target:delStatusEffect(tpz.effect.PLAGUE)
+                removed = true
             end
         end
+    end
+
+    if removed then
+        target:messagePublic(tpz.msg.basic.ITEM_REMEDY, target)
+    else
+        -- TODO: Doesn't work on simple log
+        target:messagePublic(tpz.msg.basic.ITEM_NO_EFFECT, target, GetItem(tpz.items.REMEDY):getID())
     end
 end
 

@@ -12128,6 +12128,37 @@ inline int32 CLuaBaseEntity::isDualWielding(lua_State* L)
 }
 
 /************************************************************************
+ *  Function: faceTarget()
+ *  Purpose : Forces a mob entity to face a target entity
+ *  Example : mob:faceTarget(player)
+ *  Notes   :
+ ************************************************************************/
+
+inline int32 CLuaBaseEntity::faceTarget(lua_State* L)
+{
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_MOB);
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isuserdata(L, 1));
+
+    CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+
+    if (PLuaBaseEntity == nullptr || PLuaBaseEntity->GetBaseEntity() == nullptr)
+    {
+        return 0;
+    }
+
+    ShowDebug("Facing %s\n", PLuaBaseEntity->GetBaseEntity()->name);
+
+    if (auto* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
+    {
+        auto PTarget = PMob->GetEntity(PLuaBaseEntity->GetBaseEntity()->targid);
+        PMob->PAI->PathFind->LookAt(PTarget->loc.p);
+    }
+
+    return 0;
+}
+
+/************************************************************************
 *  Function: getCE()
 *  Purpose : Returns the current Cumulative Enmity a Mob has against an Entity
 *  Example : local playerCE = target:getCE(player)
@@ -16671,7 +16702,7 @@ inline int32 CLuaBaseEntity::getDelay(lua_State* L)
         tp = lua_toboolean(L, 1);
     }
 
-    lua_pushinteger(L, (int16)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetWeaponDelay(tp));
+    lua_pushinteger(L, (int32)((CBattleEntity*)m_PBaseEntity)->CBattleEntity::GetWeaponDelay(tp));
     return 1;
 }
 
@@ -19259,14 +19290,13 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getEntity),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getNearbyEntities),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getNearbyMobs),
+
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,canChangeState),
-
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,wakeUp),
-
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,recalculateStats),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,checkImbuedItems),
-
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isDualWielding),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,faceTarget),
 
     // Enmity
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCE),

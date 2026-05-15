@@ -474,8 +474,6 @@ public:
     int32 getPixieHate(lua_State* L);
     int32 setPixieHate(lua_State* L);
 
-
-
     int32 reloadParty(lua_State* L);
     int32 disableLevelSync(lua_State* L);
     int32 isLevelSync(lua_State* L);
@@ -535,14 +533,13 @@ public:
     int32 getEntity(lua_State* L);
     int32 getNearbyEntities(lua_State* L);
     int32 getNearbyMobs(lua_State* L);
+
     int32 canChangeState(lua_State* L);
-
     int32 wakeUp(lua_State*);                  //wakes target if necessary
-
     int32 recalculateStats(lua_State* L);
     int32 checkImbuedItems(lua_State* L);
-
     int32 isDualWielding(lua_State*);          // Checks if the battle entity is dual wielding
+    int32 faceTarget(lua_State*);
 
     // Enmity
     int32 getCE(lua_State*);                   //gets current CE the mob has towards the player

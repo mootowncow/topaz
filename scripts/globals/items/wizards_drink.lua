@@ -3,7 +3,7 @@
 -- Item: Wizards Drink
 -- Item Effect: +100% MP
 -----------------------------------------
-require("scripts/globals/status")
+require("scripts/globals/item_utils")
 -----------------------------------------
 
 function onItemCheck(target)
@@ -11,15 +11,8 @@ function onItemCheck(target)
 end
 
 function onItemUse(target)
+    local itemId = GetItem(tpz.items.BOTTLE_OF_WIZARDS_DRINK):getID()
+    local power = 100
     local duration = 900
-    local party = target:getPartyWithTrusts()
-    -- TODO: No effect if target:hasStatusEffect(tpz.effect.MAX_MP_DOWN)
-    for _, member in ipairs(party) do
-        if member:isTrust() then
-            member:delStatusEffectSilent(tpz.effect.MAX_MP_BOOST)
-            member:addStatusEffect(tpz.effect.MAX_MP_BOOST, 100, 0, duration)
-        end
-    end
-    target:delStatusEffectSilent(tpz.effect.MAX_MP_BOOST)
-    target:addStatusEffect(tpz.effect.MAX_MP_BOOST, 100, 0, duration)
+    return tpz.itemUtils.temps.MPBoost(target, itemId, power, duration)
 end

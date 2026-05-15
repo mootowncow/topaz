@@ -392,17 +392,17 @@
 396 - Skillchain: Scission. <target> recovers 0 hit points!
 397 - Skillchain: Detonation. <target> recovers 0 hit points!
 398 - Skillchain: Impaction. <target> recovers 0 hit points!
-399 - The <player> uses .. All of <target>'s Petras vanish!
-400 - The <player> uses .. .. of <target>'s status ailments disappear!
+399 - The <player> uses .. All of <target>'s Petras vanish! (Item?)
+400 - The <player> uses .. .. of <target>'s status ailments disappear! (Item?)
 401 - The <player> uses .. .. of <target>'s effects disappear! -- Item related.
-402 - The <player> uses .. <target>'s magic defense is enhanced.
+402 - The <player> uses .. <target>'s magic defense is enhanced. (Item?)
 403 - .. of <target>'s attributes are drained.
 404 - .. status effects are drained from <target>.
-405 - The <player> uses .. .. of <target>'s effects disappear!
-406 - The <player> uses .. <target> falls to the ground.
-407 - The <player> uses .. <target>'s TP is reduced.
-408 - The <player> uses .. No effect on <target>.
-409 - The <player> uses .. <target>'s TP is increased to ...
+405 - The <player> uses .. .. of <target>'s effects disappear! (Item?)
+406 - The <player> uses .. <target> falls to the ground. (Item?)
+407 - The <player> uses .. <target>'s TP is reduced. (Item?)
+408 - The <player> uses <item> No effect on <target>. (Item)
+409 - The <player> uses .. <target>'s TP is increased to ... (Item?)
 410 - No target available. Unable to use item.
 411 - The <player> attempts to use the , but lacks the required number of Ballista Points. You currently have .. Ballista Points.
 412 - The <player> uses .. <target> receives the effect of stun.

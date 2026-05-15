@@ -58,6 +58,7 @@ public:
     void SpawnSummonerPet();
 
     void OnCastStopped(CMagicState& state, action_t& action);
+    void FaceTarget(uint16 targid = 0);
 
 protected:
     virtual bool TryDeaggro();
@@ -81,7 +82,6 @@ protected:
     virtual void UpdateLastKnownPosition();
 
     virtual void DoCombatTick(time_point tick);
-    void FaceTarget(uint16 targid = 0);
     virtual void HandleEnmity();
 
     virtual void DoRoamTick(time_point tick);
